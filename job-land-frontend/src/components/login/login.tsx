@@ -11,9 +11,6 @@ import facebookIcon from '../../assets/images/social-media/facebook.png'
 import UserStore from '../../store/user';
 import {observer} from "mobx-react-lite";
 const  Login  = observer( ()=>{
-    useEffect(() => {
-         UserStore.fetchData(); // Fetch data when component mounts
-    }, []);
     const { t } = useTranslation();
     //password
     const [userPassword, setUserPassword] = useState('');
@@ -26,7 +23,10 @@ const  Login  = observer( ()=>{
     const handleInputChangeEmail = (value:string) => {
         setUserEmail(value);
     };
-
+    const login=(event:any)=>{
+        event.preventDefault();
+        UserStore.login(userEmail, userPassword)
+    }
 
     return (
         <form className={styles.form}>
@@ -46,7 +46,9 @@ const  Login  = observer( ()=>{
                     <TextInputField type={'text'} placeHolder={t('Enter Your Email')} text={t('Email')} value={userEmail} onChange={handleInputChangeEmail}/>
                     <TextInputField type={'text'} placeHolder={t('Enter Your Password')} text={t('Password')} value={userPassword} onChange={handleInputChangePassword}/>
                     <a className={globalStyles.mainSpan}>{t('Forgot your password?')}</a>
-                    <div style={{marginTop:"15px", display:"flex", justifyContent:"center"}}>  <button className={globalStyles.btn}>  {t('Sign In')}</button></div>
+                    <div style={{marginTop:"15px", display:"flex", justifyContent:"center"}}>
+                        <button className={globalStyles.btn} onClick={login}>  {t('Sign In')}</button>
+                    </div>
                     <div style={{marginTop:"40px"}} className={globalStyles.separate_line}></div>
                     <div style={{display:'flex', justifyContent:'space-around', marginTop:'30px', alignItems:'center'}}>
                         <img className={styles.socialMedia} src={googleIcon} />

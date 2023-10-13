@@ -6,7 +6,23 @@ import { User } from './user.model';
 @Injectable()
 export class UserService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
-
+  async logIn(email: string, password: string): Promise<any> {
+    const user = await this.userModel
+      .find({ email, password })
+      .select('id name email password role')
+      .exec();
+    if (user.length > 0) {
+      return {
+        success: true,
+        user: user,
+      };
+    } else {
+      return {
+        success: false,
+        errorCode: '0011',
+      };
+    }
+  }
   async insertUser(user: User) {
     const newUser = new this.userModel({
       name: user.name,
@@ -40,14 +56,13 @@ export class UserService {
           password: user.password,
           role: user.role,
         },
-      }
-    } else{
+      };
+    } else {
       return {
-          success:false,
-          errorCode:"0011"
-        }
-      }
-
+        success: false,
+        errorCode: '0011',
+      };
+    }
   }
 
   public async getUsers() {
