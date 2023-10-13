@@ -1,0 +1,21 @@
+@import "../../assets/global-styles/styles.module";
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: 5px;
+    margin-bottom: 35px;
+}
+.title{
+    color:$mainColor;
+    font-size: 25px;
+    font-weight: bold;
+}
+.input{
+    height: 40px;
+    width:400px;
+    border:2px solid $mainColor;
+    border-radius:30px;
+}
+

@@ -1,1 +1,7 @@
-{"welcome":"ברוך הבא"}
+{"welcome":"ברוך הבא",
+  "Enter Your Email": "הכנס כתובת אימייל",
+  "Enter Your Password": "הכנס סיסמה",
+  "Email": "אימייל",
+  "Password": "סיסמה",
+  "Forgot your password?": "שכחת את הסיסמה?"
+}
