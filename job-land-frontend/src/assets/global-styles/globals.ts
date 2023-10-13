@@ -2,7 +2,7 @@ import { css } from '@emotion/react'
 
 const globals = css`
    body {
-      background-color: #f3f9f8 !important;
+      background-color: white !important;
       font-family: 'Poppins', sans-serif;
    }
 

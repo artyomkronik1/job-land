@@ -4,13 +4,13 @@
     flex-direction: column;
     justify-content: center;;
     align-items: center;
+
 }
 .formHeader{
     display:flex;
-    justify-content: start;
-    left: 0;
+    justify-content: space-between;
     width:100%;
-    position: relative;
+    margin-bottom: 60px;
 }
 .formHeaderDiv{
     display:flex;
@@ -19,15 +19,28 @@
     align-items:center;
 }
 .logoDiv{
+    display: flex;
+    justify-content: start;
     margin: 10px;
-   // background-image: url('../../assets/images/icon.png');
-   // background-size: cover;
-  //  width: 100%;
-  //  height: 100%;
 }
 .title{
+    display: flex;
     color:$mainColor;
     font-size: 47px;
+    justify-content: center;
+}
+.languageDiv{
+    position: relative;
+    top:20px;
+}
+
+
+languagePic{
+    max-width: 50%;
+    transition: transform 0.3s;
+}
+.languagePic:hover{
+    transform: scale(1.2); /* Increase the size of the image on hover */
 }
 
 //body
@@ -38,7 +51,7 @@
     width: 100%;
 }
 .textForm{
-
+    width:400px;
     display:flex;
     flex-direction:column;
     justify-content: start;
@@ -48,4 +61,12 @@
     background-size: cover;
     width: 560px;
     height: 480px;
+}
+.socialMedia{
+    max-width: 10%;
+    transition: transform 0.3s;
+}
+.socialMedia:hover{
+    transform: scale(1.2); /* Increase the size of the image on hover */
+
 }

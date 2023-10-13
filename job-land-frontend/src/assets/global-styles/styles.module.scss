@@ -1,6 +1,68 @@
 //general
-$mainColor :#004182;
+//colors
+$mainColor:#0a66c2;
+$secondColor :#004182;
+//spans
 .mainSpan{
   color:$mainColor;
   font-weight: bold;
+  font-size:18px
+}
+.mainSpan:hover , .mainSpan:active{
+  color:$secondColor;
+}
+.simpleP{
+  color:$mainColor;
+  font-weight: bold;
+  font-size:18px
+}
+//btns
+.btn{
+  width:200px;
+  height:50px;
+  display: flex;
+  border:1px solid $mainColor;
+  justify-content: center;;
+  align-items: center;
+  border-radius: 30px;
+  background-color: $mainColor;
+  font-weight:bold;
+  font-size:18px;
+  color:white
+}
+.btn:hover, .btn:active{
+  border:1px solid $secondColor;
+  background-color: $secondColor;
+}
+
+.btn_border{
+  width:200px;
+  height:50px;
+  display: flex;
+  border:1px solid white;
+  justify-content: center;;
+  align-items: center;
+  border-radius: 30px;
+  background-color: white;
+  font-weight:bold;
+  font-size:18px;
+  color:$mainColor
+}
+
+.btn_border:hover, .btn_border:active{
+  border:1px solid $mainColor;
+  color:$mainColor;
+  background-color: rgba(112, 181, 249, 0.2);
+}
+//lines
+.separate_line{
+  width:400px;
+  display: block;
+  border:1px dashed $mainColor;
+}
+//pictures
+.logoPic{
+  display: flex;
+  justify-content: start;
+  max-width: 15%;
 }

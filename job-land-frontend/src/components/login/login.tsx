@@ -1,10 +1,19 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import TextInputField from "../../base-components/text-input/text-input-field";
 import styles from './login.module.scss'
 import globalStyles from '../../assets/global-styles/styles.module.scss'
 import { useTranslation } from 'react-i18next';
 import icon from "../../assets/images/icon.jpg"
-function Login() {
+import en from '../../assets/images/languages/en.png'
+import he from '../../assets/images/languages/he.png'
+import googleIcon from '../../assets/images/social-media/google.png'
+import facebookIcon from '../../assets/images/social-media/facebook.png'
+import UserStore from '../../store/user';
+import {observer} from "mobx-react-lite";
+const  Login  = observer( ()=>{
+    useEffect(() => {
+         UserStore.fetchData(); // Fetch data when component mounts
+    }, []);
     const { t } = useTranslation();
     //password
     const [userPassword, setUserPassword] = useState('');
@@ -20,26 +29,37 @@ function Login() {
 
 
     return (
-   <form className={styles.form}>
-       {/*header*/}
-       <div className={styles.formHeader}>
-           <div className={styles.formHeaderDiv}>
-            <div className={styles.logoDiv}>
-            <img src={icon} width="100%" height="100%"/>
+        <form className={styles.form}>
+            {/*header*/}
+            <div className={styles.formHeader}>
+                <img src={icon}  className={globalStyles.logoPic}/>
+                <div style={{display:'flex', flexDirection:'column'}}>
+                    <h2 className={styles.title} > {t('Welcome to your professional space' )} <br/>{t('to find a new job' )} </h2>
+                </div>
+                <div className={styles.languageDiv}>
+                    <img src={he} className={styles.languagePic} />
+                </div>
             </div>
-           <h1 className={styles.title} > {t('Welcome to your professional space')}</h1>
-           </div>
-       </div>
-       <div className={styles.body}>
-           <div className={styles.textForm}>
-             <TextInputField type={'text'} placeHolder={t('Enter Your Email')} text={t('Email')} value={userEmail} onChange={handleInputChangeEmail}/>
-             <TextInputField type={'text'} placeHolder={t('Enter Your Password')} text={t('Password')} value={userPassword} onChange={handleInputChangePassword}/>
-                <span className={globalStyles.mainSpan}>{t('Forgot your password?')}</span>
-           </div>
-           <div className={styles.logoPicture}></div>
-       </div>
-       </form>
+            {/*body*/}
+            <div className={styles.body}>
+                <div className={styles.textForm}>
+                    <TextInputField type={'text'} placeHolder={t('Enter Your Email')} text={t('Email')} value={userEmail} onChange={handleInputChangeEmail}/>
+                    <TextInputField type={'text'} placeHolder={t('Enter Your Password')} text={t('Password')} value={userPassword} onChange={handleInputChangePassword}/>
+                    <a className={globalStyles.mainSpan}>{t('Forgot your password?')}</a>
+                    <div style={{marginTop:"15px", display:"flex", justifyContent:"center"}}>  <button className={globalStyles.btn}>  {t('Sign In')}</button></div>
+                    <div style={{marginTop:"40px"}} className={globalStyles.separate_line}></div>
+                    <div style={{display:'flex', justifyContent:'space-around', marginTop:'30px', alignItems:'center'}}>
+                        <img className={styles.socialMedia} src={googleIcon} />
+                        <p className={globalStyles.simpleP}>{t('OR')}</p>
+                        <img className={styles.socialMedia} src={facebookIcon} />
+                    </div>
+                </div>
+                <div className={styles.logoPicture}></div>
+            </div>
+        </form>
     );
-}
+} )
+
+
 
 export default Login;

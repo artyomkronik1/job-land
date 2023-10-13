@@ -13,9 +13,18 @@
     font-weight: bold;
 }
 .input{
+    font-size: 16px;
+    padding-left: 20px;
     height: 40px;
+    color:$secondColor;
     width:400px;
     border:2px solid $mainColor;
     border-radius:30px;
 }
-
+.input:focus
+{
+    border:2px solid $secondColor;
+    font-size: 16px;
+    padding-left: 20px;
+    color:$secondColor
+}

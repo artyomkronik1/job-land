@@ -5,15 +5,18 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Global } from '@emotion/react';
 import globals from './assets/global-styles/globals';
-
+import UserStore from './store/user'
+import {Provider} from "mobx-react";
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-      <Global styles={globals} />
-    <App />
-  </React.StrictMode>
+    <Provider dataStore={UserStore}>
+      <React.StrictMode>
+          <Global styles={globals} />
+        <App />
+      </React.StrictMode>
+    </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
