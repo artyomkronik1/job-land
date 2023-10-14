@@ -10,6 +10,8 @@ import googleIcon from '../../assets/images/social-media/google.png'
 import facebookIcon from '../../assets/images/social-media/facebook.png'
 import UserStore from '../../store/user';
 import {observer} from "mobx-react-lite";
+import ToastComponent from '../../base-components/toaster/ToastComponent';
+import {toast} from "react-toastify";
 const  Login  = observer( ()=>{
     const { t } = useTranslation();
     //password
@@ -26,10 +28,18 @@ const  Login  = observer( ()=>{
     const login=(event:any)=>{
         event.preventDefault();
         UserStore.login(userEmail, userPassword)
+        if(UserStore.getLoggedIn())
+        {
+            toast.success('Success message!');
+        }
+        else{
+            toast.error('error message!');
+        }
     }
 
     return (
         <form className={styles.form}>
+            <ToastComponent />
             {/*header*/}
             <div className={styles.formHeader}>
                 <img src={icon}  className={globalStyles.logoPic}/>

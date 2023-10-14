@@ -14,7 +14,7 @@ class UserStore{
     getLanguage(){
         return this.language
     }
-    getLoggeIn(){
+    getLoggedIn(){
         return this.loggedIn
     }
     setLoggedIn(loggedIn:boolean){
@@ -26,8 +26,12 @@ class UserStore{
     login = async (email:string, password:string) => {
         try {
             const result = await axios.post('http://localhost:3002/users/login', {email:email, password:password});
-            if(result) {
-               this.loggedIn = true;
+            console.log(result)
+            if(result.data.success) {
+              this.setLoggedIn(true)
+            }
+            else{
+                this.setLoggedIn(false)
             }
         } catch (error) {
             console.error('Error adding user:', error);
