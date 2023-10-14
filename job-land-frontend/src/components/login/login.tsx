@@ -12,7 +12,9 @@ import UserStore from '../../store/user';
 import {observer} from "mobx-react-lite";
 import ToastComponent from '../../base-components/toaster/ToastComponent';
 import {toast} from "react-toastify";
+import {useNavigate} from "react-router";
 const  Login  = observer( ()=>{
+    const navigate = useNavigate();
     const { t } = useTranslation();
     //password
     const [userPassword, setUserPassword] = useState('');
@@ -25,6 +27,7 @@ const  Login  = observer( ()=>{
     const handleInputChangeEmail = (value:string) => {
         setUserEmail(value);
     };
+    console.log(UserStore)
     //login
     const login=(event:any)=>{
         event.preventDefault();
@@ -39,7 +42,7 @@ const  Login  = observer( ()=>{
     }
 
     return (
-        <form className={styles.form}>
+        <form className={styles.form} dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
             <ToastComponent />
             {/*header*/}
             <div className={styles.formHeader}>
@@ -48,7 +51,11 @@ const  Login  = observer( ()=>{
                     <h2 className={styles.title} > {t('Welcome to your professional space' )} <br/>{t('to find a new job' )} </h2>
                 </div>
                 <div className={styles.languageDiv}>
-                    <img src={he} className={styles.languagePic} />
+                    { UserStore.getLanguage()=='en' ?
+                        <img src={he} className={styles.heLanguagePic} onClick={()=>UserStore.setLanguage('he')}/>
+                        :
+                        <img src={en} className={styles.enlanguagePic}  onClick={()=>UserStore.setLanguage('en')}/>
+                    }
                 </div>
             </div>
             {/*body*/}
@@ -58,13 +65,16 @@ const  Login  = observer( ()=>{
                     <TextInputField type={'text'} placeHolder={t('Enter Your Password')} text={t('Password')} value={userPassword} onChange={handleInputChangePassword}/>
                     <a className={globalStyles.mainSpan}>{t('Forgot your password?')}</a>
                     <div style={{marginTop:"15px", display:"flex", justifyContent:"center"}}>
-                        <button className={globalStyles.btn} onClick={login}>  {t('Sign In')}</button>
+                        <button className={globalStyles.btn} onClick={login}> {t('Sign In') }</button>
                     </div>
                     <div style={{marginTop:"40px"}} className={globalStyles.separate_line}></div>
                     <div style={{display:'flex', justifyContent:'space-around', marginTop:'30px', alignItems:'center'}}>
                         <img className={styles.socialMedia} src={googleIcon} />
                         <p className={globalStyles.simpleP}>{t('OR')}</p>
                         <img className={styles.socialMedia} src={facebookIcon} />
+                    </div>
+                    <div style={{display:'flex', justifyContent:'center', alignItems:'center', marginTop:'30px'}}>
+                    <button style={{width:'300px'}} className={globalStyles.btn_border} onClick={()=> navigate('/signup')}> {t('New in Jobland? Join now') }</button>
                     </div>
                 </div>
                 <div className={styles.logoPicture}></div>

@@ -8,7 +8,9 @@ const  SignIn  = observer( ()=>{
     const { t } = useTranslation();
 
     return (
-        <div></div>
+        <div>
+            <h1>{t('Signup')}</h1>
+        </div>
     );
 } )
 export default SignIn

@@ -35,11 +35,19 @@
 }
 
 
-languagePic{
+.enlanguagePic{
     max-width: 50%;
-    transition: transform 0.3s;
+    transition: transform 0.5s;
 }
-.languagePic:hover{
+.enlanguagePic:hover{
+    transform: scale(1.2); /* Increase the size of the image on hover */
+}
+
+.heLanguagePic{
+    max-width: 40%;
+    transition: transform 0.5s;
+}
+.heLanguagePic:hover{
     transform: scale(1.2); /* Increase the size of the image on hover */
 }
 
