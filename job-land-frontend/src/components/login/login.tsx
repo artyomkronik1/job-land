@@ -25,6 +25,7 @@ const  Login  = observer( ()=>{
     const handleInputChangeEmail = (value:string) => {
         setUserEmail(value);
     };
+    //login
     const login=(event:any)=>{
         event.preventDefault();
         UserStore.login(userEmail, userPassword)

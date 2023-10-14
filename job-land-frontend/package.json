@@ -12,7 +12,10 @@
     "@types/react": "^18.2.27",
     "@types/react-dom": "^18.2.12",
     "axios": "^1.5.1",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "bootstrap": "^5.3.2",
+    "crypto": "^1.0.1",
     "mdb-react-ui-kit": "^6.3.0",
     "mobx": "^6.10.2",
     "mobx-react": "^9.0.1",
@@ -50,6 +53,7 @@
     ]
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
     "node-sass": "^7.0.3",
     "sass": "^1.69.3"
   }

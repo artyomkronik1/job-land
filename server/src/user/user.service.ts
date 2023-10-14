@@ -2,16 +2,24 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from './user.model';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
   async logIn(email: string, password: string) {
+    //find user by email
     const user = await this.userModel
-      .find({ email, password })
+      .find({ email })
       .select('id name email password role')
       .exec();
-    if (user.length > 0) {
+    //compare encrypted passwords
+    const isPasswordValid = await this.comparePasswords(
+      password,
+      user[0].password,
+    );
+    //if there is same password is success
+    if (isPasswordValid) {
       return {
         success: true,
         user: user,
@@ -42,6 +50,19 @@ export class UserService {
         errorCode: '002',
       };
     }
+  }
+
+  async hashPassword(password: string): Promise<string> {
+    const saltRounds = 10; // You can adjust the number of salt rounds as needed
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+    return hashedPassword;
+  }
+
+  async comparePasswords(
+    plainTextPassword: string,
+    hashedPassword: string,
+  ): Promise<boolean> {
+    return await bcrypt.compare(plainTextPassword, hashedPassword);
   }
 
   public async getSingleUser(id: string) {
