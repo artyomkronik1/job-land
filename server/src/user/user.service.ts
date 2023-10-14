@@ -32,23 +32,33 @@ export class UserService {
     }
   }
   async insertUser(user: User) {
-    const newUser = new this.userModel({
-      name: user.name,
-      password: user.password,
-      email: user.email,
-      role: user.role,
-    });
-    const result = await newUser.save();
-    if (result) {
-      return {
-        success: true,
-        user: newUser,
-      };
-    } else {
+    //check if user already exist
+    const isAlredyExist = await this.userModel.find({ email:user.email, password:user.password,name:user.name, role:user.role}).exec()
+    if(isAlredyExist.length>0){
       return {
         success: false,
-        errorCode: '002',
+        errorCode: '005',
       };
+    }
+    else {
+      const newUser = new this.userModel({
+        name: user.name,
+        password: user.password,
+        email: user.email,
+        role: user.role,
+      });
+      const result = await newUser.save();
+      if (result) {
+        return {
+          success: true,
+          user: newUser,
+        };
+      } else {
+        return {
+          success: false,
+          errorCode: '002',
+        };
+      }
     }
   }
 

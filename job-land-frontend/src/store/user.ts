@@ -39,8 +39,22 @@ class UserStore{
             return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
         });
     };
+    signup = async (name:string,password:string, email:string, role:string)=>{
+        try {
+            const hashedPassword = await this.hashPassword(password);
+            const result = await axios.post('http://localhost:3002/users/login', {email:email, password:hashedPassword});
+            if(result.data.success) {
+                this.setLoggedIn(true)
+                this.setSignedUp(true)
+            }
+            else{
+                this.setLoggedIn(false)
+            }
+        } catch (error) {
+            console.error('Error login:', error);
+        }
+    };
     login = async (email:string, password:string) => {
-
         try {
             const hashedPassword = await this.hashPassword(password);
             const result = await axios.post('http://localhost:3002/users/login', {email:email, password:hashedPassword});

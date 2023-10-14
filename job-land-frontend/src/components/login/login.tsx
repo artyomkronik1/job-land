@@ -27,7 +27,6 @@ const  Login  = observer( ()=>{
     const handleInputChangeEmail = (value:string) => {
         setUserEmail(value);
     };
-    console.log(UserStore)
     //login
     const login=(event:any)=>{
         event.preventDefault();
@@ -74,7 +73,7 @@ const  Login  = observer( ()=>{
                         <img className={styles.socialMedia} src={facebookIcon} />
                     </div>
                     <div style={{display:'flex', justifyContent:'center', alignItems:'center', marginTop:'30px'}}>
-                    <button style={{width:'300px'}} className={globalStyles.btn_border} onClick={()=> navigate('/signup')}> {t('New in Jobland? Join now') }</button>
+                    <button style={{width:'300px'}} className={globalStyles.btn_border} onClick={()=> navigate('/signup')}> {t('New in Jobland? join now!') }</button>
                     </div>
                 </div>
                 <div className={styles.logoPicture}></div>

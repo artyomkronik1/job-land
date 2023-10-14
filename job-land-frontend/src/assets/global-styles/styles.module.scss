@@ -30,7 +30,7 @@ $secondColor :#004182;
   font-size:18px;
   color:white
 }
-.btn:hover, .btn:active{
+.btn:hover, .btn:checked{
   border:1px solid $secondColor;
   background-color: $secondColor;
 }
@@ -46,10 +46,12 @@ $secondColor :#004182;
   background-color: white;
   font-weight:bold;
   font-size:18px;
-  color:$mainColor
+  color:$mainColor;
+
 }
 
-.btn_border:hover, .btn_border:active{
+
+.btn_border:hover{
   border:1px solid $mainColor;
   color:$mainColor;
   background-color: rgba(112, 181, 249, 0.2);
