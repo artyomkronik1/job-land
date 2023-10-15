@@ -1,0 +1,17 @@
+@import "../../assets/global-styles/styles.module";
+
+.filter_btn{
+  width:100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $mainColor;
+  color:white;
+  border-radius: 5px;
+  border:1px solid $mainColor;
+  height: 35px;
+}
+.filter_btn:hover, .filter_btn:checked{
+  border:1px solid $secondColor;
+  background-color: $secondColor;
+}

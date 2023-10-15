@@ -15,11 +15,46 @@
   flex-direction: column;
 }
 .right_header{
-
+  margin-inline-end: 20px;
+  gap:50px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 .right_main{
   background-color:$thirdColor;
   display: flex;
+  justify-content: space-between;
+}
+.right_main_main{
+  padding:20px;
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+}
+.right_main_messages{
+  display: flex;
+  justify-content: end;
+  flex-direction: column;
+}
+.languageDiv{
+  display: flex;
+
+  position: relative;
+//  top:20px;
+}
+.enlanguagePic{
+  max-width: 50%;
+  transition: transform 0.5s;
+}
+.enlanguagePic:hover{
+  transform: scale(1.2); /* Increase the size of the image on hover */
+}
+
+.heLanguagePic{
+  max-width: 40%;
+  transition: transform 0.5s;
+}
+.heLanguagePic:hover{
+  transform: scale(1.2); /* Increase the size of the image on hover */
 }

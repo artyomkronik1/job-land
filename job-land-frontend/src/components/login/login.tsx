@@ -55,7 +55,7 @@ const  Login  = observer( ()=>{
             navigate('/')
 
         } else {
-            toast.error('ERROR' + ' ' + res.errorCode);
+            toast.error('ERROR' + ' ' + res?.errorCode);
         }
     }
 

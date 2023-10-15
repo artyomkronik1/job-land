@@ -1,0 +1,13 @@
+
+.btn{
+
+  transition: transform 0.5s;
+  color: #a9acb1;
+  font-size:25px
+}
+.btn:hover{
+  transform: scale(1.2); /* Increase the size of the image on hover */
+}
+.btn_active{
+
+}
