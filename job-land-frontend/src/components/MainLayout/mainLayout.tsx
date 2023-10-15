@@ -8,7 +8,7 @@ import SignIn from "../signIn/signIn";
 const  MainLayout  = observer( ()=>{
 
     const { t } = useTranslation();
-    console.log(UserStore.getUser())
+    console.log(UserStore.getSessionKey())
     return (
       <div>
           {UserStore.getSessionKey()? (

@@ -44,9 +44,10 @@ class UserStore{
         this.language = lan;
     }
     setUser(newuser:User){
-       // console.log('got',newuser)
           this.user = newuser
-        console.log('a', this.user)
+    }
+    setSessionKey(key:string){
+        this.session_key = key;
     }
     signup = async (name:string,password:string, email:string, role:string)=>{
         try {

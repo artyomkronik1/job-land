@@ -35,17 +35,24 @@ const  Login  = observer( ()=>{
         setUserEmail(value);
     };
     const secretKey = 'job-land'; //  secret key
-
+    const resetParameter=()=>{
+        setUserEmail('')
+        setUserPassword('')
+    }
     //login
     const login=async (event: any) => {
         event.preventDefault();
+        if( userEmail.length==0 || userPassword.length==0)
+        {
+            toast.error('ERROR! One or more fields is empty' );
+        }
         const encryptedPassword = CryptoJS.AES.encrypt(userPassword, secretKey).toString();
         const res = await UserStore.login(userEmail, encryptedPassword)
         if (res?.success) {
+            resetParameter()
             toast.success('SUCCESS');
-            localStorage.setItem('session_key', res.session_key)
+            UserStore.setSessionKey(res.session_key)
             navigate('/')
-            window.location.reload();
 
         } else {
             toast.error('ERROR' + ' ' + res.errorCode);

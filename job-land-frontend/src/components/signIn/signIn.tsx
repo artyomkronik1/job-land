@@ -48,19 +48,31 @@ const  SignIn  = observer( ()=>{
         setRole(value);
     };
     const secretKey = 'job-land'; //  secret key
-
+    const resetParameter=()=>{
+        setuserName('');
+        setRole(0);
+        setUserEmail('')
+        setUserPassword('')
+    }
     const signup=async (event: any) => {
-        event.preventDefault();
-        const encryptedPassword = CryptoJS.AES.encrypt(userPassword, secretKey).toString();
-        const res = await UserStore.signup(userName, encryptedPassword, userEmail, role.toString())
-        if (res?.success) {
-            localStorage.setItem('session_key', res.session_key)
-            toast.success('SUCCESS!');
-            navigate('/')
-            window.location.reload();
+        event.preventDefault()
+        if(userName.length==0 || userEmail.length==0 || userPassword.length==0)
+        {
+            toast.error('ERROR! One or more fields is empty' );
+        }
+        else {
+            const encryptedPassword = CryptoJS.AES.encrypt(userPassword, secretKey).toString();
+            const res = await UserStore.signup(userName, encryptedPassword, userEmail, role.toString())
+            if (res?.success) {
+                resetParameter()
+                UserStore.setSessionKey(res.session_key)
+                toast.success('SUCCESS!');
+                navigate('/')
 
-        } else {
-            toast.error('ERROR!' +' '+ res.errorCode);
+            } else {
+                toast.error('ERROR!' + ' ' + res.errorCode);
+            }
+
         }
     }
     return (
