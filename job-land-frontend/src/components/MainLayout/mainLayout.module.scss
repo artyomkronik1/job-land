@@ -1,0 +1,25 @@
+@import "../../assets/global-styles/styles.module";
+
+.main{
+  display:flex;
+}
+.left{
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+}
+
+.right{
+  width:80%;
+  display: flex;
+  flex-direction: column;
+}
+.right_header{
+
+  display: flex;
+  align-items: center;
+}
+.right_main{
+  background-color:$thirdColor;
+  display: flex;
+}

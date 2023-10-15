@@ -2,6 +2,7 @@
 //colors
 $mainColor:#0a66c2;
 $secondColor :#004182;
+$thirdColor : #B7CBFF;
 //spans
 .mainSpan{
   color:$mainColor;
@@ -15,6 +16,10 @@ $secondColor :#004182;
   color:$mainColor;
   font-weight: bold;
   font-size:18px
+}
+.h2 {
+  color:$mainColor;
+  font-weight: bold;
 }
 //btns
 .btn{

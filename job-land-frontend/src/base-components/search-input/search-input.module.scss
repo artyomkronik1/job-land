@@ -1,0 +1,36 @@
+@import "../../assets/global-styles/styles.module";
+.form {
+  position: relative;
+}
+.title{
+  color:$mainColor;
+  font-size: 25px;
+  font-weight: bold;
+}
+.input{
+  font-size: 16px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid $mainColor;
+  border-radius: 30px;
+  padding-left: 35px; /* Leave space for the icon */
+  box-sizing: border-box;
+  color:$secondColor;
+}
+.input::placeholder{
+  color:$secondColor;
+}
+.search_icon {
+  position: absolute;
+  left: 5px;
+  top: 20px;
+  transform: translateY(-50%);
+}
+.input:focus
+{
+  border-color:$mainColor !important;
+  border: 1px solid $mainColor;
+  font-size: 16px;
+
+  color:$secondColor
+}
