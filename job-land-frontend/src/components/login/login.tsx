@@ -8,7 +8,7 @@ import en from '../../assets/images/languages/en.png'
 import he from '../../assets/images/languages/he.png'
 import googleIcon from '../../assets/images/social-media/google.png'
 import facebookIcon from '../../assets/images/social-media/facebook.png'
- import UserStore from '../../store/user';
+import UserStore from '../../store/user';
 import {observer} from "mobx-react-lite";
 import ToastComponent from '../../base-components/toaster/ToastComponent';
 import {toast} from "react-toastify";
@@ -85,7 +85,7 @@ const  Login  = observer( ()=>{
                         <img className={styles.socialMedia} src={facebookIcon} />
                     </div>
                     <div style={{display:'flex', justifyContent:'center', alignItems:'center', marginTop:'30px'}}>
-                    <button style={{width:'300px'}} className={globalStyles.btn_border} onClick={()=> navigate('/signup')}> {t('New in Jobland? join now!') }</button>
+                        <button style={{width:'300px'}} className={globalStyles.btn_border} onClick={()=> navigate('/signup')}> {t('New in Jobland? join now!') }</button>
                     </div>
                 </div>
                 <div className={styles.logoPicture}></div>

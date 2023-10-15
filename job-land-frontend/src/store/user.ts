@@ -10,11 +10,11 @@ const hydrate = create({
     jsonify:true
 })
 class UserStore{
-   language ="en";
-   loggedIn= false;
- signedUp=true;
+    @persist  language ="en";
+     loggedIn= false;
+     signedUp=true;
     @persist('object') @observable user:User={id:"",password:"",role:"",email:"",name:""};
- session_key=localStorage.getItem('session_key')
+    @persist session_key=localStorage.getItem('session_key')
     constructor() {
         makeAutoObservable(this);
 

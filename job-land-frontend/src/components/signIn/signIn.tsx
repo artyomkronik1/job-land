@@ -85,9 +85,9 @@ const  SignIn  = observer( ()=>{
                     <TextInputField type={'text'} placeHolder={t('Enter Your Full Name')} text={t('Full Name')} value={userName} onChange={handleInputChangeuserName}/>
                     <TextInputField type={'text'} placeHolder={t('Enter Your Email')} text={t('Email')} value={userEmail} onChange={handleInputChangeEmail}/>
                     <TextInputField type={'text'} placeHolder={t('Enter Your Password')} text={t('Password')} value={userPassword} onChange={handleInputChangePassword}/>
-                    <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', gap:'50px'}}>
-                       <button onClick={(e)=>handleInputChangeuserRole(e,0)} className={role==0?  globalStyles.btn : globalStyles.btn_border}>{t('Search job')}</button>
-                        <button onClick={(e)=>handleInputChangeuserRole(e,1)} className={role==1?  globalStyles.btn : globalStyles.btn_border}>{t('Post job')}</button>
+                    <div style={{display:'flex', justifyContent:'space-around', alignItems:'center', gap:'20px'}}>
+                       <button style={{width:'150px'}} onClick={(e)=>handleInputChangeuserRole(e,0)} className={role==0?  globalStyles.btn : globalStyles.btn_border}>{t('Search job')}</button>
+                        <button style={{width:'150px'}} onClick={(e)=>handleInputChangeuserRole(e,1)} className={role==1?  globalStyles.btn : globalStyles.btn_border}>{t('Post job')}</button>
                     </div>
                     <div style={{marginTop:"35px", display:"flex", justifyContent:"center"}}>
                         <button className={globalStyles.btn}  onClick={signup}> {t('Sign Up') }</button>
