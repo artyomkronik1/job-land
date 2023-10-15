@@ -9,6 +9,7 @@ import icon from "../../assets/images/icon.jpg";
 import globalStyles from "../../assets/global-styles/styles.module.scss";
 import he from "../../assets/images/languages/he.png";
 import en from "../../assets/images/languages/en.png";
+import signupStyle from './signIn.module.scss'
 import TextInputField from "../../base-components/text-input/text-input-field";
 import googleIcon from "../../assets/images/social-media/google.png";
 import facebookIcon from "../../assets/images/social-media/facebook.png";
@@ -98,7 +99,7 @@ const  SignIn  = observer( ()=>{
                         <button style={{width:'300px'}} className={globalStyles.btn_border} onClick={()=> navigate('/login')}> {t('Already on Jobland? Sign in') }</button>
                     </div>
                 </div>
-                <div className={styles.logoPicture}></div>
+                <div className={signupStyle.logoPicture}></div>
             </div>
         </form>
     );
