@@ -1,19 +1,32 @@
 import {action, makeAutoObservable, makeObservable, observable} from "mobx";
 import axios from 'axios';
 import {User} from "../interfaces/user";
+import CryptoJS from "crypto-js";
+import bcrypt from "bcryptjs";
+import React, {createContext, useContext} from "react";
+import {create, persist} from "mobx-persist";
+const hydrate = create({
+    storage:localStorage,
+    jsonify:true
+})
 class UserStore{
-     language ="en";
-      loggedIn= false;
-      signedUp=true;
+   language ="en";
+   loggedIn= false;
+ signedUp=true;
+    @persist('object') @observable user:User={id:"",password:"",role:"",email:"",name:""};
+ session_key=localStorage.getItem('session_key')
     constructor() {
-        makeObservable(this, {
-            language: observable,
-            loggedIn: observable,
-            login: action,
-        });
+        makeAutoObservable(this);
+
+    }
+    getUser(){
+          return this.user
     }
     getLanguage(){
         return this.language
+    }
+    getSessionKey(){
+          return this.session_key
     }
     getLoggedIn(){
         return this.loggedIn
@@ -30,40 +43,34 @@ class UserStore{
     setLanguage(lan:string){
         this.language = lan;
     }
-    //hash password
-      hashPassword = (password:string) => {
-        const encoder = new TextEncoder();
-        const data = encoder.encode(password);
-        return window.crypto.subtle.digest('SHA-256', data).then(arrayBuffer => {
-            const hashArray = Array.from(new Uint8Array(arrayBuffer));
-            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        });
-    };
+    setUser(newuser:User){
+       // console.log('got',newuser)
+          this.user = newuser
+        console.log('a', this.user)
+    }
     signup = async (name:string,password:string, email:string, role:string)=>{
         try {
-            const hashedPassword = await this.hashPassword(password);
-            const result = await axios.post('http://localhost:3002/users/login', {email:email, password:hashedPassword});
+            const result = await axios.post('http://localhost:3002/users/signup', {name, password, email, role});
             if(result.data.success) {
-                this.setLoggedIn(true)
-                this.setSignedUp(true)
+                this.setUser(result.data.user)
+                return result.data
             }
             else{
-                this.setLoggedIn(false)
+                return result.data
             }
         } catch (error) {
-            console.error('Error login:', error);
+            console.error('Error signup:', error);
         }
     };
     login = async (email:string, password:string) => {
         try {
-            const hashedPassword = await this.hashPassword(password);
-            const result = await axios.post('http://localhost:3002/users/login', {email:email, password:hashedPassword});
+            const result = await axios.post('http://localhost:3002/users/login', {email:email, password:password});
                 if(result.data.success) {
-                    this.setLoggedIn(true)
-                    this.setSignedUp(true)
+                    this.setUser(result.data.user)
+                    return result.data
                 }
                 else{
-                    this.setLoggedIn(false)
+                    return result.data
                 }
         } catch (error) {
             console.error('Error login:', error);
@@ -71,4 +78,10 @@ class UserStore{
     };
 
 }
-export default new UserStore()
+
+
+const userStore = new UserStore();
+export default userStore;
+
+hydrate('userInfo', userStore); // 'userStore' is the key under which your store will be stored
+

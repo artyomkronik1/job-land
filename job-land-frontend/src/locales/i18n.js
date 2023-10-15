@@ -1,27 +1,26 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import he from './he.json'
-import en from './en.json'
+
+// Resources: translations for different languages
+import translationEN from './en.json'; // English
+import translationHE from './he.json'; // French
+
 i18n
     .use(initReactI18next)
     .init({
         resources: {
             en: {
-                translation: en,
+                translation: translationEN,
             },
             he: {
-                translation: {
-
-                    Email: "אימייל",
-
-                },
+                translation: translationHE,
             },
-            // Add more languages as needed
         },
-        lng: 'en', // Default language
-        fallbackLng: 'en', // Fallback language
+        lng: 'en', // default language
+        fallbackLng: 'en', // fallback language
+        debug: true, // enable debug mode (optional)
         interpolation: {
-            escapeValue: false, // Not needed for React
+            escapeValue: false, // not needed for React
         },
     });
 

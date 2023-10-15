@@ -1,6 +1,7 @@
 import {Body, Controller, Get, Post} from '@nestjs/common';
 import {UserService} from './user.service';
 import {User} from "./user.model";
+
 export class loginData {
   readonly email: string;
   readonly password: string;

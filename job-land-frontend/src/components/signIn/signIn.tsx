@@ -13,13 +13,18 @@ import TextInputField from "../../base-components/text-input/text-input-field";
 import googleIcon from "../../assets/images/social-media/google.png";
 import facebookIcon from "../../assets/images/social-media/facebook.png";
 import {useNavigate} from "react-router";
-import user from "../../store/user";
+import CryptoJS from 'crypto-js';
 
 const  SignIn  = observer( ()=>{
+    //language
+    const { t } = useTranslation();
+    const { i18n } = useTranslation();
+    const changeLanguage = (lng:string) => {
+        UserStore.setLanguage(lng)
+        i18n.changeLanguage(lng);
+    };
     const navigate = useNavigate();
     const [activeRole, setactiveRole] = useState(false);
-
-    const { t } = useTranslation();
     //full name
     const [userName, setuserName] = useState('');
     const handleInputChangeuserName = (value:string) => {
@@ -41,15 +46,20 @@ const  SignIn  = observer( ()=>{
         event.preventDefault();
         setRole(value);
     };
-    const signup=(event:any)=>{
+    const secretKey = 'job-land'; //  secret key
+
+    const signup=async (event: any) => {
         event.preventDefault();
-        UserStore.login(userEmail, userPassword)
-        if(UserStore.getLoggedIn())
-        {
-            toast.success('Success message!');
-        }
-        else{
-            toast.error('error message!');
+        const encryptedPassword = CryptoJS.AES.encrypt(userPassword, secretKey).toString();
+        const res = await UserStore.signup(userName, encryptedPassword, userEmail, role.toString())
+        if (res?.success) {
+            localStorage.setItem('session_key', res.session_key)
+            toast.success('SUCCESS!');
+            navigate('/')
+            window.location.reload();
+
+        } else {
+            toast.error('ERROR!' +' '+ res.errorCode);
         }
     }
     return (
@@ -63,9 +73,9 @@ const  SignIn  = observer( ()=>{
                 </div>
                 <div className={styles.languageDiv}>
                     { UserStore.getLanguage()=='en' ?
-                        <img src={he} className={styles.heLanguagePic} onClick={()=>UserStore.setLanguage('he')}/>
+                        <img src={he} className={styles.heLanguagePic} onClick={()=>changeLanguage('he')}/>
                         :
-                        <img src={en} className={styles.enlanguagePic}  onClick={()=>UserStore.setLanguage('en')}/>
+                        <img src={en} className={styles.enlanguagePic} onClick={()=>changeLanguage('en')}/>
                     }
                 </div>
             </div>
@@ -80,7 +90,7 @@ const  SignIn  = observer( ()=>{
                         <button onClick={(e)=>handleInputChangeuserRole(e,1)} className={role==1?  globalStyles.btn : globalStyles.btn_border}>{t('Post job')}</button>
                     </div>
                     <div style={{marginTop:"35px", display:"flex", justifyContent:"center"}}>
-                        <button className={globalStyles.btn} > {t('Sign Up') }</button>
+                        <button className={globalStyles.btn}  onClick={signup}> {t('Sign Up') }</button>
                     </div>
                     <div style={{marginTop:"40px"}} className={globalStyles.separate_line}></div>
 

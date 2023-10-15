@@ -8,14 +8,21 @@ import en from '../../assets/images/languages/en.png'
 import he from '../../assets/images/languages/he.png'
 import googleIcon from '../../assets/images/social-media/google.png'
 import facebookIcon from '../../assets/images/social-media/facebook.png'
-import UserStore from '../../store/user';
+ import UserStore from '../../store/user';
 import {observer} from "mobx-react-lite";
 import ToastComponent from '../../base-components/toaster/ToastComponent';
 import {toast} from "react-toastify";
 import {useNavigate} from "react-router";
+import CryptoJS from "crypto-js";
 const  Login  = observer( ()=>{
-    const navigate = useNavigate();
+    //language
     const { t } = useTranslation();
+    const { i18n } = useTranslation();
+    const changeLanguage = (lng:string) => {
+        UserStore.setLanguage(lng)
+        i18n.changeLanguage(lng);
+    };
+    const navigate = useNavigate();
     //password
     const [userPassword, setUserPassword] = useState('');
     const handleInputChangePassword = (value:string) => {
@@ -27,16 +34,21 @@ const  Login  = observer( ()=>{
     const handleInputChangeEmail = (value:string) => {
         setUserEmail(value);
     };
+    const secretKey = 'job-land'; //  secret key
+
     //login
-    const login=(event:any)=>{
+    const login=async (event: any) => {
         event.preventDefault();
-        UserStore.login(userEmail, userPassword)
-        if(UserStore.getLoggedIn())
-        {
-            toast.success('Success message!');
-        }
-        else{
-            toast.error('error message!');
+        const encryptedPassword = CryptoJS.AES.encrypt(userPassword, secretKey).toString();
+        const res = await UserStore.login(userEmail, encryptedPassword)
+        if (res?.success) {
+            toast.success('SUCCESS');
+            localStorage.setItem('session_key', res.session_key)
+            navigate('/')
+            window.location.reload();
+
+        } else {
+            toast.error('ERROR' + ' ' + res.errorCode);
         }
     }
 
@@ -51,9 +63,9 @@ const  Login  = observer( ()=>{
                 </div>
                 <div className={styles.languageDiv}>
                     { UserStore.getLanguage()=='en' ?
-                        <img src={he} className={styles.heLanguagePic} onClick={()=>UserStore.setLanguage('he')}/>
+                        <img src={he} className={styles.heLanguagePic} onClick={()=>changeLanguage('he')}/>
                         :
-                        <img src={en} className={styles.enlanguagePic}  onClick={()=>UserStore.setLanguage('en')}/>
+                        <img src={en} className={styles.enlanguagePic}  onClick={()=>changeLanguage('en')}/>
                     }
                 </div>
             </div>

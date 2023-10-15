@@ -27,7 +27,7 @@ export class JobService {
         } else {
             return {
                 success: false,
-        errorCode: '004',
+        errorCode: 'fail_to_post_job',
             };
         }
     }
@@ -47,7 +47,7 @@ export class JobService {
         } else{
             return {
                 success:false,
-                errorCode:"0044"
+                errorCode:"fail_to_find_job"
             }
     }
     }
@@ -67,7 +67,7 @@ export class JobService {
         } else {
             return {
                 success: false,
-                errorCode: '00041',
+                errorCode: 'fail_to_find_jobs',
             };
         }
     }

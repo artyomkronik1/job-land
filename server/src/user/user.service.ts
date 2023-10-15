@@ -3,60 +3,90 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from './user.model';
 import * as bcrypt from 'bcrypt';
-
+import * as CryptoJS from 'crypto-js';
+const secretKey = 'job-land'; // Replace with your secret key
+import * as crypto  from "crypto";
 @Injectable()
 export class UserService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
   async logIn(email: string, password: string) {
+    const decryptedPassword = CryptoJS.AES.decrypt(
+        password,
+        secretKey,
+    ).toString(CryptoJS.enc.Utf8);
     //find user by email
     const user = await this.userModel
-      .find({ email })
+      .find({ email: email, password: decryptedPassword })
       .select('id name email password role')
       .exec();
-    //compare encrypted passwords
-    const isPasswordValid = await this.comparePasswords(
-      password,
-      user[0].password,
-    );
-    //if there is same password is success
-    if (isPasswordValid) {
+    if (user.length > 0) {
+      const sessionKey = this.generateSessionKey();
       return {
         success: true,
-        user: user,
+        user: {
+          id:user[0].id,
+          name:user[0].name,
+          role:user[0].role,
+          email:user[0].email,
+          password:password,
+        },
+        session_key: sessionKey,
       };
     } else {
       return {
         success: false,
-        errorCode: '0011',
+        errorCode: 'email/password_is_incorrect',
       };
     }
   }
+  generateSessionKey(): string {
+    return crypto.randomBytes(32).toString('hex'); // Generate a 64-character random string
+  }
   async insertUser(user: User) {
+    const decryptedPassword = CryptoJS.AES.decrypt(
+      user.password,
+      secretKey,
+    ).toString(CryptoJS.enc.Utf8);
+
     //check if user already exist
-    const isAlredyExist = await this.userModel.find({ email:user.email, password:user.password,name:user.name, role:user.role}).exec()
-    if(isAlredyExist.length>0){
+    const isAlredyExist = await this.userModel
+      .find({
+        email: user.email,
+        password: decryptedPassword,
+        name: user.name,
+        role: user.role,
+      })
+      .exec();
+    if (isAlredyExist.length > 0) {
       return {
         success: false,
-        errorCode: '005',
+        errorCode: 'user_already_exist',
       };
-    }
-    else {
+    } else {
       const newUser = new this.userModel({
         name: user.name,
-        password: user.password,
+        password: decryptedPassword,
         email: user.email,
         role: user.role,
       });
       const result = await newUser.save();
       if (result) {
+        const sessionKey = this.generateSessionKey();
         return {
           success: true,
-          user: newUser,
+          user: {
+            id:newUser.id,
+            name:newUser.name,
+            role:newUser.role,
+            email:newUser.email,
+            password:user.password,
+          },
+          session_key: sessionKey,
         };
       } else {
         return {
           success: false,
-          errorCode: '002',
+          errorCode: 'fail_to_signup',
         };
       }
     }
@@ -91,7 +121,7 @@ export class UserService {
     } else {
       return {
         success: false,
-        errorCode: '0011',
+        errorCode: 'fail_to_find_user',
       };
     }
   }
@@ -112,7 +142,7 @@ export class UserService {
     } else {
       return {
         success: false,
-        errorCode: '001',
+        errorCode: 'fail_to_find_users',
       };
     }
   }
