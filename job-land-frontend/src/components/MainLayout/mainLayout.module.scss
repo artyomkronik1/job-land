@@ -5,10 +5,15 @@
 }
 .left{
   width: 20%;
+  gap: 100px;
   display: flex;
+  justify-content: space-between;
   flex-direction: column;
 }
-
+.logoStyle{
+  width:150px;
+  margin-inline-start: 35px;
+}
 .right{
   width:80%;
   display: flex;
@@ -22,12 +27,11 @@
   align-items: center;
 }
 .right_main{
-  background-color:$thirdColor;
   display: flex;
   justify-content: space-between;
 }
 .right_main_main{
-  padding:20px;
+  padding: 10px 50px 20px;
   display: flex;
   justify-content: start;
   flex-direction: column;

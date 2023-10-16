@@ -51,8 +51,9 @@ export class JobService {
             }
     }
     }
-    public async getAllJobs() {
-        const jobs = await this.jobModel.find().exec();
+    // get all the jobs by who user follow for
+    public async getAllJobs(followers:string[]) {
+        const jobs = await this.jobModel.find({ hire_manager_id: { $in: followers } }).exec();
         if (jobs && jobs.length > 0) {
             return {
                 success: true,

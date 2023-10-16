@@ -7,13 +7,14 @@ import {Job} from "./job.model";
 export class JobController {
     constructor(private jobService: JobService) {}
     @Get()
-    async getAllJobs(@Body() data: any) {
-        if(data.id && data.id.length>0) {
-            return this.jobService.getSingleJob(data.id);
-        } else{
-            return this.jobService.getAllJobs();
-        }
+    async getAllJobs(@Body() data:any) {
+
+            return this.jobService.getAllJobs(data.followers);
+
     }
+    // async getSingleJob(@Body() data:any){
+    //     return this.jobService.getSingleJob(data.id);
+    // }
 
     @Post()
     async postNewJob(@Body() job:Job){

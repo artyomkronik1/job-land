@@ -9,12 +9,13 @@ import styles from './mainLayout.module.scss'
 import logo from'../../assets/images/icon.jpg'
 import globalStyles from "../../assets/global-styles/styles.module.scss";
 import SearchInput from "../../base-components/search-input/search-input";
-import MessageBtn from "../../base-components/gray-btn/grey-btn-component";
-import sendResume from '../../assets/images/mainLayout/sendResumejpg.jpg'
+import MessageBtn from "../../base-components/side-btn/side-btn-component";
+import sendResume from '../../assets/images/mainLayout/sendResume.jpg'
 import FilterBtn from "../../base-components/filter-btn/filter-btn";
 import he from "../../assets/images/languages/he.png";
 import en from "../../assets/images/languages/en.png";
-import GreyBtn from "../../base-components/gray-btn/grey-btn-component";
+import GreyBtn from "../../base-components/side-btn/side-btn-component";
+import SideBtnComponent from "../../base-components/side-btn/side-btn-component";
 const  MainLayout  = observer( ()=>{
     //language
     const { t } = useTranslation();
@@ -24,23 +25,41 @@ const  MainLayout  = observer( ()=>{
         i18n.changeLanguage(lng);
     };
     const [useSearchValue, setSearchValue] = useState('');
-    const filterValues=[
-        t('For You'),
 
-    ]
+    const userMainOptions=[
+        {type:'fa fa-home', name:t('Home')} ,
+        {type:'fa fa-message', name:t('Messages')} ,
+        {type:'fa fa-briefcase', name:t('Jobs')} ,
+        {type:'fa fa-users', name:t('Network')} ,
+        {type:'fa fa-plus-circle', name:t('New Post')} ,
+        {type:'fa fa-bell', name:t('Notifications')} ]
+    const sideBarMainOptionsHtml = userMainOptions.map((value, index) => (
+        <div key={index} style={{display:'flex', justifyContent:'start',marginInlineStart:'45px', flexDirection:'column', gap:'5px'}}>
+            <SideBtnComponent iconType={value.type} btnName={value.name}/>
+            <br/>
+        </div>
+    ));
+    const bottomMainOptions=[
+        {type:'fa fa-user-circle', name:t('Profile')} ,
+        {type:'fa fa-cog', name:t('Settings')} ,
+        {type:'fa fa-question-circle', name:t('Help & Support')} ] ;
+    const bottomMainOptionsHtml = bottomMainOptions.map((value, index) => (
+        <div key={index} style={{display:'flex', justifyContent:'start',marginInlineStart:'45px', flexDirection:'column', gap:'5px'}}>
+            <SideBtnComponent iconType={value.type} btnName={value.name}/>
+            <br/>
+        </div>
+    ));
     return (
       <div>
           {UserStore.getSessionKey()? (
               <div className={styles.main}>
                 <div className={styles.left}>
-                <img src={logo} />
-                    <div style={{display:'flex', flexDirection:'column', justifyContent:'start'}}>
-                             <p>a</p>
-                            <p>b</p>
-                            <p>c</p>
-                            <p>d</p>
-                            <p>e</p>
-                            <p>f</p>
+                <img src={logo} className={styles.logoStyle} style={{display:'flex', justifyContent:'start'}}/>
+                    <div style={{display:'flex', flexDirection:'column', justifyContent:'start'}} >
+                        {sideBarMainOptionsHtml}
+                    </div>
+                    <div style={{display:'flex', flexDirection:'column', justifyContent:'start', bottom:'0px', position:'relative'}} >
+                        {bottomMainOptionsHtml}
                     </div>
                 </div>
 
@@ -53,11 +72,6 @@ const  MainLayout  = observer( ()=>{
                           </div>
                           {/*user side*/}
                           <div style={{display:'flex',gap:'50px', alignItems:'center'}}>
-                              <div style={{display:'flex', gap:'40px'}}>
-                                  <GreyBtn faType={'fa fa-home'}/>
-                                     <GreyBtn faType={'fa fa-message'}/>
-                                  <GreyBtn faType={'fa fa-bell'}/>
-                          </div>
                           <div style={{display:'flex',alignItems:'center', gap:'10px'}}>
                               <i style={{color: '#a9acb1', 'fontSize':'15px'}}  className="fa fa-caret-down"></i>
                                 <span className={globalStyles.simpleP}>{UserStore.getUser().name}</span>

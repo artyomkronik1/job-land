@@ -6,6 +6,7 @@ export const UserSchema = new mongoose.Schema({
     password:{type:String, required:true},
     email:{type:String, required:true},
     role:{type:String, required:true},
+    follow:{type:Array,required:true}
 
 })
 
@@ -15,4 +16,5 @@ export interface User{
     password: string;
     email: string;
     role: string;
+    follow:string[];
 }

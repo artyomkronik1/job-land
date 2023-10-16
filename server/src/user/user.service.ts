@@ -29,6 +29,7 @@ export class UserService {
           role:user[0].role,
           email:user[0].email,
           password:password,
+          follow:user[0].follow
         },
         session_key: sessionKey,
       };
@@ -55,6 +56,7 @@ export class UserService {
         password: decryptedPassword,
         name: user.name,
         role: user.role,
+        follow:user.follow,
       })
       .exec();
     if (isAlredyExist.length > 0) {
@@ -68,6 +70,7 @@ export class UserService {
         password: decryptedPassword,
         email: user.email,
         role: user.role,
+        follow:[],
       });
       const result = await newUser.save();
       if (result) {
@@ -80,6 +83,7 @@ export class UserService {
             role:newUser.role,
             email:newUser.email,
             password:user.password,
+            follow:[],
           },
           session_key: sessionKey,
         };
@@ -116,6 +120,7 @@ export class UserService {
           email: user.email,
           password: user.password,
           role: user.role,
+          follow:user.follow
         },
       };
     } else {
@@ -137,6 +142,7 @@ export class UserService {
           email: user.email,
           password: user.password,
           role: user.role,
+          follow:user.follow
         })),
       };
     } else {
