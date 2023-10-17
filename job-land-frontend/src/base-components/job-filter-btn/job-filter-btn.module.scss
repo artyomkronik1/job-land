@@ -1,0 +1,40 @@
+@import "../../assets/global-styles/styles.module";
+
+.form{
+  justify-content:space-between;
+  gap: 5px;
+  border-radius: 1.59rem;
+  font-size: 1rem;
+  border:1px solid $mainColor;
+  padding: 0.4rem 1.2rem;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  color:$mainColor
+}
+.form:hover, .form:active{
+  background-color: rgba(112, 181, 249, 0.2);
+}
+.dropdown{
+  list-style-type: none;
+  padding: 0;
+  margin-top:160px;
+  position: absolute;
+  color:$mainColor;
+  background-color: white;
+  border: 1px solid $mainColor;
+  width: 100px;
+  max-height: 200px;
+  border-radius: 10px;
+  overflow-y: auto;
+  margin-inline-start: -20px;
+
+}
+.dropdownOption{
+
+  padding: 8px 16px;
+  cursor: pointer;
+}
+.dropdownOption:hover{
+   background-color: rgba(112, 181, 249, 0.2);
+ }

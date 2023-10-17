@@ -11,11 +11,11 @@ import globalStyles from "../../assets/global-styles/styles.module.scss";
 import SearchInput from "../../base-components/search-input/search-input";
 import MessageBtn from "../../base-components/side-btn/side-btn-component";
 import sendResume from '../../assets/images/mainLayout/sendResume.jpg'
-import FilterBtn from "../../base-components/filter-btn/filter-btn";
 import he from "../../assets/images/languages/he.png";
 import en from "../../assets/images/languages/en.png";
 import GreyBtn from "../../base-components/side-btn/side-btn-component";
 import SideBtnComponent from "../../base-components/side-btn/side-btn-component";
+import JobFilterBtn from "../../base-components/job-filter-btn/job-filter-btn";
 const  MainLayout  = observer( ()=>{
     //language
     const { t } = useTranslation();
@@ -24,8 +24,28 @@ const  MainLayout  = observer( ()=>{
         UserStore.setLanguage(lng)
         i18n.changeLanguage(lng);
     };
-    const [useSearchValue, setSearchValue] = useState('');
+    // job filters array
+    const [filterValues, setfilterValues] = useState(['']);
+    const addNewFilterValue=(newFilterValue:string)=>{
+        setfilterValues([...filterValues, newFilterValue]);
 
+    }
+    const [useSearchValue, setSearchValue] = useState('');
+    // job filters
+        const jobFilters=[
+            {filterName:t('Zone'), options:['Programming']},
+            {filterName:t('Profesion'), options:['Frontend Developer', 'IT']},
+            {filterName:t('Region'), options:['Israel', 'Russia']},
+            {filterName:t('Where'), options:['On-Site', 'Hybrid', 'Remote']},
+            {filterName:t('Experienced level'), options:['Junior', 'Mid-level', 'Senior']},
+            {filterName:t('How'), options:['Full time', 'Part time']},
+        ]
+    const jobFiltersHTML= jobFilters.map((value,index)=>(
+        <div key={index} style={{display:'flex',flexDirection:'row', justifyContent:'center'}}>
+            <JobFilterBtn text={value.filterName} options={value.options} changeFilterValue={addNewFilterValue}/>
+        </div>
+    ));
+    // sidebar options
     const userMainOptions=[
         {type:'fa fa-home', name:t('Home')} ,
         {type:'fa fa-message', name:t('Messages')} ,
@@ -48,6 +68,7 @@ const  MainLayout  = observer( ()=>{
             <SideBtnComponent iconType={value.type} btnName={value.name}/>
             <br/>
         </div>
+
     ));
     return (
       <div>
@@ -89,10 +110,17 @@ const  MainLayout  = observer( ()=>{
                       </div>
                       <div className={styles.right_main}>
                       <div className={styles.right_main_main}>
-                          <img src={sendResume} />
-                          <div style={{display:'flex', flexDirection:'column', justifyContent:'start'}}>
-                              <FilterBtn  text={  'For you' }/>
-                          </div>
+                          {/*send resume */}
+                          <img src={sendResume} width="620px" height="200px" />
+                          {/*job filters*/}
+                          <div style={{display:'flex', gap:'15px', marginTop:'20px',alignItems:'center'}}>
+                          {jobFiltersHTML}
+                              <button style={{width:'100px', height:'35px', display:'flex',gap:'6px'}} className={globalStyles.btn}>{t('Search')}
+                                  <i style={{color:'white'}} className="fa fa-search" aria-hidden="true"></i>
+
+                              </button>
+                            </div>
+
                       </div>
                           <div className={styles.right_main_messages}>
 
