@@ -23,7 +23,8 @@
   color:$mainColor;
   background-color: white;
   border: 1px solid $mainColor;
-  width: 100px;
+  //width: 120px;
+  max-width: 250px;
   max-height: 200px;
   border-radius: 10px;
   overflow-y: auto;

@@ -16,7 +16,10 @@ const JobFilterBtn= (props:JobFilterBtnProps)=> {
         props.changeFilterValue(value);
     }
     const dropDownOptions=    props.options.map((value, index)=>(
+        <div style={{display:'flex', alignItems:'center', justifyContent:'center', marginInlineStart:'10px'}}>
+            <span style={{display:'block', borderRadius:'50%', backgroundColor:'#0a66c2', height:'5px', width:'5px'}}></span>
         <li  key={index} onClick={()=>setFilterValue(value)} className={styles.dropdownOption}>{value}</li>
+        </div>
     ))
     return(
         <div className={styles.form} >

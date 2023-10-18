@@ -24,11 +24,16 @@ const  MainLayout  = observer( ()=>{
         UserStore.setLanguage(lng)
         i18n.changeLanguage(lng);
     };
+    // startPost
+    const startPost=()=>{
+
+    }
     // job filters array
     const [filterValues, setfilterValues] = useState(['']);
     const addNewFilterValue=(newFilterValue:string)=>{
-        setfilterValues([...filterValues, newFilterValue]);
-
+        if(!filterValues.includes(newFilterValue)) {
+            setfilterValues([...filterValues, newFilterValue]);
+        }
     }
     const [useSearchValue, setSearchValue] = useState('');
     // job filters
@@ -71,7 +76,7 @@ const  MainLayout  = observer( ()=>{
 
     ));
     return (
-      <div>
+      <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
           {UserStore.getSessionKey()? (
               <div className={styles.main}>
                 <div className={styles.left}>
@@ -111,19 +116,42 @@ const  MainLayout  = observer( ()=>{
                       <div className={styles.right_main}>
                       <div className={styles.right_main_main}>
                           {/*send resume */}
-                          <img src={sendResume} width="620px" height="200px" />
+                          <img src={sendResume} width="100%"  />
+                          {/*share a new post*/}
+                            <div style={{display:'flex', flexDirection:'column', padding:'10px', marginTop:'30px'}} className={globalStyles.basicForm}>
+                                    <div style={{display:'flex', alignItems:'center', gap:'10px'}}>
+                                        <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
+                                        <div style={{display:'flex', justifyContent:'start', padding:'10px 20px', borderRadius:'20px', border:'1px solid rgb(0 0 0/.6)', backgroundColor:'white', width:'100%'}}>
+                                            <span onClick={startPost} style={{color:'rgb(0 0 0/.6)', fontWeight:'bold'}}> {t('Start a post...')}</span>
+                                        </div>
+                                    </div>
+                            </div>
                           {/*job filters*/}
                           <div style={{display:'flex', gap:'15px', marginTop:'20px',alignItems:'center'}}>
                           {jobFiltersHTML}
-                              <button style={{width:'100px', height:'35px', display:'flex',gap:'6px'}} className={globalStyles.btn}>{t('Search')}
+                              <button style={{width:'100px', height:'33px', display:'flex',gap:'6px', fontSize:'1rem'}} className={globalStyles.btn}>{t('Search')}
                                   <i style={{color:'white'}} className="fa fa-search" aria-hidden="true"></i>
-
                               </button>
                             </div>
+                      {/*    posts*/}
+                          <div style={{marginTop:'30px'}}>
+                          <div className={styles.postContainer}>
+                              <div className={styles.postContainer__header}>
+                                  <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
+                                  <div className={styles.postContainer__header__details}>
+                                      <span className={globalStyles.simpleP}> {'artiommm'}</span>
+                                      <span style={{fontSize:'16px', fontWeight:'normal'}} className={globalStyles.simpleP}> {'atmos'}</span>
+                                  </div>
+                              </div>
+                              <div className={styles.postContainer__main}>
+                         {'blalalaalalalaalaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadddd'}
+                              </div>
+                          </div>
+                          </div>
 
                       </div>
                           <div className={styles.right_main_messages}>
-
+                            <div className={globalStyles.basicForm}></div>
                           </div>
                       </div>
                   </div>
