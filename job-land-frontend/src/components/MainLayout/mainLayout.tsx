@@ -24,6 +24,9 @@ const  MainLayout  = observer( ()=>{
         UserStore.setLanguage(lng)
         i18n.changeLanguage(lng);
     };
+    // message box
+    const [messageBoxIsOpen, setmessageBoxIsOpen] = useState(false);
+
     // startPost
     const startPost=()=>{
 
@@ -59,7 +62,7 @@ const  MainLayout  = observer( ()=>{
         {type:'fa fa-plus-circle', name:t('New Post')} ,
         {type:'fa fa-bell', name:t('Notifications')} ]
     const sideBarMainOptionsHtml = userMainOptions.map((value, index) => (
-        <div key={index} style={{display:'flex', justifyContent:'start',marginInlineStart:'45px', flexDirection:'column', gap:'5px'}}>
+        <div key={index} style={{display:'flex', justifyContent:'start',flexDirection:'column', gap:'5px'}}>
             <SideBtnComponent iconType={value.type} btnName={value.name}/>
             <br/>
         </div>
@@ -69,7 +72,7 @@ const  MainLayout  = observer( ()=>{
         {type:'fa fa-cog', name:t('Settings')} ,
         {type:'fa fa-question-circle', name:t('Help & Support')} ] ;
     const bottomMainOptionsHtml = bottomMainOptions.map((value, index) => (
-        <div key={index} style={{display:'flex', justifyContent:'start',marginInlineStart:'45px', flexDirection:'column', gap:'5px'}}>
+        <div key={index} style={{display:'flex', justifyContent:'start', flexDirection:'column', gap:'5px'}}>
             <SideBtnComponent iconType={value.type} btnName={value.name}/>
             <br/>
         </div>
@@ -116,23 +119,28 @@ const  MainLayout  = observer( ()=>{
                       <div className={styles.right_main}>
                       <div className={styles.right_main_main}>
                           {/*send resume */}
-                          <img src={sendResume} width="100%"  />
+                          {/*<img src={sendResume} height="20%"  />*/}
                           {/*share a new post*/}
-                            <div style={{display:'flex', flexDirection:'column', padding:'10px', marginTop:'30px'}} className={globalStyles.basicForm}>
+                            <div style={{display:'flex', flexDirection:'column', padding:'10px', marginTop:'30px',gap:'15px'}} className={globalStyles.basicForm}>
                                     <div style={{display:'flex', alignItems:'center', gap:'10px'}}>
                                         <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
                                         <div style={{display:'flex', justifyContent:'start', padding:'10px 20px', borderRadius:'20px', border:'1px solid rgb(0 0 0/.6)', backgroundColor:'white', width:'100%'}}>
                                             <span onClick={startPost} style={{color:'rgb(0 0 0/.6)', fontWeight:'bold'}}> {t('Start a post...')}</span>
                                         </div>
                                     </div>
+                                <div style={{display:'flex', flexDirection:'row', justifyContent:'space-around'}}>
+                                    <div style={{display:'flex', gap:'6px'}}> {t('Media')} <i style={{color:'red'}} className="fa-solid fa-image"></i> </div>
+                                    <div style={{display:'flex', gap:'6px', }}>  {t('Write article')} <i style={{color:'blue'}} className="fa fa-newspaper"></i></div>
+                                </div>
+
                             </div>
                           {/*job filters*/}
-                          <div style={{display:'flex', gap:'15px', marginTop:'20px',alignItems:'center'}}>
-                          {jobFiltersHTML}
-                              <button style={{width:'100px', height:'33px', display:'flex',gap:'6px', fontSize:'1rem'}} className={globalStyles.btn}>{t('Search')}
-                                  <i style={{color:'white'}} className="fa fa-search" aria-hidden="true"></i>
-                              </button>
-                            </div>
+                          {/*<div style={{display:'flex', gap:'15px', marginTop:'20px',alignItems:'center'}}>*/}
+                          {/*{jobFiltersHTML}*/}
+                          {/*    <button style={{width:'100px', height:'40px', display:'flex',gap:'6px', padding:'10px'}} className={globalStyles.btn}>{t('Search')}*/}
+                          {/*        <i style={{color:'white'}} className="fa fa-search" aria-hidden="true"></i>*/}
+                          {/*    </button>*/}
+                          {/*  </div>*/}
                       {/*    posts*/}
                           <div style={{marginTop:'30px'}}>
                           <div className={styles.postContainer}>
@@ -144,14 +152,72 @@ const  MainLayout  = observer( ()=>{
                                   </div>
                               </div>
                               <div className={styles.postContainer__main}>
-                         {'blalalaalalalaalaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadddd'}
+                                  <span style={{display:'flex',  wordWrap: 'break-word', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}>  {'blalalaalalalaalaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadddd'}</span>
                               </div>
                           </div>
                           </div>
 
                       </div>
-                          <div className={styles.right_main_messages}>
-                            <div className={globalStyles.basicForm}></div>
+                          {/*messages*/}
+                          <div className={styles.right_main_messages }>
+                              {messageBoxIsOpen}
+                          {/*    open all message box*/}
+
+                              <div  className={`${styles.fade_in} ${messageBoxIsOpen ? `${styles.allMessagesContainer_visible}` :`${styles.allMessagesContainer_hidden}`}`}>
+                                  {/*all user chats*/}
+                                  <div className={styles.allMessagesContainer}  >
+                                      <div  >
+                                          <div className={styles.messageContainer}>
+                                              <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
+                                              <div style={{   display:'flex', flexDirection:'column', alignItems:'start', justifyContent:'space-around'}}>
+                                                  <span className={globalStyles.simpleP}> {UserStore.getUser().name}</span>
+                                                  <span style={{fontSize:'16px', fontWeight:'normal'}} className={globalStyles.simpleP}> {UserStore.getUser().role}</span>
+                                              </div>
+                                              {UserStore.getLanguage()=='en'?( <i style={{color:'#0a66c2'}} className="fa fa-arrow-circle-right" ></i>)
+                                                  :(<i style={{color:'#0a66c2'}} className="fa fa-arrow-circle-left"></i>)
+                                              }
+                                          </div>
+                                          <div style={{marginTop:'5px', marginBottom:'15px', marginInlineStart:'15px' ,display:'flex', width:'88%',  borderBottom:'0.5px solid #e8e8e8'}}> </div>
+
+                                          <div className={styles.messageContainer}>
+                                              <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
+                                              <div style={{display:'flex', flexDirection:'column', alignItems:'start', justifyContent:'space-around'}}>
+                                                  <span className={globalStyles.simpleP}> {UserStore.getUser().name}</span>
+                                                  <span style={{fontSize:'16px', fontWeight:'normal'}} className={globalStyles.simpleP}> {UserStore.getUser().role}</span>
+                                              </div>
+                                              {UserStore.getLanguage()=='en'?( <i style={{color:'#0a66c2'}} className="fa fa-arrow-circle-right" ></i>)
+                                                  :(<i style={{color:'#0a66c2'}} className="fa fa-arrow-circle-left"></i>)
+                                              }
+                                          </div>
+                                          <div style={{marginTop:'5px', marginBottom:'15px', marginInlineStart:'15px' ,display:'flex', width:'88%',  borderBottom:'0.5px solid #e8e8e8'}}> </div>
+
+                                          <div className={styles.messageContainer}>
+                                              <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
+                                              <div style={{display:'flex', flexDirection:'column', alignItems:'start', justifyContent:'space-around'}}>
+                                                  <span className={globalStyles.simpleP}> {UserStore.getUser().name}</span>
+                                                  <span style={{fontSize:'16px', fontWeight:'normal'}} className={globalStyles.simpleP}> {UserStore.getUser().role}</span>
+                                              </div>
+                                              {UserStore.getLanguage()=='en'?( <i style={{color:'#0a66c2'}} className="fa fa-arrow-circle-right" ></i>)
+                                                  :(<i style={{color:'#0a66c2'}} className="fa fa-arrow-circle-left"></i>)
+                                              }
+
+                                          </div>
+                                          <div style={{marginTop:'5px', marginBottom:'15px', marginInlineStart:'15px' ,display:'flex', width:'88%',  borderBottom:'0.5px solid #e8e8e8'}}> </div>
+
+                                      </div>
+
+                                  </div>
+                              </div>
+                              <div style={{backgroundColor:'white'}} onClick={()=> setmessageBoxIsOpen(!messageBoxIsOpen)}>
+                                  <div className={styles.messageContainerMain}>
+                                      <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
+                                      <div style={{display:'flex', flexDirection:'column', alignItems:'start', justifyContent:'space-around'}}>
+                                          <span className={globalStyles.simpleP}> {UserStore.getUser().name}</span>
+                                          <span style={{fontSize:'16px', fontWeight:'normal'}} className={globalStyles.simpleP}> {'1'}</span>
+                                      </div>
+                                  </div>
+                              </div>
+
                           </div>
                       </div>
                   </div>
