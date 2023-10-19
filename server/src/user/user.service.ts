@@ -17,7 +17,7 @@ export class UserService {
     //find user by email
     const user = await this.userModel
       .find({ email: email, password: decryptedPassword })
-      .select('id name email password role')
+      .select('id name email password role follow')
       .exec();
     if (user.length > 0) {
       const sessionKey = this.generateSessionKey();
@@ -43,7 +43,7 @@ export class UserService {
   generateSessionKey(): string {
     return crypto.randomBytes(32).toString('hex'); // Generate a 64-character random string
   }
-  async insertUser(user: User) {
+  async signUp(user: User) {
     const decryptedPassword = CryptoJS.AES.decrypt(
       user.password,
       secretKey,

@@ -1,28 +1,44 @@
 import {observer} from "mobx-react-lite";
 import UserStore from '../../store/user';
 import {useTranslation} from "react-i18next";
-import React, {useContext, useState} from "react";
-import {toast} from "react-toastify";
+import React, {useContext, useEffect, useState} from "react";
 import Login from "../login/login";
-import SignIn from "../signIn/signIn";
 import styles from './mainLayout.module.scss'
 import logo from'../../assets/images/icon.jpg'
 import globalStyles from "../../assets/global-styles/styles.module.scss";
 import SearchInput from "../../base-components/search-input/search-input";
-import MessageBtn from "../../base-components/side-btn/side-btn-component";
-import sendResume from '../../assets/images/mainLayout/sendResume.jpg'
 import he from "../../assets/images/languages/he.png";
 import en from "../../assets/images/languages/en.png";
-import GreyBtn from "../../base-components/side-btn/side-btn-component";
 import SideBtnComponent from "../../base-components/side-btn/side-btn-component";
 import JobFilterBtn from "../../base-components/job-filter-btn/job-filter-btn";
 import DropDown from "../../base-components/dropdown-component/dropdown";
 import {useNavigate} from "react-router";
+import {Job} from "../../interfaces/job";
+import axios from "axios";
 const  MainLayout  = observer( ()=>{
     const navigate = useNavigate();
     //language
     const { t } = useTranslation();
     const { i18n } = useTranslation();
+    const [jobs, setjobs] = useState<Job[]>([]);
+    useEffect(() => {
+        getAllJobs();
+    }, []);
+    // getAllJobs
+    const getAllJobs=async()=>{
+            try {
+                const result = await axios.post('http://localhost:3002/jobs', {followers:UserStore.getUser().follow.toString()});
+                if(result.data.success) {
+                  setjobs(result.data.jobs)
+                }
+                else{
+                    return result.data
+                }
+            } catch (error) {
+                console.error('Error get jobs:', error);
+            }
+
+    }
     const changeLanguage = (lng:string) => {
         UserStore.setLanguage(lng)
         i18n.changeLanguage(lng);
@@ -67,25 +83,25 @@ const  MainLayout  = observer( ()=>{
     ));
     // sidebar options
     const userMainOptions=[
-        {type:'fa fa-home', name:t('Home')} ,
-        {type:'fa fa-message', name:t('Messages')} ,
-        {type:'fa fa-briefcase', name:t('Jobs')} ,
-        {type:'fa fa-users', name:t('Network')} ,
-        {type:'fa fa-plus-circle', name:t('New Post')} ,
-        {type:'fa fa-bell', name:t('Notifications')} ]
+        {type:'fa fa-home', name:'Home'} ,
+        {type:'fa fa-message', name:'Messages'} ,
+        {type:'fa fa-briefcase', name:'Jobs'} ,
+        {type:'fa fa-users', name:'Network'} ,
+        {type:'fa fa-plus-circle', name:'New Post'} ,
+        {type:'fa fa-bell', name:'Notifications'} ]
     const sideBarMainOptionsHtml = userMainOptions.map((value, index) => (
         <div key={index} style={{display:'flex', justifyContent:'start',flexDirection:'column', gap:'5px'}}>
-            <SideBtnComponent iconType={value.type} btnName={value.name}/>
+            <SideBtnComponent iconType={value.type} btnName={t(value.name)} onClick={()=>navigate(`/${userMainOptions[index].name.toLowerCase()}`)}/>
             <br/>
         </div>
     ));
     const bottomMainOptions=[
-        {type:'fa fa-user-circle', name:t('Profile')} ,
-        {type:'fa fa-cog', name:t('Settings')} ,
+        {type:'fa fa-user-circle', name:'Profile'} ,
+        {type:'fa fa-cog', name:'Settings'} ,
         {type:'fa fa-question-circle', name:t('Help & Support')} ] ;
     const bottomMainOptionsHtml = bottomMainOptions.map((value, index) => (
         <div key={index} style={{display:'flex', justifyContent:'start', flexDirection:'column', gap:'5px'}}>
-            <SideBtnComponent iconType={value.type} btnName={value.name}/>
+            <SideBtnComponent iconType={value.type} btnName={t(value.name)}  onClick={()=>navigate(`/${bottomMainOptions[index].name.toLowerCase()}`)}/>
             <br/>
         </div>
 
@@ -95,7 +111,7 @@ const  MainLayout  = observer( ()=>{
           {UserStore.getSessionKey()? (
               <div className={styles.main}>
                 <div className={styles.left}>
-                <img src={logo} className={styles.logoStyle} style={{display:'flex', justifyContent:'start'}}/>
+                <img src={logo} onClick={()=> navigate('/')} className={styles.logoStyle} style={{display:'flex', justifyContent:'start'}}/>
                     <div style={{display:'flex', flexDirection:'column', justifyContent:'start'}} >
                         {sideBarMainOptionsHtml}
                     </div>
@@ -114,9 +130,10 @@ const  MainLayout  = observer( ()=>{
                           {/*user side*/}
                           <div style={{display:'flex',gap:'50px', alignItems:'center'}}>
                           <div style={{display:'flex',alignItems:'center', gap:'10px'}}>
-                                <DropDown options={['logout']} changeDropValue={getSettingAction}/>
+                                <DropDown options={['logout']} changeDropValue={getSettingAction}>
                                 <span className={globalStyles.simpleP}>{UserStore.getUser().name}</span>
                               <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
+                                </DropDown>
                               <div className={styles.languageDiv}>
                                   { UserStore.getLanguage()=='en' ?
                                       <img src={he} className={styles.heLanguagePic} onClick={()=>changeLanguage('he')}/>
@@ -133,11 +150,11 @@ const  MainLayout  = observer( ()=>{
                           {/*send resume */}
                           {/*<img src={sendResume} height="20%"  />*/}
                           {/*share a new post*/}
-                            <div style={{display:'flex', flexDirection:'column', padding:'10px', marginTop:'30px',gap:'15px'}} className={globalStyles.basicForm}>
+                            <div style={{border:'1px solid #a9acb1', display:'flex', flexDirection:'column', padding:'10px', marginTop:'30px',gap:'15px'}} className={globalStyles.basicForm}>
                                     <div style={{display:'flex', alignItems:'center', gap:'10px'}}>
                                         <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
-                                        <div style={{display:'flex', justifyContent:'start', padding:'10px 20px', borderRadius:'20px', border:'1px solid rgb(0 0 0/.6)', backgroundColor:'white', width:'100%'}}>
-                                            <span onClick={startPost} style={{color:'rgb(0 0 0/.6)', fontWeight:'bold'}}> {t('Start a post...')}</span>
+                                        <div style={{display:'flex', justifyContent:'start', padding:'10px 20px', borderRadius:'20px', border:'1px solid #a9acb1', backgroundColor:'white', width:'100%'}}>
+                                            <span onClick={startPost} style={{color:'#a9acb1', fontWeight:'bold'}}> {t('Start a post...')}</span>
                                         </div>
                                     </div>
                                 <div style={{display:'flex', flexDirection:'row', justifyContent:'space-around'}}>
@@ -154,8 +171,10 @@ const  MainLayout  = observer( ()=>{
                           {/*    </button>*/}
                           {/*  </div>*/}
                       {/*    posts*/}
-                          <div style={{marginTop:'30px'}}>
-                          <div className={styles.postContainer}>
+
+                              <div style={{marginTop:'30px'}} >
+                                  { jobs.map((job:Job,index)=>(
+                                  <div className={styles.postContainer} key={index}>
                               <div className={styles.postContainer__header}>
                                   <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
                                   <div className={styles.postContainer__header__details}>
@@ -164,10 +183,12 @@ const  MainLayout  = observer( ()=>{
                                   </div>
                               </div>
                               <div className={styles.postContainer__main}>
-                                  <span style={{display:'flex',  wordWrap: 'break-word', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}>  {'blalalaalalalaalaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaadddd'}</span>
+                                  <span className={globalStyles.mainSpan} style={{display:'flex',  wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {job.title}</span>
+                                  <span style={{display:'flex',  wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {job.description}</span>
                               </div>
+                          </div>   ))}
                           </div>
-                          </div>
+
 
                       </div>
                           {/*messages*/}

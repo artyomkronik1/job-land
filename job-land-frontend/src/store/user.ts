@@ -13,7 +13,7 @@ class UserStore{
     @persist  language ="en";
      loggedIn= false;
      signedUp=true;
-    @persist('object') @observable user:User={id:"",password:"",role:"",email:"",name:""};
+    @persist('object') @observable user:User={id:"",password:"",role:"",email:"",name:"", follow:[]};
     @persist session_key=localStorage.getItem('session_key')
     constructor() {
         makeAutoObservable(this);

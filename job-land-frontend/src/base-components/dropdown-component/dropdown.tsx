@@ -13,13 +13,14 @@ const DropDown = (props:DropdownProps)=> {
         </div>
     ))
     return(
-        <div>
-            <i onClick={()=>setopenDrop(!openDrop)} style={{color: '#a9acb1', 'fontSize':'15px'}} className={`fa fa-caret-${openDrop ? 'up' : 'down'}`}   ></i>
+        <div style={{  display:'flex', alignItems:'center', gap:'10px'}}  onClick={()=>setopenDrop(!openDrop)}>
+            <i style={{color: '#a9acb1', 'fontSize':'15px'}} className={`fa fa-caret-${openDrop ? 'up' : 'down'}`}   ></i>
             {openDrop && (
                 <ul className={styles.dropdown}>
                     {dropDownOptions}
                 </ul>
             )}
+            {props.children}
         </div>
     )
 }

@@ -5,9 +5,10 @@
 
 }
 .left{
-  height: auto;
+  width: 10%;
   display: flex;
-  gap: 50px;
+  gap: 80px;
+  height:max-content;
   justify-content: start;
   padding: 20px;
   flex-direction: column;
@@ -15,12 +16,14 @@
 }
 [dir="rtl"] {
   .left {
-    box-shadow: 10px 0 19px #888888;
+
+    box-shadow: -5px 0px 10px 1px #aaaaaa;
+
   }
 }
 [dir="ltr"] {
   .left {
-    box-shadow: 0px 1px 10px 1px #888888
+    box-shadow: 0px 1px 10px 1px  #888888
   }
 }
 
@@ -36,7 +39,9 @@
   flex-direction: column;
 }
 .right_header{
+  border-bottom:1px solid $thirdColor;
   margin-inline-start: 20px;
+  padding: 0px;
   gap:50px;
   display: flex;
   justify-content: space-between;
@@ -45,28 +50,28 @@
 .right_main{
   flex: 1 1 auto;
 margin-inline-end: 20px ;
-  margin-inline-start: 20px;
+  margin-inline-start: 80px;
   border-radius: 20px;
   display: flex;
-  background-color: $thirdColor;
+  background-color: white;
   justify-content: start;
 }
 .right_main_main{
   padding: 10px 50px 20px;
   display: flex;
-  width: 70%;
+  width: 50%;
   justify-content: start;
   flex-direction: column;
 }
 .right_main_messages{
-
-  padding: 10px 20px 10px 20px;
+  padding: 10px 120px 10px 120px;
   display: flex;
   flex: 1 1 auto;
   justify-content: end;
   flex-direction: column;
 }
 .messageContainer{
+
   display: flex;
   //padding: 0 0 10px 10px;
   padding: 10px;
@@ -76,6 +81,7 @@ margin-inline-end: 20px ;
   flex-direction: row;
 }
 .messageContainerMain{
+  border:1px solid $thirdColor;
   display: flex;
   padding: 10px;
   gap: 8px;
@@ -104,6 +110,7 @@ margin-inline-end: 20px ;
   transform: scale(1.2); /* Increase the size of the image on hover */
 }
 .postContainer{
+  border:1px solid $thirdColor;
   padding: 10px;
   background-color: white;
   border-radius: 20px;

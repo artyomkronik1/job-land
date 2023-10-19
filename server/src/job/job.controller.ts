@@ -6,11 +6,9 @@ import {Job} from "./job.model";
 @Controller('jobs')
 export class JobController {
     constructor(private jobService: JobService) {}
-    @Get()
+    @Post()
     async getAllJobs(@Body() data:any) {
-
             return this.jobService.getAllJobs(data.followers);
-
     }
     // async getSingleJob(@Body() data:any){
     //     return this.jobService.getSingleJob(data.id);
