@@ -2,7 +2,7 @@
 //colors
 $mainColor:#0a66c2;
 $secondColor :#004182;
-$thirdColor : #f5f5f5;
+$thirdColor : #faf8f8;
 //spans
 .mainSpan{
   color:$mainColor;
@@ -71,7 +71,9 @@ $thirdColor : #f5f5f5;
 .logoPic{
   display: flex;
   justify-content: start;
-  max-width: 15%;
+  width: 150px;
+  height: 120px;
+margin-inline-start: 20px;
 }
 
 //forms

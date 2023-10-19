@@ -4,7 +4,7 @@
     flex-direction: column;
     justify-content: center;;
     align-items: center;
-
+    margin-bottom: 80px;
 }
 .formHeader{
     display:flex;
@@ -26,7 +26,7 @@
 .title{
     display: flex;
     color:$mainColor;
-    font-size: 47px;
+    //font-size: 47px;
     justify-content: center;
 }
 .languageDiv{
@@ -64,10 +64,10 @@
     justify-content: start;
 }
 .logoPicture{
-    background-image: url('../../assets/images/login.jpg');
+    background-image: url('../../assets/images/login.png');
     background-size: cover;
-    width: 560px;
-    height: 480px;
+    width: 860px;
+    height: 780px;
 }
 .socialMedia{
     max-width: 10%;

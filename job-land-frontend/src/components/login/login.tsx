@@ -14,6 +14,7 @@ import ToastComponent from '../../base-components/toaster/ToastComponent';
 import {toast} from "react-toastify";
 import {useNavigate} from "react-router";
 import CryptoJS from "crypto-js";
+import loginPicture from '../../assets/images/login.png'
 const  Login  = observer( ()=>{
     //language
     const { t } = useTranslation();
@@ -95,7 +96,7 @@ const  Login  = observer( ()=>{
                         <button style={{width:'300px'}} className={globalStyles.btn_border} onClick={()=> navigate('/signup')}> {t('New in Jobland? join now!') }</button>
                     </div>
                 </div>
-                <div className={styles.logoPicture}></div>
+               <img src={loginPicture}/>
             </div>
         </form>
     );

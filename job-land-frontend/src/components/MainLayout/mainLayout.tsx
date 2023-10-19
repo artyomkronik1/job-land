@@ -17,7 +17,9 @@ import GreyBtn from "../../base-components/side-btn/side-btn-component";
 import SideBtnComponent from "../../base-components/side-btn/side-btn-component";
 import JobFilterBtn from "../../base-components/job-filter-btn/job-filter-btn";
 import DropDown from "../../base-components/dropdown-component/dropdown";
+import {useNavigate} from "react-router";
 const  MainLayout  = observer( ()=>{
+    const navigate = useNavigate();
     //language
     const { t } = useTranslation();
     const { i18n } = useTranslation();
@@ -31,6 +33,7 @@ const  MainLayout  = observer( ()=>{
             setprofileSettings(val)
             if(val=='logout'){
                 UserStore.logout();
+                navigate('/login')
             }
         }
     // message box
