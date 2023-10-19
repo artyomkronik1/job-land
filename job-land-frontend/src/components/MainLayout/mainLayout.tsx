@@ -16,6 +16,7 @@ import en from "../../assets/images/languages/en.png";
 import GreyBtn from "../../base-components/side-btn/side-btn-component";
 import SideBtnComponent from "../../base-components/side-btn/side-btn-component";
 import JobFilterBtn from "../../base-components/job-filter-btn/job-filter-btn";
+import DropDown from "../../base-components/dropdown-component/dropdown";
 const  MainLayout  = observer( ()=>{
     //language
     const { t } = useTranslation();
@@ -24,6 +25,14 @@ const  MainLayout  = observer( ()=>{
         UserStore.setLanguage(lng)
         i18n.changeLanguage(lng);
     };
+        // profileSettings
+        const [profileSettings, setprofileSettings] = useState('');
+        const getSettingAction=(val:string)=>{
+            setprofileSettings(val)
+            if(val=='logout'){
+                UserStore.logout();
+            }
+        }
     // message box
     const [messageBoxIsOpen, setmessageBoxIsOpen] = useState(false);
 
@@ -102,7 +111,7 @@ const  MainLayout  = observer( ()=>{
                           {/*user side*/}
                           <div style={{display:'flex',gap:'50px', alignItems:'center'}}>
                           <div style={{display:'flex',alignItems:'center', gap:'10px'}}>
-                              <i style={{color: '#a9acb1', 'fontSize':'15px'}}  className="fa fa-caret-down"></i>
+                                <DropDown options={['logout']} changeDropValue={getSettingAction}/>
                                 <span className={globalStyles.simpleP}>{UserStore.getUser().name}</span>
                               <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
                               <div className={styles.languageDiv}>

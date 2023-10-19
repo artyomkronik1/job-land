@@ -49,6 +49,9 @@ class UserStore{
     setSessionKey(key:string){
         this.session_key = key;
     }
+    logout = async()=>{
+        localStorage.removeItem('userInfo')
+    }
     signup = async (name:string,password:string, email:string, role:string)=>{
         try {
             const result = await axios.post('http://localhost:3002/users/signup', {name, password, email, role});

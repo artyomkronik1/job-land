@@ -6,7 +6,6 @@ import {Job} from './job.model'
 export class JobService {
     constructor(@InjectModel('Job') private readonly jobModel: Model<Job>) {}
     async postNewJob(job: Job) {
-        console.log(job)
         const newJob = new this.jobModel({
             title: job.title,
             description:job.description,
