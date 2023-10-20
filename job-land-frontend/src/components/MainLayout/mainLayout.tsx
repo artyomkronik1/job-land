@@ -167,7 +167,7 @@ const  MainLayout  = observer( ()=>{
                                         {/*send resume */}
                                         {/*<img src={sendResume} height="20%"  />*/}
                                         {/*share a new post*/}
-                                        <div style={{border:'1px solid #a9acb1', display:'flex', flexDirection:'column', padding:'10px', marginTop:'30px',gap:'15px'}} className={globalStyles.basicForm}>
+                                        <div style={{border:'1px solid #c3c4c5', display:'flex', flexDirection:'column', padding:'10px', marginTop:'30px',gap:'15px'}} className={globalStyles.basicForm}>
                                             <div style={{display:'flex', alignItems:'center', gap:'10px'}}>
                                                 <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
                                                 <div style={{display:'flex', justifyContent:'start', padding:'10px 20px', borderRadius:'20px', border:'1px solid #a9acb1', backgroundColor:'white', width:'100%'}}>
@@ -205,7 +205,7 @@ const  MainLayout  = observer( ()=>{
                                                     </div>
                                                 </div>   )):(
 
-                                                <div style={{display:'flex',flexDirection:'column', gap:'30px', alignItems:'center'}}>
+                                                <div style={{border:'1px solid #c3c4c5', backgroundColor:'white', borderRadius:'20px', padding:'10px', display:'flex',flexDirection:'column', gap:'30px', alignItems:'center'}}>
                                                     <span className={globalStyles.h2}>{'There is no posts...'}</span>
                                                     <button onClick={()=>goToNetwork()} className={globalStyles.btn}>{'Start follow'}</button>
 
@@ -264,7 +264,7 @@ const  MainLayout  = observer( ()=>{
 
                                             </div>
                                         </div>
-                                        <div style={{position:'fixed', bottom:'20px', width:'300px', backgroundColor:'white'}} onClick={()=> setmessageBoxIsOpen(!messageBoxIsOpen)}>
+                                        <div  style={{position:'fixed', bottom:'20px', width:'300px', backgroundColor:'white'}} onClick={()=> setmessageBoxIsOpen(!messageBoxIsOpen)}>
                                             <div className={styles.messageContainerMain}>
                                                 <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
                                                 <div style={{display:'flex', flexDirection:'column', alignItems:'start', justifyContent:'space-around'}}>
