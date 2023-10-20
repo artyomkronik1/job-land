@@ -78,6 +78,10 @@ const  SignIn  = observer( ()=>{
 
         }
     }
+    const goLogin = ()=>{
+        navigate('/login')
+        UserStore.setSignedUp(true)
+    }
     return (
         <>
             <ToastComponent />
@@ -114,7 +118,7 @@ const  SignIn  = observer( ()=>{
                     <div style={{marginTop:"40px"}} className={globalStyles.separate_line}></div>
 
                     <div style={{display:'flex', justifyContent:'center', alignItems:'center', marginTop:'30px'}}>
-                        <button style={{width:'300px'}} className={globalStyles.btn_border} onClick={()=> navigate('/login')}> {t('Already on Jobland? Sign in') }</button>
+                        <button style={{width:'300px'}} className={globalStyles.btn_border} onClick={()=> goLogin()}> {t('Already on Jobland? Sign in') }</button>
                     </div>
                 </div>
                 <div className={signupStyle.logoPicture}></div>

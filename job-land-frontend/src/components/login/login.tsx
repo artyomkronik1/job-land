@@ -60,18 +60,21 @@ const  Login  = observer( ()=>{
                  UserStore.setSessionKey(res.session_key)
                  navigate('/')
              }, 3000);
-
-
         } else {
             toast.error('ERROR' + ' ' + res?.errorCode);
         }
+    }
+
+    const goSignUp =()=>{
+        navigate('/signup')
+        UserStore.setSignedUp(false)
+        UserStore.setLoggedIn(false)
     }
 
     return (
 
         <>
             <ToastComponent />
-            {!UserStore.loading? (
         <form className={styles.form} dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
             {/*toast*/}
             <ToastComponent />
@@ -105,13 +108,12 @@ const  Login  = observer( ()=>{
                         <img className={styles.socialMedia} src={facebookIcon} />
                     </div>
                     <div style={{display:'flex', justifyContent:'center', alignItems:'center', marginTop:'30px'}}>
-                        <button style={{width:'300px'}} className={globalStyles.btn_border} onClick={()=> navigate('/signup')}> {t('New in Jobland? join now!') }</button>
+                        <button style={{width:'300px'}} className={globalStyles.btn_border} onClick={()=> goSignUp()}> {t('New in Jobland? join now!') }</button>
                     </div>
                 </div>
                <img src={loginPicture}/>
             </div>
         </form>
-            ):(<Spinner/>)}
 </>
     );
 } )

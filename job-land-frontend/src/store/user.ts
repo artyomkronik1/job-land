@@ -12,8 +12,8 @@ const hydrate = create({
 class UserStore{
     @persist  language ="en";
     @persist loading=false;
-    loggedIn= false;
-     signedUp=true;
+    @persist loggedIn= false;
+    @persist signedUp=true;
     @persist('object') @observable user:User={id:"",password:"",role:"",email:"",name:"", follow:[]};
     @persist session_key=localStorage.getItem('session_key')
     constructor() {
@@ -57,12 +57,15 @@ class UserStore{
     }
     logout = async()=>{
         localStorage.removeItem('userInfo')
+        this.setLoggedIn(false)
     }
     signup = async (name:string,password:string, email:string, role:string)=>{
         try {
             const result = await axios.post('http://localhost:3002/users/signup', {name, password, email, role});
             if(result.data.success) {
                 this.setUser(result.data.user)
+                this.setLoggedIn(true)
+                this.setSignedUp(true)
                 return result.data
             }
             else{
@@ -79,6 +82,7 @@ class UserStore{
                 if(result.data.success) {
                     this.setLoading(false);
                     this.setUser(result.data.user)
+                    this.setLoggedIn(true)
                     return result.data
 
                 }
