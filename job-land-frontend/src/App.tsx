@@ -17,14 +17,12 @@ function App() {
   return (
       <Router>
         <div className="App">
-            {UserStore.loading? (<Spinner/>):(
-          <Routes>
-              <Route path="/home" element={<MainLayout />} />
-            <Route path="/" element={<MainLayout />} />
-            <Route path="/login" element={<Login/>}/>
-            <Route path="/signup" element={<SignIn/>}/>
-          </Routes>
-          )}
+              <Routes>
+                <Route path="/home" element={<MainLayout />} />
+                <Route path="/" element={<MainLayout />} />
+                <Route path="/login" element={<Login/>}/>
+                <Route path="/signup" element={<SignIn/>}/>
+            </Routes>
         </div>
       </Router>
   );

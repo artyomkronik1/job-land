@@ -41,6 +41,7 @@ const  Login  = observer( ()=>{
         setUserEmail('')
         setUserPassword('')
     }
+
     //login
     const login=async (event: any) => {
         event.preventDefault();
@@ -48,16 +49,18 @@ const  Login  = observer( ()=>{
         {
             toast.error('ERROR! One or more fields is empty' );
         }
-
         const encryptedPassword = CryptoJS.AES.encrypt(userPassword, secretKey).toString();
         const res = await UserStore.login(userEmail, encryptedPassword)
-      //  window.location.reload()
         if (res?.success) {
-
             resetParameter()
+            UserStore.setLoading(true);
             toast.success('SUCCESS');
-            UserStore.setSessionKey(res.session_key)
-            navigate('/')
+             setTimeout(() => {
+                UserStore.setLoading(false);
+                 UserStore.setSessionKey(res.session_key)
+                 navigate('/')
+             }, 3000);
+
 
         } else {
             toast.error('ERROR' + ' ' + res?.errorCode);
@@ -66,8 +69,9 @@ const  Login  = observer( ()=>{
 
     return (
 
-
-
+        <>
+            <ToastComponent />
+            {!UserStore.loading? (
         <form className={styles.form} dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
             {/*toast*/}
             <ToastComponent />
@@ -107,8 +111,8 @@ const  Login  = observer( ()=>{
                <img src={loginPicture}/>
             </div>
         </form>
-
-
+            ):(<Spinner/>)}
+</>
     );
 } )
 

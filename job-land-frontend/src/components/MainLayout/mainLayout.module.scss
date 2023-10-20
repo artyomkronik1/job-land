@@ -5,7 +5,7 @@
 
 }
 .left{
-  width: 10%;
+  min-width: 12%;
   display: flex;
   gap: 80px;
   height:max-content;
@@ -16,9 +16,7 @@
 }
 [dir="rtl"] {
   .left {
-
     box-shadow: -5px 0px 10px 1px #aaaaaa;
-
   }
 }
 [dir="ltr"] {
@@ -39,32 +37,42 @@
   flex-direction: column;
 }
 .right_header{
-  border-bottom:1px solid $thirdColor;
+  box-shadow: 10px 0px 10px 0px #888888;
+  z-index: 100;
+  background-color: white;
+  border-bottom:2px solid $thirdColor;
   margin-inline-start: 20px;
-  padding: 0px;
+  padding-bottom: 20px;
+  padding-top: 10px;
   gap:50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: fixed;
+  width: 85% ;
 }
 .right_main{
+  background-color: $thirdColor;
+  z-index: 1;
+  margin-top: 100px;
   flex: 1 1 auto;
 margin-inline-end: 20px ;
   margin-inline-start: 80px;
   border-radius: 20px;
   display: flex;
-  background-color: white;
+  position: relative;
   justify-content: start;
 }
 .right_main_main{
-  padding: 10px 50px 20px;
+  padding: 20px 50px 20px;
   display: flex;
+  background-color: $thirdColor;
   width: 50%;
   justify-content: start;
   flex-direction: column;
 }
 .right_main_messages{
-  padding: 10px 120px 10px 120px;
+  padding: 10px 120px 20px 120px;
   display: flex;
   flex: 1 1 auto;
   justify-content: end;
@@ -85,6 +93,7 @@ margin-inline-end: 20px ;
   display: flex;
   padding: 10px;
   gap: 8px;
+
   justify-content: start;
   flex-direction: row;
 }
@@ -138,9 +147,13 @@ margin-inline-end: 20px ;
   }
 }
 .allMessagesContainer{
+  position: fixed;
+  background-color: white;
+  width: 300px;
 display:flex;
   flex-direction: column;
-
+  margin-bottom: 70px;
+  bottom: 20px;
   }
 .fade_in {
   background-color: white;

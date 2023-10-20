@@ -15,6 +15,7 @@ import googleIcon from "../../assets/images/social-media/google.png";
 import facebookIcon from "../../assets/images/social-media/facebook.png";
 import {useNavigate} from "react-router";
 import CryptoJS from 'crypto-js';
+import {Spinner} from "react-bootstrap";
 
 const  SignIn  = observer( ()=>{
     //language
@@ -64,11 +65,13 @@ const  SignIn  = observer( ()=>{
             const encryptedPassword = CryptoJS.AES.encrypt(userPassword, secretKey).toString();
             const res = await UserStore.signup(userName, encryptedPassword, userEmail, role.toString())
             if (res?.success) {
-                resetParameter()
-                UserStore.setSessionKey(res.session_key)
-                toast.success('SUCCESS!');
-                navigate('/')
-
+                UserStore.setLoading(true);
+                toast.success('SUCCESS');
+                setTimeout(() => {
+                    UserStore.setLoading(false);
+                    UserStore.setSessionKey(res.session_key)
+                    navigate('/')
+                }, 3000);
             } else {
                 toast.error('ERROR!' + ' ' + res?.errorCode);
             }
@@ -76,6 +79,9 @@ const  SignIn  = observer( ()=>{
         }
     }
     return (
+        <>
+            <ToastComponent />
+            {!UserStore.loading? (
         <form className={styles.form} dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
             <ToastComponent />
             {/*header*/}
@@ -114,6 +120,8 @@ const  SignIn  = observer( ()=>{
                 <div className={signupStyle.logoPicture}></div>
             </div>
         </form>
+            ):(<Spinner/>)}
+            </>
     );
 } )
 export default SignIn

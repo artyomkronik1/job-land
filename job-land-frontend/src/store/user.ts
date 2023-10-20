@@ -73,20 +73,21 @@ class UserStore{
         }
     };
     login = async (email:string, password:string) => {
+
         try {
-            this.setLoading(true);
-            setTimeout(() => {
-                this.setLoading(false);
-            }, 2000);
             const result = await axios.post('http://localhost:3002/users/login', {email:email, password:password});
                 if(result.data.success) {
+                    this.setLoading(false);
                     this.setUser(result.data.user)
                     return result.data
+
                 }
                 else{
+                    this.setLoading(false);
                     return result.data
                 }
         } catch (error) {
+            this.setLoading(false);
             console.error('Error login:', error);
         }
     };
