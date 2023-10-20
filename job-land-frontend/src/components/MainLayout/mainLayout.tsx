@@ -173,20 +173,26 @@ const  MainLayout  = observer( ()=>{
                       {/*    posts*/}
 
                               <div style={{marginTop:'30px'}} >
-                                  { jobs.map((job:Job,index)=>(
+                                  {jobs.length>0? jobs.map((job:Job,index)=>(
                                   <div className={styles.postContainer} key={index}>
                               <div className={styles.postContainer__header}>
                                   <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
                                   <div className={styles.postContainer__header__details}>
-                                      <span className={globalStyles.simpleP}> {'artiommm'}</span>
-                                      <span style={{fontSize:'16px', fontWeight:'normal'}} className={globalStyles.simpleP}> {'atmos'}</span>
+                                      <span style={{color:'rgb(0 0 0/.9)'}}> {job.hire_name}</span>
+                                      <span style={{color:'rgb(0 0 0/.6)',fontSize:'16px', fontWeight:'normal'}} className={globalStyles.simpleP}> {job.company_name}</span>
                                   </div>
                               </div>
                               <div className={styles.postContainer__main}>
-                                  <span className={globalStyles.mainSpan} style={{display:'flex',  wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {job.title}</span>
-                                  <span style={{display:'flex',  wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {job.description}</span>
+                                  <span  style={{  fontSize:'25px',display:'flex', color:'#555555',  wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {job.title}</span>
+                                  <span style={{ display:'flex', color:'rgb(0 0 0/.9)', wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {job.description}</span>
                               </div>
-                          </div>   ))}
+                          </div>   )):(
+                                      <div style={{display:'flex',flexDirection:'column', gap:'30px', alignItems:'center'}}>
+                                          <span className={globalStyles.h2}>{'There is no posts...'}</span>
+                                          <button onClick={()=>navigate('/network')} className={globalStyles.btn}>{'Start follow'}</button>
+
+                                      </div>
+                                  )}
                           </div>
 
 

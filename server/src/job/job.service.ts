@@ -10,7 +10,9 @@ export class JobService {
             title: job.title,
             description:job.description,
             salary:job.salary,
-            hire_manager_id:job.hire_manager_id
+            hire_manager_id:job.hire_manager_id,
+            company_name:job.company_name,
+            hire_name:job.hire_name
         });
         const result = await newJob.save();
         if (result) {
@@ -20,7 +22,9 @@ export class JobService {
                     title: newJob.title,
                     description:newJob.description,
                     salary:newJob.salary,
-                    hire_manager_id:newJob.hire_manager_id
+                    hire_manager_id:newJob.hire_manager_id,
+                    company_name:newJob.company_name,
+                    hire_name:newJob.hire_name
                 },
             };
         } else {
@@ -40,7 +44,9 @@ export class JobService {
                     title: job.title,
                     description:job.description,
                     salary:job.salary,
-                    hire_manager_id:job.hire_manager_id
+                    hire_manager_id:job.hire_manager_id,
+                    company_name:job.company_name,
+                    hire_name:job.hire_name
                 },
             }
         } else{
@@ -61,7 +67,9 @@ export class JobService {
                     title: job.title,
                     description:job.description,
                     salary:job.salary,
-                    hire_manager_id:job.hire_manager_id
+                    hire_manager_id:job.hire_manager_id,
+                    company_name:job.company_name,
+                    hire_name:job.hire_name
                 })),
             };
         } else {
