@@ -18,6 +18,7 @@ const  MainLayout  = observer( ()=>{
     useEffect(() => {
         getAllJobs();
     }, []);
+
     // getAllJobs - posts
     const getAllJobs=async()=>{
             try {

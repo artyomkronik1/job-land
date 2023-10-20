@@ -43,8 +43,11 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
     }
     // message box
     const [messageBoxIsOpen, setmessageBoxIsOpen] = useState(false);
-
+    // search
     const [useSearchValue, setSearchValue] = useState('');
+    //title
+    const [title, settitle] = useState('');
+
 
     // sidebar options
     const userMainOptions=[
@@ -56,7 +59,7 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
         {type:'fa fa-bell', name:'Notifications'} ]
     const sideBarMainOptionsHtml = userMainOptions.map((value, index) => (
         <div key={index} style={{display:'flex', justifyContent:'start',flexDirection:'column', gap:'5px'}}>
-            <SideBtnComponent iconType={value.type} btnName={t(value.name)} onClick={()=>navigate(`/${userMainOptions[index].name.toLowerCase()}`)}/>
+            <SideBtnComponent iconType={value.type} btnName={t(value.name)} onClick={()=>moveOnSidebar('top',index)}/>
             <br/>
         </div>
     ));
@@ -66,11 +69,21 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
         {type:'fa fa-question-circle', name:t('Help & Support')} ] ;
     const bottomMainOptionsHtml = bottomMainOptions.map((value, index) => (
         <div key={index} style={{display:'flex', justifyContent:'start', flexDirection:'column', gap:'5px'}}>
-            <SideBtnComponent iconType={value.type} btnName={t(value.name)}  onClick={()=>navigate(`/${bottomMainOptions[index].name.toLowerCase()}`)}/>
+            <SideBtnComponent iconType={value.type} btnName={t(value.name)}  onClick={()=>moveOnSidebar('bottom',index)}/>
             <br/>
         </div>
-
     ));
+    const moveOnSidebar=(str:string,index:number)=>{
+        if(str=='top')
+        {
+            navigate(`/${userMainOptions[index].name.toLowerCase()}`)
+            settitle(userMainOptions[index].name)
+        }
+        if(str=='down') {
+            settitle(bottomMainOptions[index].name)
+            navigate(`/${bottomMainOptions[index].name.toLowerCase()}`);
+        }
+    }
     return (
         <>
             {!UserStore.loading?(
@@ -93,7 +106,7 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
                                     <div className={styles.right_header}>
                                         {/*left side*/}
                                         <div style={{display:'flex', alignItems:'center', gap:'40px', justifyContent:'start'}}>
-                                            <h1 className={styles.h2}> {t('Your Network')}</h1>
+                                            <h1 className={styles.h2}> {title}</h1>
                                             <SearchInput placeHolder={'search...'}  value={useSearchValue} ariaLabel={'Search..'} onChange={(vaalue)=>setSearchValue(vaalue)}/>
                                         </div>
                                         {/*user side*/}

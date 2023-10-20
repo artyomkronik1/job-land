@@ -17,12 +17,9 @@ function App() {
     useEffect(() => {
         i18n.changeLanguage(UserStore.getLanguage());
     }, []);
-    console.log(UserStore)
   return (
       <Router>
-
         <div className="App">
-
             <BasicComponent>
                 <Routes>
                     <Route path="/signup" element={<SignIn/>}/>

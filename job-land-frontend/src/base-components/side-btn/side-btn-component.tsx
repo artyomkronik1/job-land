@@ -7,7 +7,7 @@ interface GreyBtnProps {
 }
 const GreyBtn: React.FC<GreyBtnProps>  = ({iconType, btnName, onClick})=> {
     const [active, setactive] = useState(false);
-    console.log(active)
+
     const click=()=>{
         setactive(!active)
         onClick()

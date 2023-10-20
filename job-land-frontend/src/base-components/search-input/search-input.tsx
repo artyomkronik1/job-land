@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './search-input.module.scss'
 import {SearchInputFieldProps} from "../../interfaces/SearchInputFields";
-import searchIco from '../../assets/images/search.png'
+
 const SearchInput = (props:SearchInputFieldProps)=> {
     return(
         <div className={styles.form}>
