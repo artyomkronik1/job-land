@@ -15,6 +15,8 @@ import DropDown from "../../base-components/dropdown-component/dropdown";
 import {useNavigate} from "react-router";
 import {Job} from "../../interfaces/job";
 import axios from "axios";
+import Spinner from "../../base-components/loading-spinner/loading-spinner";
+import { FadeLoader } from "react-spinners";
 const  MainLayout  = observer( ()=>{
     const navigate = useNavigate();
     //language
@@ -187,6 +189,7 @@ const  MainLayout  = observer( ()=>{
                                   <span style={{ display:'flex', color:'rgb(0 0 0/.9)', wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {job.description}</span>
                               </div>
                           </div>   )):(
+
                                       <div style={{display:'flex',flexDirection:'column', gap:'30px', alignItems:'center'}}>
                                           <span className={globalStyles.h2}>{'There is no posts...'}</span>
                                           <button onClick={()=>navigate('/network')} className={globalStyles.btn}>{'Start follow'}</button>

@@ -8,6 +8,7 @@ import {BrowserRouter as Router, Route, Routes,} from 'react-router-dom';
 import MainLayout from "./components/MainLayout/mainLayout";
 import UserStore from "./store/user";
 import {useTranslation} from "react-i18next";
+import Spinner from "./base-components/loading-spinner/loading-spinner";
 function App() {
     const { i18n } = useTranslation();
     useEffect(() => {
@@ -16,12 +17,14 @@ function App() {
   return (
       <Router>
         <div className="App">
+            {UserStore.loading? (<Spinner/>):(
           <Routes>
               <Route path="/home" element={<MainLayout />} />
             <Route path="/" element={<MainLayout />} />
             <Route path="/login" element={<Login/>}/>
             <Route path="/signup" element={<SignIn/>}/>
           </Routes>
+          )}
         </div>
       </Router>
   );

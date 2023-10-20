@@ -15,6 +15,7 @@ import {toast} from "react-toastify";
 import {useNavigate} from "react-router";
 import CryptoJS from "crypto-js";
 import loginPicture from '../../assets/images/login.png'
+import Spinner from "../../base-components/loading-spinner/loading-spinner";
 const  Login  = observer( ()=>{
     //language
     const { t } = useTranslation();
@@ -47,9 +48,12 @@ const  Login  = observer( ()=>{
         {
             toast.error('ERROR! One or more fields is empty' );
         }
+
         const encryptedPassword = CryptoJS.AES.encrypt(userPassword, secretKey).toString();
         const res = await UserStore.login(userEmail, encryptedPassword)
+      //  window.location.reload()
         if (res?.success) {
+
             resetParameter()
             toast.success('SUCCESS');
             UserStore.setSessionKey(res.session_key)
@@ -61,7 +65,11 @@ const  Login  = observer( ()=>{
     }
 
     return (
+
+
+
         <form className={styles.form} dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
+            {/*toast*/}
             <ToastComponent />
             {/*header*/}
             <div className={styles.formHeader}>
@@ -99,6 +107,8 @@ const  Login  = observer( ()=>{
                <img src={loginPicture}/>
             </div>
         </form>
+
+
     );
 } )
 

@@ -11,13 +11,16 @@ const hydrate = create({
 })
 class UserStore{
     @persist  language ="en";
-     loggedIn= false;
+    @persist loading=false;
+    loggedIn= false;
      signedUp=true;
     @persist('object') @observable user:User={id:"",password:"",role:"",email:"",name:"", follow:[]};
     @persist session_key=localStorage.getItem('session_key')
     constructor() {
         makeAutoObservable(this);
-
+    }
+    getLoading(){
+        return this.loading;
     }
     getUser(){
           return this.user
@@ -39,6 +42,9 @@ class UserStore{
     }
     setLoggedIn(loggedIn:boolean){
         this.loggedIn = loggedIn
+    }
+    setLoading(loading:boolean){
+        this.loading = loading
     }
     setLanguage(lan:string){
         this.language = lan;
@@ -68,6 +74,10 @@ class UserStore{
     };
     login = async (email:string, password:string) => {
         try {
+            this.setLoading(true);
+            setTimeout(() => {
+                this.setLoading(false);
+            }, 2000);
             const result = await axios.post('http://localhost:3002/users/login', {email:email, password:password});
                 if(result.data.success) {
                     this.setUser(result.data.user)
