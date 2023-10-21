@@ -76,15 +76,15 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
         {type:'fa fa-question-circle', name:t('Help & Support')} ] ;
     const bottomMainOptionsHtml = bottomMainOptions.map((value, index) => (
         <div key={index} style={{display:'flex', justifyContent:'start', flexDirection:'column', gap:'5px'}}>
-            <SideBtnComponent iconType={value.type} btnName={t(value.name)}  onClick={()=>moveOnSidebar('bottom',index)}/>
+            <SideBtnComponent iconType={value.type} btnName={t(value.name)}  onClick={()=>moveOnSidebar('down',index)}/>
             <br/>
         </div>
     ));
     const moveOnSidebar=(str:string,index:number)=>{
         if(str=='top')
         {
-            navigate(`/${userMainOptions[index].name.toLowerCase()}`)
-            settitle(userMainOptions[index].name)
+                navigate(`/${userMainOptions[index].name.toLowerCase()}`)
+                settitle(userMainOptions[index].name)
         }
         if(str=='down') {
             settitle(bottomMainOptions[index].name)
