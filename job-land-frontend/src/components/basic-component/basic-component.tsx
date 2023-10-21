@@ -38,6 +38,11 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
                 UserStore.logout();
                 navigate('/login')
             }
+            if(val=='profile')
+            {
+                navigate('/profile')
+                settitle('profile')
+            }
         },1000)
 
     }
@@ -46,7 +51,7 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
     // search
     const [useSearchValue, setSearchValue] = useState('');
     //title
-    const [title, settitle] = useState('');
+    const [title, settitle] = useState('Home');
 
 
     // sidebar options
@@ -93,7 +98,7 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
                     {UserStore.getSessionKey()? (
                             <div className={styles.main}>
                                 <div className={styles.left}>
-                                    <img src={logo} onClick={()=> navigate('/')} className={styles.logoStyle} style={{display:'flex', justifyContent:'start'}}/>
+                                    <img src={logo} onClick={()=> moveOnSidebar('top',0)} className={styles.logoStyle} style={{display:'flex', justifyContent:'start'}}/>
                                     <div style={{display:'flex', flexDirection:'column', justifyContent:'start'}} >
                                         {sideBarMainOptionsHtml}
                                     </div>
@@ -112,11 +117,11 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
                                         {/*user side*/}
                                         <div style={{display:'flex',gap:'50px', alignItems:'center'}}>
                                             <div style={{display:'flex',alignItems:'center', gap:'10px'}}>
-                                                <DropDown options={['logout']} changeDropValue={getSettingAction}>
-                                                    <span className={styles.simpleP}>{UserStore.getUser().name}</span>
+                                                <DropDown options={['Profile', 'Logout']} changeDropValue={getSettingAction} icons={['fa fa-user-circle', 'fa fa-sign-out']}>
+                                                    <span style={{fontSize:'20px'}} className={styles.simpleP}>{UserStore.getUser().name}</span>
                                                     <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
                                                 </DropDown>
-                                                <div className={styles.languageDiv}>
+                                                <div className={styles.languageDivBasic}>
                                                     { UserStore.getLanguage()=='en' ?
                                                         <img src={he} className={styles.heLanguagePic} onClick={()=>changeLanguage('he')}/>
                                                         :
@@ -180,7 +185,7 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
 
                                                 </div>
                                             </div>
-                                            <div  style={{position:'fixed', bottom:'20px', width:'300px', backgroundColor:'white'}} onClick={()=> setmessageBoxIsOpen(!messageBoxIsOpen)}>
+                                            <div  style={{position:'relative', bottom:'20px', width:'300px', backgroundColor:'white'}} onClick={()=> setmessageBoxIsOpen(!messageBoxIsOpen)}>
                                                 <div className={styles.messageContainerMain}>
                                                     <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
                                                     <div style={{display:'flex', flexDirection:'column', alignItems:'start', justifyContent:'space-around'}}>

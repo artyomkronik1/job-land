@@ -96,9 +96,11 @@ margin-inline-start: 20px;
 //basic component style
 .main{
   display:flex;
+  height: 100vh;
 }
 .left{
-  height:100vh;
+  overflow-y: scroll;
+  height:100% ;
   min-width: 12%;
   display: flex;
   gap: 80px;
@@ -111,11 +113,17 @@ margin-inline-start: 20px;
   .left {
     box-shadow: -5px 0px 10px 1px #aaaaaa;
   }
+  .right_main_messages {
+    padding: 10px 50px 20px 60px;
+  }
   .right_header{
     box-shadow: -8px 0px 10px 0px #888888;
   }
 }
 [dir="ltr"] {
+  .right_main_messages {
+    padding: 10px 60px 20px 120px;
+  }
   .left {
     box-shadow: 0px 1px 10px 1px  #888888
   }
@@ -169,11 +177,11 @@ margin-inline-start: 20px;
   flex-direction: column;
 }
 .right_main_messages{
-  padding: 10px 120px 20px 120px;
   display: flex;
   flex: 1 1 auto;
   justify-content: end;
   flex-direction: column;
+  align-items: end;
 }
 .messageContainer{
 
@@ -193,8 +201,11 @@ margin-inline-start: 20px;
   justify-content: start;
   flex-direction: row;
 }
-.languageDiv{
+.languageDivBasic{
   display: flex;
+}
+.languageDiv{
+ // display: flex;
   position: relative;
   //  top:20px;
 }
@@ -225,6 +236,8 @@ margin-inline-start: 20px;
   bottom: 20px;
 }
 .fade_in {
+  display: flex;
+  justify-content: end;
   background-color: white;
   opacity: 0;
   transition: opacity 0.2s ease-in-out;

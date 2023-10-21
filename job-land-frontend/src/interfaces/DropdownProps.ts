@@ -4,4 +4,5 @@ export interface DropdownProps {
     children: ReactNode;
     options:string[];
     changeDropValue:(value:string)=>void;
+    icons?:string[];
 }

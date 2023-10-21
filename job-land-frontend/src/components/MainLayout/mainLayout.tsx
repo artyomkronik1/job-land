@@ -52,12 +52,12 @@ const  MainLayout  = observer( ()=>{
     return (
         <>
             <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
-                                <div className={styles.right_main}>
-                                    <div className={styles.right_main_main}>
+                                <div>
+                                    <div >
                                         {/*send resume */}
                                         {/*<img src={sendResume} height="20%"  />*/}
                                         {/*share a new post*/}
-                                        <div style={{ display:'flex', flexDirection:'column', padding:'10px', marginTop:'30px',gap:'15px'}} className={globalStyles.basicForm}>
+                                        <div style={{ display:'flex', flexDirection:'column', padding:'10px', marginTop:'90px',gap:'15px'}} className={globalStyles.basicForm}>
                                             <div style={{display:'flex', alignItems:'center', gap:'10px'}}>
                                                 <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
                                                 <div style={{display:'flex', justifyContent:'start', padding:'10px 20px', borderRadius:'20px', border:'1px solid #a9acb1', backgroundColor:'white', width:'100%'}}>

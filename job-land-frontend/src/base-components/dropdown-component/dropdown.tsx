@@ -8,13 +8,17 @@ const DropDown = (props:DropdownProps)=> {
     const [value, setvalue] = useState('');
 
     const dropDownOptions=    props.options.map((value, index)=>(
-        <div style={{display:'flex', alignItems:'center', justifyContent:'center'}}>
-            <li  key={index} onClick={()=>props.changeDropValue(value)} className={styles.dropdownOption}>{value}</li>
+        <div style={{display:'flex', alignItems:'center', justifyContent:'center'}} className={styles.dropdownOption}>
+            {props.icons?(
+                <i className={`${props.icons[index]}`}></i>
+            ):(null)}
+
+            <li  key={index} onClick={()=>props.changeDropValue(value)} >{value}</li>
         </div>
     ))
     return(
         <div style={{  display:'flex', alignItems:'center', gap:'10px'}}  onClick={()=>setopenDrop(!openDrop)}>
-            <i style={{color: '#a9acb1', 'fontSize':'15px'}} className={`fa fa-caret-${openDrop ? 'up' : 'down'}`}   ></i>
+            <i style={{color: '#a9acb1', 'fontSize':'25px'}} className={`fa fa-caret-${openDrop ? 'up' : 'down'}`}   ></i>
             {openDrop && (
                 <ul className={styles.dropdown}>
                     {dropDownOptions}
