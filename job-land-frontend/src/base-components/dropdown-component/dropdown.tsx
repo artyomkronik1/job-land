@@ -5,7 +5,6 @@ import JobFilterBtn from "../job-filter-btn/job-filter-btn";
 
 const DropDown = (props:DropdownProps)=> {
     const dropdownRef = useRef<HTMLDivElement>(null);
-
     const [openDrop, setopenDrop] = useState(false);
     const [value, setvalue] = useState('');
     // listening when user click outside of dropdown so close it
@@ -30,7 +29,7 @@ const DropDown = (props:DropdownProps)=> {
         </div>
     ))
     return(
-        <div ref={dropdownRef} style={{  display:'flex', alignItems:'center', gap:'10px'}}  onClick={()=>setopenDrop(!openDrop)}>
+        <div ref={dropdownRef} style={{  display:'flex', alignItems:'start', gap:'10px', justifyContent:'center'}}  onClick={()=>setopenDrop(!openDrop)}>
             <i style={{color: '#a9acb1', 'fontSize':'25px'}} className={`fa fa-caret-${openDrop ? 'up' : 'down'}`}   ></i>
             {openDrop && (
                 <ul className={styles.dropdown}>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styles from './job-filter-btn.module.scss'
 
 interface JobFilterBtnProps {
@@ -7,6 +7,19 @@ interface JobFilterBtnProps {
     changeFilterValue(value:string):void;
 }
 const JobFilterBtn= (props:JobFilterBtnProps)=> {
+    const dropdownRef = useRef<HTMLDivElement>(null);
+    // listening when user click outside of dropdown so close it
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
     const [isOpen, setIsOpen] = useState(false);
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
@@ -16,22 +29,24 @@ const JobFilterBtn= (props:JobFilterBtnProps)=> {
         props.changeFilterValue(value);
     }
     const dropDownOptions=    props.options.map((value, index)=>(
-        <div style={{display:'flex', alignItems:'center', justifyContent:'center', marginInlineStart:'10px'}}>
-            <span style={{display:'block', borderRadius:'50%', backgroundColor:'#0a66c2', height:'5px', width:'5px'}}></span>
-        <li  key={index} onClick={()=>setFilterValue(value)} className={styles.dropdownOption}>{value}</li>
+        <div style={{display:'flex', alignItems:'center', justifyContent:'center', marginInlineStart:'10px'}}  onClick={()=>setFilterValue(value)}className={styles.dropdownOption}>
+            <span  style={{display:'block', borderRadius:'50%', backgroundColor:'#0a66c2', height:'5px', width:'5px'}}></span>
+             <li style={{fontSize:'18px'}} key={index} >{value}</li>
         </div>
     ))
     return(
-        <div className={styles.form} >
-            <div onClick={toggleDropdown} style={{display:'flex',gap:'8px'}}>
-            {props.text}
-            <i style={{color: '#0a66c2', 'fontSize':'15px'}}  className="fa fa-caret-down" ></i>
+        <div className={styles.form} ref={dropdownRef} onClick={toggleDropdown}>
+            <div  style={{display:'flex',gap:'8px', alignItems:'center'}}>
+                <span style={{fontSize:'20px'}}>{props.text}</span>
+            <i style={{color: '#0a66c2', 'fontSize':'15px'}}  className={`fa fa-caret-${isOpen ? 'up' : 'down'}`}  ></i>
             </div>
+            <div style={{display:'flex' , position:'relative', alignItems: 'start', justifyContent:'center'}}>
                 {isOpen && (
                 <ul className={styles.dropdown}>
                     {dropDownOptions}
                 </ul>
             )}
+            </div>
         </div>
     )
 }

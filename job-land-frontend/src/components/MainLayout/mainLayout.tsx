@@ -70,13 +70,6 @@ const  MainLayout  = observer( ()=>{
                                             </div>
 
                                         </div>
-                                        {/*job filters*/}
-                                        {/*<div style={{display:'flex', gap:'15px', marginTop:'20px',alignItems:'center'}}>*/}
-                                        {/*{jobFiltersHTML}*/}
-                                        {/*    <button style={{width:'100px', height:'40px', display:'flex',gap:'6px', padding:'10px'}} className={globalStyles.btn}>{t('Search')}*/}
-                                        {/*        <i style={{color:'white'}} className="fa fa-search" aria-hidden="true"></i>*/}
-                                        {/*    </button>*/}
-                                        {/*  </div>*/}
                                         {/*    posts*/}
                                         <div style={{display:'flex', justifyContent:'center'}}>
                                           <div className={globalStyles.separate_line_grey}> </div>

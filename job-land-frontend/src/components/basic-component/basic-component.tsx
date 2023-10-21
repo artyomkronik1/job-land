@@ -120,7 +120,6 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
                                         <div style={{display:'flex',gap:'50px', alignItems:'center'}}>
                                             <div style={{display:'flex',alignItems:'center', gap:'10px'}}>
                                                 <DropDown options={['Profile', 'Logout']} changeDropValue={getSettingAction} icons={['fa fa-user-circle', 'fa fa-sign-out']}>
-                                                    <span style={{fontSize:'20px'}} className={styles.simpleP}>{UserStore.getUser().name}</span>
                                                     <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
                                                 </DropDown>
                                                 <div className={styles.languageDivBasic}>

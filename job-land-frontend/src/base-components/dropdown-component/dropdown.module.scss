@@ -8,7 +8,7 @@
   color:$mainColor;
   background-color: white;
   border: 1px solid $mainColor;
-  margin-top: 150px;
+  margin-top: 50px;
   //width: 120px;
   max-width: 250px;
   max-height: 200px;
@@ -22,6 +22,7 @@
   cursor: pointer;
   display: flex;
   gap: 7px;
+  font-size: 20px;
 }
 .dropdownOption:hover{
   background-color: rgba(112, 181, 249, 0.2);

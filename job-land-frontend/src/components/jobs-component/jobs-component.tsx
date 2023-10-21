@@ -20,6 +20,9 @@ const  JobsComponent  = observer( ()=>{
         UserStore.setLanguage(lng)
         i18n.changeLanguage(lng);
     };
+    const searchJob=()=>{
+
+    }
     // job filters array
     const [filterValues, setfilterValues] = useState(['']);
     const addNewFilterValue=(newFilterValue:string)=>{
@@ -46,9 +49,12 @@ const  JobsComponent  = observer( ()=>{
     return (
         <>
             <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
-                <div >
-                    <div >
-                        <span className={globalStyles.simpleP}>{t('jobs')}</span>
+                <div style={{marginTop:'90px'}} >
+                    <div style={{display:'flex', gap:'10px', alignItems:'center'}} >
+                        {jobFiltersHTML}
+                            <button onClick={searchJob} style={{width:'100px', height:'43px', display:'flex',gap:'6px', padding:'10px'}} className={globalStyles.btn}>{t('Search')}
+                                <i style={{color:'white'}} className="fa fa-search" aria-hidden="true"></i>
+                            </button>
                     </div>
                 </div>
 

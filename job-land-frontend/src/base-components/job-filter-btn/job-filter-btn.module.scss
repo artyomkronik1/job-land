@@ -4,9 +4,9 @@
   justify-content:space-between;
   gap: 5px;
   border-radius: 1.59rem;
-  font-size: 1rem;
   border:1px solid $mainColor;
-  padding: 0.4rem 1.2rem;
+  padding: 10px;
+  width: max-content;
   background-color: white;
   display: flex;
   align-items: center;
@@ -16,25 +16,28 @@
   background-color: rgba(112, 181, 249, 0.2);
 }
 .dropdown{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
   list-style-type: none;
   padding: 0;
-  margin-top:160px;
-  position: absolute;
+  //bottom:0px;
+  position: fixed;
   color:$mainColor;
   background-color: white;
   border: 1px solid $mainColor;
-  //width: 120px;
-  max-width: 250px;
-  max-height: 200px;
+  margin-top: 25px;
   border-radius: 10px;
   overflow-y: auto;
-  margin-inline-start: -20px;
 
 }
 .dropdownOption{
 
-  padding: 8px 16px;
-  cursor: pointer;
+  display: flex;
+  justify-content: space-around;
+  gap: 8px;
+  padding: 8px ;
 }
 .dropdownOption:hover{
    background-color: rgba(112, 181, 249, 0.2);
