@@ -7,6 +7,12 @@ export const JobSchema = new mongoose.Schema({
     hire_manager_id:{type:String, required:true},
     hire_name:{type:String, required:true},
     company_name:{type:String, required:true},
+    zone:{type:String, required:true},
+    profession:{type:String, required:true},
+    region:{type:String, required:true},
+    manner:{type:String, required:true},
+    experienced_level:{type:String, required:true},
+    scope:{type:String, required:true},
 
 })
 
@@ -18,4 +24,19 @@ export interface Job{
     hire_name:string;
     company_name:string;
     hire_manager_id: string;
+    zone:string
+    profession:string;
+    region:string
+    manner:string
+    experienced_level:string
+    scope:string
+}
+
+export interface JobProperties{
+    zone:string
+    profession:string;
+    region:string
+    manner:string
+    experienced_level:string
+    scope:string
 }

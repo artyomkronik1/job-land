@@ -4,7 +4,8 @@ import styles from './job-filter-btn.module.scss'
 interface JobFilterBtnProps {
     text: string;
     options:string[]
-    changeFilterValue(value:string):void;
+    changeFilterValue(value:string, type:string):void;
+    type:string;
 }
 const JobFilterBtn= (props:JobFilterBtnProps)=> {
     const dropdownRef = useRef<HTMLDivElement>(null);
@@ -26,7 +27,7 @@ const JobFilterBtn= (props:JobFilterBtnProps)=> {
     };
     const setFilterValue=(value:string)=>{
         setIsOpen(true)
-        props.changeFilterValue(value);
+        props.changeFilterValue(value, props.type);
     }
     const dropDownOptions=    props.options.map((value, index)=>(
         <div style={{display:'flex', alignItems:'center', justifyContent:'center', marginInlineStart:'10px'}}  onClick={()=>setFilterValue(value)}className={styles.dropdownOption}>

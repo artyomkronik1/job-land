@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import {InjectModel} from "@nestjs/mongoose";
 import {Model} from "mongoose";
-import {Job} from './job.model'
+import {Job, JobProperties} from './job.model'
 @Injectable()
 export class JobService {
     constructor(@InjectModel('Job') private readonly jobModel: Model<Job>) {}
@@ -12,7 +12,13 @@ export class JobService {
             salary:job.salary,
             hire_manager_id:job.hire_manager_id,
             company_name:job.company_name,
-            hire_name:job.hire_name
+            hire_name:job.hire_name,
+            zone:job.zone,
+            profession:job.profession,
+            region:job.region,
+            manner:job.manner,
+            experienced_level:job.experienced_level,
+            scope:job.scope
         });
         const result = await newJob.save();
         if (result) {
@@ -24,7 +30,13 @@ export class JobService {
                     salary:newJob.salary,
                     hire_manager_id:newJob.hire_manager_id,
                     company_name:newJob.company_name,
-                    hire_name:newJob.hire_name
+                    hire_name:newJob.hire_name,
+                    zone:newJob.zone,
+                    profession:newJob.profession,
+                    region:newJob.region,
+                    manner:newJob.manner,
+                    experienced_level:newJob.experienced_level,
+                    scope:newJob.scope
                 },
             };
         } else {
@@ -46,7 +58,13 @@ export class JobService {
                     salary:job.salary,
                     hire_manager_id:job.hire_manager_id,
                     company_name:job.company_name,
-                    hire_name:job.hire_name
+                    hire_name:job.hire_name,
+                    zone:job.zone,
+                    profession:job.profession,
+                    region:job.region,
+                    manner:job.manner,
+                    experienced_level:job.experienced_level,
+                    scope:job.scope
                 },
             }
         } else{
@@ -57,7 +75,7 @@ export class JobService {
     }
     }
     // get all the jobs by who user follow for
-    public async getAllJobs(followers:string[]) {
+    public async getAllJobsByFollow(followers:string[]) {
         const jobs = await this.jobModel.find({ hire_manager_id: { $in: followers } }).exec();
         if (jobs && jobs.length > 0) {
             return {
@@ -69,7 +87,13 @@ export class JobService {
                     salary:job.salary,
                     hire_manager_id:job.hire_manager_id,
                     company_name:job.company_name,
-                    hire_name:job.hire_name
+                    hire_name:job.hire_name,
+                    zone:job.zone,
+                    profession:job.profession,
+                    region:job.region,
+                    manner:job.manner,
+                    experienced_level:job.experienced_level,
+                    scope:job.scope
                 })),
             };
         } else {
@@ -77,6 +101,37 @@ export class JobService {
                 success: false,
                 errorCode: 'fail_to_find_jobs',
             };
+        }
+    }
+//     get all jobs (not only by follow) by properties
+    public async getJobsByProperties(properties:JobProperties)
+    {
+        const jobs:Job[] = await this.jobModel.find(properties).exec();
+        if (jobs.length>0) {
+            return {
+                success: true,
+                jobs: jobs,
+            }
+        } else{
+            return {
+                success:false,
+                errorCode:"fail_to_find_jobs"
+            }
+        }
+    }
+    // get all jobs without any filter
+    public async getAllJobs(){
+        const jobs:Job[] = await this.jobModel.find().exec();
+        if (jobs.length>0) {
+            return {
+                success: true,
+                jobs: jobs,
+            }
+        } else{
+            return {
+                success:false,
+                errorCode:"fail_to_find_jobs"
+            }
         }
     }
 }

@@ -7,13 +7,21 @@ import {Job} from "./job.model";
 export class JobController {
     constructor(private jobService: JobService) {}
     @Post()
-    async getAllJobs(@Body() data:any) {
-            return this.jobService.getAllJobs(data.followers);
+    async getJobs(@Body() data:any) {
+        if(data.followers) {
+            return this.jobService.getAllJobsByFollow(data.followers);
+        }
+        else if(data.properties.zone || data.properties.profession ||data.properties.region ||data.properties.manner ||data.properties.experienced_level ||data.properties.scope ){
+            return this.jobService.getJobsByProperties(data.properties)
+        }
+        else{
+            return this.jobService.getAllJobs();
+        }
     }
-    // async getSingleJob(@Body() data:any){
-    //     return this.jobService.getSingleJob(data.id);
-    // }
-
+    @Get()
+    async getAllJobs(){
+        return this.jobService.getAllJobs();
+    }
     @Post()
     async postNewJob(@Body() job:Job){
         return this.jobService.postNewJob(job)
