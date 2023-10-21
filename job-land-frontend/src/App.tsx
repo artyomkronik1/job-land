@@ -12,6 +12,7 @@ import Spinner from "./base-components/loading-spinner/loading-spinner";
 import NetworkComponent from "./components/network/network-component";
 import BasicComponent from "./components/basic-component/basic-component";
 import JobsComponent from "./components/jobs-component/jobs-component";
+import ProfileComponent from "./components/profile-component/profile-component";
 function App() {
     const { i18n } = useTranslation();
     useEffect(() => {
@@ -28,6 +29,7 @@ function App() {
                     <Route path="/" element={<MainLayout />} />
                     <Route path="/network" element={<NetworkComponent/>}/>
                     <Route path="/jobs" element={<JobsComponent/>}/>
+                    <Route path="/profile" element={<ProfileComponent/>}/>
                 </Routes>
             </BasicComponent>
 

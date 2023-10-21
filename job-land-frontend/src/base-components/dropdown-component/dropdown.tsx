@@ -21,7 +21,7 @@ const DropDown = (props:DropdownProps)=> {
         };
     }, []);
     const dropDownOptions=    props.options.map((value, index)=>(
-        <div ref={dropdownRef} style={{display:'flex', alignItems:'center', justifyContent:'center'}} className={styles.dropdownOption}>
+        <div  style={{display:'flex', alignItems:'center', justifyContent:'center'}} className={styles.dropdownOption}>
             {props.icons?(
                 <i className={`${props.icons[index]}`}></i>
             ):(null)}
@@ -30,7 +30,7 @@ const DropDown = (props:DropdownProps)=> {
         </div>
     ))
     return(
-        <div style={{  display:'flex', alignItems:'center', gap:'10px'}}  onClick={()=>setopenDrop(!openDrop)}>
+        <div ref={dropdownRef} style={{  display:'flex', alignItems:'center', gap:'10px'}}  onClick={()=>setopenDrop(!openDrop)}>
             <i style={{color: '#a9acb1', 'fontSize':'25px'}} className={`fa fa-caret-${openDrop ? 'up' : 'down'}`}   ></i>
             {openDrop && (
                 <ul className={styles.dropdown}>

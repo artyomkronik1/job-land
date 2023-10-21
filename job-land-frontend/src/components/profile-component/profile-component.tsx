@@ -10,7 +10,7 @@ import {useNavigate} from "react-router";
 import globalStyles from "../../assets/global-styles/styles.module.scss";
 import {Job} from "../../interfaces/job";
 import componentStyles from "../MainLayout/mainLayout.module.scss";
-const  JobsComponent  = observer( ()=>{
+const  ProfileComponent  = observer( ()=>{
     const navigate = useNavigate();
     //language
     const { t } = useTranslation();
@@ -48,7 +48,7 @@ const  JobsComponent  = observer( ()=>{
             <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
                 <div >
                     <div >
-                        <span className={globalStyles.simpleP}>{t('jobs')}</span>
+                        <span className={globalStyles.simpleP}>{t('prifle')}</span>
                     </div>
                 </div>
 
@@ -57,4 +57,4 @@ const  JobsComponent  = observer( ()=>{
 
     );
 } )
-export default JobsComponent
+export default ProfileComponent

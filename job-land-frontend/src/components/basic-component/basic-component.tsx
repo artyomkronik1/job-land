@@ -35,11 +35,12 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
         setTimeout(() => {
             UserStore.setLoading(false);
             setprofileSettings(val)
-            if(val=='logout'){
+            console.log(val)
+            if(val=='Logout'){
                 UserStore.logout();
                 navigate('/login')
             }
-            if(val=='profile')
+            else if(val=='Profile')
             {
                 navigate('/profile')
                 settitle('profile')
