@@ -19,6 +19,7 @@ export interface basicComponentProps{
     children: ReactNode;
 }
 const  BasicComponent  = observer( (props:basicComponentProps)=>{
+
     const navigate = useNavigate();
     //language
     const { t } = useTranslation();

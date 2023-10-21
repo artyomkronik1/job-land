@@ -1,14 +1,27 @@
-import React, { useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import styles from './dropdown.module.scss'
 import {DropdownProps} from "../../interfaces/DropdownProps";
 import JobFilterBtn from "../job-filter-btn/job-filter-btn";
 
 const DropDown = (props:DropdownProps)=> {
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
     const [openDrop, setopenDrop] = useState(false);
     const [value, setvalue] = useState('');
-
+    // listening when user click outside of dropdown so close it
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => { 
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setopenDrop(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
     const dropDownOptions=    props.options.map((value, index)=>(
-        <div style={{display:'flex', alignItems:'center', justifyContent:'center'}} className={styles.dropdownOption}>
+        <div ref={dropdownRef} style={{display:'flex', alignItems:'center', justifyContent:'center'}} className={styles.dropdownOption}>
             {props.icons?(
                 <i className={`${props.icons[index]}`}></i>
             ):(null)}
