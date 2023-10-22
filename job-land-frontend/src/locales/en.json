@@ -1,1 +1,8 @@
-{"welcome": "Welcome"}
+{"welcome": "Welcome",
+  "manner": "Manner",
+  "zone": "Zone",
+  "profession": "Profession",
+  "scope": "Scope",
+  "region": "Region",
+  "experienced_level": "Experienced level"
+}

@@ -98,7 +98,7 @@ const  JobsComponent  = observer( ()=>{
                     {/*job filters*/}
                     <div style={{display:'flex', flexWrap:'wrap', gap:'10px', alignItems:'center', width:'100%', justifyContent:'center'}} >
                         {jobFiltersHTML}
-                            <button onClick={searchJob} style={{width:'100px', height:'48px', display:'flex',gap:'6px', padding:'10px'}} className={globalStyles.btn}>{t('search')}
+                            <button onClick={searchJob} style={{width:'100px', height:'48px', display:'flex',gap:'6px', padding:'10px'}} className={globalStyles.btn}>{t('Search')}
                                 <i style={{color:'white', fontSize:'18px'}} className="fa fa-search" aria-hidden="true"></i>
                             </button>
                     </div>
@@ -121,7 +121,7 @@ const  JobsComponent  = observer( ()=>{
                                 </div>
                             </div>
                         )):(
-                            <div style={{border:'1px solid #c3c4c5', backgroundColor:'white', borderRadius:'20px', padding:'10px', display:'flex',flexDirection:'column', gap:'30px', alignItems:'center', width:'90%'}}>
+                            <div style={{border:'1px solid #c3c4c5', backgroundColor:'white', borderRadius:'20px', padding:'10px', display:'flex',flexDirection:'column', gap:'15px', alignItems:'center', width:'90%'}}>
                                 <span className={globalStyles.h2}>{'No suitable jobs...'}</span>
                                 <button onClick={()=>resetFilters()} className={globalStyles.btn}>{'Reset all filters'}</button>
                             </div>

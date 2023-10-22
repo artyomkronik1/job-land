@@ -114,8 +114,8 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
                                     <div className={styles.right_header}>
                                         {/*left side*/}
                                         <div style={{display:'flex', alignItems:'center', gap:'40px', justifyContent:'start'}}>
-                                            <h1 className={styles.h2}> {title}</h1>
-                                            <SearchInput placeHolder={'search...'}  value={useSearchValue} ariaLabel={'Search..'} onChange={(vaalue)=>setSearchValue(vaalue)}/>
+                                            <h1 className={styles.h2}> {t(title)}</h1>
+                                            <SearchInput placeHolder={t('search...')}  value={useSearchValue} ariaLabel={'Search..'} onChange={(vaalue)=>setSearchValue(vaalue)}/>
                                         </div>
                                         {/*user side*/}
                                         <div style={{display:'flex',gap:'50px', alignItems:'center'}}>
@@ -189,8 +189,8 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
                                             </div>
                                             <div  style={{position:'relative', bottom:'20px', width:'300px', backgroundColor:'white'}} onClick={()=> setmessageBoxIsOpen(!messageBoxIsOpen)}>
                                                 <div className={styles.messageContainerMain}>
-                                                    <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
-                                                    <div style={{display:'flex', flexDirection:'column', alignItems:'start', justifyContent:'space-around'}}>
+                                                        <ProfileImage name={UserStore.user.name}/>
+                                                        <div style={{display:'flex', flexDirection:'column', alignItems:'start', justifyContent:'space-around'}}>
                                                         <span className={styles.simpleP}> {UserStore.getUser().name}</span>
                                                         <span style={{fontSize:'16px', fontWeight:'normal'}} className={styles.simpleP}> {'1'}</span>
                                                     </div>
