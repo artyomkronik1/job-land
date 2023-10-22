@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { UserModule } from './user/user.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { JobModule } from './job/job.module';
+import { PostsModule } from './posts/posts.module';
 @Module({
   imports: [
     UserModule,
@@ -9,6 +10,7 @@ import { JobModule } from './job/job.module';
       'mongodb+srv://artiom:artiom@cluster0.tzbidvu.mongodb.net/artiom?retryWrites=true&w=majority',
     ),
     JobModule,
+    PostsModule,
   ],
 })
 export class AppModule {}
