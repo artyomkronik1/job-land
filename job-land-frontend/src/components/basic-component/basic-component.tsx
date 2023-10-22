@@ -15,6 +15,8 @@ import DropDown from "../../base-components/dropdown-component/dropdown";
 import {useNavigate} from "react-router";
 import Spinner from "../../base-components/loading-spinner/loading-spinner";
 import SignIn from "../signIn/signIn";
+import ProfileComponent from "../profile-component/profile-component";
+import ProfileImage from "../../base-components/profile-image/profile-image-component";
 export interface basicComponentProps{
     children: ReactNode;
 }
@@ -119,7 +121,7 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
                                         <div style={{display:'flex',gap:'50px', alignItems:'center'}}>
                                             <div style={{display:'flex',alignItems:'center', gap:'10px'}}>
                                                 <DropDown options={['Profile', 'Logout']} changeDropValue={getSettingAction} icons={['fa fa-user-circle', 'fa fa-sign-out']}>
-                                                    <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
+                                                    <ProfileImage name={UserStore.user.name}/>
                                                 </DropDown>
                                                 <div className={styles.languageDivBasic}>
                                                     { UserStore.getLanguage()=='en' ?

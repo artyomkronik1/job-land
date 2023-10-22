@@ -12,6 +12,7 @@ import {Job, JobFilters} from "../../interfaces/job";
 import componentStyles from "../MainLayout/mainLayout.module.scss";
 import axios from "axios";
 import {DropdownProps} from "../../interfaces/dropdown";
+import ProfileImage from "../../base-components/profile-image/profile-image-component";
 const  JobsComponent  = observer( ()=>{
     const [jobs, setjobs] = useState<Job[]>([]);
     const navigate = useNavigate();
@@ -47,9 +48,11 @@ const  JobsComponent  = observer( ()=>{
                 setjobs(result.data.jobs)
             }
             else{
+                setjobs([])
                 return result.data
             }
         } catch (error) {
+            setjobs([])
             console.error('Error get jobs:', error);
         }
     }
@@ -72,6 +75,22 @@ const  JobsComponent  = observer( ()=>{
             <JobFilterBtn text={value.filterName} type={value.filterName} options={value.options} changeFilterValue={addNewFilterValue}/>
         </div>
     ));
+    const resetFilters = ()=>{
+        UserStore.setLoading(true);
+        setTimeout(async() => {
+            UserStore.setLoading(false);
+            setfilterValues({
+                zone:null,
+                profession:null,
+                region:null,
+                manner:null,
+                experienced_level:null,
+                scope:null})
+            await searchJob();
+        },500)
+
+
+    }
     return (
         <>
             <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
@@ -79,18 +98,18 @@ const  JobsComponent  = observer( ()=>{
                     {/*job filters*/}
                     <div style={{display:'flex', flexWrap:'wrap', gap:'10px', alignItems:'center', width:'100%', justifyContent:'center'}} >
                         {jobFiltersHTML}
-                            <button onClick={searchJob} style={{width:'100px', height:'43px', display:'flex',gap:'6px', padding:'10px'}} className={globalStyles.btn}>{t('Search')}
-                                <i style={{color:'white'}} className="fa fa-search" aria-hidden="true"></i>
+                            <button onClick={searchJob} style={{width:'100px', height:'48px', display:'flex',gap:'6px', padding:'10px'}} className={globalStyles.btn}>{t('search')}
+                                <i style={{color:'white', fontSize:'18px'}} className="fa fa-search" aria-hidden="true"></i>
                             </button>
                     </div>
                     {/*separate line*/}
                         <div style={{width:'80%'}} className={globalStyles.separate_line_grey}> </div>
                     {/*job component*/}
                     <div style={{display:"flex", justifyContent:'center', width:'100%'}}>
-                        {jobs.map((job:Job,index)=>(
+                        {jobs.length>0 ? jobs.map((job:Job,index)=>(
                             <div style={{width:'90%'}} className={componentStyles.postContainer} key={index}>
                                 <div className={componentStyles.postContainer__header}>
-                                    <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
+                                    <ProfileImage name={job.hire_name}/>
                                     <div className={componentStyles.postContainer__header__details}>
                                         <span style={{fontSize:'20px', color:'#1c1c39'}}> {job.hire_name}</span>
                                         <span style={{color:'#717273',fontSize:'16px', fontWeight:'normal'}} className={globalStyles.simpleP}> {job.company_name}</span>
@@ -101,7 +120,12 @@ const  JobsComponent  = observer( ()=>{
                                     <span style={{ display:'flex', color:'#717273',fontSize:'16px', fontWeight:'normal', wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {job.description}</span>
                                 </div>
                             </div>
-                        ))}
+                        )):(
+                            <div style={{border:'1px solid #c3c4c5', backgroundColor:'white', borderRadius:'20px', padding:'10px', display:'flex',flexDirection:'column', gap:'30px', alignItems:'center', width:'90%'}}>
+                                <span className={globalStyles.h2}>{'No suitable jobs...'}</span>
+                                <button onClick={()=>resetFilters()} className={globalStyles.btn}>{'Reset all filters'}</button>
+                            </div>
+                        )}
                     </div>
 
 
