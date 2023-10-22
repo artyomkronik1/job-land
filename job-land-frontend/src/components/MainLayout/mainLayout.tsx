@@ -61,7 +61,7 @@ const  MainLayout  = observer( ()=>{
                                             <div style={{display:'flex', alignItems:'center', gap:'10px'}}>
                                                 <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
                                                 <div style={{display:'flex', justifyContent:'start', padding:'10px 20px', borderRadius:'20px', border:'1px solid #a9acb1', backgroundColor:'white', width:'100%'}}>
-                                                    <span onClick={startPost} style={{color:'#a9acb1', fontWeight:'bold'}}> {t('Start a post...')}</span>
+                                                    <span onClick={startPost} style={{color:'#a9acb1', fontSize:'19px', fontWeight:'bold'}}> {t('Start a post...')}</span>
                                                 </div>
                                             </div>
                                             <div style={{display:'flex', flexDirection:'row', justifyContent:'space-around'}}>

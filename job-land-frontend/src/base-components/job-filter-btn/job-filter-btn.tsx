@@ -18,34 +18,42 @@ const JobFilterBtn= (props:JobFilterBtnProps)=> {
         };
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener    ('mousedown', handleClickOutside);
         };
     }, []);
+    const [active, setactive] = useState(false);
+    const [checkedValue, setCheckedValue] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
     const setFilterValue=(value:string)=>{
         setIsOpen(true)
+        setactive(!active)
+        setCheckedValue(value)
         props.changeFilterValue(value, props.type);
     }
+    console.log(active)
     const dropDownOptions=    props.options.map((value, index)=>(
-        <div style={{display:'flex', alignItems:'center', justifyContent:'center', marginInlineStart:'10px'}}  onClick={()=>setFilterValue(value)}className={styles.dropdownOption}>
-            <span  style={{display:'block', borderRadius:'50%', backgroundColor:'#0a66c2', height:'5px', width:'5px'}}></span>
-             <li style={{fontSize:'18px'}} key={index} >{value}</li>
+        <div key={index} style={{display:'flex', alignItems:'center', justifyContent:'center'}}  onClick={()=>setFilterValue(value)} className={` ${active && checkedValue==value ? `${styles.checked_dropdown_option}` :`${styles.dropdownOption}`}`}>
+            {active && value==checkedValue?(<span  style={{display:'block', borderRadius:'50%', color:'#0a66c2', backgroundColor:'white', height:'5px', width:'5px'}}></span>):
+                (<span  style={{display:'block', borderRadius:'50%', backgroundColor:'#0a66c2', height:'5px', width:'5px'}}></span>)}
+                  <li style={{fontSize:'18px'}} key={index} >{value}</li>
         </div>
     ))
     return(
-        <div className={styles.form} ref={dropdownRef} onClick={toggleDropdown}>
+        <div className={` ${active ? `${styles.checked_dropdown}` :`${styles.form}`}`} ref={dropdownRef} onClick={toggleDropdown}>
             <div  style={{display:'flex',gap:'8px', alignItems:'center'}}>
-                <span style={{fontSize:'20px'}}>{props.text}</span>
-            <i style={{color: '#0a66c2', 'fontSize':'15px'}}  className={`fa fa-caret-${isOpen ? 'up' : 'down'}`}  ></i>
-            </div>
+                <span style={{fontSize:'22px'}}>{props.text}</span>
+                {active?(<i style={{color: 'white', 'fontSize':'15px'}}  className={`fa fa-caret-${isOpen ? 'up' : 'down'}`}  ></i>):
+                    (<i style={{color: '#0a66c2', 'fontSize':'15px'}}  className={`fa fa-caret-${isOpen ? 'up' : 'down'}`}  ></i>)}
+                </div>
+            {/*dropdown options*/}
             <div style={{display:'flex' , position:'relative', alignItems: 'start', justifyContent:'center'}}>
                 {isOpen && (
-                <ul className={styles.dropdown}>
+                <div className={` ${active ? `${styles.activeMargin}` :`${styles.dropdown}`}`} >
                     {dropDownOptions}
-                </ul>
+                </div>
             )}
             </div>
         </div>
