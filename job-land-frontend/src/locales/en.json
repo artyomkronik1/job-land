@@ -6,5 +6,12 @@
   "region": "Region",
   "experienced_level": "Experienced level",
   "full_time": "Full time",
-  "part_time": "Part time"
+  "part_time": "Part time",
+  "junior": "Junior",
+  "mid_level": "Mid-level",
+  "senior": "Senior",
+  "on_site": "On-site",
+  "hybrid": "Hybrid",
+  "remote": "Remote",
+  "programming": "Programming"
 }

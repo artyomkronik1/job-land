@@ -65,6 +65,7 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
         {type:'fa fa-users', name:'Network'} ,
         {type:'fa fa-plus-circle', name:'New Post'} ,
         {type:'fa fa-bell', name:'Notifications'} ]
+
     const sideBarMainOptionsHtml = userMainOptions.map((value, index) => (
         <div key={index} style={{display:'flex', justifyContent:'start',flexDirection:'column', gap:'5px'}}>
             <SideBtnComponent iconType={value.type} btnName={t(value.name)} onClick={()=>moveOnSidebar('top',index)}/>

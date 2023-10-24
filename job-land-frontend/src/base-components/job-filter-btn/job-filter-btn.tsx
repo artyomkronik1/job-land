@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
 import styles from './job-filter-btn.module.scss'
+import {useTranslation} from "react-i18next";
 
 interface JobFilterBtnProps {
     text: string;
@@ -8,6 +9,9 @@ interface JobFilterBtnProps {
     type:string;
 }
 const JobFilterBtn= (props:JobFilterBtnProps)=> {
+    //language
+    const { t } = useTranslation();
+    const { i18n } = useTranslation();
     const dropdownRef = useRef<HTMLDivElement>(null);
     // listening when user click outside of dropdown so close it
     useEffect(() => {
@@ -33,18 +37,17 @@ const JobFilterBtn= (props:JobFilterBtnProps)=> {
         setCheckedValue(value)
         props.changeFilterValue(value, props.type);
     }
-    console.log(active)
     const dropDownOptions=    props.options.map((value, index)=>(
         <div key={index} style={{display:'flex', alignItems:'center', justifyContent:'center'}}  onClick={()=>setFilterValue(value)} className={` ${active && checkedValue==value ? `${styles.checked_dropdown_option}` :`${styles.dropdownOption}`}`}>
             {active && value==checkedValue?(<span  style={{display:'block', borderRadius:'50%', color:'#0a66c2', backgroundColor:'white', height:'5px', width:'5px'}}></span>):
                 (<span  style={{display:'block', borderRadius:'50%', backgroundColor:'#0a66c2', height:'5px', width:'5px'}}></span>)}
-                  <li style={{fontSize:'18px'}} key={index} >{value}</li>
+                  <li style={{fontSize:'18px'}} key={index} >{t(value)}</li>
         </div>
     ))
     return(
         <div className={` ${active ? `${styles.checked_dropdown}` :`${styles.form}`}`} ref={dropdownRef} onClick={toggleDropdown}>
             <div  style={{display:'flex',gap:'8px', alignItems:'center'}}>
-                <span style={{fontSize:'22px'}}>{props.text}</span>
+                <span style={{fontSize:'22px'}}>{t(props.text)}</span>
                 {active?(<i style={{color: 'white', 'fontSize':'15px'}}  className={`fa fa-caret-${isOpen ? 'up' : 'down'}`}  ></i>):
                     (<i style={{color: '#0a66c2', 'fontSize':'15px'}}  className={`fa fa-caret-${isOpen ? 'up' : 'down'}`}  ></i>)}
                 </div>

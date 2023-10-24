@@ -10,7 +10,12 @@ import {useNavigate} from "react-router";
 import {Job} from "../../interfaces/job";
 import axios from "axios";
 import ProfileImage from "../../base-components/profile-image/profile-image-component";
+import Popup from "../../base-components/popup/popup-component";
 const  MainLayout  = observer( ()=>{
+    const [openPopup, setopenPopup] = useState(false);
+    const closePopup=()=>{
+        setopenPopup(false)
+    }
     const navigate = useNavigate();
     //language
     const { t } = useTranslation();
@@ -36,7 +41,7 @@ const  MainLayout  = observer( ()=>{
 
     }
     const startPost =()=>{
-
+        setopenPopup(true);
     }
     const goToNetwork =()=>{
         UserStore.setLoading(true);
@@ -52,6 +57,8 @@ const  MainLayout  = observer( ()=>{
 
     return (
         <>
+            <Popup isOpen={openPopup} onClose={()=>setopenPopup(false)}/>
+
             <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
                                 <div>
                                     <div >
@@ -59,10 +66,10 @@ const  MainLayout  = observer( ()=>{
                                         {/*<img src={sendResume} height="20%"  />*/}
                                         {/*share a new post*/}
                                         <div style={{ display:'flex', flexDirection:'column', padding:'10px', marginTop:'90px',gap:'15px'}} className={globalStyles.basicForm}>
-                                            <div style={{display:'flex', alignItems:'center', gap:'10px'}}>
+                                            <div onClick={startPost} style={{display:'flex', alignItems:'center', gap:'10px'}}>
                                                 <ProfileImage name={UserStore.user.name}/>
                                                 <div style={{display:'flex', justifyContent:'start', padding:'10px 20px', borderRadius:'20px', border:'1px solid #a9acb1', backgroundColor:'white',flex:'1 1 auto'}}>
-                                                    <span onClick={startPost} style={{color:'#a9acb1', fontSize:'19px', fontWeight:'bold'}}> {t('Start a post...')}</span>
+                                                    <span  style={{color:'#a9acb1', fontSize:'19px', fontWeight:'bold'}}> {t('Start a post...')}</span>
                                                 </div>
                                             </div>
                                             <div style={{display:'flex', flexDirection:'row', justifyContent:'space-around'}}>
