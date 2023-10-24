@@ -7,7 +7,6 @@ import {Post} from "./post.model";
 export class PostsService {
     constructor(@InjectModel('Post') private readonly postModel: Model<Post>) {}
     public async postNewPost(post:Post){
-        console.log(post)
         const newPost = new this.postModel({
             title: post.title,
             description: post.description,
@@ -17,7 +16,7 @@ export class PostsService {
         if (result) {
             return {
                 success: true,
-                job: {
+                post: {
                     id:newPost.id,
                     title: newPost.title,
                     description: newPost.description,

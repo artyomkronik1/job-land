@@ -15,14 +15,15 @@ const Popup = (props:PopupProps) => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
-
-    if (!props.isOpen) return null;
-
+const closeDialog=()=>{
+    console.log('c')
+    props.onClose()
+}
     return (
         <div className={styles.dialog}>
             <div className={styles.dialogContent}  ref={dialogRef}>
-                {props.children}
-                <button onClick={props.onClose}>Close</button>
+                <div style={{display:'flex', justifyContent:'end', flex:'1 1 auto'}} >< div  onClick={closeDialog} className={styles.closeIcon}> <i   className={`fa-solid fa-x `}></i></div></div>
+                <div style={{padding:'20px', marginTop:'-60px'}}> {props.children}</div>
             </div>
         </div>
     );

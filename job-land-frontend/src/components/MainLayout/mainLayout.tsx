@@ -11,6 +11,7 @@ import {Job} from "../../interfaces/job";
 import axios from "axios";
 import ProfileImage from "../../base-components/profile-image/profile-image-component";
 import Popup from "../../base-components/popup/popup-component";
+import StartPost from "../../dialogs/start-post/start-post";
 const  MainLayout  = observer( ()=>{
     const [openPopup, setopenPopup] = useState(false);
     const closePopup=()=>{
@@ -42,6 +43,7 @@ const  MainLayout  = observer( ()=>{
     }
     const startPost =()=>{
         setopenPopup(true);
+        console.log(openPopup)
     }
     const goToNetwork =()=>{
         UserStore.setLoading(true);
@@ -57,8 +59,9 @@ const  MainLayout  = observer( ()=>{
 
     return (
         <>
-            <Popup isOpen={openPopup} onClose={()=>setopenPopup(false)}/>
-
+            {openPopup&&(
+                <StartPost isOpen={openPopup} onClose={closePopup}/>
+            )}
             <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
                                 <div>
                                     <div >

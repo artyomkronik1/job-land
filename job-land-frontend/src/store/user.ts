@@ -72,8 +72,21 @@ class UserStore{
             console.error('Error signup:', error);
         }
     };
+    post = async(title:string, employee_id:string, description:string)=>{
+        try {
+            const result = await axios.post('http://localhost:3002/posts', {title:title,employee_id:employee_id, description:description});
+            if(result.data.success) {
+                return result.data
+            }
+            else{
+                return result.data
+            }
+        } catch (error) {
+            this.setLoading(false);
+            console.error('Error login:', error);
+        }
+    }
     login = async (email:string, password:string) => {
-
         try {
             const result = await axios.post('http://localhost:3002/users/login', {email:email, password:password});
                 if(result.data.success) {

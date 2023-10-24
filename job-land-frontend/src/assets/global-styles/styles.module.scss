@@ -3,9 +3,15 @@
 $mainColor:#0a66c2;
 $secondColor :#004182;
 $thirdColor : #f1f1f1;
+$backGround: #f1f1f1;
 //spans
 .mainSpan{
   color:$mainColor;
+  font-weight: bold;
+  font-size:18px
+}
+.mainGreySpan{
+  color:rgb(0 0 0/.9);
   font-weight: bold;
   font-size:18px
 }
@@ -101,7 +107,7 @@ margin-inline-start: 20px;
 .left{
   overflow-y: scroll;
   height:100% ;
-  min-width: 12%;
+  min-width: 25vh;
   display: flex;
   gap: 80px;
   justify-content: start;
@@ -122,7 +128,7 @@ margin-inline-start: 20px;
 }
 [dir="ltr"] {
   .right_main_messages {
-    padding: 10px 60px 20px 120px;
+    padding: 10px 50px 20px 120px;
   }
   .left {
     box-shadow: 0px 1px 10px 1px  #888888
@@ -180,6 +186,7 @@ margin-inline-start: 20px;
   flex: 1 1 auto;
   justify-content: end;
   flex-direction: column;
+  background-color: #f1f1f1;
   align-items: end;
 }
 .messageContainer{
@@ -228,7 +235,7 @@ margin-inline-start: 20px;
 .allMessagesContainer{
   position: fixed;
   background-color: white;
-  width: 300px;
+  width: 30vh;
   display:flex;
   flex-direction: column;
   margin-bottom: 70px;

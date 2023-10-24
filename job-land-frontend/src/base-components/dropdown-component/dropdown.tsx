@@ -24,7 +24,7 @@ const DropDown = (props:DropdownProps)=> {
         };
     }, []);
     const dropDownOptions=    props.options.map((value, index)=>(
-        <div  style={{display:'flex', alignItems:'center', justifyContent:'center'}} className={styles.dropdownOption}>
+        <div key={index} style={{display:'flex', alignItems:'center', justifyContent:'center'}} className={styles.dropdownOption}>
             {props.icons?(
                 <i className={`${props.icons[index]}`}></i>
             ):(null)}
