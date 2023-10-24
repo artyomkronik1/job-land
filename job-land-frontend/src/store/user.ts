@@ -1,9 +1,6 @@
 import {action, makeAutoObservable, makeObservable, observable} from "mobx";
 import axios from 'axios';
 import {User} from "../interfaces/user";
-import CryptoJS from "crypto-js";
-import bcrypt from "bcryptjs";
-import React, {createContext, useContext} from "react";
 import {create, persist} from "mobx-persist";
 const hydrate = create({
     storage:localStorage,

@@ -4,5 +4,7 @@
   "profession": "Profession",
   "scope": "Scope",
   "region": "Region",
-  "experienced_level": "Experienced level"
+  "experienced_level": "Experienced level",
+  "full_time": "Full time",
+  "part_time": "Part time"
 }

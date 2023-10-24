@@ -13,9 +13,8 @@ import componentStyles from "../MainLayout/mainLayout.module.scss";
 import axios from "axios";
 import {DropdownProps} from "../../interfaces/dropdown";
 import ProfileImage from "../../base-components/profile-image/profile-image-component";
+import jobsStore from "../../store/job";
 const  JobsComponent  = observer( ()=>{
-    const [jobs, setjobs] = useState<Job[]>([]);
-    const navigate = useNavigate();
     //language
     const { t } = useTranslation();
     const { i18n } = useTranslation();
@@ -45,14 +44,14 @@ const  JobsComponent  = observer( ()=>{
             );
             const result = await axios.post('http://localhost:3002/jobs' ,{properties:nonNullFilters});
             if(result.data.success) {
-                setjobs(result.data.jobs)
+                jobsStore.setfilterJobs(result.data.jobs)
             }
             else{
-                setjobs([])
+                jobsStore.setfilterJobs([])
                 return result.data
             }
         } catch (error) {
-            setjobs([])
+           jobsStore.setfilterJobs([])
             console.error('Error get jobs:', error);
         }
     }
@@ -63,16 +62,16 @@ const  JobsComponent  = observer( ()=>{
         });
     }// job filters
     const jobFilters:DropdownProps[]=[
-        {filterName:t('zone'), options:['programming']},
-        {filterName:t('profession'), options:['frontend_developer', 'it']},
-        {filterName:t('region'), options:['israel', 'russia']},
-        {filterName:t('manner'), options:['on_site', 'hybrid', 'remote']},
-        {filterName:t('experienced_level'), options:['Junior', 'mid_level', 'senior']},
-        {filterName:t('scope'), options:['full_time', 'part_time']},
+        {filterName:'zone', options:['programming']},
+        {filterName:'profession', options:['frontend_developer', 'it']},
+        {filterName:'region', options:['israel', 'russia']},
+        {filterName:'manner', options:['on_site', 'hybrid', 'remote']},
+        {filterName:'experienced_level', options:['junior', 'mid_level', 'senior']},
+        {filterName:'scope', options:['full_time', 'part_time']},
     ]
     const jobFiltersHTML= jobFilters.map((value,index)=>(
         <div key={index} style={{display:'flex',flexDirection:'row', justifyContent:'center'}}>
-            <JobFilterBtn text={value.filterName} type={value.filterName} options={value.options} changeFilterValue={addNewFilterValue}/>
+            <JobFilterBtn text={t(value.filterName)} type={value.filterName} options={value.options} changeFilterValue={addNewFilterValue}/>
         </div>
     ));
     const resetFilters = ()=>{
@@ -106,7 +105,7 @@ const  JobsComponent  = observer( ()=>{
                         <div style={{width:'80%'}} className={globalStyles.separate_line_grey}> </div>
                     {/*job component*/}
                     <div style={{display:"flex", justifyContent:'center', width:'100%'}}>
-                        {jobs.length>0 ? jobs.map((job:Job,index)=>(
+                        {jobsStore.filterJobs.length>0 ? jobsStore.filterJobs.map((job:Job,index)=>(
                             <div style={{width:'90%'}} className={componentStyles.postContainer} key={index}>
                                 <div className={componentStyles.postContainer__header}>
                                     <ProfileImage name={job.hire_name}/>
