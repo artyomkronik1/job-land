@@ -54,14 +54,14 @@ const  Login  = observer( ()=>{
         if (res?.success) {
             resetParameter()
             UserStore.setLoading(true);
-            toast.success('SUCCESS');
+            toast.success(t('SUCCESS'));
              setTimeout(() => {
                 UserStore.setLoading(false);
                  UserStore.setSessionKey(res.session_key)
                  navigate('/')
              }, 3000);
         } else {
-            toast.error('ERROR' + ' ' + res?.errorCode);
+            toast.error(t('ERROR') + ' ' + res?.errorCode);
         }
     }
 

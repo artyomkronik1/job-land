@@ -6,9 +6,8 @@ import ProfileImage from "../../base-components/profile-image/profile-image-comp
 import {useTranslation} from "react-i18next";
 import {toast} from "react-toastify";
 import Popup from "../../base-components/popup/popup-component";
-import {log} from "util";
-import popupStyles from '../../base-components/popup/popup.module.scss'
 import WarningPopup from "../../base-components/warning-popyp/warning-popup";
+import ToastComponent from "../../base-components/toaster/ToastComponent";
 export interface startPostProps{
     isOpen:boolean;
     onClose:()=>void;
@@ -35,15 +34,13 @@ const StartPostDialog = (props:startPostProps) => {
     const [description, setDescription] = useState('')
     const post=async()=>{
      const res = await UserStore.post('title',UserStore.user.id, description)
+        console.log(res)
         if (res?.success) {
-            UserStore.setLoading(true);
-            toast.success('SUCCESS');
-            setTimeout(() => {
-                UserStore.setLoading(false);
-            }, 3000);
+            toast.success(t('SUCCESS'));
         } else {
-            toast.error('ERROR!' + ' ' + res?.errorCode);
+            toast.error(t('ERROR!') + ' ' + res?.errorCode);
         }
+        closeFinalyDialog()
     }
     const closeDialog=()=>{
         console.log('description',description)
@@ -63,8 +60,8 @@ const StartPostDialog = (props:startPostProps) => {
 
     return (
 <>
+    <ToastComponent />
             <Popup onClose={closeDialog}>
-                {description}
                     <div className={styles.main}>
                         <div className={styles.main__header}>
                             <ProfileImage name={UserStore.user.name}/>

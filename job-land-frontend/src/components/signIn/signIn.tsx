@@ -59,21 +59,21 @@ const  SignIn  = observer( ()=>{
         event.preventDefault()
         if(userName.length==0 || userEmail.length==0 || userPassword.length==0)
         {
-            toast.error('ERROR! One or more fields is empty' );
+            toast.error(t('ERROR!')  +'One or more fields is empty' );
         }
         else {
             const encryptedPassword = CryptoJS.AES.encrypt(userPassword, secretKey).toString();
             const res = await UserStore.signup(userName, encryptedPassword, userEmail, role.toString())
             if (res?.success) {
                 UserStore.setLoading(true);
-                toast.success('SUCCESS');
+                toast.success(t('SUCCESS'));
                 setTimeout(() => {
                     UserStore.setLoading(false);
                     UserStore.setSessionKey(res.session_key)
                     navigate('/')
                 }, 3000);
             } else {
-                toast.error('ERROR!' + ' ' + res?.errorCode);
+                toast.error(t('ERROR!') + ' ' + res?.errorCode);
             }
 
         }

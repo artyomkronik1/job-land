@@ -32,5 +32,7 @@
   "region": "אזור",
   "experienced_level": "נסיון",
   "Search": "חיפוש",
-  "search...": "חיפוש..."
+  "search...": "חיפוש...",
+  "SUCCESS": "הצלחה",
+  "ERROR": "שגיאה"
 }
