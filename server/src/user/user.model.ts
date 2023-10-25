@@ -6,8 +6,8 @@ export const UserSchema = new mongoose.Schema({
     password:{type:String, required:true},
     email:{type:String, required:true},
     role:{type:String, required:true},
-    follow:{type:Array,required:true}
-
+    follow:{type:Array,required:true},
+    about:{type:String,required:true}
 })
 
 export interface User{
@@ -17,4 +17,5 @@ export interface User{
     email: string;
     role: string;
     follow:string[];
+    about:string;
 }

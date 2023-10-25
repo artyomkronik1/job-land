@@ -17,7 +17,7 @@ export class UserService {
     //find user by email
     const user = await this.userModel
       .find({ email: email, password: decryptedPassword })
-      .select('id name email password role follow')
+      .select('id name email password role follow about')
       .exec();
     if (user.length > 0) {
       const sessionKey = this.generateSessionKey();
@@ -29,7 +29,8 @@ export class UserService {
           role:user[0].role,
           email:user[0].email,
           password:password,
-          follow:user[0].follow
+          follow:user[0].follow,
+          about:user[0].about
         },
         session_key: sessionKey,
       };
@@ -57,6 +58,7 @@ export class UserService {
         name: user.name,
         role: user.role,
         follow:user.follow,
+        about:user.about
       })
       .exec();
     if (isAlredyExist.length > 0) {
@@ -71,6 +73,7 @@ export class UserService {
         email: user.email,
         role: user.role,
         follow:[],
+        about:""
       });
       const result = await newUser.save();
       if (result) {
@@ -84,6 +87,7 @@ export class UserService {
             email:newUser.email,
             password:user.password,
             follow:[],
+           about:""
           },
           session_key: sessionKey,
         };
@@ -120,7 +124,8 @@ export class UserService {
           email: user.email,
           password: user.password,
           role: user.role,
-          follow:user.follow
+          follow:user.follow,
+          about:user.about
         },
       };
     } else {
@@ -142,6 +147,7 @@ export class UserService {
           email: user.email,
           password: user.password,
           role: user.role,
+          about:user.about,
           follow:user.follow
         })),
       };

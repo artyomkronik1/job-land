@@ -10,7 +10,7 @@ import {useNavigate} from "react-router";
 import {Job} from "../../interfaces/job";
 import axios from "axios";
 import ProfileImage from "../../base-components/profile-image/profile-image-component";
-import Popup from "../../base-components/popup/popup-component";
+import {Post} from "../../interfaces/post";
 import StartPost from "../../dialogs/start-post/start-post";
 const  MainLayout  = observer( ()=>{
     const [openPopup, setopenPopup] = useState(false);
@@ -21,23 +21,31 @@ const  MainLayout  = observer( ()=>{
     //language
     const { t } = useTranslation();
     const { i18n } = useTranslation();
-    const [jobs, setjobs] = useState<Job[]>([]);
+    const [posts, setPosts] = useState<Post[]>([]);
     useEffect(() => {
-        getAllJobs();
+        getAllPosts();
     }, []);
 
     // getAllJobs - posts
-    const getAllJobs=async()=>{
+    const getAllPosts=async()=>{
             try {
-                const result = await axios.post('http://localhost:3002/jobs', {followers:UserStore.getUser().follow.toString()});
+                const result = await axios.get('http://localhost:3002/posts');
                 if(result.data.success) {
-                  setjobs(result.data.jobs)
+                    // filter only the posts user follow or itself posts
+                    const postsFollowedbyUser = result.data.posts.filter((post: Post) => {
+                        return UserStore.user.follow.includes(post.employee_id) || UserStore.user.id == post.employee_id ;
+                    });
+                    console.log(postsFollowedbyUser)
+                    setPosts(postsFollowedbyUser)
                 }
                 else{
+                    setPosts([])
                     return result.data
+
                 }
             } catch (error) {
-                console.error('Error get jobs:', error);
+                setPosts([])
+                console.error('Error get posts:', error);
             }
 
     }
@@ -85,19 +93,19 @@ const  MainLayout  = observer( ()=>{
                                         <div style={{display:'flex', justifyContent:'center'}}>
                                           <div className={globalStyles.separate_line_grey}> </div>
                                         </div>
-                                        <div >
-                                            {jobs.length>0? jobs.map((job:Job,index)=>(
+                                        <div style={{display:'flex', flexDirection:'column', gap:'20px'}}>
+                                            {posts.length>0? posts.map((post:Post,index)=>(
                                                 <div className={componentStyles.postContainer} key={index}>
                                                     <div className={componentStyles.postContainer__header}>
-                                                        <ProfileImage name={job.hire_name}/>
+                                                        <ProfileImage name={post.writer_name}/>
                                                         <div className={componentStyles.postContainer__header__details}>
-                                                            <span style={{fontSize:'20px', color:'#1c1c39'}}> {job.hire_name}</span>
-                                                            <span style={{color:'#717273',fontSize:'16px', fontWeight:'normal'}} className={globalStyles.simpleP}> {job.company_name}</span>
+                                                            <span style={{fontSize:'20px', color:'#1c1c39'}}> {post.writer_name}</span>
+                                                            <span style={{color:'#717273',fontSize:'16px', fontWeight:'normal'}} className={globalStyles.simpleP}> {UserStore.users.filter(user=>user.id== post.employee_id)[0]?.about}</span>
                                                         </div>
                                                     </div>
                                                     <div className={componentStyles.postContainer__main}>
-                                                        <span  style={{  fontSize:'19px',display:'flex', color:'#555555',  wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {job.title}</span>
-                                                        <span style={{ display:'flex', color:'#717273',fontSize:'16px', fontWeight:'normal', wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {job.description}</span>
+                                                        <span  style={{  fontSize:'19px',display:'flex', color:'#555555',  wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.title}</span>
+                                                        <span style={{ display:'flex', color:'#717273',fontSize:'16px', fontWeight:'normal', wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.description}</span>
                                                     </div>
                                                 </div>   )):(
 

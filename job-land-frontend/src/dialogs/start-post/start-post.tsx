@@ -33,7 +33,7 @@ const StartPostDialog = (props:startPostProps) => {
     const { i18n } = useTranslation();
     const [description, setDescription] = useState('')
     const post=async()=>{
-     const res = await UserStore.post('title',UserStore.user.id, description)
+     const res = await UserStore.post('title',UserStore.user.id, description,UserStore.user.name)
         console.log(res)
         if (res?.success) {
             toast.success(t('SUCCESS'));

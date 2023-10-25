@@ -4,6 +4,7 @@ export const PostSchema = new mongoose.Schema({
     title:{type:String, required:true},
     description:{type:String, required:true},
     employee_id:{type:String, required:true},
+    writer_name:{type:String, required:true},
 })
 
 export interface Post{
@@ -11,5 +12,6 @@ export interface Post{
     title: string;
     description: string;
    employee_id:string;
+   writer_name:string;
 }
 

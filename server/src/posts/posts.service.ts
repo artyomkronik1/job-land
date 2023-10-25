@@ -8,6 +8,7 @@ export class PostsService {
     constructor(@InjectModel('Post') private readonly postModel: Model<Post>) {}
     public async postNewPost(post:Post){
         const newPost = new this.postModel({
+            writer_name: post.writer_name,
             title: post.title,
             description: post.description,
             employee_id:post.employee_id,
@@ -18,6 +19,7 @@ export class PostsService {
                 success: true,
                 post: {
                     id:newPost.id,
+                    writer_name: newPost.writer_name,
                     title: newPost.title,
                     description: newPost.description,
                     employee_id:newPost.employee_id,
