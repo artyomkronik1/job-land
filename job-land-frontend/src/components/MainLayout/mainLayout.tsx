@@ -12,20 +12,40 @@ import axios from "axios";
 import ProfileImage from "../../base-components/profile-image/profile-image-component";
 import {Post} from "../../interfaces/post";
 import StartPost from "../../dialogs/start-post/start-post";
+import jobsStore from "../../store/job";
+import {toast} from "react-toastify";
+import ToastComponent from "../../base-components/toaster/ToastComponent";
 const  MainLayout  = observer( ()=>{
-    const [openPopup, setopenPopup] = useState(false);
-    const closePopup=()=>{
-        setopenPopup(false)
-    }
+    const [startIndex, setStartIndex] = useState(0);
     const navigate = useNavigate();
     //language
     const { t } = useTranslation();
     const { i18n } = useTranslation();
-    const [posts, setPosts] = useState<Post[]>([]);
+    const [posts, setPosts] = useState<Post[]>(jobsStore.followPost);
+    const [openPopup, setopenPopup] = useState(false);
+    // update every 5 minutes the posts
     useEffect(() => {
-        getAllPosts();
-    }, []);
+        const interval = setInterval(async() => {
+           await getAllPosts()
+            console.log('This function will run every 5 minutes.');
+        }, 300000); // 300000 milliseconds = 5 minutes
 
+        // Clear the interval when the component is unmounted
+        return () => clearInterval(interval);
+    }, []);
+    
+
+    const closePopup=(success:boolean)=>{
+        if(success){
+            UserStore.setLoading(true);
+            setTimeout(() => {
+                UserStore.setLoading(false);
+                toast.success(t('SUCCESS'));
+                setopenPopup(false)
+            },1000)
+        }
+        setopenPopup(false)
+    }
     // getAllJobs - posts
     const getAllPosts=async()=>{
             try {
@@ -67,6 +87,7 @@ const  MainLayout  = observer( ()=>{
 
     return (
         <>
+            <ToastComponent />
             {openPopup&&(
                 <StartPost isOpen={openPopup} onClose={closePopup}/>
             )}
@@ -93,8 +114,9 @@ const  MainLayout  = observer( ()=>{
                                         <div style={{display:'flex', justifyContent:'center'}}>
                                           <div className={globalStyles.separate_line_grey}> </div>
                                         </div>
-                                        <div style={{display:'flex', flexDirection:'column', gap:'20px'}}>
-                                            {posts.length>0? posts.map((post:Post,index)=>(
+                                        <div  style={{display:'flex', flexDirection:'column', gap:'20px'}}>
+
+                                            {posts.length>0? posts.map((post:Post, index)=>(
                                                 <div className={componentStyles.postContainer} key={index}>
                                                     <div className={componentStyles.postContainer__header}>
                                                         <ProfileImage name={post.writer_name}/>

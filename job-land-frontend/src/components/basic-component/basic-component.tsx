@@ -66,7 +66,7 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
         {type:'fa fa-bell', name:'Notifications'} ]
 
     const sideBarMainOptionsHtml = userMainOptions.map((value, index) => (
-        <div key={index} style={{display:'flex', justifyContent:'start',flexDirection:'column', gap:'5px'}}>
+        <div key={index} style={{display:'flex', justifyContent:'start',flexDirection:'column', gap:'5px', marginInlineStart:'22px'}}>
             <SideBtnComponent iconType={value.type} btnName={t(value.name)} onClick={()=>moveOnSidebar('top',index)}/>
             <br/>
         </div>
@@ -76,7 +76,7 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
         {type:'fa fa-cog', name:'Settings'} ,
         {type:'fa fa-question-circle', name:t('Help & Support')} ] ;
     const bottomMainOptionsHtml = bottomMainOptions.map((value, index) => (
-        <div key={index} style={{display:'flex', justifyContent:'start', flexDirection:'column', gap:'5px'}}>
+        <div key={index} style={{display:'flex', justifyContent:'start', flexDirection:'column', gap:'5px', marginInlineStart:'22px'}}>
             <SideBtnComponent iconType={value.type} btnName={t(value.name)}  onClick={()=>moveOnSidebar('down',index)}/>
             <br/>
         </div>

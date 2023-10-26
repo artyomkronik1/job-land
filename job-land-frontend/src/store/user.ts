@@ -2,6 +2,7 @@ import {action, makeAutoObservable, makeObservable, observable} from "mobx";
 import axios from 'axios';
 import {User} from "../interfaces/user";
 import {create, persist} from "mobx-persist";
+import jobsStore from "./job";
 const hydrate = create({
     storage:localStorage,
     jsonify:true
@@ -59,6 +60,7 @@ class UserStore{
     // init - main function to set all parameters
     init =async()=>{
         await this.getUsers()
+        await jobsStore.getAllPosts()
 }
     getUserById =async (id:string)=>{
         try {

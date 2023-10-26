@@ -105,9 +105,9 @@ margin-inline-start: 20px;
   height: 100vh;
 }
 .left{
-  overflow-y: scroll;
+position: fixed;
   height:100% ;
-  min-width: 25vh;
+  min-width: 24vh;
   display: flex;
   gap: 80px;
   justify-content: start;
@@ -121,6 +121,11 @@ margin-inline-start: 20px;
   }
   .right_main_messages {
     padding: 10px 50px 20px 60px;
+    position: fixed;
+    bottom: 0px;
+    display: flex;
+    justify-content: end;
+    left: 47px;
   }
   .right_header{
     box-shadow: -8px 0px 10px 0px #888888;
@@ -129,6 +134,11 @@ margin-inline-start: 20px;
 [dir="ltr"] {
   .right_main_messages {
     padding: 10px 50px 20px 120px;
+    position: fixed;
+    bottom: 0px;
+    display: flex;
+    justify-content: start;
+    right: 47px;
   }
   .left {
     box-shadow: 0px 1px 10px 1px  #888888
@@ -142,6 +152,7 @@ margin-inline-start: 20px;
   margin-inline-start: 0px;
 }
 .right{
+  margin-inline-start: 256px;
   width: 50%;
   flex: 1 1 auto;
   display: flex;
@@ -182,11 +193,8 @@ margin-inline-start: 20px;
   flex-direction: column;
 }
 .right_main_messages{
-  display: flex;
-  flex: 1 1 auto;
-  justify-content: end;
+
   flex-direction: column;
-  background-color: #f1f1f1;
   align-items: end;
 }
 .messageContainer{
