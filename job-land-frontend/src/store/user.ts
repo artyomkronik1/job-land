@@ -93,6 +93,20 @@ class UserStore{
         localStorage.removeItem('userInfo')
         this.setLoggedIn(false)
     }
+    makeFollow= async (userId:string,userIdToFollow:string)=>{
+        try {
+            const result = await axios.post('http://localhost:3002/users/follow', {userId,userIdToFollow});
+            if(result.data.success) {
+               this.setUser(result.data.user.user)
+                return result.data
+            }
+            else{
+                return result.data
+            }
+        } catch (error) {
+            console.error('Error making follow:', error);
+        }
+    }
     signup = async (name:string,password:string, email:string, role:string)=>{
         try {
             const result = await axios.post('http://localhost:3002/users/signup', {name, password, email, role});

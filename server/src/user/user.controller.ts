@@ -6,6 +6,10 @@ export class loginData {
   readonly email: string;
   readonly password: string;
 }
+export class makeFollowData {
+  readonly userId: string;
+  readonly userIdToFollow: string;
+}
 export class signupData {
   readonly name: string;
   readonly email: string;
@@ -23,6 +27,11 @@ export class UserController {
     } else{
       return this.userService.getUsers();
       }
+  }
+  @Post('/follow')
+  async makeFollow(@Body()info:makeFollowData)
+  {
+    return this.userService.makeFollow(info)
   }
 
   @Post('/signup')

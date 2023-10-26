@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import * as CryptoJS from 'crypto-js';
 const secretKey = 'job-land'; // Replace with your secret key
 import * as crypto  from "crypto";
+import {makeFollowData} from "./user.controller";
 @Injectable()
 export class UserService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
@@ -109,6 +110,13 @@ export class UserService {
     hashedPassword: string,
   ): Promise<boolean> {
     return await bcrypt.compare(plainTextPassword, hashedPassword);
+  }
+  public async makeFollow(info:makeFollowData){
+    const myUser = await this.getSingleUser(info.userId);
+    const userToFollow = await this.getSingleUser(info.userIdToFollow)
+    myUser.user.follow = [...myUser.user.follow, userToFollow.user.id]
+    const updatedUser = await this.userModel.findByIdAndUpdate(info.userId, { follow: myUser.user.follow }, { new: true });
+    return {success:true, user:updatedUser}
   }
 
   public async getSingleUser(id: string) {

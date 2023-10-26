@@ -8,10 +8,11 @@ import {User} from "../../interfaces/user";
 import {Post} from "../../interfaces/post";
 import ProfileImage from "../../base-components/profile-image/profile-image-component";
 import globalStyles from "../../assets/global-styles/styles.module.scss";
+import {toast} from "react-toastify";
 
 const  NetworkComponent  = observer( ()=>{
     // users that this user not follow yet
-    const [users, setUsers] = useState<User[]>(UserStore.users.filter(user=> !UserStore.user.follow.includes(user.id) && user.id!=UserStore.user.id)  )
+    const [users, setUsers] = useState<User[]>(        UserStore.users.filter((user:User)=> !UserStore.user.follow.includes(user.id) && user.id!=UserStore.user.id))
     const navigate = useNavigate();
     //language
     const { t } = useTranslation();
@@ -20,6 +21,21 @@ const  NetworkComponent  = observer( ()=>{
         UserStore.setLanguage(lng)
         i18n.changeLanguage(lng);
     };
+    const makeFollow = async(userId:string,userIdToFollow:string)=>{
+        const res = await UserStore.makeFollow(userId, userIdToFollow);
+        if(res.success)
+        {
+            UserStore.setLoading(true);
+            setTimeout(() => {
+                toast.success(t('SUCCESS'));
+                UserStore.setLoading(false);
+            }, 1000);
+        }
+        else{
+            toast.success(t('ERROR'));
+        }
+    }
+
     const [useSearchValue, setSearchValue] = useState('');
     return (
         <>
@@ -33,7 +49,7 @@ const  NetworkComponent  = observer( ()=>{
                             <div className={styles.jobContainer__body}>
                                 <span style={{fontSize:'22px', color:'#1c1c39'}}> {user.name}</span>
                                 <span style={{color:'#717273',fontSize:'19px', fontWeight:'normal'}} className={globalStyles.simpleP}> {user.about}</span>
-                           <button style={{width:'15vh', display:'flex', gap:'8px', height:'35px', alignItems:'center', fontSize:'18px'}} className={globalStyles.btn_border}>
+                           <button onClick={()=>makeFollow(UserStore.user.id, user.id)} style={{width:'15vh', display:'flex', gap:'8px', height:'35px', alignItems:'center', fontSize:'18px'}} className={globalStyles.btn_border}>
                                <i style={{fontSize:'17px'}} className="fa fa-user-plus" aria-hidden="true"></i>
                               <span style={{fontSize:'17px'}}> {t('Follow')}</span>
                            </button>
