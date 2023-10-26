@@ -40,7 +40,8 @@ $backGround: #f1f1f1;
   background-color: $mainColor;
   font-weight:bold;
   font-size:18px;
-  color:white
+  color:white;
+  outline: none;
 }
 .btn:hover, .btn:checked{
   border:1px solid $secondColor;
@@ -48,6 +49,7 @@ $backGround: #f1f1f1;
 }
 
 .btn_border{
+  outline: none;
   width:200px;
   height:50px;
   display: flex;
@@ -243,7 +245,7 @@ position: fixed;
 .allMessagesContainer{
   position: fixed;
   background-color: white;
-  width: 30vh;
+  width: 40vh;
   display:flex;
   flex-direction: column;
   margin-bottom: 70px;

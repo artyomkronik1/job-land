@@ -33,7 +33,7 @@ const  MainLayout  = observer( ()=>{
         // Clear the interval when the component is unmounted
         return () => clearInterval(interval);
     }, []);
-    
+
 
     const closePopup=(success:boolean)=>{
         if(success){

@@ -6,6 +6,12 @@ export class loginData {
   readonly email: string;
   readonly password: string;
 }
+export class signupData {
+  readonly name: string;
+  readonly email: string;
+  readonly password: string;
+  readonly role: string;
+}
 @Controller('users')
 export class UserController {
   constructor(private userService: UserService) {}
@@ -20,7 +26,7 @@ export class UserController {
   }
 
   @Post('/signup')
-  async signUp(@Body() user: User) {
+  async signUp(@Body() user: signupData) {
     return this.userService.signUp(user);
   }
   @Post('/login')

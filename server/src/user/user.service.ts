@@ -44,7 +44,7 @@ export class UserService {
   generateSessionKey(): string {
     return crypto.randomBytes(32).toString('hex'); // Generate a 64-character random string
   }
-  async signUp(user: User) {
+  async signUp(user: any) {
     const decryptedPassword = CryptoJS.AES.decrypt(
       user.password,
       secretKey,
@@ -57,8 +57,6 @@ export class UserService {
         password: decryptedPassword,
         name: user.name,
         role: user.role,
-        follow:user.follow,
-        about:user.about
       })
       .exec();
     if (isAlredyExist.length > 0) {
@@ -73,7 +71,7 @@ export class UserService {
         email: user.email,
         role: user.role,
         follow:[],
-        about:""
+        about:''
       });
       const result = await newUser.save();
       if (result) {

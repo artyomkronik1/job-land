@@ -187,7 +187,7 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
 
                                                 </div>
                                             </div>
-                                            <div  style={{position:'relative', bottom:'20px', width:'30vh', backgroundColor:'white'}} onClick={()=> setmessageBoxIsOpen(!messageBoxIsOpen)}>
+                                            <div  style={{position:'relative', bottom:'20px', width:'40vh', backgroundColor:'white'}} onClick={()=> setmessageBoxIsOpen(!messageBoxIsOpen)}>
                                                 <div className={styles.messageContainerMain}>
                                                         <ProfileImage name={UserStore.user.name}/>
                                                         <div style={{display:'flex', flexDirection:'column', alignItems:'start', justifyContent:'space-around'}}>
