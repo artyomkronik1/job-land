@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { User } from './user.model';
 import * as bcrypt from 'bcrypt';
 import * as CryptoJS from 'crypto-js';
+import {UserSchema} from "./user.model";
+
 const secretKey = 'job-land'; // Replace with your secret key
 import * as crypto  from "crypto";
 import {makeFollowData} from "./user.controller";
@@ -115,8 +117,11 @@ export class UserService {
     const myUser = await this.getSingleUser(info.userId);
     const userToFollow = await this.getSingleUser(info.userIdToFollow)
     myUser.user.follow = [...myUser.user.follow, userToFollow.user.id]
-    const updatedUser = await this.userModel.findByIdAndUpdate(info.userId, { follow: myUser.user.follow }, { new: true });
-    return {success:true, user:updatedUser}
+
+    const updatedUser = await this.userModel.findByIdAndUpdate(info.userId, { follow: myUser.user.follow }, { new: false });
+
+    return {success:true, user:myUser}
+
   }
 
   public async getSingleUser(id: string) {
