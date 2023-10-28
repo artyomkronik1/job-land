@@ -21,7 +21,6 @@ const ProfileImage = (props:profileProps)=> {
         return selectedOption ? selectedOption.color : '#808080'; // Default color
     }
     const getbackgroundColor = () =>{
-        console.log(props)
         if(props) {
             let first_name = ""
             const spaceIndex = props?.name?.indexOf(" "); // Find the index of the space

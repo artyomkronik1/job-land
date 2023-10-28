@@ -27,7 +27,6 @@ const  MainLayout  = observer( ()=>{
     useEffect(() => {
         const interval = setInterval(async() => {
            await getAllPosts()
-            console.log('This function will run every 5 minutes.');
         }, 300000); // 300000 milliseconds = 5 minutes
 
         // Clear the interval when the component is unmounted
@@ -55,7 +54,6 @@ const  MainLayout  = observer( ()=>{
                     const postsFollowedbyUser = result.data.posts.filter((post: Post) => {
                         return UserStore.user.follow.includes(post.employee_id) || UserStore.user.id == post.employee_id ;
                     });
-                    console.log(postsFollowedbyUser)
                     setPosts(postsFollowedbyUser)
                 }
                 else{
@@ -71,7 +69,6 @@ const  MainLayout  = observer( ()=>{
     }
     const startPost =()=>{
         setopenPopup(true);
-        console.log(openPopup)
     }
     const goToNetwork =()=>{
         UserStore.setLoading(true);

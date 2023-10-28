@@ -17,6 +17,7 @@ import Spinner from "../../base-components/loading-spinner/loading-spinner";
 import SignIn from "../signIn/signIn";
 import ProfileComponent from "../profile-component/profile-component";
 import ProfileImage from "../../base-components/profile-image/profile-image-component";
+import StartPost from "../../dialogs/start-post/start-post";
 export interface basicComponentProps{
     children: ReactNode;
 }
@@ -54,8 +55,10 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
     const [useSearchValue, setSearchValue] = useState('');
     //title
     const [title, settitle] = useState('Home');
-
-
+    const [startPost, setStartPost] = useState(false)
+    const closeStartPost =()=>{
+        setStartPost(false)
+    }
     // sidebar options
     const userMainOptions=[
         {type:'fa fa-home', name:'Home'} ,
@@ -82,10 +85,13 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
         </div>
     ));
     const moveOnSidebar=(str:string,index:number)=>{
-        if(str=='top')
-        {
+        if(str=='top') {
+            if (index == 4) {
+                setStartPost(true)
+            } else {
                 navigate(`/${userMainOptions[index].name.toLowerCase()}`)
                 settitle(userMainOptions[index].name)
+            }
         }
         if(str=='down') {
             settitle(bottomMainOptions[index].name)
@@ -94,6 +100,9 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
     }
     return (
         <>
+            {startPost&&(
+            <StartPost isOpen={startPost} onClose={closeStartPost}/>
+            )}
             {!UserStore.loading?(
                 <>
             {UserStore.loggedIn && UserStore.signedUp? (

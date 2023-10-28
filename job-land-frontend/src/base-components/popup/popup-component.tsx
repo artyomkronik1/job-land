@@ -16,7 +16,6 @@ const Popup = (props:PopupProps) => {
         };
     }, []);
 const closeDialog=()=>{
-    console.log('c')
     props.onClose()
 }
     return (

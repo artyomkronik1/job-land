@@ -45,7 +45,6 @@ const StartPostDialog = (props:startPostProps) => {
         closeFinalyDialog(true)
     }
     const closeDialog=()=>{
-        console.log('description',description)
         if(description.length==0) {
             closeFinalyDialog(false)
         }

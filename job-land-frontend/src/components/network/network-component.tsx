@@ -9,6 +9,7 @@ import {Post} from "../../interfaces/post";
 import ProfileImage from "../../base-components/profile-image/profile-image-component";
 import globalStyles from "../../assets/global-styles/styles.module.scss";
 import {toast} from "react-toastify";
+import ToastComponent from "../../base-components/toaster/ToastComponent";
 
 const  NetworkComponent  = observer( ()=>{
     // users that this user not follow yet
@@ -39,7 +40,8 @@ const  NetworkComponent  = observer( ()=>{
     const [useSearchValue, setSearchValue] = useState('');
     return (
         <>
-                <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
+            <ToastComponent />
+            <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
                     <div style={{marginTop:'90px',display:'flex', flexDirection:'column', alignItems:'start', width:'100%', flexWrap:'wrap'}} >
                     {/*    network*/}
                         <div style={{display:"flex",flexDirection:'column', gap:'20px', flexWrap:'wrap', height:'100vh'}}>
