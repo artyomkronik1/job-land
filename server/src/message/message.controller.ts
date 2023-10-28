@@ -25,4 +25,15 @@ export class MessageController {
     ): Promise<Message[]> {
         return this.messageService.getMessages(senderId, receiverId);
     }
+    // get all messages that sent from this user
+    @Get('sent/')
+    async getSentMessages(@Body('senderId') senderId: string) {
+        return this.messageService.getMessagesBySentId(senderId);
+    }
+    // get all messages that got by this user
+
+    @Get('got/')
+    async getReceiveById(@Body('receiverId') receiverId: string) {
+        return this.messageService.getReceiveMsgById(receiverId);
+    }
 }

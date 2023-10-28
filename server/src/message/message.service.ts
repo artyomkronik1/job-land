@@ -18,5 +18,14 @@ export class MessageService {
             .sort({ timestamp: 'asc' })
             .exec();
     }
+    // get all messages was sent by this user
+
+    async getMessagesBySentId(senderId: string):Promise<Message[]>{
+        return this.messageModel.find({ sender: senderId }).exec();
+    }
+    // get all messages was received by this user
+    async getReceiveMsgById(re:string):Promise<Message[]>{
+        return this.messageModel.find({ receiver: re }).exec();
+    }
 
 }
