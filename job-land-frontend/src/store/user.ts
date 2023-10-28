@@ -3,6 +3,7 @@ import axios from 'axios';
 import {User} from "../interfaces/user";
 import {create, persist} from "mobx-persist";
 import jobsStore from "./job";
+import {Message} from "../interfaces/message";
 const hydrate = create({
     storage:localStorage,
     jsonify:true
@@ -13,6 +14,7 @@ class UserStore{
     @persist loggedIn= false;
     @persist signedUp=true;
     @persist('object') @observable users:User[]=[];
+    @persist('object') @observable messages:Message[]=[]
     @persist('object') @observable user:User={id:"",password:"",role:"",email:"", about:"",name:"", follow:[]};
     @persist session_key=localStorage.getItem('session_key')
     constructor() {
@@ -20,6 +22,9 @@ class UserStore{
     }
     getLoading(){
         return this.loading;
+    }
+    getMessages(){
+        return this.messages
     }
     getUser(){
           return this.user
@@ -48,6 +53,9 @@ class UserStore{
     setLanguage(lan:string){
         this.language = lan;
     }
+    setMessages(m:Message[]){
+        this.messages = m
+    }
     setUser(newuser:User){
           this.user = newuser
     }
@@ -61,6 +69,22 @@ class UserStore{
     init =async()=>{
         await this.getUsers()
         await jobsStore.getAllPosts()
+        await this.getUserMessages();
+}
+
+getUserMessages = async ()=>{
+    try {
+        //sent
+        const allSentMessages = await axios.post('http://localhost:3002/messages/byid',{receiverId:this.user.id});
+        if(allSentMessages.data.success) {
+            this.setMessages([...this.messages, allSentMessages.data.messages])
+        }
+        else{
+            return allSentMessages.data
+        }
+    } catch (error) {
+        console.error('Error getting users', error);
+    }
 }
     getUserById =async (id:string)=>{
         try {

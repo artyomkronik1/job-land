@@ -22,18 +22,14 @@ export class MessageController {
     async getMessages(
         @Param('senderId') senderId: string,
         @Param('receiverId') receiverId: string,
-    ): Promise<Message[]> {
+    ) {
         return this.messageService.getMessages(senderId, receiverId);
     }
-    // get all messages that sent from this user
-    @Get('sent/')
-    async getSentMessages(@Body('senderId') senderId: string) {
-        return this.messageService.getMessagesBySentId(senderId);
-    }
-    // get all messages that got by this user
 
-    @Get('got/')
+    // get all messages that got or sent by this user
+
+    @Post('byid/')
     async getReceiveById(@Body('receiverId') receiverId: string) {
-        return this.messageService.getReceiveMsgById(receiverId);
+        return this.messageService.getMessagesById(receiverId);
     }
 }
