@@ -71,13 +71,19 @@ class UserStore{
         await jobsStore.getAllPosts()
         await this.getUserMessages();
 }
+getUserNameById = (id:string):string=>{
+        const user =   this.users.find(user=>user.id==id) ;
+        return user? user.name :'';
+
+}
 
 getUserMessages = async ()=>{
     try {
         //sent
         const allSentMessages = await axios.post('http://localhost:3002/messages/byid',{receiverId:this.user.id});
+        console.log(allSentMessages)
         if(allSentMessages.data.success) {
-            this.setMessages([...this.messages, allSentMessages.data.messages])
+            this.setMessages(allSentMessages.data.messages)
         }
         else{
             return allSentMessages.data
