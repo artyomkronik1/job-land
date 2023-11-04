@@ -4,6 +4,7 @@ import {User} from "../interfaces/user";
 import {create, persist} from "mobx-persist";
 import jobsStore from "./job";
 import {Message} from "../interfaces/message";
+import {Chat} from "../interfaces/chat";
 const hydrate = create({
     storage:localStorage,
     jsonify:true
@@ -14,7 +15,8 @@ class UserStore{
     @persist loggedIn= false;
     @persist signedUp=true;
     @persist('object') @observable users:User[]=[];
-    @persist('object') @observable messages:Message[]=[]
+    @persist('object') @observable chats:Chat[]=[]
+    @persist('object') @observable currentChat:{}={};
     @persist('object') @observable user:User={id:"",password:"",role:"",email:"", about:"",name:"", follow:[]};
     @persist session_key=localStorage.getItem('session_key')
     constructor() {
@@ -23,8 +25,11 @@ class UserStore{
     getLoading(){
         return this.loading;
     }
-    getMessages(){
-        return this.messages
+    getChats(){
+        return this.chats
+    }
+    getCurrentChat(){
+        return this.currentChat
     }
     getUser(){
           return this.user
@@ -44,6 +49,9 @@ class UserStore{
     setSignedUp(SignedUp:boolean){
         this.signedUp = SignedUp
     }
+    setCurrentChat(msg:Chat){
+        this.currentChat = msg;
+    }
     setLoggedIn(loggedIn:boolean){
         this.loggedIn = loggedIn
     }
@@ -53,8 +61,8 @@ class UserStore{
     setLanguage(lan:string){
         this.language = lan;
     }
-    setMessages(m:Message[]){
-        this.messages = m
+    setChats(m:Chat[]){
+        this.chats = m
     }
     setUser(newuser:User){
           this.user = newuser
@@ -71,24 +79,36 @@ class UserStore{
         await jobsStore.getAllPosts()
         await this.getUserMessages();
 }
+     groupMessagesIntoChats = (messages: Message[]): Chat[] => {
+        const chats: { [key: string]: Message[] } = {};
+
+        messages.forEach((message) => {
+            const chatKey = `${message.sender}-${message.receiver}`;
+            if (!chats[chatKey]) {
+                chats[chatKey] = [];
+            }
+            chats[chatKey].push(message);
+        });
+
+        return Object.values(chats).map((messages) => ({ messages }));
+    };
 getUserNameById = (id:string):string=>{
         const user =   this.users.find(user=>user.id==id) ;
         return user? user.name :'';
 
 }
-    getMessagesById = async (id:string)=>{
+    getMessagesByPersons = async (otherId:string)=>{
         try {
-            //sent
-            const allSentMessages = await axios.post('http://localhost:3002/messages/byid',{receiverId:this.user.id});
-            console.log(allSentMessages)
-            if(allSentMessages.data.success) {
-                this.setMessages(allSentMessages.data.messages)
+            const result = await axios.post('http://localhost:3002/messages',{receiverId:this.user.id , senderId:otherId});
+            if(result.data.success) {
+              const res = this.groupMessagesIntoChats(result.data.messages)
+                this.setCurrentChat(res[0])
             }
             else{
-                return allSentMessages.data
+                return result.data
             }
         } catch (error) {
-            console.error('Error getting users', error);
+            console.error('Error getting messages', error);
         }
     }
 
@@ -98,13 +118,13 @@ getUserMessages = async ()=>{
         const allSentMessages = await axios.post('http://localhost:3002/messages/byid',{receiverId:this.user.id});
         console.log(allSentMessages)
         if(allSentMessages.data.success) {
-            this.setMessages(allSentMessages.data.messages)
+            this.setChats(this.groupMessagesIntoChats(allSentMessages.data.messages))
         }
         else{
             return allSentMessages.data
         }
     } catch (error) {
-        console.error('Error getting users', error);
+        console.error('Error getting users messages', error);
     }
 }
     getUserById =async (id:string)=>{

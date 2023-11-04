@@ -23,7 +23,6 @@ export class MessageService {
                     { receiver: receiverId },
                 ],
             })
-            .sort({ timestamp: 'asc' })
             .exec();
         if(messages.length>0){
             return {
