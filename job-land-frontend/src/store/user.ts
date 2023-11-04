@@ -76,6 +76,21 @@ getUserNameById = (id:string):string=>{
         return user? user.name :'';
 
 }
+    getMessagesById = async (id:string)=>{
+        try {
+            //sent
+            const allSentMessages = await axios.post('http://localhost:3002/messages/byid',{receiverId:this.user.id});
+            console.log(allSentMessages)
+            if(allSentMessages.data.success) {
+                this.setMessages(allSentMessages.data.messages)
+            }
+            else{
+                return allSentMessages.data
+            }
+        } catch (error) {
+            console.error('Error getting users', error);
+        }
+    }
 
 getUserMessages = async ()=>{
     try {

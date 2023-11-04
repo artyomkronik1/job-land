@@ -11,6 +11,32 @@ export class MessageService {
         const message = new this.messageModel({ sender: senderId, receiver: receiverId, content,timestamp });
         return await message.save();
     }
+    // return all messages between only 2 persons
+    async getMessagesBy2(senderId: string, receiverId: string)
+    {
+        const messages=  await this.messageModel
+            .find({
+                $or: [
+                    { sender: senderId },
+                    { receiver: senderId },
+                    { sender: receiverId },
+                    { receiver: receiverId },
+                ],
+            })
+            .sort({ timestamp: 'asc' })
+            .exec();
+        if(messages.length>0){
+            return {
+                success: true,
+                messages: messages,
+            };
+        }else {
+            return {
+                success: false,
+                errorCode: 'fail_to_find_messages',
+            };
+        }
+    }
 
     async getMessages(senderId: string, receiverId: string) {
         const messages=  await this.messageModel

@@ -13,28 +13,19 @@ const  MessagesComponent  = observer( ()=>{
     const { i18n } = useTranslation();
     const [useSearchValue, setSearchValue] = useState('');
     const [chats, setChats] = useState<Message[]>(UserStore.getMessages())
-    // const [chatsOfThisUser, setallchats]=useState<User[]>([])
-    // useEffect(() => {
-    //     chats.map((chat:Message, index)=>{
-    //         setallchats(UserStore.users.filter(user=>user.id==chat.sender || user.id==chat.receiver))
-    //     })
-    // }, []);
-    // const getChatName = (chat:Message):User=>{
-    //
-    //         return  UserStore.users.find(user=>user.id==chat.sender) | {}
-    // }
+    const [openChat, setOpenChat] = useState<Message>()
     return (
         <>
             <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
-                <div style={{marginTop:'90px',display:'flex', flexDirection:'column', alignItems:'center', width:'100%'}} >
+                <div style={{marginTop:'90px',display:'flex', flexDirection:'column', alignItems:'center', width:'100%', height:'100vh'}} >
                 {/*    messages container*/}
                     {chats.map((chat:Message, index)=>
-                        <div className={styles.messagesContainer} key={index}>
+                        <div className={styles.messagesContainer} key={index} onClick={()=>setOpenChat(chat)}>
                             <div className={styles.messagesContainer__leftSide}>
                                 <div className={styles.messagesContainer__leftSide__messageBox}>
                                     <div style={{display:'flex',alignItems:'center', justifyContent:'space-between', width:'100%', paddingLeft:'10px', paddingRight:'10px'   }}>
                                           <div style={{display:'flex', flexDirection:'row', alignItems:'start', gap:'10px'}}>
-                                            <ProfileImage name={UserStore.getUserNameById(chat.receiver)}/>
+                                            <ProfileImage name={chat.sender!=UserStore.user.id? UserStore.getUserNameById(chat.sender) : UserStore.getUserNameById(chat.receiver)}/>
                                              <span style={{fontSize:'22px'}} className={globalStyles.simpleP}>{UserStore.getUserNameById(chat.receiver)}</span>
                                           </div>
                                               <i className={`fa fa-arrow-circle-right ${styles.arrowIcon} `} aria-hidden="true"></i>
@@ -44,7 +35,10 @@ const  MessagesComponent  = observer( ()=>{
                                     </div>
                                 </div>
                             </div>
-                            <div className={styles.messagesContainer__rightSide}></div>
+                            <div className={styles.messagesContainer__rightSide}>
+                                <div style={{display:'flex'}}></div>
+
+                            </div>
                         </div>
                     )}
                 </div>

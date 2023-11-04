@@ -1,10 +1,11 @@
 @import "../../assets/global-styles/styles.module";
 
 .messagesContainer{
+
   display: flex;
   width: 100%;
   background-color: white;
-  height: 100%;
+  height: 200px;
   &__leftSide{
     width: 30%;
     display: flex;
