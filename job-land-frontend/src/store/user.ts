@@ -97,6 +97,9 @@ getUserNameById = (id:string):string=>{
         return user? user.name :'';
 
 }
+getUserInfoById = (id:string):User | undefined=>{
+    return   this.users.find(user=>user.id==id) ;
+}
     getMessagesByPersons = async (otherId:string)=>{
         try {
             const result = await axios.post('http://localhost:3002/messages',{receiverId:this.user.id , senderId:otherId});

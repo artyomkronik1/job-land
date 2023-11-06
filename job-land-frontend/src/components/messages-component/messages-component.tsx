@@ -20,18 +20,6 @@ const  MessagesComponent  = observer( ()=>{
         setOpenChat(chat)
         console.log(openChat)
     }
-    // useEffect(() => {
-    //     const effect = async ()=> {
-    //         if(openChat) {
-    //             if ( openChat.receiver != UserStore.user.id) {
-    //                await UserStore.getMessagesByPersons(openChat.receiver)
-    //                 console.log('a',UserStore.getCurrentChat())
-    //             } else {
-    //                 await UserStore.getMessagesByPersons(openChat.sender)
-    //                 console.log('a',UserStore.getCurrentChat())
-    //             }
-    //         }}
-    // }, [openChat]);
     return (
         <>
             <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
@@ -47,9 +35,12 @@ const  MessagesComponent  = observer( ()=>{
                                     {/*<div className={globalStyles.separate_line_grey} style={{marginBottom:'50px' ,width:'110%' }}></div>*/}
                                 <div className={styles.messagesContainer__leftSide__messageBox}>
                                     <div style={{display:'flex',alignItems:'center', justifyContent:'space-between', width:'100%'  }}>
-                                          <div style={{display:'flex', flexDirection:'row', alignItems:'start', gap:'10px'}}>
+                                          <div style={{display:'flex', flexDirection:'row', alignItems:'start'}}>
                                             <ProfileImage name={chat.messages[0].sender!=UserStore.user.id? UserStore.getUserNameById(chat.messages[0].sender) : UserStore.getUserNameById(chat.messages[0].receiver)}/>
-                                             <span style={{fontSize:'22px', color:'#404141'}} className={globalStyles.simpleP}>{UserStore.getUserNameById(chat.messages[0].receiver)}</span>
+                                            <div style={{display:'flex', flexDirection:'column', gap:'10px'}}>
+                                             <span style={{fontSize:'15px', color:'#404141'}} className={globalStyles.simpleP}>{UserStore.user.id!=chat.messages[0].receiver ? UserStore.getUserNameById(chat.messages[0].receiver) :  UserStore.getUserNameById(chat.messages[0].sender)}</span>
+                                              <span style={{fontSize:'15px', color:'#404141'}} className={globalStyles.simpleP}>{UserStore.user.id!=chat.messages[0].receiver ? UserStore.getUserInfoById(chat.messages[0].receiver)?.about :  UserStore.getUserInfoById(chat.messages[0].sender)?.about}</span>
+                                            </div>
                                           </div>
                                               <i className={`fa fa-arrow-circle-right ${styles.arrowIcon} `} aria-hidden="true"></i>
                                     </div>
@@ -60,25 +51,25 @@ const  MessagesComponent  = observer( ()=>{
                             </div>
                             <div className={styles.messagesContainer__rightSide}>
                                 <div className={styles.messagesContainer__rightSide__header} style={{ marginBottom:'50px', paddingLeft:'20px', paddingBottom:'20px', borderBottom:'1px solid #cfd0d2', width:'103%', display:'flex',justifyContent:'start' }}>
-                                    <span  style={{color:'#a9acb1', fontSize:'22px'}} className={globalStyles.simpleP}>{UserStore.getUserNameById(chat.messages[0].receiver)}</span>
+                                    <span  style={{color:'#a9acb1', fontSize:'22px'}} className={globalStyles.simpleP}>{UserStore.user.id!=chat.messages[0].receiver ? UserStore.getUserNameById(chat.messages[0].receiver) :  UserStore.getUserNameById(chat.messages[0].sender)}</span>
                                 </div>
                                 <div style={{height:'100%', display:'flex' , flexDirection:'column', alignItems:'start', width:'100%'}}>
                                 {openChat?.messages.map((msg:Message, index)=>
                                     <div style={{display:'flex' , justifyContent:'space-between', width:'100%', flexDirection:'column', gap:'30px', marginBottom:'30px'}}>
                                         {msg.sender==userStore.user.id? (
                                             <div style={{display:'flex', justifyContent:'start', width:'100%', gap:'8px'}}>
-                                                <ProfileImage name={msg.sender==UserStore.user.id? UserStore.getUserNameById(msg.sender) : UserStore.getUserNameById(msg.receiver)}/>
+                                                <ProfileImage name={UserStore.user.name}/>
                                                 <div style={{display:'flex',gap:'10px', flexDirection:'column', alignItems:'start', justifyContent:'center'}}>
-                                                    <span style={{fontSize:'18px', color:'#404141'}} className={globalStyles.simpleP}>{msg.sender==UserStore.user.id? UserStore.getUserNameById(msg.sender) : UserStore.getUserNameById(msg.receiver)}</span>
+                                                    <span style={{fontSize:'18px', color:'#404141'}} className={globalStyles.simpleP}>{UserStore.user.name}</span>
                                                     <span style={{fontSize:'18px',color:'#404141'}} className={globalStyles.simpleP}>{msg.content}</span>
                                                 </div>
                                             </div>
                                         ):
-                                            
+
                                         <div style={{display:'flex', justifyContent:'start', width:'100%', gap:'8px'}}>
-                                            <ProfileImage name={msg.sender!=UserStore.user.id? UserStore.getUserNameById(msg.sender) : UserStore.getUserNameById(msg.receiver)}/>
+                                            <ProfileImage name={ UserStore.getUserNameById(msg.sender) }/>
                                            <div style={{display:'flex',gap:'10px', flexDirection:'column', alignItems:'start', justifyContent:'center'}}>
-                                            <span style={{fontSize:'18px',color:'#404141'}} className={globalStyles.simpleP}>{msg.sender!=UserStore.user.id? UserStore.getUserNameById(msg.sender) : UserStore.getUserNameById(msg.receiver)}</span>
+                                            <span style={{fontSize:'18px',color:'#404141'}} className={globalStyles.simpleP}>{ UserStore.getUserNameById(msg.sender) }</span>
                                             <span style={{fontSize:'18px',color:'#404141'}} className={globalStyles.simpleP}>{msg.content}</span>
                                            </div>
                                         </div>
