@@ -73,7 +73,7 @@ const StartPostDialog = (props:startPostProps) => {
                             </div>
                         </div>
                         <div className={styles.main__header__body}>
-                            <textarea placeholder={t('What do you want to talk about?')} style={{outline:'none', width:'100%', backgroundColor:'white', borderRadius:'30px', border:'none', paddingLeft:'20px', color:'#79797a',  fontSize:'25px', height:'100%'}} onChange={handleChange}></textarea>
+                            <textarea  placeholder={t('What do you want to talk about?')} style={{outline:'none', resize:"none", width:'100%', backgroundColor:'white', borderRadius:'30px', border:'none', paddingLeft:'20px', color:'#79797a',  fontSize:'25px', height:'100%'}} onChange={handleChange}></textarea>
                         </div>
                         <div style={{display:'flex', justifyContent:'center'}}>
                             <div className={globalStyles.separate_line_grey}></div>
