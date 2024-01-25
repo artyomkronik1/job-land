@@ -32,8 +32,7 @@ export class MessageController {
     }
 
     // get all messages that got or sent by this user
-
-    @Post('byid/')
+    @Get()
     async getReceiveById(@Body('receiverId') receiverId: string) {
         return this.messageService.getMessagesById(receiverId);
     }

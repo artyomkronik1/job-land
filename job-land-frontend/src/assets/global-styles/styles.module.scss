@@ -30,6 +30,7 @@ $backGround: #f1f1f1;
 }
 //btns
 .btn{
+  cursor:pointer;
   width:200px;
   height:50px;
   display: flex;
@@ -49,6 +50,7 @@ $backGround: #f1f1f1;
 }
 
 .btn_border{
+  cursor:pointer;
   outline: none;
   width:200px;
   height:50px;
@@ -109,7 +111,7 @@ margin-inline-start: 20px;
 .left{
 position: fixed;
   height:100% ;
-  min-width: 24vh;
+  min-width: 27vh;
   display: flex;
   gap: 80px;
   justify-content: start;
@@ -119,6 +121,7 @@ position: fixed;
 //box shadows
 [dir="rtl"] {
   .left {
+    min-width: 28vh!important;
     box-shadow: -5px 0px 10px 1px #aaaaaa;
   }
   .right_main_messages {
@@ -221,12 +224,11 @@ position: fixed;
   display: flex;
 }
 .languageDiv{
- // display: flex;
   position: relative;
-  //  top:20px;
 }
 .enlanguagePic{
   max-width: 60%;
+  cursor:pointer;
   transition: transform 0.5s;
 }
 .enlanguagePic:hover{
@@ -235,6 +237,7 @@ position: fixed;
 
 .heLanguagePic{
   max-width: 40%;
+  cursor:pointer;
   transition: transform 0.5s;
 }
 .heLanguagePic:hover{

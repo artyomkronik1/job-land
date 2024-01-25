@@ -102,14 +102,28 @@ getUserInfoById = (id:string):User | undefined=>{
 }
     getMessagesByPersons = async (otherId:string)=>{
         try {
-            const result = await axios.post('http://localhost:3002/messages',{receiverId:this.user.id , senderId:otherId});
-            if(result.data.success) {
-              const res = this.groupMessagesIntoChats(result.data.messages)
-                this.setCurrentChat(res[0])
-            }
-            else{
-                return result.data
-            }
+            let result: any;
+            result = await axios({
+                method: 'get',
+                url: 'http://localhost:3002/messages',
+                params: {receiverId: this.user.id, senderId: otherId},
+            })
+                .then(response => {
+                    if (result.data.success) {
+                        const res = this.groupMessagesIntoChats(result.data.messages)
+                        this.setCurrentChat(res[0])
+                    } else {
+                        return result.data
+                    }
+                })
+                .catch(error => {
+                    // Handle errors
+                    console.error('Error:', error);
+                });
+
+
+          //  const result = await axios.post('http://localhost:3002/messages',{receiverId:this.user.id , senderId:otherId});
+
         } catch (error) {
             console.error('Error getting messages', error);
         }

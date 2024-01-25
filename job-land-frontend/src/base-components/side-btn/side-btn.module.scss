@@ -4,6 +4,7 @@
   gap: 20px;
   transition: transform 0.5s;
   flex-direction: row;
+  cursor:pointer;
 }
 .form:hover{
   transform: scale(1.1); /* Increase the size of the image on hover */

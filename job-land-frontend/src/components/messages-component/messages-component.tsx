@@ -20,6 +20,7 @@ const  MessagesComponent  = observer( ()=>{
         setOpenChat(chat)
         console.log(openChat)
     }
+    console.log(chats)
     return (
         <>
             <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
