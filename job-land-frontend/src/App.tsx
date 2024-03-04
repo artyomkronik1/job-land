@@ -31,6 +31,7 @@ function App() {
                     <Route path="/network" element={<NetworkComponent/>}/>
                     <Route path="/jobs" element={<JobsComponent/>}/>
                     <Route path="/profile" element={<ProfileComponent/>}/>
+                    <Route path="/profile/:username" element={<ProfileComponent />} />
                     <Route path="/messages" element={<MessagesComponent/>}/>
                 </Routes>
             </BasicComponent>

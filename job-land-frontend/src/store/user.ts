@@ -10,6 +10,7 @@ const hydrate = create({
     jsonify:true
 })
 class UserStore{
+    @persist tab = "Home";
     @persist  language ="en";
     @persist loading=false;
     @persist loggedIn= false;
@@ -24,6 +25,9 @@ class UserStore{
     }
     getLoading(){
         return this.loading;
+    }
+    getTab(){
+        return this.tab;
     }
     getChats(){
         return this.chats
@@ -51,6 +55,9 @@ class UserStore{
     }
     setCurrentChat(msg:Chat){
         this.currentChat = msg;
+    }
+    setTab(t:string){
+        this.tab = t;
     }
     setLoggedIn(loggedIn:boolean){
         this.loggedIn = loggedIn
@@ -97,6 +104,23 @@ getUserNameById = (id:string):string=>{
         return user? user.name :'';
 
 }
+    // @ts-ignore
+    getUserByName = (name:string):User =>{
+            let userr:User ={    id: "",
+                name: "",
+                password: "",
+                email: "",
+                role: "",
+                follow:[],
+                about:""}
+        this.users.forEach((user:User)=>{
+            if(user.name == name)
+            {
+                userr = user
+            }
+        })
+        return userr
+    }
 getUserInfoById = (id:string):User | undefined=>{
     return   this.users.find(user=>user.id==id) ;
 }

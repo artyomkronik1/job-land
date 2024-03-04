@@ -44,7 +44,7 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
             else if(val=='Profile')
             {
                 navigate('/profile')
-                settitle('Profile')
+                UserStore.setTab('Profile')
             }
         },1000)
 
@@ -54,7 +54,6 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
     // search
     const [useSearchValue, setSearchValue] = useState('');
     //title
-    const [title, settitle] = useState('Home');
     const [startPost, setStartPost] = useState(false)
     const closeStartPost =()=>{
         setStartPost(false)
@@ -90,11 +89,11 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
                 setStartPost(true)
             } else {
                 navigate(`/${userMainOptions[index].name.toLowerCase()}`)
-                settitle(userMainOptions[index].name)
+                UserStore.setTab(userMainOptions[index].name)
             }
         }
         if(str=='down') {
-            settitle(bottomMainOptions[index].name)
+            UserStore.setTab(bottomMainOptions[index].name)
             navigate(`/${bottomMainOptions[index].name.toLowerCase()}`);
         }
     }
@@ -123,7 +122,7 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
                                     <div className={styles.right_header}>
                                         {/*left side*/}
                                         <div style={{display:'flex', alignItems:'center', gap:'40px', justifyContent:'start'}}>
-                                            <h1 className={styles.h2}> {t(title)}</h1>
+                                            <h1 className={styles.h2}> {t(UserStore.getTab())}</h1>
                                             <SearchInput placeHolder={t('search...')}  value={useSearchValue} ariaLabel={'Search..'} onChange={(vaalue)=>setSearchValue(vaalue)}/>
                                         </div>
                                         {/*user side*/}
@@ -143,6 +142,7 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
                                             </div>
                                         </div>
                                     </div>
+                                    {/*main context*/}
                                     <div className={styles.right_main}>
                                         <div className={styles.right_main_main}>
                                             {props.children}

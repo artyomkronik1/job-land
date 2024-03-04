@@ -15,6 +15,9 @@ import StartPost from "../../dialogs/start-post/start-post";
 import jobsStore from "../../store/job";
 import {toast} from "react-toastify";
 import ToastComponent from "../../base-components/toaster/ToastComponent";
+import {DashboardContext} from "../../context/dashboardContext";
+import ProfileComponent from "../profile-component/profile-component";
+import {User} from "../../interfaces/user";
 const  MainLayout  = observer( ()=>{
     const [startIndex, setStartIndex] = useState(0);
     const navigate = useNavigate();
@@ -23,6 +26,7 @@ const  MainLayout  = observer( ()=>{
     const { i18n } = useTranslation();
     const [posts, setPosts] = useState<Post[]>(jobsStore.followPost);
     const [openPopup, setopenPopup] = useState(false);
+
     // update every 5 minutes the posts
     useEffect(() => {
         const interval = setInterval(async() => {
@@ -82,9 +86,19 @@ const  MainLayout  = observer( ()=>{
         i18n.changeLanguage(lng);
     };
 
+
+    const goToUserProfile =  (name:string)=>{
+        UserStore.setLoading(true);
+        setTimeout(() => {
+            UserStore.setLoading(false);
+            navigate(`/profile/${name}`);
+            UserStore.setTab("Profile")
+        },1000)
+    }
+
     return (
         <>
-            <ToastComponent />
+
             {openPopup&&(
                 <StartPost isOpen={openPopup} onClose={closePopup}/>
             )}
@@ -115,7 +129,7 @@ const  MainLayout  = observer( ()=>{
 
                                             {posts.length>0? posts.map((post:Post, index)=>(
                                                 <div className={componentStyles.postContainer} key={index}>
-                                                    <div className={componentStyles.postContainer__header}>
+                                                    <div className={componentStyles.postContainer__header} onClick={()=>goToUserProfile(post.writer_name)}>
                                                         <ProfileImage name={post.writer_name}/>
                                                         <div className={componentStyles.postContainer__header__details}>
                                                             <span style={{fontSize:'20px', color:'#1c1c39'}}> {post.writer_name}</span>
@@ -139,6 +153,9 @@ const  MainLayout  = observer( ()=>{
                                 </div>
 
             </div>
+
+            {/*toast*/}
+            <ToastComponent />
         </>
 
     );

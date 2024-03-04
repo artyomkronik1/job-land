@@ -6,16 +6,22 @@ import Login from "../login/login";
 import styles from "../../assets/global-styles/styles.module.scss";
 import JobFilterBtn from "../../base-components/job-filter-btn/job-filter-btn";
 import DropDown from "../../base-components/dropdown-component/dropdown";
-import {useNavigate} from "react-router";
+import {useNavigate, useParams} from "react-router";
 import globalStyles from "../../assets/global-styles/styles.module.scss";
 import {Job} from "../../interfaces/job";
 import componentStyles from "../MainLayout/mainLayout.module.scss";
+import {DashboardContext} from "../../context/dashboardContext";
+import {User} from "../../interfaces/user";
+import jobsStore from "../../store/job";
+import ProfileImage from "../../base-components/profile-image/profile-image-component";
 const  ProfileComponent  = observer( ()=>{
+    const { username } = useParams();
+    const user = UserStore.getUserByName(username? username:"")
     const navigate = useNavigate();
     //language
     const { t } = useTranslation();
     const { i18n } = useTranslation();
-
+    console.log(username, "us")
     const changeLanguage = (lng:string) => {
         UserStore.setLanguage(lng)
         i18n.changeLanguage(lng);
@@ -46,10 +52,16 @@ const  ProfileComponent  = observer( ()=>{
     return (
         <>
             <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
-                <div >
-                    <div >
-                        <span className={globalStyles.simpleP}>{t('prifle')}</span>
+                <div style={{marginTop:'90px',display:'flex', flexDirection:'column', alignItems:'center', width:'100%'}} >
+                    {/*job filters*/}
+                    <div style={{display:'flex', flexWrap:'wrap', gap:'10px', alignItems:'center', width:'100%', justifyContent:'center'}} >
+                        <span>{username}</span>
                     </div>
+                    {/*separate line*/}
+                    <div style={{width:'80%'}} className={globalStyles.separate_line_grey}> </div>
+                    <span>profile</span>
+
+
                 </div>
 
             </div>
