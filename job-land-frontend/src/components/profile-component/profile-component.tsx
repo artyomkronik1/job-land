@@ -14,26 +14,28 @@ import {DashboardContext} from "../../context/dashboardContext";
 import {User} from "../../interfaces/user";
 import jobsStore from "../../store/job";
 import ProfileImage from "../../base-components/profile-image/profile-image-component";
+import {Post} from "../../interfaces/post";
+import axios from "axios";
 const  ProfileComponent  = observer( ()=>{
+    // params
     const { username } = useParams();
-    const user = UserStore.getUserByName(username? username:"")
+    const user = username ? UserStore.getUserByName(username) : UserStore.user
     const navigate = useNavigate();
     //language
     const { t } = useTranslation();
     const { i18n } = useTranslation();
-    console.log(username, "us")
-    const changeLanguage = (lng:string) => {
-        UserStore.setLanguage(lng)
-        i18n.changeLanguage(lng);
-    };
     // job filters array
     const [filterValues, setfilterValues] = useState(['']);
+    const [usersPosts, setusersPosts] = useState([]);
+    // update every 5 minutes the posts
+    useEffect(() => {
+         getPostsByUserName();
+    }, []);
     const addNewFilterValue=(newFilterValue:string)=>{
         if(!filterValues.includes(newFilterValue)) {
             setfilterValues([...filterValues, newFilterValue]);
         }
     }
-    const [useSearchValue, setSearchValue] = useState('');
     // job filters
     const jobFilters=[
         {filterName:t('Zone'), options:['Programming']},
@@ -43,6 +45,17 @@ const  ProfileComponent  = observer( ()=>{
         {filterName:t('Experienced level'), options:['Junior', 'Mid-level', 'Senior']},
         {filterName:t('How'), options:['Full time', 'Part time']},
     ]
+   const  getPostsByUserName = async ()=>{
+        try {
+            //sent
+            const allPostsByUser = await axios.get('http://localhost:3002/posts',{params:{name:user.name}});
+            if(allPostsByUser.data.success) {
+                setusersPosts(allPostsByUser.data.posts)
+            }
+        } catch (error) {
+            console.error('Error getting users messages', error);
+        }
+    }
     const jobFiltersHTML= jobFilters.map((value,index)=>(
         <div key={index} style={{display:'flex',flexDirection:'row', justifyContent:'center'}}>
             <JobFilterBtn text={value.filterName} type={value.filterName} options={value.options} changeFilterValue={addNewFilterValue}/>
@@ -55,12 +68,39 @@ const  ProfileComponent  = observer( ()=>{
                 <div style={{marginTop:'90px',display:'flex', flexDirection:'column', alignItems:'center', width:'100%'}} >
                     {/*job filters*/}
                     <div style={{display:'flex', flexWrap:'wrap', gap:'10px', alignItems:'center', width:'100%', justifyContent:'center'}} >
-                        <span>{username}</span>
+                       <div style={{display:'flex', justifyContent:'space-between', width:'90%', alignItems:'center'}}>
+                        <div style={{flexDirection:'column',gap:'10px', display:'flex'}}>
+                        <ProfileImage name={user.name} size={'big'} />
+                           <span className={styles.simplePBlack} style={{fontSize:'25px'}}>{user.name}</span>
+                            <span className={styles.simplePBlack} style={{fontSize:'18px'}}>{user.about}</span>
+                         </div>
+                           <div style={{display:'flex', flexDirection:'column', gap:'5px', }}>
+                               <span>last experience</span>
+                               <span>last education</span>
+                           </div>
+                       </div>
                     </div>
                     {/*separate line*/}
-                    <div style={{width:'80%'}} className={globalStyles.separate_line_grey}> </div>
-                    <span>profile</span>
+                    <div style={{width:'90%'}} className={globalStyles.separate_line_grey}> </div>
+                {/*  users posts*/}
+                    <div  style={{display:'flex', flexDirection:'column', gap:'20px', width:'100%'}}>
 
+                        { usersPosts.map((post:Post, index)=>(
+                            <div className={componentStyles.postContainer} key={index}>
+                                <div className={componentStyles.postContainer__header} >
+                                    <ProfileImage name={post.writer_name}/>
+                                    <div className={componentStyles.postContainer__header__details}>
+                                        <span style={{fontSize:'20px', color:'#1c1c39'}}> {post.writer_name}</span>
+                                        <span style={{color:'#717273',fontSize:'16px', fontWeight:'normal'}} className={globalStyles.simpleP}> {UserStore.users.filter(user=>user.id== post.employee_id)[0]?.about}</span>
+                                    </div>
+                                </div>
+                                <div className={componentStyles.postContainer__main}>
+                                    <span  style={{  fontSize:'19px',display:'flex', color:'#555555',  wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.title}</span>
+                                    <span style={{ display:'flex', color:'#717273',fontSize:'16px', fontWeight:'normal', wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.description}</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
 
                 </div>
 

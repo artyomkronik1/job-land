@@ -5,6 +5,7 @@ import {create, persist} from "mobx-persist";
 import jobsStore from "./job";
 import {Message} from "../interfaces/message";
 import {Chat} from "../interfaces/chat";
+import {Post} from "../interfaces/post";
 const hydrate = create({
     storage:localStorage,
     jsonify:true
@@ -17,6 +18,7 @@ class UserStore{
     @persist signedUp=true;
     @persist('object') @observable users:User[]=[];
     @persist('object') @observable chats:Chat[]=[]
+    @persist('object') @observable posts:Post[]=[]
     @persist('object') @observable currentChat:{}={};
     @persist('object') @observable user:User={id:"",password:"",role:"",email:"", about:"",name:"", follow:[]};
     @persist session_key=localStorage.getItem('session_key')
@@ -30,6 +32,9 @@ class UserStore{
         return this.tab;
     }
     getChats(){
+        return this.chats
+    }
+    getPost(){
         return this.chats
     }
     getCurrentChat(){
@@ -70,6 +75,9 @@ class UserStore{
     }
     setChats(m:Chat[]){
         this.chats = m
+    }
+    setUsersPosts(p:Post[]){
+        this.posts = p;
     }
     setUser(newuser:User){
           this.user = newuser
@@ -150,6 +158,17 @@ getUserInfoById = (id:string):User | undefined=>{
 
         } catch (error) {
             console.error('Error getting messages', error);
+        }
+    }
+    getPostsByUserName = async ()=>{
+        try {
+            //sent
+            const allPostsByUser = await axios.post('http://localhost:3002/posts',{name:this.user.name});
+            if(allPostsByUser.data.success) {
+                this.setUsersPosts(allPostsByUser.data.posts)
+            }
+        } catch (error) {
+            console.error('Error getting users messages', error);
         }
     }
 

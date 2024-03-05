@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import styles from './profile-image.module.scss'
 export interface profileProps{
     name:string
+    size?:string;
 }
 const ProfileImage = (props:profileProps)=> {
    const getColorByLetter = (letter: string)=> {
@@ -45,8 +46,8 @@ const ProfileImage = (props:profileProps)=> {
         }
     }
     return(
-      <div className={styles.profileForm} style={{backgroundColor:`${getbackgroundColor()}`}} >
-          <span style={{display:'flex', justifyContent:"center", alignItems:'center', fontWeight:'bold', fontSize:'25px'}}>{ initials() }</span>
+      <div className={styles.profileForm} style={{backgroundColor:`${getbackgroundColor()}`, width:props.size=='big'?'100%':'50px',height:props.size=='big'?'170px':'50px' }} >
+          <span style={{display:'flex', justifyContent:"center", alignItems:'center', fontWeight:'bold', fontSize:props.size=='big'?'70px':'25px'}}>{ initials() }</span>
       </div>
     )
 }
