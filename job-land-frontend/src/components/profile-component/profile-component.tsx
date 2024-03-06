@@ -45,14 +45,6 @@ const  ProfileComponent  = observer( ()=>{
         setopenPopup(true);
     }
     const closePopup=(success:boolean)=>{
-        if(success){
-            UserStore.setLoading(true);
-            setTimeout(() => {
-                UserStore.setLoading(false);
-                toast.success(t('SUCCESS'));
-                setopenPopup(false)
-            },1000)
-        }
         setopenPopup(false)
     }
     // job filters
