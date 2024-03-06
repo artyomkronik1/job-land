@@ -6,5 +6,5 @@ export interface warningProps{
     children?:ReactNode;
     onConfirm:()=>void;
     onCancel:()=>void;
-
+    warningText:string;
 }

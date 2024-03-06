@@ -16,11 +16,15 @@ import jobsStore from "../../store/job";
 import ProfileImage from "../../base-components/profile-image/profile-image-component";
 import {Post} from "../../interfaces/post";
 import axios from "axios";
+import {toast} from "react-toastify";
+import StartPost from "../../dialogs/start-post/start-post";
+import EditProfileDialog from "../../dialogs/edit-profile/edit-profile";
 const  ProfileComponent  = observer( ()=>{
     // params
     const { username } = useParams();
     const user = username ? UserStore.getUserByName(username) : UserStore.user
     const navigate = useNavigate();
+    const [openPopup, setopenPopup] = useState(false);
     //language
     const { t } = useTranslation();
     const { i18n } = useTranslation();
@@ -35,6 +39,21 @@ const  ProfileComponent  = observer( ()=>{
         if(!filterValues.includes(newFilterValue)) {
             setfilterValues([...filterValues, newFilterValue]);
         }
+    }
+    // edit profile
+    const editProfile =()=>{
+        setopenPopup(true);
+    }
+    const closePopup=(success:boolean)=>{
+        if(success){
+            UserStore.setLoading(true);
+            setTimeout(() => {
+                UserStore.setLoading(false);
+                toast.success(t('SUCCESS'));
+                setopenPopup(false)
+            },1000)
+        }
+        setopenPopup(false)
     }
     // job filters
     const jobFilters=[
@@ -64,10 +83,14 @@ const  ProfileComponent  = observer( ()=>{
 
     return (
         <>
+
+            {openPopup&&(
+                <EditProfileDialog isOpen={openPopup} onClose={closePopup} children={user}/>
+            )}
             <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
                 <div style={{marginTop:'90px',display:'flex', flexDirection:'column', alignItems:'center', width:'100%'}} >
                     {/*job filters*/}
-                    <div style={{display:'flex', flexWrap:'wrap', gap:'10px', alignItems:'center', width:'100%', justifyContent:'center'}} >
+                    <div onClick={editProfile} style={{display:'flex', flexWrap:'wrap', gap:'10px', alignItems:'center', width:'100%', justifyContent:'center'}} >
                        <div style={{display:'flex', justifyContent:'space-between', width:'90%', alignItems:'center'}}>
                         <div style={{flexDirection:'column',gap:'10px', display:'flex'}}>
                         <ProfileImage name={user.name} size={'big'} />
