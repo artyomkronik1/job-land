@@ -36,17 +36,15 @@ const EditProfileDialog = (props:editProfileProps) => {
     const { i18n } = useTranslation();
     const [name, setname] = useState(props.children.name)
     const [about, setabout] = useState(props.children.about)
-    // const save=async()=>{
-    //     const res = await UserStore.post('title',UserStore.user.id, description,UserStore.user.name)
-    //     if (res?.success) {
-    //         toast.success(t('SUCCESS'));
-    //         // updating the posts with new post
-    //         await jobsStore.getAllPosts()
-    //     } else {
-    //         toast.error(t('ERROR!') + ' ' + res?.errorCode);
-    //     }
-    //     closeFinalyDialog(true)
-    // }
+    const saveSettings=async()=>{
+        const res = await UserStore.setUserInfo(props.children)
+        if (res &&res.success) {
+            toast.success(t('SUCCESS'));
+        } else {
+            toast.error(t('ERROR!') + ' ' + res?.errorCode);
+        }
+        closeFinalyDialog(true)
+    }
     // close dialog
     const closeDialog=()=>{
         if(name.length==0 || about.length==0) {
@@ -86,7 +84,7 @@ const EditProfileDialog = (props:editProfileProps) => {
                         <div className={globalStyles.separate_line_grey}></div>
                     </div>
                     <div style={{display:'flex', justifyContent:'end', flex:'1 1 auto'}}>
-                        <button style={{width:'80px'}}  className={globalStyles.btn}>{t('Post')}</button>
+                        <button style={{width:'80px'}} onClick={saveSettings}  className={globalStyles.btn}>{t('Post')}</button>
                     </div>
                 </div>
             </Popup>

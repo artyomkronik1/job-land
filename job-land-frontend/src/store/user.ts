@@ -171,6 +171,15 @@ getUserInfoById = (id:string):User | undefined=>{
             console.error('Error getting users messages', error);
         }
     }
+    setUserInfo=async (user:User):Promise<any>=>{
+        try {
+            //sent
+            return await axios.post('http://localhost:3002/users/user',{user:user});
+
+        } catch (error) {
+            console.error('Error getting users messages', error);
+        }
+    }
 
 getUserMessages = async ()=>{
     try {
