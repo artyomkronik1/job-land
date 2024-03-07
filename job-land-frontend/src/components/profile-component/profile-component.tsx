@@ -22,7 +22,7 @@ import EditProfileDialog from "../../dialogs/edit-profile/edit-profile";
 const  ProfileComponent  = observer( ()=>{
     // params
     const { username } = useParams();
-    const user = username ? UserStore.getUserByName(username) : UserStore.user
+    const user:User = username ? UserStore.getUserByName(username) : UserStore.user
     const navigate = useNavigate();
     const [openPopup, setopenPopup] = useState(false);
     //language
@@ -76,9 +76,9 @@ const  ProfileComponent  = observer( ()=>{
     return (
         <>
 
-            {openPopup&&(
-                <EditProfileDialog isOpen={openPopup} onClose={closePopup} children={user}/>
-            )}
+            {openPopup && (!username || username.length==0) ? (
+                <EditProfileDialog isOpen={openPopup} onClose={closePopup} children={user} />
+            ) : null}
             <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
                 <div style={{marginTop:'90px',display:'flex', flexDirection:'column', alignItems:'center', width:'100%'}} >
                     {/*job filters*/}

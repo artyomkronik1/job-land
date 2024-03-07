@@ -93,7 +93,6 @@ const EditProfileDialog = (props:editProfileProps) => {
                         {/*about*/}
                         <div style={{display:'flex', flexDirection:'column', alignItems:'start'}}>
                             <TextInputField type={'text'} placeHolder={t('Enter About Yourself')} text={t('About')} value={about} onChange={handleChangeAbout}/>
-
                         </div>
                         </div>
                     </div>
