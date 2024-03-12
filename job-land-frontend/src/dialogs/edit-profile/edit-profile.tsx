@@ -71,10 +71,11 @@ const EditProfileDialog = (props:editProfileProps) => {
         props.onClose(success)
     }
     const handleChangeName = (event:any)=>{
-        setname(event.target.value);
+        console.log(event)
+        setname(event);
     }
     const handleChangeAbout = (event:any)=>{
-        setabout(event.target.value);
+        setabout(event);
     }
 
     return (

@@ -33,6 +33,11 @@ export class UserController {
   {
     return this.userService.makeFollow(info)
   }
+  @Post('/user')
+  async setUser(@Body()user:User)
+  {
+    return this.userService.setUser(user)
+  }
 
   @Post('/signup')
   async signUp(@Body() user: signupData) {

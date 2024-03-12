@@ -6,6 +6,20 @@ import {Post} from "./post.model";
 @Injectable()
 export class PostsService {
     constructor(@InjectModel('Post') private readonly postModel: Model<Post>) {}
+    public async getPostByUserName(name:string){
+        const posts = await this.postModel.find({ writer_name: name }).exec();
+        if (posts.length>0) {
+            return {
+                success: true,
+                posts: posts,
+            }
+        } else{
+            return {
+                success:false,
+                errorCode:"fail_to_find_posts"
+            }
+        }
+    }
     public async postNewPost(post:Post){
         const newPost = new this.postModel({
             writer_name: post.writer_name,

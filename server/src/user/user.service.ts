@@ -123,7 +123,20 @@ export class UserService {
     return {success:true, user:myUser}
 
   }
+  public async setUser(info:any) {
 
+    let u = await this.userModel.findById(info.user.id);
+    console.log( u)
+    if (!u) {
+      // Handle the case where the user with the given ID is not found
+      return {success: false, errorCode: 'fail_to_find_user',};
+    } else {
+      u.name = info.user.name;
+      u.about = info.user.about
+      await u.save()
+        return {success: true, user: u}
+    }
+  }
   public async getSingleUser(id: string) {
     const user = await this.userModel.findById(id);
     if (user) {
