@@ -128,7 +128,7 @@ margin-inline-start: 20px;
 //box shadows
 [dir="rtl"] {
   .left {
-    padding-inline-start: 32px;
+    padding-inline-start: 45px;
 
     min-width: 29vh!important;
     box-shadow: -5px 0px 10px 1px #aaaaaa;
@@ -142,7 +142,6 @@ margin-inline-start: 20px;
     left: 47px;
   }
   .right_header{
-    width: 83%;
     box-shadow: -8px 0px 10px 0px #888888;
   }
 }
@@ -187,12 +186,11 @@ margin-inline-start: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: fixed;
-  width: 87% ;
+  //position: fixed;
+ // width: 87% ;
 }
 .right_main{
   background-color: $thirdColor;
-  margin-top: 30px;
   flex: 1 1 auto;
   //margin-inline-end: 3%;
   margin-inline-start: 8px;
