@@ -116,9 +116,9 @@ margin-inline-start: 20px;
   height: 100vh;
 }
 .left{
-position: fixed;
+  overflow-y: scroll;
+  position: fixed;
   height:100% ;
-  min-width: 29.5vh;
   display: flex;
   gap: 80px;
   justify-content: start;
@@ -128,7 +128,7 @@ position: fixed;
 //box shadows
 [dir="rtl"] {
   .left {
-    min-width: 28vh!important;
+    min-width: 29vh!important;
     box-shadow: -5px 0px 10px 1px #aaaaaa;
   }
   .right_main_messages {
@@ -153,6 +153,7 @@ position: fixed;
     right: 47px;
   }
   .left {
+    min-width: 29.5vh;
     box-shadow: 0px 1px 10px 1px  #888888
   }
   .right_header{
@@ -277,3 +278,25 @@ position: fixed;
   opacity: 0;
 }
 
+
+
+//scroll bar
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
