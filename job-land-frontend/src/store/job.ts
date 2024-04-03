@@ -4,6 +4,10 @@ import {Job} from "../interfaces/job";
 import {Post} from "../interfaces/post";
 import axios from "axios";
 import UserStore from "./user";
+const hydrate = create({
+    storage:localStorage,
+    jsonify:true
+})
 class JobsStore{
     @persist('object') @observable filterJobs:Job[]=[];
     @persist('object') @observable followPost:Post[]=[];
@@ -51,4 +55,5 @@ class JobsStore{
 const jobsStore = new JobsStore();
 export default jobsStore;
 
+hydrate('jobsStore', jobsStore); // 'jobsStore' is the key under which your store will be stored
 
