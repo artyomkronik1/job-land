@@ -22,6 +22,7 @@ export interface basicComponentProps{
     children: ReactNode;
 }
 const  BasicComponent  = observer( (props:basicComponentProps)=>{
+    console.log(UserStore.loggedIn)
     const navigate = useNavigate();
     //language
     const { t } = useTranslation();
@@ -99,6 +100,7 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
     }
     return (
         <>
+            <span>{UserStore.loggedIn}</span>
             {startPost&&(
             <StartPost isOpen={startPost} onClose={closeStartPost}/>
             )}

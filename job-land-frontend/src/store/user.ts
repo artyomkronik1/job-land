@@ -6,8 +6,8 @@ import jobsStore from "./job";
 import {Message} from "../interfaces/message";
 import {Chat} from "../interfaces/chat";
 import {Post} from "../interfaces/post";
+import MessageService from "../services/messageService";
 const hydrate = create({
-    storage:localStorage,
     jsonify:true
 })
 class UserStore{
@@ -24,6 +24,13 @@ class UserStore{
     @persist session_key=localStorage.getItem('session_key')
     constructor() {
         makeAutoObservable(this);
+        // Hydrate the persisted data
+        hydrate('userStore', this, {
+            // Exclude sensitive data from being persisted
+            exclude: ['loading', 'session_key', 'user', 'chats', 'posts', 'currentChat']
+        }).then(() => {
+            console.log('UserStore has been hydrated');
+        });
     }
     getLoading(){
         return this.loading;
@@ -91,8 +98,9 @@ class UserStore{
     // init - main function to set all parameters
     init =async()=>{
         await this.getUsers()
+        await this.getChatsByUser(this.user.id)
         await jobsStore.getAllPosts()
-        await this.getUserMessages();
+        //await this.getUserMessages();
 }
      groupMessagesIntoChats = (messages: Message[]): Chat[] => {
         const chats: { [key: string]: Message[] } = {};
@@ -107,6 +115,15 @@ class UserStore{
 
         return Object.values(chats).map((messages) => ({ messages }));
     };
+
+   async getChatsByUser(id:string){
+
+        const res= await MessageService.getChatsByUserId(id);
+        if(res.success){
+            this.setChats(res.chats)
+        }
+
+    }
 getUserNameById = (id:string):string=>{
         const user =   this.users.find(user=>user.id==id) ;
         return user? user.name :'';
@@ -224,7 +241,9 @@ getUserMessages = async ()=>{
         }
 }
     logout = async()=>{
-        localStorage.removeItem('userInfo')
+        localStorage.removeItem('jobsStore')
+        localStorage.removeItem('userStore')
+
         this.setLoggedIn(false)
     }
     makeFollow= async (userId:string,userIdToFollow:string)=>{
@@ -298,6 +317,4 @@ getUserMessages = async ()=>{
 
 const userStore = new UserStore();
 export default userStore;
-
-hydrate('userInfo', userStore); // 'userStore' is the key under which your store will be stored
 

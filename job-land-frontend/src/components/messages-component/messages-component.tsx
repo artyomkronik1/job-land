@@ -17,22 +17,24 @@ const  MessagesComponent  = observer( ()=>{
     const [useSearchValue, setSearchValue] = useState('');
     const [chats, setChats] = useState<Chat[]>(UserStore.getChats())
     const [openChat, setOpenChat] = useState<Chat>()
-    console.log(chats)
     const openNewChat = async(chat:Chat)=>{
         setOpenChat(chat)
         console.log(openChat)
     }
+    console.log(chats[0])
 
-    useEffect(() => {
-        async function fetchMessages() {
-            const result = await MessageService.getMessages(String(456));
-            if(result.success){
-                setChats(result.messages);
-            }
-
-        }
-        fetchMessages();
-    }, []);
+    // async function getAllChatsByUser() {
+    //    const result = await UserStore.getChatsByUser("artiom")
+    //     if(result.success){
+    //         setChats(result.chats);
+    //         console.log('chats',chats)
+    //     }
+    //
+    // }
+    // useEffect(() => {
+    //     getAllChatsByUser();
+    //
+    // }, []);
     return (
         <>
             <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>

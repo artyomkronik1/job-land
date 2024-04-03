@@ -5,6 +5,7 @@ import { JobModule } from './job/job.module';
 import { PostsModule } from './posts/posts.module';
 import { MessageController } from './message/message.controller';
 import { MessageModule } from './message/message.module';
+import {ChatsModule} from "./chats/chats.module";
 @Module({
   imports: [
     UserModule,
@@ -14,5 +15,6 @@ import { MessageModule } from './message/message.module';
     JobModule,
     PostsModule,
     MessageModule,
+      ChatsModule
   ]})
 export class AppModule {}

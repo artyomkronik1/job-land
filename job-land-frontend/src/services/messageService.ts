@@ -8,11 +8,11 @@ import {Chat} from "../interfaces/chat";
 const BASE_URL: string = 'http://localhost:3002';
 
 const MessageService = {
-    async getMessages(receiverId: string): Promise<any> {
+    async getChatsByUserId(id: string): Promise<any> {
 
         try {
-            const response: AxiosResponse<Chat[]> = await axios.post<Chat[]>(`${BASE_URL}/messages`, {
-                receiverId
+            const response: AxiosResponse<Chat[]> = await axios.post<Chat[]>(`${BASE_URL}/chats`, {
+                id
 
             });
             console.log(response.data)

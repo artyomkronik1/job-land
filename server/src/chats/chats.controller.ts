@@ -4,7 +4,12 @@ import {ChatsService} from "./chats.service";
 export class ChatsController {
     constructor(private chatsService: ChatsService) {}
     @Post()
-    async getChatsByUserId(@Body('userId') userId: string) {
-        return this.chatsService.getChatsByUserId(userId);
+    async getChatsByUserId(@Body('id') id: string) {
+        return this.chatsService.getChatsByUserId(id);
+    }
+
+    @Get()
+    async getAllChats() {
+        return this.chatsService.getAllChats();
     }
 }
