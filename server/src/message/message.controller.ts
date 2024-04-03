@@ -26,13 +26,13 @@ export class MessageController {
         return this.messageService.getMessages(senderId, receiverId);
     }
     // get all msg between 2 people only
-    @Post('/')
-    async getMessagesBy2(@Body('receiverId') receiverId: string, @Body('senderId') senderId: string) {
-        return this.messageService.getMessagesBy2(senderId,receiverId);
-    }
+    // @Post('/')
+    // async getMessagesBy2(@Body('receiverId') receiverId: string, @Body('senderId') senderId: string) {
+    //     return this.messageService.getMessagesBy2(senderId,receiverId);
+    // }
 
     // get all messages that got or sent by this user
-    @Get()
+    @Post()
     async getReceiveById(@Body('receiverId') receiverId: string) {
         return this.messageService.getMessagesById(receiverId);
     }

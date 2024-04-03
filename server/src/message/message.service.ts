@@ -57,11 +57,12 @@ export class MessageService {
     // get all messages was sent or received by this user
 
     async getMessagesById(userId: string){
-        console.log('get')
+        console.log('get', userId)
+
         const messages = await this.messageModel.find({
             $or: [
-                { sender: userId },   // Messages sent by the user
-                { receiver: userId }  // Messages received by the user
+                { sender: userId.toString() },   // Messages sent by the user
+                { receiver: userId.toString()    }  // Messages received by the user
             ]
         }).exec();
         if(messages.length>0){

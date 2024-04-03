@@ -9,6 +9,7 @@ import {Message} from "../../interfaces/message";
 import {User} from "../../interfaces/user";
 import userStore from "../../store/user";
 import {Chat} from "../../interfaces/chat";
+import MessageService from "../../services/messageService";
 const  MessagesComponent  = observer( ()=>{
     //language
     const { t } = useTranslation();
@@ -16,17 +17,29 @@ const  MessagesComponent  = observer( ()=>{
     const [useSearchValue, setSearchValue] = useState('');
     const [chats, setChats] = useState<Chat[]>(UserStore.getChats())
     const [openChat, setOpenChat] = useState<Chat>()
+    console.log(chats)
     const openNewChat = async(chat:Chat)=>{
         setOpenChat(chat)
         console.log(openChat)
     }
+
+    useEffect(() => {
+        async function fetchMessages() {
+            const result = await MessageService.getMessages(String(456));
+            if(result.success){
+                setChats(result.messages);
+            }
+
+        }
+        fetchMessages();
+    }, []);
     return (
         <>
             <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
                 <div style={{marginTop:'90px',display:'flex', flexDirection:'column', alignItems:'center', width:'100%', height:'100vh'}} >
                 {/*    messages container*/}
 
-                    {chats.map((chat:Chat, index)=>
+                    {chats.length>0?chats.map((chat:Chat, index)=>
                         <div className={styles.messagesContainer} key={index} onClick={()=>openNewChat(chat)} >
                             <div className={styles.messagesContainer__leftSide}>
                                 <div style={{ paddingLeft:'20px', paddingBottom:'20px', borderBottom:'1px solid #cfd0d2',marginBottom:'50px', width:'109%', display:'flex',justifyContent:'start' }}>
@@ -78,6 +91,11 @@ const  MessagesComponent  = observer( ()=>{
                                 )}
                                 </div>
                             </div>
+                        </div>
+                    ):(
+                        <div>
+                            <span className={globalStyles.simpleP}>         There is no messages</span>
+
                         </div>
                     )}
                 </div>
