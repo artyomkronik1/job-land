@@ -29,12 +29,7 @@ const  MainLayout  = observer( ()=>{
 
     // update every 5 minutes the posts
     useEffect(() => {
-        const interval = setInterval(async() => {
-           await getAllPosts()
-        }, 300000); // 300000 milliseconds = 5 minutes
-
-        // Clear the interval when the component is unmounted
-        return () => clearInterval(interval);
+         getAllPosts()
     }, []);
 
 
@@ -58,7 +53,7 @@ const  MainLayout  = observer( ()=>{
                     const postsFollowedbyUser = result.data.posts.filter((post: Post) => {
                         return UserStore.user.follow.includes(post.employee_id) || UserStore.user.id == post.employee_id ;
                     });
-                    setPosts(postsFollowedbyUser)
+                    setPosts(postsFollowedbyUser.reverse())
                 }
                 else{
                     setPosts([])
