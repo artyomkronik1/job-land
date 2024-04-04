@@ -18,6 +18,7 @@ import ToastComponent from "../../base-components/toaster/ToastComponent";
 import {DashboardContext} from "../../context/dashboardContext";
 import ProfileComponent from "../profile-component/profile-component";
 import {User} from "../../interfaces/user";
+import PostsService from "../../services/postService";
 const  MainLayout  = observer( ()=>{
     const [startIndex, setStartIndex] = useState(0);
     const navigate = useNavigate();
@@ -46,24 +47,7 @@ const  MainLayout  = observer( ()=>{
     }
     // getAllJobs - posts
     const getAllPosts=async()=>{
-            try {
-                const result = await axios.get('http://localhost:3002/posts');
-                if(result.data.success) {
-                    // filter only the posts user follow or itself posts
-                    const postsFollowedbyUser = result.data.posts.filter((post: Post) => {
-                        return UserStore.user.follow.includes(post.employee_id) || UserStore.user.id == post.employee_id ;
-                    });
-                    setPosts(postsFollowedbyUser.reverse())
-                }
-                else{
-                    setPosts([])
-                    return result.data
-
-                }
-            } catch (error) {
-                setPosts([])
-                console.error('Error get posts:', error);
-            }
+      setPosts(await PostsService.getAllPosts())
 
     }
     const startPost =()=>{

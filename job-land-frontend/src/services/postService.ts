@@ -2,23 +2,31 @@
 import axios, { AxiosResponse } from 'axios';
 import {Message} from "../interfaces/message";
 import {Chat} from "../interfaces/chat";
+import {Post} from "../interfaces/post";
+import UserStore from "../store/user";
 
 
-
-const BASE_URL: string = 'http://localhost:3002';
-
-const MessageService = {
-    async getPostsByUser(id: string): Promise<any> {
-
+const PostsService = {
+    async getAllPosts(): Promise<any> {
         try {
-            const response: AxiosResponse<Chat[]> = await axios.post<Chat[]>(`${BASE_URL}/posts`, {id});
-            console.log(response.data)
-            return response.data;
+            const result = await axios.get('http://localhost:3002/posts');
+            if(result.data.success) {
+                // filter only the posts user follow or itself posts
+                const postsFollowedbyUser = result.data.posts.filter((post: Post) => {
+                    return UserStore.user.follow.includes(post.employee_id) || UserStore.user.id == post.employee_id ;
+                });
+                return postsFollowedbyUser.reverse()
+            }
+            else{
+
+                return []
+
+            }
         } catch (error) {
-            console.error('Error fetching messages:', error);
-            return [];
+            return []
+            console.error('Error get posts:', error);
         }
     }
 };
 
-export default MessageService;
+export default PostsService;
