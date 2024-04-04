@@ -20,6 +20,20 @@ export class PostsService {
             }
         }
     }
+    public async getPostByUserId(data:any){
+        const posts = await this.postModel.find({ employee_id: data.id.toString() }).exec();
+        if (posts.length>0) {
+            return {
+                success: true,
+                posts: posts,
+            }
+        } else{
+            return {
+                success:false,
+                errorCode:"fail_to_find_posts"
+            }
+        }
+    }
     public async postNewPost(post:Post){
         const newPost = new this.postModel({
             writer_name: post.writer_name,

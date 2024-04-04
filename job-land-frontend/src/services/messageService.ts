@@ -11,10 +11,7 @@ const MessageService = {
     async getChatsByUserId(id: string): Promise<any> {
 
         try {
-            const response: AxiosResponse<Chat[]> = await axios.post<Chat[]>(`${BASE_URL}/chats`, {
-                id
-
-            });
+            const response: AxiosResponse<Chat[]> = await axios.post<Chat[]>(`${BASE_URL}/chats`, {id});
             console.log(response.data)
             return response.data;
         } catch (error) {

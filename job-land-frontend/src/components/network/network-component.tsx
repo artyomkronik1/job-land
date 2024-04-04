@@ -50,7 +50,7 @@ const  NetworkComponent  = observer( ()=>{
                             <div className={styles.jobContainer__header}> <ProfileImage name={user.name}/> </div>
                             <div className={styles.jobContainer__body}>
                                 <span style={{fontSize:'22px', color:'#1c1c39'}}> {user.name}</span>
-                                <span style={{color:'#717273',fontSize:'19px', fontWeight:'normal'}} className={globalStyles.simpleP}> {user.about}</span>
+                                <span style={{color:'#717273',fontSize:'19px', fontWeight:'normal'}} className={globalStyles.simpleP}> {user.about? user.about: 'No about'}</span>
                            <button onClick={()=>makeFollow(UserStore.user.id, user.id)} style={{width:'15vh', display:'flex', gap:'8px', height:'35px', alignItems:'center', fontSize:'18px'}} className={globalStyles.btn_border}>
                                <i style={{fontSize:'17px'}} className="fa fa-user-plus" aria-hidden="true"></i>
                               <span style={{fontSize:'17px'}}> {t('Follow')}</span>

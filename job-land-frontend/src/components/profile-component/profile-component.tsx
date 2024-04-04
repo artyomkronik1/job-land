@@ -33,7 +33,7 @@ const  ProfileComponent  = observer( ()=>{
     const [usersPosts, setusersPosts] = useState([]);
     // update every 5 minutes the posts
     useEffect(() => {
-         getPostsByUserName();
+        getPostByUserId();
     }, []);
     const addNewFilterValue=(newFilterValue:string)=>{
         if(!filterValues.includes(newFilterValue)) {
@@ -56,10 +56,10 @@ const  ProfileComponent  = observer( ()=>{
         {filterName:t('Experienced level'), options:['Junior', 'Mid-level', 'Senior']},
         {filterName:t('How'), options:['Full time', 'Part time']},
     ]
-   const  getPostsByUserName = async ()=>{
+   const  getPostByUserId = async ()=>{
         try {
             //sent
-            const allPostsByUser = await axios.get('http://localhost:3002/posts',{params:{name:user.name}});
+            const allPostsByUser = await axios.post('http://localhost:3002/posts',{id:user.id});
             if(allPostsByUser.data.success) {
                 setusersPosts(allPostsByUser.data.posts)
             }

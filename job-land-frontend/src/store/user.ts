@@ -119,8 +119,12 @@ class UserStore{
    async getChatsByUser(id:string){
 
         const res= await MessageService.getChatsByUserId(id);
+       console.log(res)
         if(res.success){
             this.setChats(res.chats)
+        }
+        else{
+            this.setChats([])
         }
 
     }

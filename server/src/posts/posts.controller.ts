@@ -9,9 +9,9 @@ export class PostsController {
     async getAllPosts(){
         return this.postService.getAllPosts();
 }
-    @Get()
-    async getPostByUserName(@Body() name: string) {
-            return this.postService.getPostByUserName(name);
+    @Post()
+    async getPostByUserId(@Body() data: any) {
+            return this.postService.getPostByUserId(data);
 
     }
 @Post()

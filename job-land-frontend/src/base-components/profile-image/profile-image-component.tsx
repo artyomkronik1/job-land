@@ -46,7 +46,7 @@ const ProfileImage = (props:profileProps)=> {
         }
     }
     return(
-      <div className={styles.profileForm} style={{backgroundColor:`${getbackgroundColor()}`, width:props.size=='big'?'100%':'50px',height:props.size=='big'?'170px':'50px' }} >
+      <div className={styles.profileForm} style={{backgroundColor:`${getbackgroundColor()}`, width:props.size=='big'?'170px':'50px',height:props.size=='big'?'170px':'50px' }} >
           <span style={{display:'flex', justifyContent:"center", alignItems:'center', fontWeight:'bold', fontSize:props.size=='big'?'70px':'25px'}}>{ initials() }</span>
       </div>
     )

@@ -37,7 +37,6 @@ const  MessagesComponent  = observer( ()=>{
                                             <ProfileImage name={chat.messages[0].sender!=UserStore.user.id? UserStore.getUserNameById(chat.messages[0].sender) : UserStore.getUserNameById(chat.messages[0].receiver)}/>
                                             <div style={{display:'flex', flexDirection:'column', gap:'10px'}}>
                                              <span style={{fontSize:'15px', color:'#404141'}} className={globalStyles.simpleP}>{UserStore.user.id!=chat.messages[0].receiver ? UserStore.getUserNameById(chat.messages[0].receiver) :  UserStore.getUserNameById(chat.messages[0].sender)}</span>
-                                              <span style={{fontSize:'15px', color:'#404141'}} className={globalStyles.simpleP}>{UserStore.user.id!=chat.messages[0].receiver ? UserStore.getUserInfoById(chat.messages[0].receiver)?.about :  UserStore.getUserInfoById(chat.messages[0].sender)?.about}</span>
                                             </div>
                                           </div>
 
@@ -53,11 +52,13 @@ const  MessagesComponent  = observer( ()=>{
                                     {openChat ? (
                                         <div style={{display:'flex',alignItems:'start', justifyContent:'space-between', width:'100%' ,flexDirection:'column'  }}>
                                             <div style={{display:'flex', flexDirection:'row', alignItems:'start', gap:'10px'}}>
-                                                <div style={{display:'flex', flexDirection:'column', gap:'10px'}}>
-                                                    <span style={{fontSize:'15px', color:'#404141'}} className={globalStyles.simpleP}>{UserStore.user.id!=chat.messages[0].receiver ? UserStore.getUserNameById(chat.messages[0].receiver) :  UserStore.getUserNameById(chat.messages[0].sender)}</span>
+                                                <div style={{display:'flex', flexDirection:'column', gap:'10px', alignItems:'start'}}>
+                                                    <span style={{fontSize:'15px', color:'#404141'}} className={globalStyles.simpleP}>{UserStore.user.id!=openChat.messages[0].receiver ? UserStore.getUserNameById(openChat.messages[0].receiver) :  UserStore.getUserNameById(openChat.messages[0].sender)}</span>
+                                                    <span style={{fontSize:'13px', fontWeight:'normal', color:'#79797a'}} className={globalStyles.simpleP}>{UserStore.user.id!=openChat.messages[0].receiver ? UserStore.getUserInfoById(openChat.messages[0].receiver)?.about :  UserStore.getUserInfoById(openChat.messages[0].sender)?.about}</span>
+
                                                 </div>
                                             </div>
-                                            <div style={{  paddingBottom:'50px', borderBottom:'1px solid #cfd0d2',marginBottom:'50px', width:'100%', display:'flex',justifyContent:'start' }}>
+                                            <div style={{  paddingBottom:'20px', borderBottom:'1px solid #cfd0d2',marginBottom:'50px', width:'100%', display:'flex',justifyContent:'start' }}>
                                             </div>
                                         </div>
                                     ):null}
