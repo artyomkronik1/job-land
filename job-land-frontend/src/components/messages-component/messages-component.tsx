@@ -24,7 +24,7 @@ const  MessagesComponent  = observer( ()=>{
     return (
         <>
             <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
-                <div style={{marginTop:'90px',display:'flex', flexDirection:'column', alignItems:'center', width:'100%', height:'100vh'}} >
+                <div style={{ marginTop:'90px',display:'flex', flexDirection:'column', alignItems:'center', width:'100%', height:'100vh'}} >
                 {/*    messages container*/}
 
                     {chats.length>0?chats.map((chat:Chat, index)=>
@@ -41,7 +41,6 @@ const  MessagesComponent  = observer( ()=>{
                                             </div>
                                           </div>
 
-                                              <i className={`fa fa-arrow-circle-right ${styles.arrowIcon} `} aria-hidden="true"></i>
                                     </div>
                                     <div style={{  paddingBottom:'20px', borderBottom:'1px solid #cfd0d2',marginBottom:'50px', width:'100%', display:'flex',justifyContent:'start' }}>
                                     </div>
@@ -49,9 +48,21 @@ const  MessagesComponent  = observer( ()=>{
 
                             </div>
                             <div className={styles.messagesContainer__rightSide}>
+                                <div style={{ display:'flex' , flexDirection:'column', alignItems:'start', width:'100%'}}>
+                                    {/*title of the chat*/}
+                                    {openChat ? (
+                                        <div style={{display:'flex',alignItems:'start', justifyContent:'space-between', width:'100%' ,flexDirection:'column'  }}>
+                                            <div style={{display:'flex', flexDirection:'row', alignItems:'start', gap:'10px'}}>
+                                                <div style={{display:'flex', flexDirection:'column', gap:'10px'}}>
+                                                    <span style={{fontSize:'15px', color:'#404141'}} className={globalStyles.simpleP}>{UserStore.user.id!=chat.messages[0].receiver ? UserStore.getUserNameById(chat.messages[0].receiver) :  UserStore.getUserNameById(chat.messages[0].sender)}</span>
+                                                </div>
+                                            </div>
+                                            <div style={{  paddingBottom:'50px', borderBottom:'1px solid #cfd0d2',marginBottom:'50px', width:'100%', display:'flex',justifyContent:'start' }}>
+                                            </div>
+                                        </div>
+                                    ):null}
 
-                                <div style={{height:'100%', display:'flex' , flexDirection:'column', alignItems:'start', width:'100%'}}>
-                                {openChat?.messages.map((msg:Message, index)=>
+                                    {openChat?.messages.map((msg:Message, index)=>
                                     <div  key={index} style={{display:'flex' , justifyContent:'space-between', width:'100%', flexDirection:'column', gap:'30px', marginBottom:'30px'}}>
                                         {msg.sender==userStore.user.id? (
                                             <div style={{display:'flex', justifyContent:'start', width:'100%', gap:'8px'}}>
