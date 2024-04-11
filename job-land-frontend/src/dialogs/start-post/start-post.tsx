@@ -34,15 +34,23 @@ const StartPostDialog = (props:startPostProps) => {
     const { i18n } = useTranslation();
     const [description, setDescription] = useState('')
     const post=async()=>{
-     const res = await UserStore.post('title',UserStore.user.id, description,UserStore.user.name)
-       if (res?.success) {
-            toast.success(t('SUCCESS'));
-            // updating the posts with new post
-            await jobsStore.getAllPosts()
-        } else {
-            toast.error(t('ERROR!') + ' ' + res?.errorCode);
+        // check if description is empty
+        if(description==''){
+            toast.error(t('ERROR! Description is empty') );
+            closeFinalyDialog(false)
         }
-        closeFinalyDialog(true)
+        else{
+            const res = await UserStore.post('title', UserStore.user.id, description, UserStore.user.name)
+            if (res?.success) {
+                toast.success(t('SUCCESS'));
+                // updating the posts with new post
+                await jobsStore.getAllPosts()
+            } else {
+                toast.error(t('ERROR!') + ' ' + res?.errorCode);
+            }
+            closeFinalyDialog(true)
+        }
+
     }
     const closeDialog=()=>{
         if(description.length==0) {
