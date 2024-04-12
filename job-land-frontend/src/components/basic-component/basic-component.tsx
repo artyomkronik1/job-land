@@ -18,11 +18,13 @@ import SignIn from "../signIn/signIn";
 import ProfileComponent from "../profile-component/profile-component";
 import ProfileImage from "../../base-components/profile-image/profile-image-component";
 import StartPost from "../../dialogs/start-post/start-post";
+import {Chat} from "../../interfaces/chat";
 export interface basicComponentProps{
     children: ReactNode;
 }
 const  BasicComponent  = observer( (props:basicComponentProps)=>{
-    console.log(UserStore.loggedIn)
+    // users chats
+    const [chats, setChats] = useState<Chat[]>(UserStore.getChats())
     const navigate = useNavigate();
     //language
     const { t } = useTranslation();
@@ -156,54 +158,33 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
                                             <div  className={`${styles.fade_in} ${messageBoxIsOpen ? `${styles.allMessagesContainer_visible}` :`${styles.allMessagesContainer_hidden}`}`}>
                                                 {/*all user chats*/}
                                                 <div className={styles.allMessagesContainer}  >
-                                                    <div  >
-                                                        <div className={styles.messageContainer}>
-                                                            <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
+                                                    {chats.length>0?chats.map((chat:Chat, index)=>
+                                                                // chat box
+                                                                <div>
+                                                                <div className={styles.messageContainer}>
+                                                                    <ProfileImage name={chat.messages[0].sender!=UserStore.user.id? UserStore.getUserNameById(chat.messages[0].sender) : UserStore.getUserNameById(chat.messages[0].receiver)}/>
                                                             <div style={{   display:'flex', flexDirection:'column', alignItems:'start', justifyContent:'space-around'}}>
-                                                                <span className={styles.simpleP}> {UserStore.getUser().name}</span>
-                                                                <span style={{fontSize:'16px', fontWeight:'normal'}} className={styles.simpleP}> {UserStore.getUser().role}</span>
+                                                                <span className={styles.simpleP}> {UserStore.getUser().name!=chat.messages[0].sender?UserStore.getUserNameById(chat.messages[0].sender):UserStore.getUserNameById(chat.messages[0].receiver)}</span>
+                                                                <span style={{fontSize:'16px', fontWeight:'normal'}} className={styles.simpleP}> {UserStore.getUser().name!=chat.messages[0].sender?UserStore.getUserInfoById(chat.messages[0].sender)?.about:UserStore.getUserInfoById(chat.messages[0].receiver)?.about}</span>
                                                             </div>
                                                             {UserStore.getLanguage()=='en'?( <i style={{color:'#0a66c2'}} className="fa fa-arrow-circle-right" ></i>)
                                                                 :(<i style={{color:'#0a66c2'}} className="fa fa-arrow-circle-left"></i>)
                                                             }
                                                         </div>
                                                         <div style={{marginTop:'5px', marginBottom:'15px', marginInlineStart:'15px' ,display:'flex', width:'88%',  borderBottom:'0.5px solid #e8e8e8'}}> </div>
-
-                                                        <div className={styles.messageContainer}>
-                                                            <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
-                                                            <div style={{display:'flex', flexDirection:'column', alignItems:'start', justifyContent:'space-around'}}>
-                                                                <span className={styles.simpleP}> {UserStore.getUser().name}</span>
-                                                                <span style={{fontSize:'16px', fontWeight:'normal'}} className={styles.simpleP}> {UserStore.getUser().role}</span>
-                                                            </div>
-                                                            {UserStore.getLanguage()=='en'?( <i style={{color:'#0a66c2'}} className="fa fa-arrow-circle-right" ></i>)
-                                                                :(<i style={{color:'#0a66c2'}} className="fa fa-arrow-circle-left"></i>)
-                                                            }
-                                                        </div>
-                                                        <div style={{marginTop:'5px', marginBottom:'15px', marginInlineStart:'15px' ,display:'flex', width:'88%',  borderBottom:'0.5px solid #e8e8e8'}}> </div>
-
-                                                        <div className={styles.messageContainer}>
-                                                            <div style={{width:'50px', height:'50px',background:'blue',borderRadius:'50%'}}></div>
-                                                            <div style={{display:'flex', flexDirection:'column', alignItems:'start', justifyContent:'space-around'}}>
-                                                                <span className={styles.simpleP}> {UserStore.getUser().name}</span>
-                                                                <span style={{fontSize:'16px', fontWeight:'normal'}} className={styles.simpleP}> {UserStore.getUser().role}</span>
-                                                            </div>
-                                                            {UserStore.getLanguage()=='en'?( <i style={{color:'#0a66c2'}} className="fa fa-arrow-circle-right" ></i>)
-                                                                :(<i style={{color:'#0a66c2'}} className="fa fa-arrow-circle-left"></i>)
-                                                            }
-
-                                                        </div>
-                                                        <div style={{marginTop:'5px', marginBottom:'15px', marginInlineStart:'15px' ,display:'flex', width:'88%',  borderBottom:'0.5px solid #e8e8e8'}}> </div>
-
                                                     </div>
+                                                    ):null}
+
 
                                                 </div>
                                             </div>
+                                            {/*users chat box*/}
                                             <div  style={{position:'relative', bottom:'20px', width:'40vh', backgroundColor:'white'}} onClick={()=> setmessageBoxIsOpen(!messageBoxIsOpen)}>
                                                 <div className={styles.messageContainerMain}>
                                                         <ProfileImage name={UserStore.user.name}/>
                                                         <div style={{display:'flex', flexDirection:'column', alignItems:'start', justifyContent:'space-around'}}>
                                                         <span className={styles.simpleP}> {UserStore.getUser().name}</span>
-                                                        <span style={{fontSize:'16px', fontWeight:'normal'}} className={styles.simpleP}> {'1'}</span>
+                                                            <span style={{fontSize:'16px', fontWeight:'normal'}} className={styles.simpleP}> {UserStore.getUser().about}</span>
                                                     </div>
                                                 </div>
                                             </div>
