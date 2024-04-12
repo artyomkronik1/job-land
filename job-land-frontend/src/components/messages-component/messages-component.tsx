@@ -10,6 +10,7 @@ import {User} from "../../interfaces/user";
 import userStore from "../../store/user";
 import {Chat} from "../../interfaces/chat";
 import MessageService from "../../services/messageService";
+import TextAreaComponent from "../../base-components/textArea/text-area-component";
 const  MessagesComponent  = observer( ()=>{
     //language
     const { t } = useTranslation();
@@ -61,8 +62,9 @@ const  MessagesComponent  = observer( ()=>{
                                             <div style={{  paddingBottom:'20px', borderBottom:'1px solid #cfd0d2',marginBottom:'50px', width:'100%', display:'flex',justifyContent:'start' }}>
                                             </div>
                                         </div>
-                                    ):null}
 
+                                    ):null}
+                                    {/*messages*/}
                                     {openChat?.messages.map((msg:Message, index)=>
                                     <div  key={index} style={{display:'flex' , justifyContent:'space-between', width:'100%', flexDirection:'column', gap:'30px', marginBottom:'30px'}}>
                                         {msg.sender==userStore.user.id? (
@@ -81,12 +83,28 @@ const  MessagesComponent  = observer( ()=>{
                                            </div>
                                         </div>
                                     </div>
+
+
                                         }
                                     </div>
-                                )}
+                                        )}
+                                    {/*send message*/}
+                                    {openChat?(
+                                        <>
+                                            <div style={{  paddingBottom:'20px', borderBottom:'1px solid #cfd0d2',marginBottom:'50px', width:'100%', display:'flex',justifyContent:'start' }}></div>
+                                            <div style={{display:'flex', justifyContent:'center', width:'100%'}}>
+                                            <TextAreaComponent textPlaceHolder={'Write a message'}/>
+                                            </div>
+
+                                        </>
+                                        ):null}
                                 </div>
+
                             </div>
-                        </div>
+
+                            </div>
+
+
                     ):(
                         <div>
                             <span className={globalStyles.simpleP}>         There is no messages</span>
