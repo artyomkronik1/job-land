@@ -1,0 +1,22 @@
+
+.textAreaContainer {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+width: 100%;
+  background: #f4f2ee;
+  border-radius: 20px;
+}
+.textArea{
+  resize: none;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  outline: none;
+
+  background: #f4f2ee;
+  border-radius: 20px;
+}
+.sendImage {
+margin-right: 10px;
+cursor: pointer}

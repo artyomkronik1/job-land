@@ -90,13 +90,13 @@ const  MessagesComponent  = observer( ()=>{
                                         )}
                                     {/*send message*/}
                                     {openChat?(
-                                        <>
-                                            <div style={{  paddingBottom:'20px', borderBottom:'1px solid #cfd0d2',marginBottom:'50px', width:'100%', display:'flex',justifyContent:'start' }}></div>
-                                            <div style={{display:'flex', justifyContent:'center', width:'100%'}}>
-                                            <TextAreaComponent textPlaceHolder={'Write a message'}/>
-                                            </div>
+                                        <div style={{width:'100%'}}>
+                                            <div style={{  paddingBottom:'5px', borderBottom:'1px solid #cfd0d2',marginBottom:'15px', width:'100%', display:'flex',justifyContent:'start' }}></div>
 
-                                        </>
+                                            <TextAreaComponent textPlaceHolder={'Write a message'}/>
+
+
+                                        </div>
                                         ):null}
                                 </div>
 
