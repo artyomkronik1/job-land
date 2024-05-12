@@ -11,16 +11,37 @@ import userStore from "../../store/user";
 import {Chat} from "../../interfaces/chat";
 import MessageService from "../../services/messageService";
 import TextAreaComponent from "../../base-components/textArea/text-area-component";
+import Login from "../login/login";
 const  MessagesComponent  = observer( ()=>{
     //language
     const { t } = useTranslation();
     const { i18n } = useTranslation();
+    const [newMessageContent, setnewMessageContent] = useState('');
+
+    const [newMessage, setnewMessage] = useState<Message>({sender:'', content:'',receiver:'',timestamp:''});
     const [useSearchValue, setSearchValue] = useState('');
     const [chats, setChats] = useState<Chat[]>(UserStore.getChats())
     const [openChat, setOpenChat] = useState<Chat>()
     const openNewChat = async(chat:Chat)=>{
         setOpenChat(chat)
-        console.log('openChat', openChat)
+    }
+    const setnewMessageContentHandler = (event: any)=>{
+        setnewMessageContent(event.target.value)
+    }
+    const sendNewMessage = ()=>{
+        // getting now timestap
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0'); // Get the current hour and pad with leading zero if necessary
+        const minutes = String(now.getMinutes()).padStart(2, '0'); // Get the current minute and pad with leading zero if necessary
+        const seconds = String(now.getSeconds()).padStart(2, '0'); // Get the current second and pad with leading zero if necessary
+        const currentTime = `${hours}:${minutes}:${seconds}`;
+
+        if(openChat){
+            console.log(openChat._id)
+
+            const newMsg: Message = {content:newMessageContent, sender:userStore.user.id, receiver:openChat.messages[0].sender!=UserStore.user.id?openChat.messages[0].sender:openChat.messages[0].receiver, timestamp:currentTime}
+        MessageService.sendMessageToChat(openChat._id, newMsg)
+        }
     }
     return (
         <>
@@ -93,7 +114,7 @@ const  MessagesComponent  = observer( ()=>{
                                         <div style={{width:'100%'}}>
                                             <div style={{  paddingBottom:'5px', borderBottom:'1px solid #cfd0d2',marginBottom:'15px', width:'100%', display:'flex',justifyContent:'start' }}></div>
 
-                                            <TextAreaComponent textPlaceHolder={'Write a message'}/>
+                                            <TextAreaComponent onSendClick={sendNewMessage} onChange={setnewMessageContentHandler} value={newMessage.content} textPlaceHolder={'Write a message'}/>
 
 
                                         </div>

@@ -102,7 +102,7 @@ class UserStore{
         await jobsStore.getAllPosts()
         //await this.getUserMessages();
 }
-     groupMessagesIntoChats = (messages: Message[]): Chat[] => {
+     groupMessagesIntoChats = (messages: Message[]): any[] => {
         const chats: { [key: string]: Message[] } = {};
 
         messages.forEach((message) => {
