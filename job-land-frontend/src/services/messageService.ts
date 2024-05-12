@@ -13,7 +13,7 @@ const MessageService = {
 
         try {
             const response: AxiosResponse<Chat[]> = await axios.post<Chat[]>(`${BASE_URL}/chats/sendmsg`, {chatid:chatid, msg:msg});
-            console.log(response.data)
+            console.log("r",response.data)
             return response.data;
         } catch (error) {
             console.error('Error fetching messages:', error);

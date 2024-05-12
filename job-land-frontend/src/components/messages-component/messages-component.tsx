@@ -28,7 +28,7 @@ const  MessagesComponent  = observer( ()=>{
     const setnewMessageContentHandler = (event: any)=>{
         setnewMessageContent(event.target.value)
     }
-    const sendNewMessage = ()=>{
+    const sendNewMessage = async()=>{
         // getting now timestap
         const now = new Date();
         const hours = String(now.getHours()).padStart(2, '0'); // Get the current hour and pad with leading zero if necessary
@@ -40,7 +40,13 @@ const  MessagesComponent  = observer( ()=>{
             console.log(openChat._id)
 
             const newMsg: Message = {content:newMessageContent, sender:userStore.user.id, receiver:openChat.messages[0].sender!=UserStore.user.id?openChat.messages[0].sender:openChat.messages[0].receiver, timestamp:currentTime}
-        MessageService.sendMessageToChat(openChat._id, newMsg)
+        const result = await MessageService.sendMessageToChat(openChat._id, newMsg)
+            if(result.success)
+            {
+                UserStore.getChatsByUser(UserStore.user.id)
+                setOpenChat(result.chat)
+            }
+
         }
     }
     return (

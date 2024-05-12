@@ -11,8 +11,28 @@ export class ChatsService {
 
     // addNewMessageToChatById
     async addNewMessageToChatById(id:string, msg:Message){
-        let chat = await this.chatsModel.findById(id);
-        console.log(chat)
+        try {
+            let chat = await this.chatsModel.findByIdAndUpdate(id, { $push: { messages: msg } }, { new: true });
+            if (chat) {
+                console.log(chat);
+                return{
+                    success:true,
+                    chat:chat
+                }
+            } else {
+                console.error('Chat not found');
+                return{
+                    success:false,
+                    errorCode:"fail_to_find_chat"
+                }
+            }
+        } catch (error) {
+            console.error('Error adding message to chat:', error);
+            return{
+                success:false,
+                errorCode:"fail_to_add_new_msg"
+            }
+        }
 
     }
     async getAllChats(){
