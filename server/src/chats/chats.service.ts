@@ -9,6 +9,29 @@ import {Message} from "../message/message.model";
 export class ChatsService {
     constructor(@InjectModel('Chat') private readonly chatsModel: Model<Chat>) {}
 
+    //getChatsById
+    async getChatsById(id:string){
+        try {
+            // Query the database to fetch chats by their ID
+            const chat = await this.chatsModel.find({ _id: id });
+            if(chat)
+            {
+                return{
+                    success:true,
+                    chat:chat,
+                }
+            }
+            else{
+                return {
+                    success:false
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching chats:', error);
+            throw new Error('Error fetching chats');
+        }
+}
+
     // addNewMessageToChatById
     async addNewMessageToChatById(id:string, msg:Message){
         try {

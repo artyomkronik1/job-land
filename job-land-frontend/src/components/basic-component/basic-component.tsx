@@ -153,6 +153,18 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
                                         </div>
                                         {/*messages*/}
                                         <div className={styles.right_main_messages }>
+                                            {/*active chaat*/}
+                                            <div  style={{position:'relative', bottom:'20px', width:'40vh', backgroundColor:'white'}} >
+                                                <div className={styles.messageContainerMain}>
+                                                    <ProfileImage name={UserStore.user.name}/>
+                                                    <div style={{display:'flex', flexDirection:'column', alignItems:'start', justifyContent:'space-around'}}>
+                                                        <span className={styles.simpleP}> {UserStore.getUser().name}</span>
+                                                        <span style={{fontSize:'16px', fontWeight:'normal'}} className={styles.simpleP}> {UserStore.getUser().about}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
                                             {/*    open all message box*/}
 
                                             <div  className={`${styles.fade_in} ${messageBoxIsOpen ? `${styles.allMessagesContainer_visible}` :`${styles.allMessagesContainer_hidden}`}`}>
@@ -160,6 +172,7 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
                                                 <div className={styles.allMessagesContainer}  >
                                                     {chats.length>0?chats.map((chat:Chat, index)=>
                                                                 // chat box
+
                                                                 <div>
                                                                 <div className={styles.messageContainer}>
                                                                     <ProfileImage name={chat.messages[0].sender!=UserStore.user.id? UserStore.getUserNameById(chat.messages[0].sender) : UserStore.getUserNameById(chat.messages[0].receiver)}/>
@@ -177,6 +190,8 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
 
 
                                                 </div>
+
+
                                             </div>
                                             {/*users chat box*/}
                                             <div  style={{position:'relative', bottom:'20px', width:'40vh', backgroundColor:'white'}} onClick={()=> setmessageBoxIsOpen(!messageBoxIsOpen)}>
@@ -189,7 +204,27 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
                                                 </div>
                                             </div>
 
+
+
+
                                         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                     </div>
                                 </div>
                             </div>

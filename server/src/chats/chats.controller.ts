@@ -4,6 +4,10 @@ import {Message} from "../message/message.model";
 @Controller('chats')
 export class ChatsController {
     constructor(private chatsService: ChatsService) {}
+    @Post('/id')
+    async getChatsById(@Body('id') id: string) {
+        return this.chatsService.getChatsById(id);
+    }
     @Post()
     async getChatsByUserId(@Body('id') id: string) {
         return this.chatsService.getChatsByUserId(id);

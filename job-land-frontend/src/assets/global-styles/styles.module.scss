@@ -127,6 +127,10 @@ margin-inline-start: 20px;
 }
 //box shadows
 [dir="rtl"] {
+  .fade_in {
+    margin-left: -20px;
+    margin-right: 20px;
+  }
   .left {
     padding-inline-start: 45px;
 
@@ -134,6 +138,8 @@ margin-inline-start: 20px;
     box-shadow: -5px 0px 10px 1px #aaaaaa;
   }
   .right_main_messages {
+    flex-direction: row;
+    gap: 20px;
     padding: 10px 50px 20px 60px;
     position: fixed;
     bottom: 0px;
@@ -146,7 +152,13 @@ margin-inline-start: 20px;
   }
 }
 [dir="ltr"] {
+  .fade_in {
+    margin-right: -10px;
+    margin-left: 30px;
+  }
   .right_main_messages {
+    flex-direction: row;
+    gap: 10px;
     padding: 10px 50px 20px 120px;
     position: fixed;
     bottom: 0px;
@@ -265,6 +277,7 @@ margin-inline-start: 20px;
   bottom: 20px;
 }
 .fade_in {
+  flex-direction: column;
   display: flex;
   justify-content: end;
   background-color: white;

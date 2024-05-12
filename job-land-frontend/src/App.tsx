@@ -33,6 +33,8 @@ function App() {
                     <Route path="/profile" element={<ProfileComponent/>}/>
                     <Route path="/profile/:username" element={<ProfileComponent />} />
                     <Route path="/messages" element={<MessagesComponent/>}/>
+                    <Route path="/messages/:chatId" element={<MessagesComponent/>}/>
+
                 </Routes>
             </BasicComponent>
 
