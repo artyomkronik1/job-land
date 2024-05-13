@@ -14,8 +14,7 @@ const TextAreaComponent = ({value, textPlaceHolder, onSendClick, onChange }:any)
     };
     return(
         <div className={styles.textAreaContainer}>
-        <textarea                 onKeyDown={handleKeyDown} // Listen for keydown events
-                                  placeholder={textPlaceHolder} value={value} onChange={event => onChange(event)} className={styles.textArea} rows={4} cols={5} maxLength={250}></textarea>
+        <textarea                 onKeyDown={handleKeyDown} placeholder={textPlaceHolder} value={value} onChange={event => onChange(event)} className={styles.textArea} rows={4} cols={5} maxLength={250}></textarea>
            <button style={{border:"none"}} onClick={onSendClick}>
             <img src={sendImage} alt="Send" className={styles.sendImage} />
            </button>
