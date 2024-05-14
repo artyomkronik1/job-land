@@ -12,7 +12,7 @@
   //justify-content: space-between;
   &__leftSide{
     background: white;
-    padding: 20px;
+   // padding: 20px;
     border-right:1px solid #cfd0d2;
     width: 40%;
     display: flex;
@@ -21,12 +21,13 @@
     align-items: center;
     &__messageBox{
       height: 100%;
-      padding: 20px;
+     // padding: 20px;
       display: flex;
       flex-direction: column;
       //justify-content: center;
       width: 100%;
     }
+
   }
   &__rightSide{
     background: white;
@@ -57,4 +58,11 @@
 }
 .arrowIcon:hover, .arrowIcon:visited{
  color:$secondColor
+}
+.openedChat{
+  display: flex;
+  background-color: $thirdColor;
+}
+.closedChat{
+  background-color: white;
 }
