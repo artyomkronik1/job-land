@@ -4,7 +4,6 @@ import {Message} from "../interfaces/message";
 import {Chat} from "../interfaces/chat";
 
 
-
 const BASE_URL: string = 'http://localhost:3002';
 
 const MessageService = {
@@ -14,6 +13,7 @@ const MessageService = {
         try {
             const response: AxiosResponse<Chat[]> = await axios.post<Chat[]>(`${BASE_URL}/chats/sendmsg`, {chatid:chatid, msg:msg});
             return response.data;
+
         } catch (error) {
             console.error('Error fetching messages:', error);
             return [];

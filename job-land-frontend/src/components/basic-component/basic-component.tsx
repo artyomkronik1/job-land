@@ -128,6 +128,7 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
             {
                 setactiveChat(result.chat)
                 setnewMessageContent('')
+                await UserStore.getChatsByUser(UserStore.user.id)
             }
 
         }

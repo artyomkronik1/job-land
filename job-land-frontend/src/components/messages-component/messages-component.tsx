@@ -48,6 +48,8 @@ const  MessagesComponent  = ()=> {
             {
                 setOpenChat(result.chat)
                 setnewMessageContent('')
+                await UserStore.getChatsByUser(UserStore.user.id)
+
             }
 
         }
