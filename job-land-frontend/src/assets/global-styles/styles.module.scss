@@ -234,6 +234,34 @@ margin-inline-start: 20px;
   align-items: center;
   flex-direction: row;
 }
+//active chat
+.activeChat{
+  flex-direction: column;
+  background-color:white;
+  position:relative;
+  bottom:20px;
+  width:40vh;
+  height:700px;
+  border-radius: 20px;
+  border:1px solid #e2e2e3;
+  display: flex;
+}
+.activeChatHeader{
+  padding:10px;
+  display: flex;
+  height:50px;
+  gap: 10px;
+  width: 95%;
+  border-bottom:1px solid #e2e2e3;
+  justify-content: space-between;
+}
+
+.x_image{
+  cursor: pointer;
+  height: 30px;
+  width: 30px;
+  display: flex;
+}
 .messageContainerMain{
   border:1px solid $thirdColor;
   display: flex;

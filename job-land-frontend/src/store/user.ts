@@ -150,7 +150,7 @@ getUserNameById = (id:string):string=>{
         })
         return userr
     }
-getUserInfoById = (id:string):User | undefined=>{
+getUserInfoById = (id:string):any =>{
     return   this.users.find(user=>user.id==id) ;
 }
     getMessagesByPersons = async (otherId:string)=>{

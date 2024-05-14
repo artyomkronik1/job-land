@@ -19,10 +19,22 @@ import ProfileComponent from "../profile-component/profile-component";
 import ProfileImage from "../../base-components/profile-image/profile-image-component";
 import StartPost from "../../dialogs/start-post/start-post";
 import {Chat} from "../../interfaces/chat";
+import x from '../../../src/assets/images/x.png';
+import userStore from "../../store/user";
+import {Message} from "../../interfaces/message";
+import globalStyles from "../../assets/global-styles/styles.module.scss";
+import TextAreaComponent from "../../base-components/textArea/text-area-component";
+import MessageService from "../../services/messageService";
+
 export interface basicComponentProps{
     children: ReactNode;
 }
 const  BasicComponent  = observer( (props:basicComponentProps)=>{
+    // active chat
+    const [activeChat, setactiveChat] = useState<Chat | null>()
+    const [newMessageContent, setnewMessageContent] = useState('');
+
+
     // users chats
     const [chats, setChats] = useState<Chat[]>(UserStore.getChats())
     const navigate = useNavigate();
@@ -86,6 +98,43 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
             <br/>
         </div>
     ));
+    const goToUserProfile =  (name:string)=>{
+        UserStore.setLoading(true);
+        setTimeout(() => {
+            UserStore.setLoading(false);
+            navigate(`/profile/${name}`);
+            UserStore.setTab("Profile")
+        },1000)
+    }
+    // active chat
+    const activateChat=(chat:Chat)=>{
+        setactiveChat(chat)
+    }
+    const closeActiveChat=()=>{
+        setactiveChat(null)
+    }
+    const sendNewMessage = async()=>{
+        // getting now timestap
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0'); // Get the current hour and pad with leading zero if necessary
+        const minutes = String(now.getMinutes()).padStart(2, '0'); // Get the current minute and pad with leading zero if necessary
+        const seconds = String(now.getSeconds()).padStart(2, '0'); // Get the current second and pad with leading zero if necessary
+        const currentTime = `${hours}:${minutes}:${seconds}`;
+
+        if(activeChat){
+            const newMsg: Message = {content:newMessageContent, sender:userStore.user.id, receiver:activeChat.messages[0].sender!=UserStore.user.id?activeChat.messages[0].sender:activeChat.messages[0].receiver, timestamp:currentTime}
+            const result = await MessageService.sendMessageToChat(activeChat._id, newMsg)
+            if(result.success)
+            {
+                setactiveChat(result.chat)
+                setnewMessageContent('')
+            }
+
+        }
+    }
+    const setnewMessageContentHandler = (event: any)=>{
+        setnewMessageContent(event.target.value)
+    }
     const moveOnSidebar=(str:string,index:number)=>{
         if(str=='top') {
             if (index == 4) {
@@ -154,26 +203,65 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
                                         {/*messages*/}
                                         <div className={styles.right_main_messages }>
                                             {/*active chaat*/}
-                                            <div  style={{position:'relative', bottom:'20px', width:'40vh', backgroundColor:'white'}} >
-                                                <div className={styles.messageContainerMain}>
-                                                    <ProfileImage name={UserStore.user.name}/>
-                                                    <div style={{display:'flex', flexDirection:'column', alignItems:'start', justifyContent:'space-around'}}>
-                                                        <span className={styles.simpleP}> {UserStore.getUser().name}</span>
-                                                        <span style={{fontSize:'16px', fontWeight:'normal'}} className={styles.simpleP}> {UserStore.getUser().about}</span>
+                                            {activeChat?(
+                                                <div className={styles.activeChat} >
+                                                    <div className={styles.activeChatHeader}>
+                                                        <div style={{display:'flex', gap:'5px'}}>
+                                                            <div onClick={()=>goToUserProfile(UserStore.getUserInfoById(activeChat.messages[0].sender)?.name!=UserStore.user.name?UserStore.getUserInfoById(activeChat.messages[0].sender)?.name:UserStore.getUserInfoById(activeChat.messages[0].receiver)?.name)}>
+                                                            <ProfileImage  name={UserStore.getUserInfoById(activeChat.messages[0].sender)?.name!=UserStore.user.name?UserStore.getUserInfoById(activeChat.messages[0].sender)?.name:UserStore.getUserInfoById(activeChat.messages[0].receiver)?.name}/>
+                                                            </div>
+                                                                <div style={{display:'flex', flexDirection:'column', alignItems:'start', justifyContent:'space-around'}}>
+                                                                <span className={styles.simpleP}> {UserStore.getUserInfoById(activeChat.messages[0].sender)?.name!=UserStore.user.name?UserStore.getUserInfoById(activeChat.messages[0].sender)?.name:UserStore.getUserInfoById(activeChat.messages[0].receiver)?.name}</span>
+                                                                <span style={{fontSize:'16px', fontWeight:'normal'}} className={styles.simpleP}> {UserStore.getUserInfoById(activeChat.messages[0].sender)?.name!=UserStore.user.name?UserStore.getUserInfoById(activeChat.messages[0].sender)?.about:UserStore.getUserInfoById(activeChat.messages[0].receiver)?.about}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div style={{display:'flex', justifyContent:'center', alignItems:'center'}} onClick={()=>closeActiveChat()}> <img src={x} className={styles.x_image}/></div>
                                                     </div>
-                                                </div>
-                                            </div>
+                                                {/*    messages*/}
+                                                    <div style={{padding:'10px',  maxHeight:'700px'}}>
+                                                    <div style={{ display:'flex', flexDirection:'column',  maxHeight:'500px', width:'100%', overflowY:'scroll'}}>
+                                                        {activeChat?.messages.map((msg:Message, index)=>
+                                                            <div  key={index} style={{display:'flex' , justifyContent:'space-between', width:'100%', flexDirection:'column', gap:'30px', marginBottom:'30px'}}>
+                                                                {msg.sender==userStore.user.id? (
+                                                                        <div style={{display:'flex', justifyContent:'start', width:'100%', gap:'8px'}}>
+                                                                            <ProfileImage name={UserStore.user.name}/>
+                                                                            <div style={{display:'flex',gap:'10px', flexDirection:'column', alignItems:'start', justifyContent:'center'}}>
+                                                                                <span style={{fontSize:'18px',color:'#404141'}} className={globalStyles.simpleP}>{msg.content}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    ):
+                                                                    <div style={{display:'flex', flexDirection:'column'}}>
+                                                                        <div style={{display:'flex', justifyContent:'start', width:'100%', gap:'8px'}}>
+                                                                            <ProfileImage name={ UserStore.getUserNameById(msg.sender) }/>
+                                                                            <div style={{display:'flex',gap:'10px', flexDirection:'column', alignItems:'start', justifyContent:'center'}}>
+                                                                                <span style={{fontSize:'18px',color:'#404141'}} className={globalStyles.simpleP}>{msg.content}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
 
+
+                                                                }
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                    </div>
+                                                {/*    send message*/}
+                                                    {activeChat?(
+                                                        <div style={{width:'100%'}}>
+                                                            <div style={{  borderBottom:'1px solid #cfd0d2', marginTop:'10px', width:'100%', display:'flex',justifyContent:'start' }}></div>
+                                                            <TextAreaComponent onSendClick={sendNewMessage} onChange={setnewMessageContentHandler} value={newMessageContent} textPlaceHolder={t('Write a message')}/>
+                                                        </div>
+                                                    ):null}
+                                                </div>
+                                            ):null}
 
                                             {/*    open all message box*/}
-
                                             <div  className={`${styles.fade_in} ${messageBoxIsOpen ? `${styles.allMessagesContainer_visible}` :`${styles.allMessagesContainer_hidden}`}`}>
                                                 {/*all user chats*/}
                                                 <div className={styles.allMessagesContainer}  >
                                                     {chats.length>0?chats.map((chat:Chat, index)=>
                                                                 // chat box
-
-                                                                <div>
+                                                                <div onClick={()=>activateChat(chat)}>
                                                                 <div className={styles.messageContainer}>
                                                                     <ProfileImage name={chat.messages[0].sender!=UserStore.user.id? UserStore.getUserNameById(chat.messages[0].sender) : UserStore.getUserNameById(chat.messages[0].receiver)}/>
                                                             <div style={{   display:'flex', flexDirection:'column', alignItems:'start', justifyContent:'space-around'}}>
@@ -187,8 +275,6 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
                                                         <div style={{marginTop:'5px', marginBottom:'15px', marginInlineStart:'15px' ,display:'flex', width:'88%',  borderBottom:'0.5px solid #e8e8e8'}}> </div>
                                                     </div>
                                                     ):null}
-
-
                                                 </div>
 
 
@@ -203,28 +289,7 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
                                                     </div>
                                                 </div>
                                             </div>
-
-
-
-
                                         </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                     </div>
                                 </div>
                             </div>
