@@ -27,7 +27,6 @@ export class ChatsService {
                 }
             }
         } catch (error) {
-            console.error('Error fetching chats:', error);
             throw new Error('Error fetching chats');
         }
 }
@@ -37,20 +36,17 @@ export class ChatsService {
         try {
             let chat = await this.chatsModel.findByIdAndUpdate(id, { $push: { messages: msg } }, { new: true });
             if (chat) {
-                console.log(chat);
                 return{
                     success:true,
                     chat:chat
                 }
             } else {
-                console.error('Chat not found');
                 return{
                     success:false,
                     errorCode:"fail_to_find_chat"
                 }
             }
         } catch (error) {
-            console.error('Error adding message to chat:', error);
             return{
                 success:false,
                 errorCode:"fail_to_add_new_msg"
