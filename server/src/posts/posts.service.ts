@@ -35,7 +35,6 @@ export class PostsService {
         }
     }
     public async postNewPost(post:Post){
-        console.log(post)
         const newPost = new this.postModel({
             writer_name: post.writer_name,
             title: post.title,

@@ -126,7 +126,6 @@ export class UserService {
   public async setUser(info:any) {
 
     let u = await this.userModel.findById(info.user.id);
-    console.log( u)
     if (!u) {
       // Handle the case where the user with the given ID is not found
       return {success: false, errorCode: 'fail_to_find_user',};

@@ -48,7 +48,6 @@ const EditProfileDialog = (props:editProfileProps) => {
             user.about = about
             // set info
            const res =  await UserStore.setUserInfo(user)
-            console.log(res)
             if(res.data.success) {
                 toast.success(t('SUCCESS'));
                 setTimeout(() => {
@@ -71,7 +70,6 @@ const EditProfileDialog = (props:editProfileProps) => {
         props.onClose(success)
     }
     const handleChangeName = (event:any)=>{
-        console.log(event)
         setname(event);
     }
     const handleChangeAbout = (event:any)=>{

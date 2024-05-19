@@ -7,6 +7,7 @@ import {Message} from "../interfaces/message";
 import {Chat} from "../interfaces/chat";
 import {Post} from "../interfaces/post";
 import MessageService from "../services/messageService";
+import AuthService from "../services/authService";
 const hydrate = create({
     jsonify:true
 })
@@ -119,7 +120,6 @@ class UserStore{
    async getChatsByUser(id:string){
 
         const res= await MessageService.getChatsByUserId(id);
-       console.log(res)
         if(res.success){
             this.setChats(res.chats)
         }
@@ -206,7 +206,6 @@ getUserMessages = async ()=>{
     try {
         //sent
         const allSentMessages = await axios.post('http://localhost:3002/messages/byid',{receiverId:this.user.id});
-        console.log(allSentMessages)
         if(allSentMessages.data.success) {
             this.setChats(this.groupMessagesIntoChats(allSentMessages.data.messages))
         }
@@ -266,16 +265,17 @@ getUserMessages = async ()=>{
     }
     signup = async (name:string,password:string, email:string, role:string)=>{
         try {
-            const result = await axios.post('http://localhost:3002/users/signup', {name, password, email, role});
-            if(result.data.success) {
-                this.setUser(result.data.user)
+            const result = await AuthService.signup( name, password, email, role);
+
+            if(result.success) {
+                this.setUser(result.user)
                 this.setLoggedIn(true)
                 this.setSignedUp(true)
               await  this.init();
-                return result.data
+                return result
             }
             else{
-                return result.data
+                return result
             }
         } catch (error) {
             console.error('Error signup:', error);
@@ -297,18 +297,18 @@ getUserMessages = async ()=>{
     }
     login = async (email:string, password:string) => {
         try {
-            const result = await axios.post('http://localhost:3002/users/login', {email:email, password:password});
-                if(result.data.success) {
+            const result = await AuthService.login( email,password);
+                if(result.success) {
                     this.setLoading(false);
-                    this.setUser(result.data.user)
+                    this.setUser(result.user)
                     this.setLoggedIn(true)
                   await  this.init();
-                    return result.data
+                    return result
 
                 }
                 else{
                     this.setLoading(false);
-                    return result.data
+                    return result
                 }
         } catch (error) {
             this.setLoading(false);
