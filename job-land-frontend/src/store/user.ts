@@ -8,6 +8,7 @@ import {Chat} from "../interfaces/chat";
 import {Post} from "../interfaces/post";
 import MessageService from "../services/messageService";
 import AuthService from "../services/authService";
+import UserService from "../services/userService";
 const hydrate = create({
     jsonify:true
 })
@@ -218,9 +219,9 @@ getUserMessages = async ()=>{
 }
     getUserById =async (id:string)=>{
         try {
-            const result = await axios.get('http://localhost:3002/users',{params:{id:id}});
-            if(result.data.success) {
-                return result.data
+            const result = await UserService.getUserById(id)
+            if(result.success) {
+                return result
             }
             else{
                 return result.data
@@ -231,8 +232,8 @@ getUserMessages = async ()=>{
     }
     getUsers =async ()=>{
         try {
-            const result = await axios.get('http://localhost:3002/users');
-            if(result.data.success) {
+            const result = await UserService.getUsers()
+            if(result.success) {
                 this.setAllUsers(result.data.users)
                 return result.data
             }
