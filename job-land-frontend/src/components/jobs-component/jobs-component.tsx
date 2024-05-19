@@ -10,6 +10,9 @@ import axios from "axios";
 import {DropdownProps} from "../../interfaces/dropdown";
 import ProfileImage from "../../base-components/profile-image/profile-image-component";
 import jobsStore from "../../store/job";
+import EditProfileDialog from "../../dialogs/edit-profile/edit-profile";
+import {User} from "../../interfaces/user";
+import JobPopup from "../../dialogs/job-popup/job-popup";
 const  JobsComponent  = observer( ()=>{
     //language
     const { t } = useTranslation();
@@ -32,6 +35,32 @@ const  JobsComponent  = observer( ()=>{
         UserStore.setLanguage(lng)
         i18n.changeLanguage(lng);
     };
+    // job full popup
+    const [fullJob, setfullJob] = useState<Job>({
+        id: "",
+        title: "",
+        description: "",
+        salary: 0,
+        hire_name:"",
+        company_name:"",
+        hire_manager_id: "",
+        zone:"",
+        profession:"",
+        region:"",
+        manner:"",
+        experienced_level:"",
+        scope:""
+    });
+
+
+    const [openJob, setopenJob] = useState(false);
+    const seeFullJob =(job:Job)=>{
+        setopenJob(!openJob);
+        setfullJob (job)
+    }
+    const closePopup=(success:boolean)=>{
+        setopenJob(false)
+    }
     const searchJob=async()=>{
         try {
             // removing all null fields from propeties
@@ -65,6 +94,7 @@ const  JobsComponent  = observer( ()=>{
         {filterName:'experienced_level', options:['junior', 'mid_level', 'senior']},
         {filterName:'scope', options:['full_time', 'part_time']},
     ]
+
     const jobFiltersHTML= jobFilters.map((value,index)=>(
         <div key={index} style={{display:'flex',flexDirection:'row', justifyContent:'center'}}>
             <JobFilterBtn text={t(value.filterName)} type={value.filterName} options={value.options} changeFilterValue={addNewFilterValue}/>
@@ -88,6 +118,13 @@ const  JobsComponent  = observer( ()=>{
     }
     return (
         <>
+
+
+            {openJob ? (
+                <JobPopup isOpen={openJob} onClose={closePopup} children={fullJob}  />
+            ) : null}
+
+
             <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
                 <div style={{marginTop:'90px',display:'flex', flexDirection:'column', alignItems:'center', width:'100%'}} >
                     {/*job filters*/}
@@ -102,7 +139,7 @@ const  JobsComponent  = observer( ()=>{
                     {/*job component*/}
                     <div style={{display:"flex", justifyContent:'center', width:'100%'}}>
                         {jobsStore.filterJobs.length>0 ? jobsStore.filterJobs.map((job:Job,index)=>(
-                            <div style={{width:'90%'}} className={componentStyles.postContainer} key={index}>
+                            <div style={{width:'90%'}} className={componentStyles.postContainer} key={index} onClick={()=>seeFullJob(job)}>
                                 <div className={componentStyles.postContainer__header}>
                                     <ProfileImage name={job.hire_name}/>
                                     <div className={componentStyles.postContainer__header__details}>
