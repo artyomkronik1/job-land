@@ -1,10 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import {InjectModel} from "@nestjs/mongoose";
 import {Model} from "mongoose";
-import {Job, JobProperties} from './job.model'
+import {Emailprops, Job, JobProperties} from './job.model'
+import {EmailService} from "./email.service";
 @Injectable()
 export class JobService {
-    constructor(@InjectModel('Job') private readonly jobModel: Model<Job>) {}
+    constructor(@InjectModel('Job') private readonly jobModel: Model<Job>,    private readonly emailService: EmailService) {}
+
+    async applyForJob(emailProps:Emailprops){
+        console.log(emailProps)
+        return await this.emailService.sendEmail(emailProps.to, emailProps.title, emailProps.description); // Customize email content as needed
+    }
     async postNewJob(job: Job) {
         const newJob = new this.jobModel({
             title: job.title,

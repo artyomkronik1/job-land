@@ -81,6 +81,10 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
         {type:'fa fa-users', name:'Network'} ,
         {type:'fa fa-plus-circle', name:'New Post'} ,
         {type:'fa fa-bell', name:'Notifications'} ]
+    // add to hr
+    if(UserStore.user.role=="1"){
+        userMainOptions.push(     {type:'fa fa-plus-circle', name:'New Job'})
+    }
 
     const sideBarMainOptionsHtml = userMainOptions.map((value, index) => (
         <div key={index} style={{display:'flex', justifyContent:'start',flexDirection:'column', gap:'5px', marginInlineStart:'22px'}}>

@@ -16,6 +16,11 @@ export const JobSchema = new mongoose.Schema({
 
 })
 
+export interface Emailprops{
+    title:string;
+    description:string;
+    to:string
+}
 export interface Job{
     id: string;
     title: string;

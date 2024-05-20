@@ -1,27 +1,34 @@
-import React, {ReactNode, useEffect, useRef, useState} from 'react';
-import UserStore from "../../store/user";
-import styles from './job-popup.module.scss'
-import globalStyles from '../../assets/global-styles/styles.module.scss'
-import ProfileImage from "../../base-components/profile-image/profile-image-component";
-import {useTranslation} from "react-i18next";
-import {toast} from "react-toastify";
-import Popup from "../../base-components/popup/popup-component";
-import WarningPopup from "../../base-components/warning-popyp/warning-popup";
-import ToastComponent from "../../base-components/toaster/ToastComponent";
-import jobsStore from "../../store/job";
-import {Job} from "../../interfaces/job";
-export interface jobPopupProps{
-    isOpen:boolean;
-    onClose:(success:boolean)=>void;
-    children:Job ;
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import styles from './job-popup.module.scss';
+import globalStyles from '../../assets/global-styles/styles.module.scss';
+import ProfileImage from '../../base-components/profile-image/profile-image-component';
+import { useTranslation } from 'react-i18next';
+import Popup from '../../base-components/popup/popup-component';
+import ToastComponent from '../../base-components/toaster/ToastComponent';
+import { Job } from '../../interfaces/job';
+import addcv from '../../assets/images/addcv.png';
+import componentStyles from '../../components/MainLayout/mainLayout.module.scss';
+import newmsg from '../../assets/images/newmsg.png';
+import EmailService from "../../services/emailService";
+import userStore from "../../store/user";
+
+export interface jobPopupProps {
+    isOpen: boolean;
+    onClose: (success: boolean) => void;
+    children: Job;
 }
-const JobPopup = (props:jobPopupProps) => {
+
+const JobPopup = (props: jobPopupProps) => {
     const dialogRef = useRef<HTMLDivElement>(null);
+    const [description, setDescription] = useState('');
+    const [file, setFile] = useState<File | null>(null);
+    const [fileName, setFileName] = useState<string>(''); // State to store the uploaded file name
+    const fileInputRef = useRef<HTMLInputElement>(null); // Ref to the file input element
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (dialogRef.current && !dialogRef.current.contains(event.target as Node)) {
-                closeDialog();
+                props.onClose(true);
             }
         };
         document.addEventListener('mousedown', handleClickOutside);
@@ -29,51 +36,112 @@ const JobPopup = (props:jobPopupProps) => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
-    const [showWarningPopup, setshowWarningPopup] = useState(false)
-    //language
+
     const { t } = useTranslation();
-    const { i18n } = useTranslation();
-    const [description, setDescription] = useState('')
-    const closeDialog=()=>{
-        if(description.length==0) {
-            closeFinalyDialog(false)
+
+
+    // file
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.files && event.target.files.length > 0) {
+            const selectedFile = event.target.files[0];
+            setFile(selectedFile);
+            setFileName(selectedFile.name); // Set the filename when a file is selected
         }
-        else{
-            setshowWarningPopup(true)
+    };
+
+    const handleUpload = () => {
+        if (file) {
+            const formData = new FormData();
+            formData.append('cv', file);
+            EmailService.apply({
+                title:props.children.title,
+                to:"artiomkronik@gmail.com",
+               // to: userStore.getUserInfoById(props.children.hire_manager_id).email,
+                description:props.children.description
+            })
+            // Send formData to your backend API
         }
-    }
-    const closeFinalyDialog=(success:boolean)=>{
-        props.onClose(success)
-    }
-    const handleChange = (event:React.ChangeEvent<HTMLTextAreaElement>)=>{
-        setDescription(event.target.value);
-    }
+    };
+
+    const openFileManager = () => {
+        fileInputRef.current?.click();
+    };
 
     return (
         <>
+            <Popup onClose={() => props.onClose(true)}>
+                <ToastComponent />
+                <div className={styles.main}>
+                    <div className={styles.main__header}>
+                        <div style={{ display: 'flex', gap: '10px', marginBottom: '40px' }}>
+                            <ProfileImage name={props.children.hire_name} />
+                            <div className={componentStyles.postContainer__header__details}>
+                                <span style={{ fontSize: '20px', color: '#1c1c39' }}>{props.children.hire_name}</span>
+                                <span style={{ color: '#717273', fontSize: '16px', fontWeight: 'normal' }} className={globalStyles.simpleP}>
+                                  {props.children.company_name}
+                </span>
+                            </div>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
+                                  <span style={{ fontSize: '20px' }} className={globalStyles.mainGreySpan}>
+                                    {props.children.title}
+                                  </span>
+                            <span
+                                style={{
+                                    marginTop:'20px',
 
-            <Popup onClose={closeDialog}>
-        <ToastComponent />
-        <div className={styles.main}>
-        <div className={styles.main__header}>
-    <div style={{display:'flex', flexDirection:'column', alignItems:'start'}}>
-    <span style={{fontSize:'20px'}} className={globalStyles.mainGreySpan}>{props.children.title}</span>
-        <span style={{fontSize:'18px', fontWeight:'normal', color:'#79797a'}} className={globalStyles.mainGreySpan}>{props.children.description}</span>
-        </div>
-        </div>
-        <div className={styles.main__header__body}>
-        </div>
-        <div style={{display:'flex', justifyContent:'center'}}>
-    <div className={globalStyles.separate_line_grey}></div>
-        </div>
-        <div style={{display:'flex', justifyContent:'end', flex:'1 1 auto'}}>
-    <button style={{width:'80px'}}  className={globalStyles.btn}>{t('Post')}</button>
-    </div>
-    </div>
-    </Popup>
-    {/*<WarningPopup isOpen={showWarningPopup} onClose={closeFinalyDialog} onConfirm={closeFinalyDialog} onCancel={()=>setshowWarningPopup(false)}/>*/}
-    </>
-);
+                                    display: 'flex',
+                                    color: '#717273',
+                                    fontSize: '16px',
+                                    fontWeight: 'normal',
+                                    wordBreak: 'break-all',
+                                    width: '100%',
+                                    maxWidth: '100%',
+                                    maxHeight: '100%',
+                                    overflow: 'hidden',
+                                }}
+                            >
+                {props.children.description}
+              </span>
+                        </div>
+                        {/* Add CV */}
+                        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: '30px', gap: '10px' }}>
+                              <span className={globalStyles.mainGreySpan} style={{ fontSize: '22px' }}>
+                                {fileName ? fileName : t('add cv')} {/* Display filename if available, otherwise show "Add CV" */}
+                              </span>
+                            <div>
+                                <input
+                                    type="file"
+                                    accept=".pdf,.doc,.docx"
+                                    onChange={handleFileChange}
+                                    style={{ display: 'none' }}
+                                    ref={fileInputRef} // Assign the ref to the file input element
+                                />
+                                <label htmlFor="cv-upload" onClick={openFileManager}>
+                                    <img
+                                        style={{ cursor: 'pointer' }}
+                                        width={30}
+                                        height={30}
+                                        src={addcv}
+                                        alt="Upload CV"
+                                    />
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <div className={globalStyles.separate_line_grey}></div>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'end', flex: '1 1 auto' }}>
+                        <button style={{ width: '80px' }} className={globalStyles.btn} onClick={handleUpload}>
+                            {t('Apply')}
+                        </button>
+                    </div>
+                </div>
+            </Popup>
+        </>
+    );
 };
 
 export default JobPopup;

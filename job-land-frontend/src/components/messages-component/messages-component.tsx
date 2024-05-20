@@ -150,7 +150,7 @@ const  MessagesComponent  = ()=> {
 
                     ):(
                         <div>
-                            <span className={globalStyles.simpleP}>         There is no messages</span>
+                            <span className={globalStyles.simpleP}>    {   t(  "There is no messages")}</span>
 
                         </div>
                     )}

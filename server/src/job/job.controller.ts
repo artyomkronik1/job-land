@@ -1,7 +1,7 @@
 import {Body, Controller, Get, Post} from '@nestjs/common';
 import {UserService} from "../user/user.service";
 import {JobService} from "./job.service";
-import {Job} from "./job.model";
+import {Emailprops, Job} from "./job.model";
 
 @Controller('jobs')
 export class JobController {
@@ -26,4 +26,11 @@ export class JobController {
     async postNewJob(@Body() job:Job){
         return this.jobService.postNewJob(job)
     }
+
+//     apply for job
+    @Post('/apply')
+    async applyJob(@Body()emailprops:Emailprops){
+        return this.jobService.applyForJob(emailprops)
+}
+
 }
