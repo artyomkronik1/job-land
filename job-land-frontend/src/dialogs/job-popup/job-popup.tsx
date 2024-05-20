@@ -55,13 +55,12 @@ const JobPopup = (props: jobPopupProps) => {
             formData.append('cv', file);
             const serviceID = "service_ktqrx6g";
             const templateID = "template_popyu06";
-
             const params = { from_name:"Job Land", email:userStore.getUserInfoById(props.children.hire_manager_id)?.email,to_name:props.children.hire_name, message:"Hi, new cv !"}
             try {
                 const res = await emailjs.send(serviceID, templateID, params,{
                     publicKey: 'uBgCORDaioscnVWOQ'}
                 );
-                alert('Your CV sent successfully!!');
+                alert('You have upload resume successfully');
                 props.onClose(true)
             } catch (err) {
                 console.log(err);
