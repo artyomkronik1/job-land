@@ -56,12 +56,13 @@ const JobPopup = (props: jobPopupProps) => {
             const serviceID = "service_ktqrx6g";
             const templateID = "template_popyu06";
 
-            const params = { from_name:"Job Land", email:userStore.getUserInfoById(props.children.hire_manager_id).email,to_name:props.children.hire_name, message:"Hi, new cv !"}
+            const params = { from_name:"Job Land", email:userStore.getUserInfoById(props.children.hire_manager_id)?.email,to_name:props.children.hire_name, message:"Hi, new cv !"}
             try {
                 const res = await emailjs.send(serviceID, templateID, params,{
                     publicKey: 'uBgCORDaioscnVWOQ'}
                 );
                 alert('Your CV sent successfully!!');
+                props.onClose(true)
             } catch (err) {
                 console.log(err);
             }
@@ -112,7 +113,9 @@ const JobPopup = (props: jobPopupProps) => {
                         </div>
                         {/* Add CV */}
                         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: '30px', gap: '10px' }}>
-                              <span className={globalStyles.mainGreySpan} style={{ fontSize: '22px' }}>
+                            <label htmlFor="cv-upload" onClick={openFileManager} style={{display:"flex", gap:'10px',cursor:'pointer'}}>
+
+                            <span className={globalStyles.mainGreySpan} style={{ fontSize: '22px' }}>
                                 {fileName ? fileName : t('add cv')} {/* Display filename if available, otherwise show "Add CV" */}
                               </span>
                             <div>
@@ -123,7 +126,6 @@ const JobPopup = (props: jobPopupProps) => {
                                     style={{ display: 'none' }}
                                     ref={fileInputRef} // Assign the ref to the file input element
                                 />
-                                <label htmlFor="cv-upload" onClick={openFileManager}>
                                     <img
                                         style={{ cursor: 'pointer' }}
                                         width={30}
@@ -131,8 +133,9 @@ const JobPopup = (props: jobPopupProps) => {
                                         src={addcv}
                                         alt="Upload CV"
                                     />
-                                </label>
                             </div>
+                            </label>
+
                         </div>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
