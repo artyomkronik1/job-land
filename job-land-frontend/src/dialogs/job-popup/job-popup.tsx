@@ -8,8 +8,7 @@ import ToastComponent from '../../base-components/toaster/ToastComponent';
 import { Job } from '../../interfaces/job';
 import addcv from '../../assets/images/addcv.png';
 import componentStyles from '../../components/MainLayout/mainLayout.module.scss';
-import newmsg from '../../assets/images/newmsg.png';
-import EmailService from "../../services/emailService";
+import emailjs from '@emailjs/browser';
 import userStore from "../../store/user";
 
 export interface jobPopupProps {
@@ -50,17 +49,23 @@ const JobPopup = (props: jobPopupProps) => {
         }
     };
 
-    const handleUpload = () => {
+    const handleUpload = async() => {
         if (file) {
             const formData = new FormData();
             formData.append('cv', file);
-            EmailService.apply({
-                title:props.children.title,
-                to:"artiomkronik@gmail.com",
-               // to: userStore.getUserInfoById(props.children.hire_manager_id).email,
-                description:props.children.description
-            })
-            // Send formData to your backend API
+            const serviceID = "service_ktqrx6g";
+            const templateID = "template_popyu06";
+
+            const params = { from_name:"Job Land", email:userStore.getUserInfoById(props.children.hire_manager_id).email,to_name:props.children.hire_name, message:"Hi, new cv !"}
+            try {
+                const res = await emailjs.send(serviceID, templateID, params,{
+                    publicKey: 'uBgCORDaioscnVWOQ'}
+                );
+                alert('Your CV sent successfully!!');
+            } catch (err) {
+                console.log(err);
+            }
+
         }
     };
 
