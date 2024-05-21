@@ -6,4 +6,5 @@ export interface TextInputFieldProps {
     text: string;
     value:any;
     onChange:(event:string)=>void;
+    size?:string
 }

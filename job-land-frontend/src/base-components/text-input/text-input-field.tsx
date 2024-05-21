@@ -5,7 +5,8 @@ import styles from './text-input-field.module.scss'
  const TextInputField = (props:TextInputFieldProps)=> {
     return(
         <div className={styles.form}>
-            <label className={styles.title} htmlFor="form3Example3">
+
+            <label className={props.size=='small' ? styles.small_title : styles.title} htmlFor="form3Example3">
                 {props.text}
             </label>
             <input
@@ -13,7 +14,7 @@ import styles from './text-input-field.module.scss'
                 value={props.value}
                 onChange={e => props.onChange(e.target.value)}
                 id="form3Example3"
-                className={styles.input}
+                className={props.size=='small'? styles.input_small: styles.input}
                 
             />
         </div>

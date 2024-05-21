@@ -25,6 +25,7 @@ import {Message} from "../../interfaces/message";
 import globalStyles from "../../assets/global-styles/styles.module.scss";
 import TextAreaComponent from "../../base-components/textArea/text-area-component";
 import MessageService from "../../services/messageService";
+import PostNewJobPopup from "../../dialogs/postNewJob/post-new-job-popup";
 
 export interface basicComponentProps{
     children: ReactNode;
@@ -69,9 +70,14 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
     // search
     const [useSearchValue, setSearchValue] = useState('');
     //title
+    const [postNewJob, setpostNewJob] = useState(false)
+
     const [startPost, setStartPost] = useState(false)
     const closeStartPost =()=>{
         setStartPost(false)
+    }
+    const closePostNewJob =()=>{
+        setpostNewJob(false)
     }
     // sidebar options
     const userMainOptions=[
@@ -82,7 +88,7 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
         {type:'fa fa-plus-circle', name:'New Post'} ,
         {type:'fa fa-bell', name:'Notifications'} ]
     // add to hr
-    if(UserStore.user.role=="1"){
+    if(UserStore.user.role=="0"){
         userMainOptions.push(     {type:'fa fa-plus-circle', name:'New Job'})
     }
 
@@ -142,9 +148,14 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
     }
     const moveOnSidebar=(str:string,index:number)=>{
         if(str=='top') {
-            if (index == 4) {
+            if(index==6)
+            {
+             setpostNewJob(true)
+            }
+           else  if (index == 4) {
                 setStartPost(true)
-            } else {
+            }
+           else {
                 navigate(`/${userMainOptions[index].name.toLowerCase()}`)
                 UserStore.setTab(userMainOptions[index].name)
             }
@@ -156,9 +167,12 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
     }
     return (
         <>
-            <span>{UserStore.loggedIn}</span>
             {startPost&&(
             <StartPost isOpen={startPost} onClose={closeStartPost}/>
+            )}
+
+            {postNewJob&&(
+                <PostNewJobPopup isOpen={postNewJob} onClose={closePostNewJob}/>
             )}
             {!UserStore.loading?(
                 <>

@@ -8,29 +8,34 @@ export class JobService {
     constructor(@InjectModel('Job') private readonly jobModel: Model<Job>,    private readonly emailService: EmailService) {}
 
     async applyForJob(emailProps:Emailprops){
-        console.log(emailProps)
         return await this.emailService.sendEmail(emailProps.to, emailProps.title, emailProps.description); // Customize email content as needed
     }
-    async postNewJob(job: Job) {
+
+  public  async postNewJob(job: any) {
+        console.log(job)
+
         const newJob = new this.jobModel({
-            title: job.title,
-            description:job.description,
-            salary:job.salary,
-            hire_manager_id:job.hire_manager_id,
-            company_name:job.company_name,
-            hire_name:job.hire_name,
-            zone:job.zone,
-            profession:job.profession,
-            region:job.region,
-            manner:job.manner,
-            experienced_level:job.experienced_level,
-            scope:job.scope
+            title: job.job.title,
+            description:job.job.description,
+            salary:job.job.salary,
+            hire_manager_id:job.job.hire_manager_id,
+            company_name:job.job.company_name,
+            hire_name:job.job.hire_name,
+            zone:job.job.zone,
+            profession:job.job.profession,
+            region:job.job.region,
+            manner:job.job.manner,
+            experienced_level:job.job.experienced_level,
+            scope:job.job.scope
         });
+        console.log(newJob.title)
         const result = await newJob.save();
         if (result) {
             return {
                 success: true,
-                job: {
+                job:{
+
+                     id:newJob.id,
                     title: newJob.title,
                     description:newJob.description,
                     salary:newJob.salary,

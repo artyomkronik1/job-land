@@ -22,8 +22,8 @@ export class JobController {
     async getAllJobs(){
         return this.jobService.getAllJobs();
     }
-    @Post()
-    async postNewJob(@Body() job:Job){
+    @Post('/new')
+    async postNewJob(@Body() job:any){
         return this.jobService.postNewJob(job)
     }
 
@@ -32,5 +32,7 @@ export class JobController {
     async applyJob(@Body()emailprops:Emailprops){
         return this.jobService.applyForJob(emailprops)
 }
+
+
 
 }

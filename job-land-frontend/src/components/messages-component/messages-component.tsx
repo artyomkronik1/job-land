@@ -63,7 +63,7 @@ const  MessagesComponent  = ()=> {
                 {/*    messages container*/}
                 {/*    title*/}
                     <div style={{backgroundColor:'white' , width:'100%', height:'150px', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-                        <h1 style={{paddingLeft:'20px',paddingRight:'20px', color:'#a9acb1'}}>Messaging</h1>
+                        <h1 style={{paddingLeft:'20px',paddingRight:'20px', color:'#a9acb1'}}>{t('Messaging')}</h1>
                         <img style={{marginRight:'50px',marginLeft:'50px', cursor:'pointer'}} width={30} height={30} src={newmsg}/>
                     </div>
                     <div style={{  borderBottom:'1px solid #cfd0d2', width:'100%', display:'flex',justifyContent:'start' }}>
