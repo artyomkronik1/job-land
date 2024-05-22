@@ -35,6 +35,8 @@ const EditProfileDialog = (props:editProfileProps) => {
     const { i18n } = useTranslation();
     const [name, setname] = useState(props.children.name)
     const [about, setabout] = useState(props.children.about)
+    const [showWarningPopup, setshowWarningPopup] = useState(false)
+
     const saveSettings=async()=> {
         // check if there is not empty
         if (name.length == 0 || about.length == 0) {
@@ -64,7 +66,7 @@ const EditProfileDialog = (props:editProfileProps) => {
     }
     // close dialog
     const closeDialog=()=>{
-            closeFinalyDialog(true)
+        setshowWarningPopup(true)
     }
     const closeFinalyDialog=(success:boolean)=>{
         props.onClose(success)
@@ -103,7 +105,7 @@ const EditProfileDialog = (props:editProfileProps) => {
                     </div>
                 </div>
             </Popup>
-            {/*<WarningPopup warningText={"Name is empty"} isOpen={showWarningPopup} onClose={()=>closeFinalyDialog} onConfirm={()=>setshowWarningPopup(false)} onCancel={()=>setshowWarningPopup(false)}/>*/}
+            <WarningPopup isOpen={showWarningPopup} onClose={()=>closeFinalyDialog} onConfirm={()=>saveSettings()} onCancel={()=>setshowWarningPopup(false)} warningText={t('Save the changes?')}/>
         </>
     );
 };
