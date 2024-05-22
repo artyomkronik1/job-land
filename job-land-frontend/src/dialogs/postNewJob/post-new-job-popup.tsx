@@ -82,12 +82,8 @@ const PostNewJobPopup = (props:postNewJobPopup) => {
 
     }
     const closeDialog=()=>{
-        if(description.length==0 || title.length==0) {
-            closeFinalyDialog(false)
-        }
-        else{
-            setshowWarningPopup(true)
-        }
+        setshowWarningPopup(true)
+
     }
     const closeFinalyDialog=(success:boolean)=>{
         props.onClose(success)
@@ -146,17 +142,17 @@ const PostNewJobPopup = (props:postNewJobPopup) => {
         <div className={styles.main__header__body} style={{marginTop:'40px', display:'flex', width:'100%', justifyContent:'space-around', flexDirection:'row'}} >
 
             <div style={{display:'flex', flexDirection:'column'}}>
-            <TextInputField type={'text'} size={'small'} placeHolder={'job title'} text={'Job title'} value={title} onChange={handleChangeTitle}/>
-                <TextInputField type={'text'} size={'small'} placeHolder={'job zone'} text={'Job Zone'} value={zone} onChange={handleChangeZone}/>
-                <TextInputField type={'number'} size={'small'} placeHolder={'job salary'} text={'Job Salary'} value={salary} onChange={handleChangeSalary}/>
-                <TextInputField type={'text'} size={'small'} placeHolder={'job region'} text={'Job Region'} value={region} onChange={handleChangeRegion}/>
+            <TextInputField type={'text'} size={'small'} placeHolder={'job title'} text={t('Job Title')} value={title} onChange={handleChangeTitle}/>
+                <TextInputField type={'text'} size={'small'} placeHolder={'job zone'} text={t('Job Zone')} value={zone} onChange={handleChangeZone}/>
+                <TextInputField type={'number'} size={'small'} placeHolder={'job salary'} text={t('Job Salary')} value={salary} onChange={handleChangeSalary}/>
+                <TextInputField type={'text'} size={'small'} placeHolder={'job region'} text={t('Job Region')} value={region} onChange={handleChangeRegion}/>
 
             </div>
 
             <div style={{display:'flex', flexDirection:'column'}}>
-                <TextInputField type={'text'} size={'small'} placeHolder={'job description'} text={'Job Description'} value={description} onChange={handleChangeDescription}/>
-                <TextInputField type={'text'} size={'small'} placeHolder={'job proffesion'} text={'Job Proffesion'} value={proffesion} onChange={handleChangeProffesion}/>
-                <TextInputField type={'text'} size={'small'} placeHolder={'job company'} text={'Job Company'} value={companyName} onChange={handleChangeCompany}/>
+                <TextInputField type={'text'} size={'small'} placeHolder={'job description'} text={t('Job Description')} value={description} onChange={handleChangeDescription}/>
+                <TextInputField type={'text'} size={'small'} placeHolder={'job proffesion'} text={t('Job Proffesion')} value={proffesion} onChange={handleChangeProffesion}/>
+                <TextInputField type={'text'} size={'small'} placeHolder={'job company'} text={t('Job Company')} value={companyName} onChange={handleChangeCompany}/>
                 <img src={newJob}  style={{display:'flex', width:'120px', justifyContent:'center'}}/>
 
             </div>
@@ -217,7 +213,7 @@ const PostNewJobPopup = (props:postNewJobPopup) => {
     </div>
     </div>
     </Popup>
-    {/*<WarningPopup isOpen={showWarningPopup} onClose={closeFinalyDialog} onConfirm={closeFinalyDialog} onCancel={()=>setshowWarningPopup(false)}/>*/}
+            <WarningPopup isOpen={showWarningPopup} onClose={()=>closeFinalyDialog} onConfirm={()=>props.onClose(true)} onCancel={()=>setshowWarningPopup(false)} warningText={t('Are you sure?')}/>
     </>
 );
 };

@@ -14,8 +14,8 @@ const WarningPopup = (props:warningProps) => {
     if (!props.isOpen) return null;
     return (
         <div >
-    <Popup  onClose={closeWarninDialog}>
-        <div style={{display:'flex', flexDirection:'column', gap:'10px', height:'30vh', justifyContent:'center'}}>
+    <Popup size={'small'}  onClose={closeWarninDialog}>
+        <div style={{display:'flex',  flexDirection:'column', gap:'10px', height:'30vh', justifyContent:'center'}}>
             {/*header*/}
             <div style={{display:'flex', justifyContent:'center', width:'100%'}}>
                 <span style={{fontSize:'35px'}} className={globalStyles.mainGreySpan}>{t('Warning')}</span>
