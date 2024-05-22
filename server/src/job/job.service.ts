@@ -28,7 +28,6 @@ export class JobService {
             experienced_level:job.job.experienced_level,
             scope:job.job.scope
         });
-        console.log(newJob.title)
         const result = await newJob.save();
         if (result) {
             return {

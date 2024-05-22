@@ -13,11 +13,13 @@ import jobsStore from "../../store/job";
 import EditProfileDialog from "../../dialogs/edit-profile/edit-profile";
 import {User} from "../../interfaces/user";
 import JobPopup from "../../dialogs/job-popup/job-popup";
+import jobService from "../../services/jobService";
 const  JobsComponent  = observer( ()=>{
     //language
     const { t } = useTranslation();
     const { i18n } = useTranslation();
     const [useSearchValue, setSearchValue] = useState('');
+
     // job filters array
     const [filterValues, setfilterValues] = useState<JobFilters>({
         zone:null,
@@ -67,7 +69,7 @@ const  JobsComponent  = observer( ()=>{
             const nonNullFilters = Object.fromEntries(
                 Object.entries(filterValues).filter(([key, value]) => value !== null)
             );
-            const result = await axios.post('http://localhost:3002/jobs' ,{properties:nonNullFilters});
+            const result = await jobService.getAllJobs(nonNullFilters);
             if(result.data.success) {
                 jobsStore.setfilterJobs(result.data.jobs)
             }
@@ -137,7 +139,7 @@ const  JobsComponent  = observer( ()=>{
                     {/*separate line*/}
                         <div style={{width:'80%'}} className={globalStyles.separate_line_grey}> </div>
                     {/*job component*/}
-                    <div style={{display:"flex", justifyContent:'center', width:'100%'}}>
+                    <div style={{display:"flex", justifyContent:'center',flexDirection:'column', gap:'20px', width:'100%'}}>
                         {jobsStore.filterJobs.length>0 ? jobsStore.filterJobs.map((job:Job,index)=>(
                             <div style={{width:'90%'}} className={componentStyles.postContainer} key={index} onClick={()=>seeFullJob(job)}>
                                 <div className={componentStyles.postContainer__header}>
