@@ -22,7 +22,6 @@ const JobService = {
     async getAllJobs(filters:any){
         try {
             const result = await axios.post('http://localhost:3002/jobs' ,{properties:filters});
-            console.log(result)
             if (result.data.success) {
                 return result;
             } else {

@@ -4,6 +4,7 @@ import {Job} from "../interfaces/job";
 import {Post} from "../interfaces/post";
 import axios from "axios";
 import UserStore from "./user";
+import jobService from "../services/jobService";
 const hydrate = create({
     storage:localStorage,
     jsonify:true
@@ -29,6 +30,23 @@ class JobsStore{
         this.filterJobs = jobs
     }
 
+    getALlJobs=async ()=>{
+        try {
+            const result = await jobService.getAllJobs({})
+            if(result.data.success) {
+                this.setfilterJobs(result.data.jobs)
+
+            }
+            else{
+                this.setfilterJobs([])
+                return result.data
+
+            }
+        } catch (error) {
+            this.setfollowJobs([])
+            console.error('Error get jobs:', error);
+        }
+    }
      getAllPosts=async()=>{
         try {
             const result = await axios.get('http://localhost:3002/posts');

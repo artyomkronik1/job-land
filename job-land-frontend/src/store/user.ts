@@ -102,6 +102,7 @@ class UserStore{
         await this.getUsers()
         await this.getChatsByUser(this.user.id)
         await jobsStore.getAllPosts()
+        await jobsStore.getALlJobs()
         //await this.getUserMessages();
 }
      groupMessagesIntoChats = (messages: Message[]): any[] => {

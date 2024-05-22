@@ -19,7 +19,7 @@ const  JobsComponent  = observer( ()=>{
     const { t } = useTranslation();
     const { i18n } = useTranslation();
     const [useSearchValue, setSearchValue] = useState('');
-
+    const [allJobs, setAllJobs] = useState<Job[]>(jobsStore.getfilterJobs());
     // job filters array
     const [filterValues, setfilterValues] = useState<JobFilters>({
         zone:null,
@@ -33,6 +33,7 @@ const  JobsComponent  = observer( ()=>{
     useEffect(() => {
         searchJob(); // Call the function when filters change
     }, [filterValues]);
+
     const changeLanguage = (lng:string) => {
         UserStore.setLanguage(lng)
         i18n.changeLanguage(lng);
@@ -87,14 +88,14 @@ const  JobsComponent  = observer( ()=>{
             ...filterValues,
             [type]: newFilterValue,
         });
-    }// job filters
+    }// job filters by the all jobs properties
     const jobFilters:DropdownProps[]=[
-        {filterName:'zone', options:['programming']},
-        {filterName:'profession', options:['frontend_developer', 'it']},
-        {filterName:'region', options:['israel', 'russia']},
-        {filterName:'manner', options:['on_site', 'hybrid', 'remote']},
-        {filterName:'experienced_level', options:['junior', 'mid_level', 'senior']},
-        {filterName:'scope', options:['full_time', 'part_time']},
+        {filterName:'zone', options:Array.from(new Set(allJobs.map((job: Job) => job.zone))) },
+        {filterName:'profession', options:Array.from(new Set(allJobs.map((job: Job) => job.profession))) },
+        {filterName:'region', options:Array.from(new Set(allJobs.map((job: Job) => job.region))) },
+        {filterName:'manner', options:Array.from(new Set(allJobs.map((job: Job) => job.manner))) },
+        {filterName:'experienced_level',options:Array.from(new Set(allJobs.map((job: Job) => job.experienced_level))) },
+        {filterName:'scope', options:Array.from(new Set(allJobs.map((job: Job) => job.scope))) },
     ]
 
     const jobFiltersHTML= jobFilters.map((value,index)=>(
