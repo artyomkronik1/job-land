@@ -18,7 +18,7 @@ const ProfileImage = (props:profileProps)=> {
             { letters: ['Y', 'Z'], color: '#a81616' },
             // Define more color options for other letters
         ];
-        const selectedOption = colorOptions.find(option => option.letters.includes(letter.toUpperCase()));
+        const selectedOption = colorOptions.find(option => option.letters.includes(letter?.toUpperCase()));
         return selectedOption ? selectedOption.color : '#808080'; // Default color
     }
     const getbackgroundColor = () =>{

@@ -28,7 +28,7 @@ const WarningPopup = (props:warningProps) => {
         {/*footer*/}
         <div style={{display:'flex', justifyContent:'space-around' }}>
             <button onClick={props.onConfirm} className={globalStyles.btn}>{t('Confirm')}</button>
-            <button onClick={props.onCancel} className={globalStyles.btn}>{t('Cancel')}</button>
+            <button onClick={props.onCancel} className={globalStyles.btn_border}>{t('Cancel')}</button>
         </div>
         </div>
     </Popup>

@@ -66,7 +66,7 @@ const EditProfileDialog = (props:editProfileProps) => {
     }
     // close dialog
     const closeDialog=()=>{
-        setshowWarningPopup(true)
+        closeFinalyDialog(true)
     }
     const closeFinalyDialog=(success:boolean)=>{
         props.onClose(success)
