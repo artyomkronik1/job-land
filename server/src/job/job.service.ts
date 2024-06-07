@@ -12,7 +12,6 @@ export class JobService {
     }
 
   public  async postNewJob(job: any) {
-        console.log(job)
 
         const newJob = new this.jobModel({
             title: job.job.title,

@@ -5,6 +5,6 @@ export interface TextInputFieldProps {
     placeHolder: string;
     text: string;
     value:any;
-    onChange:(event:string)=>void;
+    onChange:(event:any)=>void;
     size?:string
 }

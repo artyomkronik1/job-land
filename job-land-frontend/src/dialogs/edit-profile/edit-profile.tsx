@@ -11,49 +11,36 @@ import ToastComponent from "../../base-components/toaster/ToastComponent";
 import jobsStore from "../../store/job";
 import {User} from "../../interfaces/user";
 import TextInputField from "../../base-components/text-input/text-input-field";
+import {Post} from "../../interfaces/post";
+import userService from "../../services/userService";
 export interface editProfileProps{
     isOpen:boolean;
+    profileForEdit:User;
     onClose:(success:boolean)=>void;
-    children:User;
 }
 const EditProfileDialog = (props:editProfileProps) => {
     const dialogRef = useRef<HTMLDivElement>(null);
-    useEffect(() => {
-        // click outside of popup closing the popup
-        const handleClickOutside = (event: MouseEvent) => {
-            if (dialogRef.current && !dialogRef.current.contains(event.target as Node) &&name.length>0 && about.length>0) {
-                closeDialog();
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
     //language
     const { t } = useTranslation();
     const { i18n } = useTranslation();
-    const [name, setname] = useState(props.children.name)
-    const [about, setabout] = useState(props.children.about)
+    const [profileInEdit, setprofileInEdit] = useState<User>(props.profileForEdit);
     const [showWarningPopup, setshowWarningPopup] = useState(false)
+    const [hasChanges, setHasChanges] = useState(false);
 
     const saveSettings=async()=> {
         // check if there is not empty
-        if (name.length == 0 || about.length == 0) {
+        if (profileInEdit.name.length == 0 || profileInEdit.about.length == 0) {
             setTimeout(() => {
                 toast.error(t('ERROR ' + 'NAME OR ABOUT IS EMPTY'));
             }, 1000)
         } else {
-            // creating the new user obj by its values and updated name and about
-            let user: User = props.children;
-            user.name = name;
-            user.about = about
             // set info
-           const res =  await UserStore.setUserInfo(user)
+           const res =  await userService.setUserInfo(profileInEdit)
             if(res.data.success) {
+                 UserStore.setUser(profileInEdit)
                 toast.success(t('SUCCESS'));
                 setTimeout(() => {
-                    closeFinalyDialog(true)
+                    closeFinalDialog()
                 }, 1000)
             }
             else if(!res.data.success)
@@ -66,34 +53,60 @@ const EditProfileDialog = (props:editProfileProps) => {
     }
     // close dialog
     const closeDialog=()=>{
-        closeFinalyDialog(true)
-    }
-    const closeFinalyDialog=(success:boolean)=>{
-        props.onClose(success)
-    }
-    const handleChangeName = (event:any)=>{
-        setname(event);
-    }
-    const handleChangeAbout = (event:any)=>{
-        setabout(event);
-    }
+        // Check if there are changes
+        if (hasChanges) {
+            setshowWarningPopup(true);
+        } else {
+            closeFinalDialog();
+        }    }
+    const closeFinalDialog = () => {
+        props.onClose(hasChanges);
+    };
+    const handleChangeName = (event: any) => {
+        setprofileInEdit({
+            ...profileInEdit,
+            name: event,
+        });
+        setHasChanges(true); // Set changes flag when name changes
+    };
 
+    const handleChangeAbout = (event: any) => {
+        setprofileInEdit({
+            ...profileInEdit,
+            about: event,
+        });
+        setHasChanges(true); // Set changes flag when about changes
+    };
+
+
+    // listening when user click outside of popup so close it
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dialogRef.current && !dialogRef.current.contains(event.target as Node) ) {
+                closeDialog();
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [hasChanges]);
     return (
         <>
 
-            <Popup onClose={closeDialog}>
+            <Popup >
                 <ToastComponent />
-                <div className={styles.main}>
+                <div ref={dialogRef} className={styles.main}>
                     <div className={styles.main__header}>
-                        <ProfileImage name={props.children.name}/>
+                        <ProfileImage name={profileInEdit.name}/>
                         <div style={{marginTop:'10px', display:'flex', flexDirection:'column'}}>
                         {/*name*/}
                         <div style={{display:'flex', flexDirection:'column', alignItems:'start'}}>
-                            <TextInputField type={'text'} placeHolder={t('Enter Your Full Name')} text={t('Full Name')} value={name} onChange={handleChangeName}/>
+                            <TextInputField type={'text'} placeHolder={t('Enter Your Full Name')} text={t('Full Name')} value={profileInEdit.name} onChange={handleChangeName}/>
                         </div>
                         {/*about*/}
                         <div style={{display:'flex', flexDirection:'column', alignItems:'start'}}>
-                            <TextInputField type={'text'} placeHolder={t('Enter About Yourself')} text={t('About')} value={about} onChange={handleChangeAbout}/>
+                            <TextInputField type={'text'} placeHolder={t('Enter About Yourself')} text={t('About')} value={profileInEdit.about} onChange={handleChangeAbout}/>
                         </div>
                         </div>
                     </div>
@@ -105,7 +118,13 @@ const EditProfileDialog = (props:editProfileProps) => {
                     </div>
                 </div>
             </Popup>
-            <WarningPopup isOpen={showWarningPopup} onClose={()=>closeFinalyDialog} onConfirm={()=>saveSettings()} onCancel={()=>setshowWarningPopup(false)} warningText={t('Save the changes?')}/>
+            <WarningPopup
+                isOpen={showWarningPopup}
+                onClose={() =>  props.onClose(false)}
+                onConfirm={saveSettings}
+                onCancel={() => props.onClose(false)}
+                warningText={t('Do you wanna save changes?')}
+            />
         </>
     );
 };

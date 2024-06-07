@@ -194,15 +194,7 @@ getUserInfoById = (id:string):any =>{
             console.error('Error getting users messages', error);
         }
     }
-    setUserInfo=async (user:User):Promise<any>=>{
-        try {
-            //sent
-            return await axios.post('http://localhost:3002/users/user',{user:user});
 
-        } catch (error) {
-            console.error('Error getting users messages', error);
-        }
-    }
 
 getUserMessages = async ()=>{
     try {
@@ -234,6 +226,7 @@ getUserMessages = async ()=>{
     getUsers =async ()=>{
         try {
             const result = await UserService.getUsers()
+            console.log('result',result.data.success,result.data.users)
             if(result.data.success) {
                 this.setAllUsers(result.data.users)
                 return result.data

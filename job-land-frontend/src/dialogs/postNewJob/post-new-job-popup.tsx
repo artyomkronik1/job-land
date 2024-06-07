@@ -48,7 +48,6 @@ const PostNewJobPopup = (props:postNewJobPopup) => {
 
     const post=async()=>{
         // check if description is empty
-        console.log(title.length)
         if(description.length==0 || title.length==0){
             toast.error(t('ERROR! Title or Description is empty') );
           //  closeFinalyDialog(false)

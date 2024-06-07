@@ -27,7 +27,6 @@ const  MessagesComponent  = ()=> {
     const [newMessageContent, setnewMessageContent] = useState('');
     const [useSearchValue, setSearchValue] = useState('');
     const [chats, setChats] = useState<Chat[]>(UserStore.getChats())
-    console.log(UserStore.getUserNameById(chats[0].messages[0].receiver))
     const [openChat, setOpenChat] = useState<Chat>()
 
     const openNewChat = async(chat:Chat)=>{

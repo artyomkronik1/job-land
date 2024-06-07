@@ -25,7 +25,8 @@ import postService from "../../services/postService";
 const  ProfileComponent  = observer( ()=>{
     // params
     const { username } = useParams();
-    const user:User = username ? UserStore.getUserByName(username) : UserStore.user
+    const [user, setuser] = useState<User>( username ? UserStore.getUserByName(username) : UserStore.user);
+
     const navigate = useNavigate();
     const [openPopup, setopenPopup] = useState(false);
     const [editPostPopup, seteditPostPopup] = useState(false);
@@ -57,8 +58,14 @@ const  ProfileComponent  = observer( ()=>{
     const editProfile =()=>{
         setopenPopup(true);
     }
-    const closePopup=(success:boolean)=>{
+
+    const closeEditProfilePopup = async (hasUpdatedProdile:boolean)=>{
         setopenPopup(false)
+        if(hasUpdatedProdile)
+        {
+            setuser(UserStore.user)
+
+        }
     }
     const closeEditPostPopup = async (hasUpdatedPosts:boolean)=>{
         if(hasUpdatedPosts)
@@ -100,13 +107,13 @@ const  ProfileComponent  = observer( ()=>{
     return (
         <>
 
-            {openPopup && (!username || username.length==0) ? (
-                <EditProfileDialog isOpen={openPopup} onClose={closePopup} children={user} />
-            ) : null}
+            {openPopup && (user && user.name.length>0) && (
+                <EditProfileDialog isOpen={openPopup} onClose={closeEditProfilePopup} profileForEdit={user}  />
+            ) }
 
 
             {editPostPopup&&(
-                <EditPost isOpen={openPopup} onClose={closeEditPostPopup} postForEdit={editPost} onCloseWithoutUpdate={()=>seteditPostPopup(false)}/>
+                <EditPost isOpen={editPostPopup} onClose={closeEditPostPopup} postForEdit={editPost} />
             )}
             <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
                 <div style={{marginTop:'90px',display:'flex', flexDirection:'column', alignItems:'center', width:'100%'}} >

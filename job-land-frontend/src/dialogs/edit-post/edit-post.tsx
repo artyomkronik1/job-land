@@ -18,8 +18,6 @@ export interface editPostProps {
     postForEdit: Post;
     isOpen: boolean;
     onClose: (success: boolean) => void;
-    onCloseWithoutUpdate: (success: boolean) => void;
-
     children?: ReactNode;
 }
 
