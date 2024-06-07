@@ -7,6 +7,25 @@ import UserStore from "../store/user";
 
 
 const PostsService = {
+
+
+
+    async savePost(post:Post) :Promise<any> {
+        try {
+            const result = await axios.post('http://localhost:3002/posts/edit', {post});
+            if (result.data.success) {
+                return result.data
+            } else {
+
+                return []
+
+            }
+        } catch (error) {
+            return []
+            console.error('Error post posts:', error);
+        }
+
+    },
     async getAllPosts(): Promise<any> {
         try {
             const result = await axios.get('http://localhost:3002/posts');

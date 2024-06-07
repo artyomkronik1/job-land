@@ -21,4 +21,10 @@ export class PostsController {
         {
             return this.postService.postNewPost(post)
         }
+
+    @Post('/edit')
+    async post(@Body() post:any)
+    {
+        return this.postService.editPost(post)
+    }
 }

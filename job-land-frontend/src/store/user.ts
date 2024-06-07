@@ -234,7 +234,6 @@ getUserMessages = async ()=>{
     getUsers =async ()=>{
         try {
             const result = await UserService.getUsers()
-            console.log(result)
             if(result.data.success) {
                 this.setAllUsers(result.data.users)
                 return result.data

@@ -19,12 +19,24 @@ import axios from "axios";
 import {toast} from "react-toastify";
 import StartPost from "../../dialogs/start-post/start-post";
 import EditProfileDialog from "../../dialogs/edit-profile/edit-profile";
+import EditPost from "../../dialogs/edit-post/edit-post";
+import success = toast.success;
 const  ProfileComponent  = observer( ()=>{
     // params
     const { username } = useParams();
     const user:User = username ? UserStore.getUserByName(username) : UserStore.user
     const navigate = useNavigate();
     const [openPopup, setopenPopup] = useState(false);
+    const [editPostPopup, seteditPostPopup] = useState(false);
+    const [editPost, seteditPost] = useState<Post>({
+        id: "",
+        title: "",
+        description: "",
+        employee_id:"",
+        writer_name:"",
+    });
+
+
     //language
     const { t } = useTranslation();
     const { i18n } = useTranslation();
@@ -47,6 +59,10 @@ const  ProfileComponent  = observer( ()=>{
     const closePopup=(success:boolean)=>{
         setopenPopup(false)
     }
+    const closeEditPostPopup = async (success:boolean)=>{
+        seteditPostPopup(false)
+        await getPostByUserId();
+    }
     // job filters
     const jobFilters=[
         {filterName:t('Zone'), options:['Programming']},
@@ -56,6 +72,10 @@ const  ProfileComponent  = observer( ()=>{
         {filterName:t('Experienced level'), options:['Junior', 'Mid-level', 'Senior']},
         {filterName:t('How'), options:['Full time', 'Part time']},
     ]
+    const openEditPost = (postToEdit:Post)=>{
+        seteditPost(postToEdit);
+        seteditPostPopup(true)
+    }
    const  getPostByUserId = async ()=>{
         try {
             //sent
@@ -79,6 +99,11 @@ const  ProfileComponent  = observer( ()=>{
             {openPopup && (!username || username.length==0) ? (
                 <EditProfileDialog isOpen={openPopup} onClose={closePopup} children={user} />
             ) : null}
+
+
+            {editPostPopup&&(
+                <EditPost isOpen={openPopup} onClose={closeEditPostPopup} postForEdit={editPost} onCloseWithoutUpdate={()=>seteditPostPopup(false)}/>
+            )}
             <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
                 <div style={{marginTop:'90px',display:'flex', flexDirection:'column', alignItems:'center', width:'100%'}} >
                     {/*job filters*/}
@@ -101,7 +126,7 @@ const  ProfileComponent  = observer( ()=>{
                     <div  style={{display:'flex', flexDirection:'column', gap:'20px', width:'100%'}}>
 
                         { usersPosts.map((post:Post, index)=>(
-                            <div className={componentStyles.postContainer} key={index}>
+                            <div className={componentStyles.postContainer} key={index} onClick={()=>openEditPost(post)}>
                                 <div className={componentStyles.postContainer__header} >
                                     <ProfileImage name={post.writer_name}/>
                                     <div className={componentStyles.postContainer__header__details}>

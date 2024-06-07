@@ -10,12 +10,12 @@ import WarningPopup from "../../base-components/warning-popyp/warning-popup";
 import ToastComponent from "../../base-components/toaster/ToastComponent";
 import jobsStore from "../../store/job";
 import TextInputField from "../../base-components/text-input/text-input-field";
-export interface startPostProps{
+export interface postProps{
     isOpen:boolean;
     onClose:(success:boolean)=>void;
     children?:ReactNode;
 }
-const StartPostDialog = (props:startPostProps) => {
+const StartPostDialog = (props:postProps) => {
     const dialogRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {

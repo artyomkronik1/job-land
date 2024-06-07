@@ -34,6 +34,23 @@ export class PostsService {
             }
         }
     }
+
+
+    public async editPost(post:any){
+
+        let p = await this.postModel.findById(post.post._id.toString());
+        if (!p) {
+            // Handle the case where the user with the given ID is not found
+            return {success: false, errorCode: 'fail_to_find_user',};
+        } else {
+            p.title = post.post.title
+            p.description = post.post.description
+
+
+            await p.save()
+            return {success: true, post: p}
+        }
+    }
     public async postNewPost(post:Post){
         const newPost = new this.postModel({
             writer_name: post.writer_name,
