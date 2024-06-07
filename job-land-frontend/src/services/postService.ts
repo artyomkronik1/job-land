@@ -4,6 +4,7 @@ import {Message} from "../interfaces/message";
 import {Chat} from "../interfaces/chat";
 import {Post} from "../interfaces/post";
 import UserStore from "../store/user";
+import User from "../store/user";
 
 
 const PostsService = {
@@ -25,6 +26,15 @@ const PostsService = {
             console.error('Error post posts:', error);
         }
 
+    },
+
+    async  getPostByUserId  (user:any):Promise<any>{
+        try {
+            //sent
+           return await axios.post('http://localhost:3002/posts',{id:user.id});
+        } catch (error) {
+            console.error('Error getting users messages', error);
+        }
     },
     async getAllPosts(): Promise<any> {
         try {

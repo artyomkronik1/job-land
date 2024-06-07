@@ -21,6 +21,7 @@ import StartPost from "../../dialogs/start-post/start-post";
 import EditProfileDialog from "../../dialogs/edit-profile/edit-profile";
 import EditPost from "../../dialogs/edit-post/edit-post";
 import success = toast.success;
+import postService from "../../services/postService";
 const  ProfileComponent  = observer( ()=>{
     // params
     const { username } = useParams();
@@ -59,9 +60,12 @@ const  ProfileComponent  = observer( ()=>{
     const closePopup=(success:boolean)=>{
         setopenPopup(false)
     }
-    const closeEditPostPopup = async (success:boolean)=>{
+    const closeEditPostPopup = async (hasUpdatedPosts:boolean)=>{
+        if(hasUpdatedPosts)
+        {
+            await getPostByUserId();
+        }
         seteditPostPopup(false)
-        await getPostByUserId();
     }
     // job filters
     const jobFilters=[
@@ -79,7 +83,7 @@ const  ProfileComponent  = observer( ()=>{
    const  getPostByUserId = async ()=>{
         try {
             //sent
-            const allPostsByUser = await axios.post('http://localhost:3002/posts',{id:user.id});
+            const allPostsByUser = await postService.getPostByUserId(user);
             if(allPostsByUser.data.success) {
                 setusersPosts(allPostsByUser.data.posts)
             }
