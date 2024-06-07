@@ -51,7 +51,7 @@ export class PostsService {
             return {success: true, post: p}
         }
     }
-    public async postNewPost(post:Post){
+    public async postNewPost(post:any){
         const newPost = new this.postModel({
             writer_name: post.writer_name,
             title: post.title,

@@ -37,6 +37,7 @@ const EditProfileDialog = (props:editProfileProps) => {
             // set info
            const res =  await userService.setUserInfo(profileInEdit)
             if(res.data.success) {
+                 // set current user
                  UserStore.setUser(profileInEdit)
                 toast.success(t('SUCCESS'));
                 setTimeout(() => {
@@ -108,6 +109,8 @@ const EditProfileDialog = (props:editProfileProps) => {
                         <div style={{display:'flex', flexDirection:'column', alignItems:'start'}}>
                             <TextInputField type={'text'} placeHolder={t('Enter About Yourself')} text={t('About')} value={profileInEdit.about} onChange={handleChangeAbout}/>
                         </div>
+
+
                         </div>
                     </div>
                     <div style={{display:'flex', justifyContent:'center'}}>
