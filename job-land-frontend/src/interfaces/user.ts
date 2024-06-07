@@ -6,4 +6,7 @@ export interface User{
     role: string;
     follow:string[];
     about:string;
+    experience:string;
+    education:string;
+
 }

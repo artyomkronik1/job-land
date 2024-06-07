@@ -7,7 +7,10 @@ export const UserSchema = new mongoose.Schema({
     email:{type:String, required:true},
     role:{type:String, required:true},
     follow:{type:Array,required:true},
-    about:{type:String,required:false}
+    about:{type:String,required:false},
+    experience:{type:String,required:false},
+    education:{type:String,required:false}
+
 })
 
 export interface User{
@@ -18,4 +21,6 @@ export interface User{
     role: string;
     follow:string[];
     about:string;
+    experience:string;
+    education:string;
 }

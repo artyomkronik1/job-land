@@ -33,7 +33,9 @@ export class UserService {
           email:user[0].email,
           password:password,
           follow:user[0].follow,
-          about:user[0].about
+          about:user[0].about,
+          experience:user[0].experience,
+          education:user[0].education,
         },
         session_key: sessionKey,
       };
@@ -74,7 +76,9 @@ export class UserService {
         email: user.email,
         role: user.role,
         follow:[],
-        about:''
+        about:'',
+        experience:'',
+        education:''
       });
       const result = await newUser.save();
       if (result) {
@@ -88,7 +92,9 @@ export class UserService {
             email:newUser.email,
             password:user.password,
             follow:[],
-           about:""
+           about:"",
+            experience:'',
+            education:''
           },
           session_key: sessionKey,
         };
@@ -132,6 +138,8 @@ export class UserService {
     } else {
       u.name = info.user.name;
       u.about = info.user.about
+      u.education = info.user.education;
+      u.experience = info.user.experience
       await u.save()
         return {success: true, user: u}
     }
@@ -148,7 +156,9 @@ export class UserService {
           password: user.password,
           role: user.role,
           follow:user.follow,
-          about:user.about
+          about:user.about,
+          experience:user.experience,
+          education:user.education,
         },
       };
     } else {
@@ -171,7 +181,9 @@ export class UserService {
           password: user.password,
           role: user.role,
           about:user.about,
-          follow:user.follow
+          follow:user.follow,
+          experience:user.experience,
+          education:user.education,
         })),
       };
     } else {

@@ -22,7 +22,7 @@ class UserStore{
     @persist('object') @observable chats:Chat[]=[]
     @persist('object') @observable posts:Post[]=[]
     @persist('object') @observable currentChat:{}={};
-    @persist('object') @observable user:User={id:"",password:"",role:"",email:"", about:"",name:"", follow:[]};
+    @persist('object') @observable user:User={id:"",password:"",role:"",email:"", about:"",name:"", follow:[], experience:"", education:""};
     @persist session_key=localStorage.getItem('session_key')
     constructor() {
         makeAutoObservable(this);
@@ -143,7 +143,10 @@ getUserNameById = (id:string):string=>{
                 email: "",
                 role: "",
                 follow:[],
-                about:""}
+                about:"",
+                education:"",
+                experience:""
+            }
         this.users.forEach((user:User)=>{
             if(user.name == name)
             {
