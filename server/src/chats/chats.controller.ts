@@ -17,6 +17,10 @@ export class ChatsController {
     async addNewMessageToChatById(@Body('chatid') id: string, @Body('msg') message: Message) {
         return this.chatsService.addNewMessageToChatById(id, message);
     }
+    @Post('/sendmsg/new')
+    async createNewChat( @Body('msg') message: Message) {
+        return this.chatsService.createNewChat(message);
+    }
 
     @Get()
     async getAllChats() {

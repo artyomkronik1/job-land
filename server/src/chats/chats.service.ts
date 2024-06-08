@@ -30,6 +30,26 @@ export class ChatsService {
             throw new Error('Error fetching chats');
         }
 }
+    async createNewChat(msg:Message) {
+        const newChat = new this.chatsModel({
+            messages: [msg]
+        });
+        const result = await newChat.save();
+        if (result) {
+            return {
+                success: true,
+                chat: {
+                    id: newChat._id,
+                    messages: newChat.messages
+                },
+            };
+        } else {
+            return {
+                success: false,
+                errorCode: 'fail_to_create_new_chat',
+            };
+        }
+    }
 
     // addNewMessageToChatById
     async addNewMessageToChatById(id:string, msg:Message){
@@ -72,11 +92,10 @@ export class ChatsService {
     async getChatsByUserId(userId:string){
 
         const chats = await this.chatsModel.find({
-            messages: {
-                $elemMatch: {
-                    receiver: userId
-                }
-            }
+            $or: [
+                { 'messages.sender': userId },
+                { 'messages.receiver': userId }
+            ]
         }).exec();
             if(chats.length>0){
                 return {
