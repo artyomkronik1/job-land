@@ -284,8 +284,8 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
                                                                 <div className={styles.messageContainer}>
                                                                     <ProfileImage name={chat.messages[0].sender!=UserStore.user.id? UserStore.getUserNameById(chat.messages[0].sender) : UserStore.getUserNameById(chat.messages[0].receiver)}/>
                                                             <div style={{   display:'flex', flexDirection:'column', alignItems:'start', justifyContent:'space-around'}}>
-                                                                <span className={styles.simpleP}> {UserStore.getUser().name!=chat.messages[0].sender?UserStore.getUserNameById(chat.messages[0].sender):UserStore.getUserNameById(chat.messages[0].receiver)}</span>
-                                                                <span style={{fontSize:'16px', fontWeight:'normal'}} className={styles.simpleP}> {UserStore.getUser().name!=chat.messages[0].sender?UserStore.getUserInfoById(chat.messages[0].sender)?.about:UserStore.getUserInfoById(chat.messages[0].receiver)?.about}</span>
+                                                                <span className={styles.simpleP}> {chat.messages[0].sender!=UserStore.user.id? UserStore.getUserNameById(chat.messages[0].sender) : UserStore.getUserNameById(chat.messages[0].receiver)}</span>
+                                                                <span style={{fontSize:'16px', fontWeight:'normal'}} className={styles.simpleP}> {chat.messages[0].sender!=UserStore.user.id? UserStore.getUserInfoById(chat.messages[0].sender).about : UserStore.getUserInfoById(chat.messages[0].receiver).about}</span>
                                                             </div>
                                                             {UserStore.getLanguage()=='en'?( <i style={{color:'#0a66c2'}} className="fa fa-arrow-circle-right" ></i>)
                                                                 :(<i style={{color:'#0a66c2'}} className="fa fa-arrow-circle-left"></i>)
