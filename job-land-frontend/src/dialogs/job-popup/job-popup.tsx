@@ -73,11 +73,12 @@ const JobPopup = (props: jobPopupProps) => {
         fileInputRef.current?.click();
     };
 
+
     return (
         <>
-            <Popup onClose={() => props.onClose(true)}>
+            <Popup >
                 <ToastComponent />
-                <div className={styles.main}>
+                <div ref={dialogRef} className={styles.main}>
                     <div className={styles.main__header}>
                         <div style={{ display: 'flex', gap: '10px', marginBottom: '40px' }}>
                             <ProfileImage name={props.children.hire_name} />
