@@ -56,8 +56,14 @@ const  ProfileComponent  = observer( ()=>{
     }
     // edit profile
     const editProfile =()=>{
-        setopenPopup(true);
-    }
+        if(username && username===UserStore.user.name) {
+            setopenPopup(true);
+        }
+        else if(!username || username.length==0) {
+            setopenPopup(true);
+
+        }
+        }
 
     const closeEditProfilePopup = async (hasUpdatedProdile:boolean)=>{
         setopenPopup(false)
@@ -84,8 +90,15 @@ const  ProfileComponent  = observer( ()=>{
         {filterName:t('How'), options:['Full time', 'Part time']},
     ]
     const openEditPost = (postToEdit:Post)=>{
-        seteditPost(postToEdit);
-        seteditPostPopup(true)
+        if(username && username===UserStore.user.name) {
+
+            seteditPost(postToEdit);
+            seteditPostPopup(true)
+        }
+        else if(!username || username.length==0){
+            seteditPost(postToEdit);
+            seteditPostPopup(true)
+        }
     }
    const  getPostByUserId = async ()=>{
         try {

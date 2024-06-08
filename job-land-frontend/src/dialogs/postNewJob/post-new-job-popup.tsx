@@ -130,7 +130,7 @@ const PostNewJobPopup = (props:postNewJobPopup) => {
 
             <Popup onClose={closeDialog}>
         <ToastComponent />
-        <div className={styles.main}>
+        <div ref={dialogRef} className={styles.main}>
         <div className={styles.main__header}>
     <div style={{display:'flex', flexDirection:'column', alignItems:'start'}}>
     <span style={{fontSize:'26px', color:'#0a66c2'}} className={globalStyles.mainGreySpan}>{t('Job Information')}</span>

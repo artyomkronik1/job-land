@@ -18,11 +18,11 @@ const WarningPopup = (props:warningProps) => {
         <div style={{display:'flex',  flexDirection:'column', gap:'10px', height:'30vh', justifyContent:'center'}}>
             {/*header*/}
             <div style={{display:'flex', justifyContent:'center', width:'100%'}}>
-                <span style={{fontSize:'35px'}} className={globalStyles.mainGreySpan}>{t('Warning')}</span>
+                <span style={{fontSize:'35px'}} className={globalStyles.mainSpan}>{t('Warning')}</span>
             </div>
         {/*    body*/}
             <div style={{padding:'20px'}}>
-                <span style={{fontSize:'19px'}} className={globalStyles.mainGreySpan}>{t(props.warningText)}</span>
+                <span style={{fontSize:'19px'}} className={globalStyles.mainSpan}>{t(props.warningText)}</span>
             </div>
             <div style={{display:'flex', justifyContent:'center'}}> <div className={globalStyles.separate_line_grey}></div>  </div>
         {/*footer*/}

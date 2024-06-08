@@ -72,6 +72,7 @@ const  MessagesComponent  = ()=> {
     const setnewMessageContentHandler = (event: any)=>{
         setnewMessageContent(event.target.value)
     }
+    // open new chat and check if this chat is already exsist
     const openNewMessageChat =(user:User)=>{
         let flag = false
         let currentChat:Chat={_id:"", messages:[]}
@@ -85,8 +86,6 @@ const  MessagesComponent  = ()=> {
 
 
             })
-
-        console.log(flag)
         if(!flag) {
             setnewChatFlag(true)
             setnewUserToChat(user)
@@ -149,7 +148,7 @@ const  MessagesComponent  = ()=> {
                 {/*    messages container*/}
                 {/*    title*/}
                     <div style={{backgroundColor:'white' , width:'100%', height:'150px', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-                        <h1 style={{paddingLeft:'20px',paddingRight:'20px', color:'#a9acb1'}}>{t('Messaging')}</h1>
+                        <h1 style={{paddingLeft:'20px',paddingRight:'20px', color:'#0a66c2'}}>{t('Messaging')}</h1>
                         <img style={{marginRight:'50px',marginLeft:'50px', cursor:'pointer'}} width={30} height={30} src={newmsg} onClick={createNewMessage}/>
                     </div>
                     <div style={{  borderBottom:'1px solid #cfd0d2', width:'100%', display:'flex',justifyContent:'start' }}>
@@ -185,12 +184,12 @@ const  MessagesComponent  = ()=> {
                                     {openChat?._id=="" &&newMessage? (
                                     <div style={{display:'flex', marginTop:'-20px', flexDirection:'column', width:'100%'}}>
                                         <div style={{display:'flex', flexDirection:'column' , width:'100%'}}>
-                                            <h2 style={{display:'flex', justifyContent:'start', paddingLeft:'20px',paddingRight:'20px', color:'#a9acb1'}}>{t('New message')}</h2>
+                                            <h2 style={{display:'flex', justifyContent:'start', paddingLeft:'20px',paddingRight:'20px', color:'#0a66c2'}}>{t('New chat')}</h2>
                                             <div style={{ marginTop:'18px', borderBottom:'1px solid #cfd0d2', width:'100%', display:'flex',justifyContent:'start' }}></div>
                                         </div>
                                         {openChat?._id=="" &&newMessage && !newChatFlag   && (
                                         <div style={{display:'flex', width:'100%', marginTop:'40px', flexDirection:'column'}}>
-                                            <SearchInput placeHolder={'Type a name'} value={searchContactName} ariaLabel={'Type a name'} onChange={setsearchContactName}/>
+                                            <SearchInput placeHolder={t('Type a name...')} value={searchContactName} ariaLabel={t('Type a name')} onChange={setsearchContactName}/>
                                             <div style={{marginTop:'20px', paddingBottom:'20px', paddingLeft:'20px', paddingRight:'20px', borderRadius:'25px', border:'1px solid #cfd0d2', height:'100%'}}>
                                                 <div style={{overflowY:'scroll'}}>
                                                 {usersFollowedBy.length>0?usersFollowedBy.map((user:User, index)=>

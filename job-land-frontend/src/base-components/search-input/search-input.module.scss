@@ -1,7 +1,8 @@
 @import "../../assets/global-styles/styles.module";
 .form {
   position: relative;
-  width:100%;
+
+  cursor: pointer;
 }
 .title{
   color:$mainColor;

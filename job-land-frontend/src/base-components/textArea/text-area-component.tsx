@@ -13,7 +13,7 @@ const TextAreaComponent = ({value, textPlaceHolder, onSendClick, onChange, color
         }
     };
     return(
-        <div className={styles.textAreaContainer} >
+        <div className={styles.textAreaContainer} style={{background: color=='grey'? '#f4f2ee' : 'white'}}   >
         <textarea   style={{background: color=='grey'? '#f4f2ee' : 'white'}}              onKeyDown={handleKeyDown} placeholder={textPlaceHolder} value={value} onChange={event => onChange(event)} className={styles.textArea} rows={4} cols={5} maxLength={250}></textarea>
            <button style={{border:"none", background: color=='grey'? '#f4f2ee' : 'white'}} onClick={onSendClick}>
             <img src={sendImage} alt="Send" className={styles.sendImage} />

@@ -35,6 +35,7 @@ const  MainLayout  = observer( ()=>{
 
 
     const closePopup=(success:boolean)=>{
+        console.log(success)
         if(success){
             UserStore.setLoading(true);
             setTimeout(() => {
@@ -87,7 +88,7 @@ const  MainLayout  = observer( ()=>{
                                         {/*send resume */}
                                         {/*<img src={sendResume} height="20%"  />*/}
                                         {/*share a new post*/}
-                                        <div style={{ display:'flex', flexDirection:'column', padding:'10px', marginTop:'50px',gap:'15px'}} className={globalStyles.basicForm}>
+                                        <div style={{ display:'flex', cursor:'pointer', flexDirection:'column', padding:'10px', marginTop:'50px',gap:'15px'}} className={globalStyles.basicForm}>
                                             <div onClick={startPost} style={{display:'flex', alignItems:'center', gap:'10px'}}>
                                                 <ProfileImage name={UserStore.user.name}/>
                                                 <div style={{display:'flex', justifyContent:'start', padding:'10px 20px', borderRadius:'20px', border:'1px solid #a9acb1', backgroundColor:'white',flex:'1 1 auto'}}>

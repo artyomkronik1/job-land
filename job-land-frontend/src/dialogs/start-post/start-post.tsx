@@ -17,6 +17,7 @@ export interface postProps{
 }
 const StartPostDialog = (props:postProps) => {
     const dialogRef = useRef<HTMLDivElement>(null);
+    const [hasChanges, setHasChanges] = useState(false);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -58,21 +59,21 @@ const StartPostDialog = (props:postProps) => {
         setshowWarningPopup(true)
     }
     const closeFinalyDialog=(success:boolean)=>{
-        props.onClose(success)
+        props.onClose(hasChanges)
     }
     const handleChange = (event:React.ChangeEvent<HTMLTextAreaElement>)=>{
             setDescription(event.target.value);
+        setHasChanges(true); // Set changes flag when name changes
+
     }
-   const handleChangeTitle=(title:string)=>{
-        setTitle(title)
-   }
+
 
     return (
 <>
 
             <Popup onClose={closeDialog}>
                 <ToastComponent />
-                    <div className={styles.main}>
+                    <div ref={dialogRef} className={styles.main}>
                         <div className={styles.main__header} style={{marginBottom:'30px'}}>
                             <ProfileImage name={UserStore.user.name}/>
                             <div style={{display:'flex', flexDirection:'column', alignItems:'start'}}>
@@ -94,7 +95,7 @@ const StartPostDialog = (props:postProps) => {
                         </div>
                     </div>
                 </Popup>
-            <WarningPopup isOpen={showWarningPopup} onClose={()=>closeFinalyDialog} onConfirm={()=>props.onClose(true)} onCancel={()=>setshowWarningPopup(false)} warningText={t('Are you sure?')}/>
+            <WarningPopup isOpen={showWarningPopup} onClose={()=>closeFinalyDialog} onConfirm={()=>props.onClose(hasChanges)} onCancel={()=>setshowWarningPopup(false)} warningText={t('Are you sure?')}/>
 </>
     );
 };

@@ -266,7 +266,7 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
                                                     </div>
                                                 {/*    send message*/}
                                                     {activeChat?(
-                                                        <div style={{width:'100%'}}>
+                                                        <div style={{width:'100%' , position:'absolute', bottom:'10px'}}>
                                                             <div style={{  borderBottom:'1px solid #cfd0d2', marginTop:'10px', width:'100%', display:'flex',justifyContent:'start' }}></div>
                                                             <TextAreaComponent color={'white'} onSendClick={sendNewMessage} onChange={setnewMessageContentHandler} value={newMessageContent} textPlaceHolder={t('Write a message')}/>
                                                         </div>
@@ -282,13 +282,15 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
                                                                 // chat box
                                                                 <div onClick={()=>activateChat(chat)}>
                                                                 <div className={styles.messageContainer}>
+                                                                    <div style={{display:'flex', gap:'10px'}}>
                                                                     <ProfileImage name={chat.messages[0].sender!=UserStore.user.id? UserStore.getUserNameById(chat.messages[0].sender) : UserStore.getUserNameById(chat.messages[0].receiver)}/>
-                                                            <div style={{   display:'flex', flexDirection:'column', alignItems:'start', justifyContent:'space-around'}}>
-                                                                <span className={styles.simpleP}> {chat.messages[0].sender!=UserStore.user.id? UserStore.getUserNameById(chat.messages[0].sender) : UserStore.getUserNameById(chat.messages[0].receiver)}</span>
-                                                                <span style={{fontSize:'16px', fontWeight:'normal'}} className={styles.simpleP}> {chat.messages[0].sender!=UserStore.user.id? UserStore.getUserInfoById(chat.messages[0].sender).about : UserStore.getUserInfoById(chat.messages[0].receiver).about}</span>
-                                                            </div>
-                                                            {UserStore.getLanguage()=='en'?( <i style={{color:'#0a66c2'}} className="fa fa-arrow-circle-right" ></i>)
-                                                                :(<i style={{color:'#0a66c2'}} className="fa fa-arrow-circle-left"></i>)
+                                                                    <div style={{   display:'flex', flexDirection:'column', alignItems:'start', justifyContent:'space-around'}}>
+                                                                        <span className={styles.simpleP}> {chat.messages[0].sender!=UserStore.user.id? UserStore.getUserNameById(chat.messages[0].sender) : UserStore.getUserNameById(chat.messages[0].receiver)}</span>
+                                                                        <span style={{fontSize:'16px', fontWeight:'normal'}} className={styles.simpleP}> {chat.messages[0].sender!=UserStore.user.id? UserStore.getUserInfoById(chat.messages[0].sender).about : UserStore.getUserInfoById(chat.messages[0].receiver).about}</span>
+                                                                    </div>
+                                                                    </div>
+                                                            {UserStore.getLanguage()=='en'?( <i style={{color:'#0a66c2', fontSize:'30px'}} className="fa fa-arrow-circle-right" ></i>)
+                                                                :(<i style={{color:'#0a66c2', fontSize:'30px'}} className="fa fa-arrow-circle-left"></i>)
                                                             }
                                                         </div>
                                                         <div style={{marginTop:'5px', marginBottom:'15px', marginInlineStart:'15px' ,display:'flex', width:'88%',  borderBottom:'0.5px solid #e8e8e8'}}> </div>

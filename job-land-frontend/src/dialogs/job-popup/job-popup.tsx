@@ -115,7 +115,7 @@ const JobPopup = (props: jobPopupProps) => {
                         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: '30px', gap: '10px' }}>
                             <label htmlFor="cv-upload" onClick={openFileManager} style={{display:"flex", gap:'10px',cursor:'pointer'}}>
 
-                            <span className={globalStyles.mainGreySpan} style={{ fontSize: '22px' }}>
+                            <span className={globalStyles.mainSpan} style={{ fontSize: '22px' }}>
                                 {fileName ? fileName : t('add cv')} {/* Display filename if available, otherwise show "Add CV" */}
                               </span>
                             <div>
@@ -127,7 +127,7 @@ const JobPopup = (props: jobPopupProps) => {
                                     ref={fileInputRef} // Assign the ref to the file input element
                                 />
                                     <img
-                                        style={{ cursor: 'pointer' }}
+                                        style={{ cursor: 'pointer', color:'red' }}
                                         width={30}
                                         height={30}
                                         src={addcv}
