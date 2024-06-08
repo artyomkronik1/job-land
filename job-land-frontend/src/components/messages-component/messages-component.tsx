@@ -28,9 +28,20 @@ const  MessagesComponent  = ()=> {
     const [useSearchValue, setSearchValue] = useState('');
     const [chats, setChats] = useState<Chat[]>(UserStore.getChats())
     const [openChat, setOpenChat] = useState<Chat>()
+    const [openChatFlag, setopenChatFlag] = useState<boolean>(false)
 
+    const [newMessage, setnewMessage] = useState<boolean>(false)
+    const [searchContactName, setsearchContactName] = useState('');
+
+
+    const createNewMessage = ()=>{
+        setnewMessage(true)
+        setopenChatFlag(false)
+    }
     const openNewChat = async(chat:Chat)=>{
+        setopenChatFlag(true)
         setOpenChat(chat)
+        setnewMessage(false)
     }
     const setnewMessageContentHandler = (event: any)=>{
         setnewMessageContent(event.target.value)
@@ -64,17 +75,17 @@ const  MessagesComponent  = ()=> {
                 {/*    title*/}
                     <div style={{backgroundColor:'white' , width:'100%', height:'150px', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
                         <h1 style={{paddingLeft:'20px',paddingRight:'20px', color:'#a9acb1'}}>{t('Messaging')}</h1>
-                        <img style={{marginRight:'50px',marginLeft:'50px', cursor:'pointer'}} width={30} height={30} src={newmsg}/>
+                        <img style={{marginRight:'50px',marginLeft:'50px', cursor:'pointer'}} width={30} height={30} src={newmsg} onClick={createNewMessage}/>
                     </div>
                     <div style={{  borderBottom:'1px solid #cfd0d2', width:'100%', display:'flex',justifyContent:'start' }}>
                     </div>
                     {chats.length>0?chats.map((chat:Chat, index)=>
-                        <div className={styles.messagesContainer} key={index} onClick={()=>openNewChat(chat)} >
+                        <div className={styles.messagesContainer} key={index} >
 
                             <div className={styles.messagesContainer__leftSide}>
 
                                     {/*<div className={globalStyles.separate_line_grey} style={{marginBottom:'50px' ,width:'110%' }}></div>*/}
-                                <div className={styles.messagesContainer__leftSide__messageBox}>
+                                <div className={styles.messagesContainer__leftSide__messageBox} onClick={()=>openNewChat(chat)} >
                                     <div  className={chat._id==openChat?._id? styles.openedChat:styles.closedChat} style={{paddingBottom:'30px', paddingTop:'30px' ,display:'flex',alignItems:'center', justifyContent:'space-between', width:'100%'  }}>
                                             <div style={{display:'flex', flexDirection:'row', alignItems:'start', gap:'10px', paddingLeft:'10px', paddingRight:'10px'}}>
                                             <ProfileImage name={chat.messages[0].sender!=UserStore.user.id? UserStore.getUserNameById(chat.messages[0].sender) : UserStore.getUserNameById(chat.messages[0].receiver)}/>
@@ -110,7 +121,7 @@ const  MessagesComponent  = ()=> {
                                     {/*):null}*/}
                                     {/*messages*/}
                                     <div style={{display:'flex', flexDirection:'column', width:'100%', maxHeight:'50vh', overflowY:'scroll'}}>
-                                    {openChat?.messages.map((msg:Message, index)=>
+                                    {openChatFlag && !newMessage ? openChat?.messages.map((msg:Message, index)=>
                                     <div  key={index} style={{display:'flex' , justifyContent:'space-between', width:'100%', flexDirection:'column', gap:'30px', marginBottom:'30px'}}>
                                         {msg.sender==userStore.user.id? (
                                             <div style={{display:'flex', justifyContent:'start', width:'100%', gap:'8px'}}>
@@ -127,15 +138,27 @@ const  MessagesComponent  = ()=> {
                                             <span style={{fontSize:'18px',color:'#404141'}} className={globalStyles.simpleP}>{msg.content}</span>
                                            </div>
                                         </div>
+                                    </div>}
                                     </div>
+                                        // new message
+                                        ): !openChatFlag&&newMessage? (
+                                        <div style={{display:'flex', marginTop:'-20px', flexDirection:'column'}}>
+                                            <div style={{display:'flex', flexDirection:'column' , width:'100%'}}>
+                                            <h2 style={{display:'flex', justifyContent:'start', paddingLeft:'20px',paddingRight:'20px', color:'#a9acb1'}}>{t('New message')}</h2>
+                                            <div style={{ marginTop:'18px', borderBottom:'1px solid #cfd0d2', width:'100%', display:'flex',justifyContent:'start' }}></div>
+                                            </div>
+
+                                            <div style={{display:'flex'}}>
+                                                    <SearchInput placeHolder={'Type a name'} value={searchContactName} ariaLabel={'Type a name'} onChange={(vaalue)=>setsearchContactName(vaalue)}/>
+                                            </div>
+                                        </div>
+                                    ):null}
 
 
-                                        }
-                                    </div>
-                                        )}
+
                                     </div>
                                     {/*send message*/}
-                                    {openChat?(
+                                    {openChatFlag && !newMessage?(
                                         <div style={{width:'100%'}}>
                                             <div style={{  paddingBottom:'5px', borderBottom:'1px solid #cfd0d2',marginBottom:'15px', width:'100%', display:'flex',justifyContent:'start' }}></div>
                                             <TextAreaComponent color={'grey'} onSendClick={sendNewMessage} onChange={setnewMessageContentHandler} value={newMessageContent} textPlaceHolder={t('Write a message')}/>
