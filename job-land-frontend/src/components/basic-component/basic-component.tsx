@@ -268,7 +268,7 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
                                                     {activeChat?(
                                                         <div style={{width:'100%'}}>
                                                             <div style={{  borderBottom:'1px solid #cfd0d2', marginTop:'10px', width:'100%', display:'flex',justifyContent:'start' }}></div>
-                                                            <TextAreaComponent onSendClick={sendNewMessage} onChange={setnewMessageContentHandler} value={newMessageContent} textPlaceHolder={t('Write a message')}/>
+                                                            <TextAreaComponent color={'white'} onSendClick={sendNewMessage} onChange={setnewMessageContentHandler} value={newMessageContent} textPlaceHolder={t('Write a message')}/>
                                                         </div>
                                                     ):null}
                                                 </div>

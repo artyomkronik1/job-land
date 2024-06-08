@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './textarea.module.scss'
 import sendImage from '../../../src/assets/images/send.svg';
 
-const TextAreaComponent = ({value, textPlaceHolder, onSendClick, onChange }:any)=> {
+const TextAreaComponent = ({value, textPlaceHolder, onSendClick, onChange, color }:any)=> {
     const handleKeyDown = (event:any) => {
         // Check if the pressed key is Enter (key code 13)
         if (event.keyCode === 13) {
@@ -13,9 +13,9 @@ const TextAreaComponent = ({value, textPlaceHolder, onSendClick, onChange }:any)
         }
     };
     return(
-        <div className={styles.textAreaContainer}>
-        <textarea                 onKeyDown={handleKeyDown} placeholder={textPlaceHolder} value={value} onChange={event => onChange(event)} className={styles.textArea} rows={4} cols={5} maxLength={250}></textarea>
-           <button style={{border:"none"}} onClick={onSendClick}>
+        <div className={styles.textAreaContainer} >
+        <textarea   style={{background: color=='grey'? '#f4f2ee' : 'white'}}              onKeyDown={handleKeyDown} placeholder={textPlaceHolder} value={value} onChange={event => onChange(event)} className={styles.textArea} rows={4} cols={5} maxLength={250}></textarea>
+           <button style={{border:"none", background: color=='grey'? '#f4f2ee' : 'white'}} onClick={onSendClick}>
             <img src={sendImage} alt="Send" className={styles.sendImage} />
            </button>
         </div>
