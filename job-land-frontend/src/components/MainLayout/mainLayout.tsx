@@ -135,7 +135,9 @@ const  MainLayout  = observer( ()=>{
                                                             <span style={{color:'#717273',fontSize:'16px', fontWeight:'normal'}} className={globalStyles.simpleP}> {UserStore.users.filter(user=>user.id== post.employee_id)[0]?.about}</span>
                                                         </div>
                                                     </div>
+                                                       {UserStore.user.id == post.employee_id &&(
                                                     <img onClick={()=>openEditingPost(post)} src={editImg} style={{width:'20px', height:'20px', padding:'10px', cursor:'pointer'}}/>
+                                                       )}
                                                    </div>
 
                                                     <div className={componentStyles.postContainer__main}>

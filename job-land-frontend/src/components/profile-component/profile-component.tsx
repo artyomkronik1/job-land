@@ -3,6 +3,8 @@ import UserStore from '../../store/user';
 import {useTranslation} from "react-i18next";
 import React, {useContext, useEffect, useState} from "react";
 import Login from "../login/login";
+import editImg from '../../assets/images/edit.png'
+
 import styles from "../../assets/global-styles/styles.module.scss";
 import JobFilterBtn from "../../base-components/job-filter-btn/job-filter-btn";
 import DropDown from "../../base-components/dropdown-component/dropdown";
@@ -152,7 +154,9 @@ const  ProfileComponent  = observer( ()=>{
                     <div  style={{display:'flex', flexDirection:'column', gap:'20px', width:'100%'}}>
 
                         { usersPosts.map((post:Post, index)=>(
-                            <div className={componentStyles.postContainer} key={index} onClick={()=>openEditPost(post)}>
+                            <div className={componentStyles.postContainer} key={index} >
+                                <div style={{display:'flex', justifyContent:'space-between', width:'100%'}}>
+
                                 <div className={componentStyles.postContainer__header} >
                                     <ProfileImage name={post.writer_name}/>
                                     <div className={componentStyles.postContainer__header__details}>
@@ -160,6 +164,10 @@ const  ProfileComponent  = observer( ()=>{
                                         <span style={{color:'#717273',fontSize:'16px', fontWeight:'normal'}} className={globalStyles.simpleP}> {UserStore.users.filter(user=>user.id== post.employee_id)[0]?.about}</span>
                                     </div>
                                 </div>
+                                {UserStore.user.id == post.employee_id &&(
+                                    <img onClick={()=>openEditPost(post)} src={editImg} style={{width:'20px', height:'20px', padding:'10px', cursor:'pointer'}}/>
+                                )}
+                            </div>
                                 <div className={componentStyles.postContainer__main}>
                                     {/*<span  style={{  fontSize:'19px',display:'flex', color:'#555555',  wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.title}</span>*/}
                                     <span style={{ display:'flex', color:'#717273',fontSize:'16px', fontWeight:'normal', wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.description}</span>
