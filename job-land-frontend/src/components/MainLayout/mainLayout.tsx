@@ -7,6 +7,7 @@ import componentStyles from './mainLayout.module.scss'
 import styles from '../../assets/global-styles/styles.module.scss'
 import globalStyles from "../../assets/global-styles/styles.module.scss";
 import {useNavigate} from "react-router";
+import editImg from '../../assets/images/edit.png'
 import {Job} from "../../interfaces/job";
 import axios from "axios";
 import ProfileImage from "../../base-components/profile-image/profile-image-component";
@@ -19,6 +20,7 @@ import {DashboardContext} from "../../context/dashboardContext";
 import ProfileComponent from "../profile-component/profile-component";
 import {User} from "../../interfaces/user";
 import PostsService from "../../services/postService";
+import EditPost from "../../dialogs/edit-post/edit-post";
 const  MainLayout  = observer( ()=>{
     const [startIndex, setStartIndex] = useState(0);
     const navigate = useNavigate();
@@ -27,13 +29,25 @@ const  MainLayout  = observer( ()=>{
     const { i18n } = useTranslation();
     const [posts, setPosts] = useState<Post[]>(jobsStore.followPost);
     const [openPopup, setopenPopup] = useState(false);
+    const [editPost, setEditPost] = useState(false);
+    const [editingPost, seteditingPost] = useState<Post>({
+        id: "",
+        title: "",
+        description: "",
+        employee_id:"",
+        writer_name:"",
+    });
+
 
     // update every 5 minutes the posts
     useEffect(() => {
          getAllPosts()
     }, []);
 
-
+    const openEditingPost=(post:Post)=>{
+        seteditingPost(post)
+        setEditPost(true)
+    }
     const closePopup=(success:boolean)=>{
         console.log(success)
         if(success){
@@ -44,6 +58,7 @@ const  MainLayout  = observer( ()=>{
                 setopenPopup(false)
             },1000)
         }
+        setEditPost(false)
         setopenPopup(false)
     }
     // getAllJobs - posts
@@ -82,6 +97,9 @@ const  MainLayout  = observer( ()=>{
             {openPopup&&(
                 <StartPost isOpen={openPopup} onClose={closePopup}/>
             )}
+            {editPost&&(
+            <EditPost postForEdit={editingPost} isOpen={editPost} onClose={closePopup}/>
+            )}
             <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
                                 <div>
                                     <div >
@@ -109,6 +127,7 @@ const  MainLayout  = observer( ()=>{
 
                                             {posts.length>0? posts.map((post:Post, index)=>(
                                                 <div className={componentStyles.postContainer} key={index}>
+                                                   <div style={{display:'flex', justifyContent:'space-between', width:'100%'}}>
                                                     <div className={componentStyles.postContainer__header} onClick={()=>goToUserProfile(post.writer_name)}>
                                                         <ProfileImage name={post.writer_name}/>
                                                         <div className={componentStyles.postContainer__header__details}>
@@ -116,6 +135,9 @@ const  MainLayout  = observer( ()=>{
                                                             <span style={{color:'#717273',fontSize:'16px', fontWeight:'normal'}} className={globalStyles.simpleP}> {UserStore.users.filter(user=>user.id== post.employee_id)[0]?.about}</span>
                                                         </div>
                                                     </div>
+                                                    <img onClick={()=>openEditingPost(post)} src={editImg} style={{width:'20px', height:'20px', padding:'10px', cursor:'pointer'}}/>
+                                                   </div>
+
                                                     <div className={componentStyles.postContainer__main}>
                                                         {/*<span  style={{  fontSize:'19px',display:'flex', color:'#555555',  wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.title}</span>*/}
                                                         <span style={{ display:'flex', color:'#717273',fontSize:'16px', fontWeight:'normal', wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.description}</span>

@@ -133,10 +133,12 @@ const  ProfileComponent  = observer( ()=>{
                     {/*job filters*/}
                     <div onClick={editProfile} style={{display:'flex', flexWrap:'wrap', gap:'10px', alignItems:'center', width:'100%', justifyContent:'center'}} >
                        <div style={{display:'flex', justifyContent:'space-between', width:'90%', alignItems:'center'}}>
-                        <div style={{flexDirection:'column',gap:'10px', display:'flex'}}>
+                        <div style={{flexDirection:'row' , gap:'10px', alignItems:'center', display:'flex'}}>
                         <ProfileImage name={user.name} size={'big'} />
-                           <span className={styles.simplePBlack} style={{fontSize:'25px'}}>{user.name}</span>
-                            <span className={styles.simplePBlack} style={{fontSize:'18px'}}>{user.about}</span>
+                            <div style={{display:'flex', flexDirection:'column'}}>
+                           <span className={styles.mainSpan} style={{fontSize:'25px'}}>{user.name}</span>
+                            <span className={styles.mainSpan} style={{fontSize:'18px'}}>{user.about}</span>
+                            </div>
                          </div>
                            <div style={{display:'flex', flexDirection:'column', gap:'5px', }}>
                                <span>last experience</span>
