@@ -5,6 +5,7 @@ import {Post} from "../interfaces/post";
 import axios from "axios";
 import UserStore from "./user";
 import jobService from "../services/jobService";
+import postService from "../services/postService";
 const hydrate = create({
     storage:localStorage,
     jsonify:true
@@ -19,7 +20,7 @@ class JobsStore{
     getfollowJobs(){
         return this.followPost
     }
-    setfollowJobs(jobs:Post[]){
+    setfollowPosts(jobs:Post[]){
         this.followPost = jobs
     }
     // jobs on job page
@@ -43,9 +44,19 @@ class JobsStore{
 
             }
         } catch (error) {
-            this.setfollowJobs([])
+            this.setfollowPosts([])
             console.error('Error get jobs:', error);
         }
+    }
+    getPostInfoById = (id:string):any =>{
+        return   this.followPost.find(post=>post._id==id) ;
+    }
+    editPost = async(postToEdit:Post)=>{
+        const res = await postService.savePost(postToEdit);
+        if(res.success){
+            await this.getAllPosts();
+        }
+        return res;
     }
      getAllPosts=async()=>{
         try {
@@ -55,15 +66,15 @@ class JobsStore{
                 const postsFollowedbyUser = result.data.posts.filter((post: Post) => {
                     return UserStore.user.follow.includes(post.employee_id) || UserStore.user.id == post.employee_id ;
                 });
-                this.setfollowJobs(postsFollowedbyUser)
+                this.setfollowPosts(postsFollowedbyUser)
             }
             else{
-                this.setfollowJobs([])
+                this.setfollowPosts([])
                 return result.data
 
             }
         } catch (error) {
-            this.setfollowJobs([])
+            this.setfollowPosts([])
             console.error('Error get posts:', error);
         }
 

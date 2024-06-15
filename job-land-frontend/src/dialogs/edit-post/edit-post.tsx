@@ -13,6 +13,7 @@ import TextInputField from '../../base-components/text-input/text-input-field';
 import { Post } from '../../interfaces/post';
 import userService from '../../services/userService';
 import postService from '../../services/postService';
+import JobService from "../../services/jobService";
 
 export interface editPostProps {
     postForEdit: Post;
@@ -56,7 +57,8 @@ const EditPost = (props: editPostProps) => {
         if (postToEdit.description === '') {
             toast.error(t('ERROR! Description is empty'));
         } else {
-            const res = await postService.savePost(postToEdit);
+
+            const res = await  jobsStore.editPost(postToEdit)
             if (res?.success) {
                 toast.success(t('SUCCESS'));
             } else {

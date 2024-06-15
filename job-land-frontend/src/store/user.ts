@@ -158,6 +158,7 @@ getUserNameById = (id:string):string=>{
 getUserInfoById = (id:string):any =>{
     return   this.users.find(user=>user.id==id) ;
 }
+
     getMessagesByPersons = async (otherId:string)=>{
         try {
             let result: any;

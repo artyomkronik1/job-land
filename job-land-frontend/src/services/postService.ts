@@ -16,6 +16,7 @@ const PostsService = {
             const result = await axios.post('http://localhost:3002/posts/edit', {post});
             if (result.data.success) {
                 return result.data
+
             } else {
 
                 return []
@@ -39,6 +40,26 @@ const PostsService = {
     async getAllPosts(): Promise<any> {
         try {
             const result = await axios.get('http://localhost:3002/posts');
+            if(result.data.success) {
+                // filter only the posts user follow or itself posts
+                const postsFollowedbyUser = result.data.posts.filter((post: Post) => {
+                    return UserStore.user.follow.includes(post.employee_id) || UserStore.user.id == post.employee_id ;
+                });
+                return postsFollowedbyUser.reverse()
+            }
+            else{
+
+                return []
+
+            }
+        } catch (error) {
+            return []
+            console.error('Error get posts:', error);
+        }
+    },
+    async getPostById(id:string): Promise<any> {
+        try {
+            const result = await axios.post('http://localhost:3002/posts', {id:id});
             if(result.data.success) {
                 // filter only the posts user follow or itself posts
                 const postsFollowedbyUser = result.data.posts.filter((post: Post) => {

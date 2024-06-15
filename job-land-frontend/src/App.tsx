@@ -14,6 +14,7 @@ import BasicComponent from "./components/basic-component/basic-component";
 import JobsComponent from "./components/jobs-component/jobs-component";
 import ProfileComponent from "./components/profile-component/profile-component";
 import MessagesComponent from "./components/messages-component/messages-component";
+import PostComponent from "./components/post-component/post-component";
 function App() {
     const { i18n } = useTranslation();
     useEffect(() => {
@@ -34,7 +35,7 @@ function App() {
                     <Route path="/profile/:username" element={<ProfileComponent />} />
                     <Route path="/messages" element={<MessagesComponent/>}/>
                     <Route path="/messages/:chatId" element={<MessagesComponent/>}/>
-
+                    <Route path="/posts/:postId" element={<PostComponent/>}/>
                 </Routes>
             </BasicComponent>
 

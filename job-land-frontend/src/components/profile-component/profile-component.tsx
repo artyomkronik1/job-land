@@ -33,7 +33,7 @@ const  ProfileComponent  = observer( ()=>{
     const [openPopup, setopenPopup] = useState(false);
     const [editPostPopup, seteditPostPopup] = useState(false);
     const [editPost, seteditPost] = useState<Post>({
-        id: "",
+        _id: "",
         title: "",
         description: "",
         employee_id:"",
@@ -55,6 +55,16 @@ const  ProfileComponent  = observer( ()=>{
         if(!filterValues.includes(newFilterValue)) {
             setfilterValues([...filterValues, newFilterValue]);
         }
+    }
+    const goToPost =  (post:Post)=>{
+
+            UserStore.setLoading(true);
+            setTimeout(() => {
+                UserStore.setLoading(false);
+                navigate(`/posts/${post._id}`);
+                UserStore.setTab("Home")
+            }, 1000)
+
     }
     // edit profile
     const editProfile =()=>{
@@ -91,7 +101,8 @@ const  ProfileComponent  = observer( ()=>{
         {filterName:t('Experienced level'), options:['Junior', 'Mid-level', 'Senior']},
         {filterName:t('How'), options:['Full time', 'Part time']},
     ]
-    const openEditPost = (postToEdit:Post)=>{
+    const openEditPost = (event: any, postToEdit:Post)=>{
+        event.stopPropagation();
         if(username && username===UserStore.user.name) {
 
             seteditPost(postToEdit);
@@ -154,7 +165,7 @@ const  ProfileComponent  = observer( ()=>{
                     <div  style={{display:'flex', flexDirection:'column', gap:'20px', width:'100%'}}>
 
                         { usersPosts.map((post:Post, index)=>(
-                            <div className={componentStyles.postContainer} key={index} >
+                            <div className={componentStyles.postContainer} key={index}  onClick={()=>goToPost(post)} >
                                 <div style={{display:'flex', justifyContent:'space-between', width:'100%'}}>
 
                                 <div className={componentStyles.postContainer__header} >
@@ -165,7 +176,7 @@ const  ProfileComponent  = observer( ()=>{
                                     </div>
                                 </div>
                                 {UserStore.user.id == post.employee_id &&(
-                                    <img onClick={()=>openEditPost(post)} src={editImg} style={{width:'20px', height:'20px', padding:'10px', cursor:'pointer'}}/>
+                                    <img onClick={(event)=>openEditPost(event,post)} src={editImg} style={{width:'20px', height:'20px', padding:'10px', cursor:'pointer'}}/>
                                 )}
                             </div>
                                 <div className={componentStyles.postContainer__main}>

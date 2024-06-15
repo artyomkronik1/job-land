@@ -30,8 +30,10 @@ const  MainLayout  = observer( ()=>{
     const [posts, setPosts] = useState<Post[]>(jobsStore.followPost);
     const [openPopup, setopenPopup] = useState(false);
     const [editPost, setEditPost] = useState(false);
+    const [goToProfileFlag, setgoToProfileFlag] = useState(false);
+
     const [editingPost, seteditingPost] = useState<Post>({
-        id: "",
+        _id: "",
         title: "",
         description: "",
         employee_id:"",
@@ -44,12 +46,12 @@ const  MainLayout  = observer( ()=>{
          getAllPosts()
     }, []);
 
-    const openEditingPost=(post:Post)=>{
+    const openEditingPost=(event:any,post:Post)=>{
+        event.stopPropagation(); // Prevent the click from propagating to the outer container
         seteditingPost(post)
         setEditPost(true)
     }
     const closePopup=(success:boolean)=>{
-        console.log(success)
         if(success){
             UserStore.setLoading(true);
             setTimeout(() => {
@@ -82,7 +84,11 @@ const  MainLayout  = observer( ()=>{
     };
 
 
-    const goToUserProfile =  (name:string)=>{
+    const goToUserProfile =  (event:any,name:string)=>{
+        event.stopPropagation(); // Prevent the click from propagating to the outer container
+
+        event.preventDefault();
+        setgoToProfileFlag(true)
         UserStore.setLoading(true);
         setTimeout(() => {
             UserStore.setLoading(false);
@@ -90,6 +96,18 @@ const  MainLayout  = observer( ()=>{
             UserStore.setTab("Profile")
         },1000)
     }
+
+    const goToPost =  (post:Post)=>{
+        if(!goToProfileFlag) {
+            UserStore.setLoading(true);
+            setTimeout(() => {
+                UserStore.setLoading(false);
+                navigate(`/posts/${post._id}`);
+                UserStore.setTab("Home")
+            }, 1000)
+        }
+    }
+
 
     return (
         <>
@@ -126,21 +144,23 @@ const  MainLayout  = observer( ()=>{
                                         <div  style={{display:'flex', flexDirection:'column', gap:'20px'}}>
 
                                             {posts.length>0? posts.map((post:Post, index)=>(
-                                                <div className={componentStyles.postContainer} key={index}>
+                                                <div className={componentStyles.postContainer} key={index}  onClick={()=>goToPost(post)} >
                                                    <div style={{display:'flex', justifyContent:'space-between', width:'100%'}}>
-                                                    <div className={componentStyles.postContainer__header} onClick={()=>goToUserProfile(post.writer_name)}>
-                                                        <ProfileImage name={post.writer_name}/>
-                                                        <div className={componentStyles.postContainer__header__details}>
+                                                    <div className={componentStyles.postContainer__header} >
+                                                        <div onClick={(event) => goToUserProfile(event, post.writer_name)}>
+                                                            <ProfileImage name={post.writer_name} />
+                                                        </div>
+                                                        <div onClick={()=>goToPost(post)} className={componentStyles.postContainer__header__details}>
                                                             <span style={{fontSize:'20px', color:'#1c1c39'}}> {post.writer_name}</span>
                                                             <span style={{color:'#717273',fontSize:'16px', fontWeight:'normal'}} className={globalStyles.simpleP}> {UserStore.users.filter(user=>user.id== post.employee_id)[0]?.about}</span>
                                                         </div>
                                                     </div>
                                                        {UserStore.user.id == post.employee_id &&(
-                                                    <img onClick={()=>openEditingPost(post)} src={editImg} style={{width:'20px', height:'20px', padding:'10px', cursor:'pointer'}}/>
+                                                    <img onClick={(event)=>openEditingPost(event,post)} src={editImg} style={{width:'20px', height:'20px', padding:'10px', cursor:'pointer'}}/>
                                                        )}
                                                    </div>
 
-                                                    <div className={componentStyles.postContainer__main}>
+                                                    <div className={componentStyles.postContainer__main} onClick={()=>goToPost(post)} >
                                                         {/*<span  style={{  fontSize:'19px',display:'flex', color:'#555555',  wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.title}</span>*/}
                                                         <span style={{ display:'flex', color:'#717273',fontSize:'16px', fontWeight:'normal', wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.description}</span>
                                                     </div>
