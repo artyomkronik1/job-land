@@ -33,6 +33,7 @@ const  PostComponent  = observer( ()=>{
         description: "",
         employee_id:"",
         writer_name:"",
+        likedBy:[],
     });
     const openEditingPost=(post:Post)=>{
         seteditingPost(post)

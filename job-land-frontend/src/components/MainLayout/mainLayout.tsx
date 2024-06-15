@@ -8,17 +8,14 @@ import styles from '../../assets/global-styles/styles.module.scss'
 import globalStyles from "../../assets/global-styles/styles.module.scss";
 import {useNavigate} from "react-router";
 import editImg from '../../assets/images/edit.png'
-import {Job} from "../../interfaces/job";
-import axios from "axios";
+import liked from '../../assets/images/liked.png'
 import ProfileImage from "../../base-components/profile-image/profile-image-component";
 import {Post} from "../../interfaces/post";
 import StartPost from "../../dialogs/start-post/start-post";
 import jobsStore from "../../store/job";
 import {toast} from "react-toastify";
 import ToastComponent from "../../base-components/toaster/ToastComponent";
-import {DashboardContext} from "../../context/dashboardContext";
-import ProfileComponent from "../profile-component/profile-component";
-import {User} from "../../interfaces/user";
+import like from '../../assets/images/like.png'
 import PostsService from "../../services/postService";
 import EditPost from "../../dialogs/edit-post/edit-post";
 const  MainLayout  = observer( ()=>{
@@ -31,8 +28,10 @@ const  MainLayout  = observer( ()=>{
     const [openPopup, setopenPopup] = useState(false);
     const [editPost, setEditPost] = useState(false);
     const [goToProfileFlag, setgoToProfileFlag] = useState(false);
+    const [likeFlag, setlike] = useState(false);
 
     const [editingPost, seteditingPost] = useState<Post>({
+        likedBy:[],
         _id: "",
         title: "",
         description: "",
@@ -43,8 +42,12 @@ const  MainLayout  = observer( ()=>{
 
     // update every 5 minutes the posts
     useEffect(() => {
-         getAllPosts()
+        setPosts(jobsStore.followPost)
     }, []);
+    // update every 5 minutes the posts
+    useEffect(() => {
+        setPosts(jobsStore.followPost)
+    }, [likeFlag]);
 
     const openEditingPost=(event:any,post:Post)=>{
         event.stopPropagation(); // Prevent the click from propagating to the outer container
@@ -63,11 +66,7 @@ const  MainLayout  = observer( ()=>{
         setEditPost(false)
         setopenPopup(false)
     }
-    // getAllJobs - posts
-    const getAllPosts=async()=>{
-      setPosts(await PostsService.getAllPosts())
 
-    }
     const startPost =()=>{
         setopenPopup(true);
     }
@@ -108,7 +107,12 @@ const  MainLayout  = observer( ()=>{
         }
     }
 
+const setLikeOnPost = (event:any, post:Post)=>{
 
+    event.stopPropagation();
+    jobsStore.setLikeOnPost(post, UserStore.user.id, post.likedBy.includes(UserStore.user.id))
+    setlike(!likeFlag)
+}
     return (
         <>
 
@@ -164,6 +168,18 @@ const  MainLayout  = observer( ()=>{
                                                         {/*<span  style={{  fontSize:'19px',display:'flex', color:'#555555',  wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.title}</span>*/}
                                                         <span style={{ display:'flex', color:'#717273',fontSize:'16px', fontWeight:'normal', wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.description}</span>
                                                     </div>
+
+                                                    <div className={globalStyles.separate_line_grey}> </div>
+                                                    <div style={{display:'flex', justifyContent:'space-between', width:'100%' }}>
+                                                    {/*    like*/}
+                                                        {!post.likedBy?.includes(UserStore.user.id)&&(
+                                                            <img onClick={(event)=>setLikeOnPost(event,post)} src={like} style={{cursor:'pointer', width:'30px'}}/>
+                                                        )}
+                                                        { post.likedBy?.includes(UserStore.user.id)&&(
+                                                            <img onClick={(event)=>setLikeOnPost(event,post)} src={liked} style={{ cursor:'pointer',width:'30px'}}/>
+                                                        )}
+                                                    </div>
+
                                                 </div>   )):(
 
                                                 <div style={{border:'1px solid #c3c4c5', backgroundColor:'white', borderRadius:'20px', padding:'10px', display:'flex',flexDirection:'column', gap:'30px', alignItems:'center'}}>

@@ -6,6 +6,7 @@ import axios from "axios";
 import UserStore from "./user";
 import jobService from "../services/jobService";
 import postService from "../services/postService";
+import PostsService from "../services/postService";
 const hydrate = create({
     storage:localStorage,
     jsonify:true
@@ -58,6 +59,26 @@ class JobsStore{
         }
         return res;
     }
+    setLikeOnPost=async(post:Post, user:string,like:boolean)=> {
+        // updating localy
+        const index = post.likedBy.indexOf(user);
+
+        if (!like && index === -1) {
+            // Add user to likedBy array if not already liked
+            post.likedBy.push(user);
+        } else if (like && index !== -1) {
+            // Remove user from likedBy array if already liked
+            post.likedBy.splice(index, 1);
+        }
+        this.followPost.map((posts: Post) => {
+            if (posts._id == post._id) {
+                posts = post
+            }
+        })
+         // updating in server
+         await PostsService.setLikeOnPost(post, user, like)
+    }
+
      getAllPosts=async()=>{
         try {
             const result = await axios.get('http://localhost:3002/posts');

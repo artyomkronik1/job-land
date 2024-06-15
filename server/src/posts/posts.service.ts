@@ -6,6 +6,43 @@ import {Post} from "./post.model";
 @Injectable()
 export class PostsService {
     constructor(@InjectModel('Post') private readonly postModel: Model<Post>) {}
+
+    public async likePost(postId: string, like: boolean, userId: string) {
+        try {
+            // Find the post by its ID
+            let post = await this.postModel.findById(postId);
+
+            if (!post) {
+                // Handle the case where the post with the given ID is not found
+                return { success: false, errorCode: 'post_not_found' };
+            }
+
+            // Check if the user's ID is already in the likedBy array
+            const index = post.likedBy.indexOf(userId);
+
+            if (!like && index === -1) {
+                // Add user to likedBy array if not already liked
+                post.likedBy.push(userId);
+            } else if (like && index !== -1) {
+                // Remove user from likedBy array if already liked
+                post.likedBy.splice(index, 1);
+            } else {
+                // No change needed (like=true and already liked, or like=false and not liked)
+                return { success: true, post };
+            }
+
+            // Save the updated post document
+            await post.save();
+
+            return { success: true, post };
+        } catch (error) {
+            // Handle any errors that occur during database operations
+            console.error('Error in likePost:', error);
+            return { success: false, errorCode: 'database_error' };
+        }
+    }
+
+
     public async getPostByUserName(name:string){
         const posts = await this.postModel.find({ writer_name: name }).exec();
         if (posts.length>0) {
@@ -41,7 +78,7 @@ export class PostsService {
         let p = await this.postModel.findById(post.post._id.toString());
         if (!p) {
             // Handle the case where the user with the given ID is not found
-            return {success: false, errorCode: 'fail_to_find_user',};
+            return {success: false, errorCode: 'fail_to_find_post',};
         } else {
             p.title = post.post.title
             p.description = post.post.description

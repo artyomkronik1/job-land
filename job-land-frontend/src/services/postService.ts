@@ -9,7 +9,22 @@ import User from "../store/user";
 
 const PostsService = {
 
+    async setLikeOnPost(post:Post,user:string, like:boolean):Promise<any>{
+        try {
+            const result = await axios.post('http://localhost:3002/posts/like', {post, like, user});
+            if (result.data.success) {
+                return result.data
 
+            } else {
+
+                return []
+
+            }
+        } catch (error) {
+            return []
+            console.error('Error set like on post:', error);
+        }
+    },
 
     async savePost(post:Post) :Promise<any> {
         try {

@@ -33,6 +33,7 @@ const  ProfileComponent  = observer( ()=>{
     const [openPopup, setopenPopup] = useState(false);
     const [editPostPopup, seteditPostPopup] = useState(false);
     const [editPost, seteditPost] = useState<Post>({
+        likedBy:[],
         _id: "",
         title: "",
         description: "",
