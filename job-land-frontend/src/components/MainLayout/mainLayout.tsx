@@ -170,7 +170,7 @@ const setLikeOnPost = (event:any, post:Post)=>{
                                                     </div>
 
                                                     <div className={globalStyles.separate_line_grey}> </div>
-                                                    <div style={{display:'flex', justifyContent:'space-between', width:'100%' }}>
+                                                    <div style={{display:'flex', justifyContent:'space-between', width:'100%' , padding:'10px'}}>
                                                     {/*    like*/}
                                                         {!post.likedBy?.includes(UserStore.user.id)&&(
                                                             <img onClick={(event)=>setLikeOnPost(event,post)} src={like} style={{cursor:'pointer', width:'30px'}}/>

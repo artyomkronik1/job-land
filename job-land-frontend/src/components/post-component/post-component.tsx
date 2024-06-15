@@ -19,7 +19,11 @@ import editImg from "../../assets/images/edit.png";
 import {Post} from "../../interfaces/post";
 import EditPost from "../../dialogs/edit-post/edit-post";
 import {toast} from "react-toastify";
+import like from "../../assets/images/like.png";
+import liked from "../../assets/images/liked.png";
 const  PostComponent  = observer( ()=>{
+    const [likeFlag, setlike] = useState(false);
+
     //language
     const { t } = useTranslation();
     const { i18n } = useTranslation();
@@ -62,7 +66,15 @@ const  PostComponent  = observer( ()=>{
         }
         setEditPost(false)
     }
+    useEffect(() => {
+        setPost(jobsStore.getPostInfoById(postId))
+    }, [likeFlag]);
+    const setLikeOnPost = (event:any, post:Post)=>{
 
+        event.stopPropagation();
+        jobsStore.setLikeOnPost(post, UserStore.user.id, post.likedBy.includes(UserStore.user.id))
+        setlike(!likeFlag)
+    }
     return (
         <>
 
@@ -91,6 +103,17 @@ const  PostComponent  = observer( ()=>{
                         <div className={componentStyles.postContainer__main}>
                             {/*<span  style={{  fontSize:'19px',display:'flex', color:'#555555',  wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.title}</span>*/}
                             <span style={{ display:'flex', color:'#717273',fontSize:'16px', fontWeight:'normal', wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.description}</span>
+                        </div>
+
+                        <div className={globalStyles.separate_line_grey}> </div>
+                        <div style={{display:'flex', justifyContent:'space-between', width:'100%', padding:'10px' }}>
+                            {/*    like*/}
+                            {!post.likedBy?.includes(UserStore.user.id)&&(
+                                <img onClick={(event)=>setLikeOnPost(event,post)} src={like} style={{cursor:'pointer', width:'30px'}}/>
+                            )}
+                            { post.likedBy?.includes(UserStore.user.id)&&(
+                                <img onClick={(event)=>setLikeOnPost(event,post)} src={liked} style={{ cursor:'pointer',width:'30px'}}/>
+                            )}
                         </div>
                     </div>
                 </div>
