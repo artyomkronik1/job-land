@@ -6,6 +6,7 @@ export const PostSchema = new mongoose.Schema({
     employee_id:{type:String, required:true},
     likedBy:{type:Array, required:true},
     writer_name:{type:String, required:true},
+    comments:{type:Array,required:true}
 })
 
 export interface Post{
@@ -15,5 +16,6 @@ export interface Post{
    employee_id:string;
    writer_name:string;
     likedBy:string[];
+    comments:Comment[]
 }
 

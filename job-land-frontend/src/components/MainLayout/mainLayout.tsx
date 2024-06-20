@@ -18,6 +18,7 @@ import ToastComponent from "../../base-components/toaster/ToastComponent";
 import like from '../../assets/images/like.png'
 import PostsService from "../../services/postService";
 import EditPost from "../../dialogs/edit-post/edit-post";
+import PostComponen from "../post-component/post-componen";
 const  MainLayout  = observer( ()=>{
     const [startIndex, setStartIndex] = useState(0);
     const navigate = useNavigate();
@@ -37,6 +38,7 @@ const  MainLayout  = observer( ()=>{
         description: "",
         employee_id:"",
         writer_name:"",
+        comments:[]
     });
 
 
@@ -145,42 +147,10 @@ const setLikeOnPost = (event:any, post:Post)=>{
                                         <div style={{display:'flex', justifyContent:'center'}}>
                                           <div className={globalStyles.separate_line_grey}> </div>
                                         </div>
-                                        <div  style={{display:'flex', flexDirection:'column', gap:'20px'}}>
+                                        <div  style={{display:'flex', flexDirection:'column'}}>
 
                                             {posts.length>0? posts.map((post:Post, index)=>(
-                                                <div className={componentStyles.postContainer} key={index}  onClick={()=>goToPost(post)} >
-                                                   <div style={{display:'flex', justifyContent:'space-between', width:'100%'}}>
-                                                    <div className={componentStyles.postContainer__header} >
-                                                        <div onClick={(event) => goToUserProfile(event, post.writer_name)}>
-                                                            <ProfileImage name={post.writer_name} />
-                                                        </div>
-                                                        <div onClick={()=>goToPost(post)} className={componentStyles.postContainer__header__details}>
-                                                            <span style={{fontSize:'20px', color:'#1c1c39'}}> {post.writer_name}</span>
-                                                            <span style={{color:'#717273',fontSize:'16px', fontWeight:'normal'}} className={globalStyles.simpleP}> {UserStore.users.filter(user=>user.id== post.employee_id)[0]?.about}</span>
-                                                        </div>
-                                                    </div>
-                                                       {UserStore.user.id == post.employee_id &&(
-                                                    <img onClick={(event)=>openEditingPost(event,post)} src={editImg} style={{width:'20px', height:'20px', padding:'10px', cursor:'pointer'}}/>
-                                                       )}
-                                                   </div>
-
-                                                    <div className={componentStyles.postContainer__main} onClick={()=>goToPost(post)} >
-                                                        {/*<span  style={{  fontSize:'19px',display:'flex', color:'#555555',  wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.title}</span>*/}
-                                                        <span style={{ display:'flex', color:'#717273',fontSize:'16px', fontWeight:'normal', wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.description}</span>
-                                                    </div>
-
-                                                    <div className={globalStyles.separate_line_grey}> </div>
-                                                    <div style={{display:'flex', justifyContent:'space-between', width:'100%' , padding:'10px'}}>
-                                                    {/*    like*/}
-                                                        {!post.likedBy?.includes(UserStore.user.id)&&(
-                                                            <img onClick={(event)=>setLikeOnPost(event,post)} src={like} style={{cursor:'pointer', width:'30px'}}/>
-                                                        )}
-                                                        { post.likedBy?.includes(UserStore.user.id)&&(
-                                                            <img onClick={(event)=>setLikeOnPost(event,post)} src={liked} style={{ cursor:'pointer',width:'30px'}}/>
-                                                        )}
-                                                    </div>
-
-                                                </div>   )):(
+                                                <PostComponen postId={post._id}/> )):(
 
                                                 <div style={{border:'1px solid #c3c4c5', backgroundColor:'white', borderRadius:'20px', padding:'10px', display:'flex',flexDirection:'column', gap:'30px', alignItems:'center'}}>
                                                     <span className={globalStyles.h2}>{'There is no posts...'}</span>

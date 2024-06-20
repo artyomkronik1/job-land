@@ -21,13 +21,14 @@ import EditPost from "../../dialogs/edit-post/edit-post";
 import {toast} from "react-toastify";
 import like from "../../assets/images/like.png";
 import liked from "../../assets/images/liked.png";
-const  PostComponent  = observer( ()=>{
+import comment from '../../assets/images/comment.png'
+const  PostComponent  = observer( (props:any)=>{
     const [likeFlag, setlike] = useState(false);
 
     //language
     const { t } = useTranslation();
     const { i18n } = useTranslation();
-    const { postId }:any = useParams();
+    const {postId}  = props;
     const [post, setPost] = useState<Post>(jobsStore.getPostInfoById(postId));
     const navigate = useNavigate();
     const [editPost, setEditPost] = useState(false);
@@ -38,10 +39,23 @@ const  PostComponent  = observer( ()=>{
         employee_id:"",
         writer_name:"",
         likedBy:[],
+        comments:[]
     });
-    const openEditingPost=(post:Post)=>{
+    const openEditingPost=(event: any, post:Post)=>{
+
+        event.stopPropagation();
         seteditingPost(post)
         setEditPost(true)
+    }
+    const goToPost =  (post:Post)=>{
+
+        UserStore.setLoading(true);
+        setTimeout(() => {
+            UserStore.setLoading(false);
+            navigate(`/posts/${post._id}`);
+            UserStore.setTab("Home")
+        }, 1000)
+
     }
 
     useEffect(() => {
@@ -84,9 +98,9 @@ const  PostComponent  = observer( ()=>{
             )}
 
             <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
-                <div style={{marginTop:'90px',display:'flex', flexDirection:'column', alignItems:'center', width:'100%'}} >
+                <div style={{marginTop:'20px',display:'flex', flexDirection:'column', alignItems:'center', width:'100%'}} >
 
-                    <div className={componentStyles.postContainer} style={{width:'100%'}}>
+                    <div className={componentStyles.postContainer} style={{width:'100%'}} onClick={()=>goToPost(post)}>
                         <div style={{display:'flex', justifyContent:'space-between', width:'100%'}}>
                             <div className={componentStyles.postContainer__header} onClick={()=>goToUserProfile(post.writer_name)}>
                                 <ProfileImage name={post.writer_name}/>
@@ -96,7 +110,7 @@ const  PostComponent  = observer( ()=>{
                                 </div>
                             </div>
                             {UserStore.user.id == post.employee_id &&(
-                                <img onClick={()=>openEditingPost(post)} src={editImg} style={{width:'20px', height:'20px', padding:'10px', cursor:'pointer'}}/>
+                                <img onClick={(event)=>openEditingPost(event, post)} src={editImg} style={{width:'20px', height:'20px', padding:'10px', cursor:'pointer'}}/>
                             )}
                         </div>
 
@@ -106,7 +120,7 @@ const  PostComponent  = observer( ()=>{
                         </div>
 
                         <div className={globalStyles.separate_line_grey}> </div>
-                        <div style={{display:'flex', justifyContent:'space-between', width:'100%', padding:'10px' }}>
+                        <div style={{display:'flex', justifyContent:'start', width:'100%', padding:'10px', gap:'20px' }}>
                             {/*    like*/}
                             {!post.likedBy?.includes(UserStore.user.id)&&(
                                 <img onClick={(event)=>setLikeOnPost(event,post)} src={like} style={{cursor:'pointer', width:'30px'}}/>
@@ -114,6 +128,7 @@ const  PostComponent  = observer( ()=>{
                             { post.likedBy?.includes(UserStore.user.id)&&(
                                 <img onClick={(event)=>setLikeOnPost(event,post)} src={liked} style={{ cursor:'pointer',width:'30px'}}/>
                             )}
+                            <img  src={comment} style={{ cursor:'pointer',width:'30px'}}/>
                         </div>
                     </div>
                 </div>

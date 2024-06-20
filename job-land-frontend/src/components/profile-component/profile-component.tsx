@@ -24,6 +24,10 @@ import EditProfileDialog from "../../dialogs/edit-profile/edit-profile";
 import EditPost from "../../dialogs/edit-post/edit-post";
 import success = toast.success;
 import postService from "../../services/postService";
+import like from "../../assets/images/like.png";
+import liked from "../../assets/images/liked.png";
+import comment from "../../assets/images/comment.png";
+import PostComponent from "../post-component/post-componen";
 const  ProfileComponent  = observer( ()=>{
     // params
     const { username } = useParams();
@@ -39,6 +43,7 @@ const  ProfileComponent  = observer( ()=>{
         description: "",
         employee_id:"",
         writer_name:"",
+        comments:[]
     });
 
 
@@ -93,15 +98,8 @@ const  ProfileComponent  = observer( ()=>{
         }
         seteditPostPopup(false)
     }
-    // job filters
-    const jobFilters=[
-        {filterName:t('Zone'), options:['Programming']},
-        {filterName:t('Profesion'), options:['Frontend Developer', 'IT']},
-        {filterName:t('Region'), options:['Israel', 'Russia']},
-        {filterName:t('Where'), options:['On-Site', 'Hybrid', 'Remote']},
-        {filterName:t('Experienced level'), options:['Junior', 'Mid-level', 'Senior']},
-        {filterName:t('How'), options:['Full time', 'Part time']},
-    ]
+    const [likeFlag, setlike] = useState(false);
+
     const openEditPost = (event: any, postToEdit:Post)=>{
         event.stopPropagation();
         if(username && username===UserStore.user.name) {
@@ -125,11 +123,12 @@ const  ProfileComponent  = observer( ()=>{
             console.error('Error getting users messages', error);
         }
     }
-    const jobFiltersHTML= jobFilters.map((value,index)=>(
-        <div key={index} style={{display:'flex',flexDirection:'row', justifyContent:'center'}}>
-            <JobFilterBtn text={value.filterName} type={value.filterName} options={value.options} changeFilterValue={addNewFilterValue}/>
-        </div>
-    ));
+    const setLikeOnPost = (event:any, post:Post)=>{
+
+        event.stopPropagation();
+        jobsStore.setLikeOnPost(post, UserStore.user.id, post.likedBy.includes(UserStore.user.id))
+        setlike(!likeFlag)
+    }
 
     return (
         <>
@@ -163,28 +162,12 @@ const  ProfileComponent  = observer( ()=>{
                     {/*separate line*/}
                     <div style={{width:'90%'}} className={globalStyles.separate_line_grey}> </div>
                 {/*  users posts*/}
-                    <div  style={{display:'flex', flexDirection:'column', gap:'20px', width:'100%'}}>
+                    <div  style={{display:'flex', flexDirection:'column', width:'100%'}}>
 
                         { usersPosts.map((post:Post, index)=>(
-                            <div className={componentStyles.postContainer} key={index}  onClick={()=>goToPost(post)} >
-                                <div style={{display:'flex', justifyContent:'space-between', width:'100%'}}>
 
-                                <div className={componentStyles.postContainer__header} >
-                                    <ProfileImage name={post.writer_name}/>
-                                    <div className={componentStyles.postContainer__header__details}>
-                                        <span style={{fontSize:'20px', color:'#1c1c39'}}> {post.writer_name}</span>
-                                        <span style={{color:'#717273',fontSize:'16px', fontWeight:'normal'}} className={globalStyles.simpleP}> {UserStore.users.filter(user=>user.id== post.employee_id)[0]?.about}</span>
-                                    </div>
-                                </div>
-                                {UserStore.user.id == post.employee_id &&(
-                                    <img onClick={(event)=>openEditPost(event,post)} src={editImg} style={{width:'20px', height:'20px', padding:'10px', cursor:'pointer'}}/>
-                                )}
-                            </div>
-                                <div className={componentStyles.postContainer__main}>
-                                    {/*<span  style={{  fontSize:'19px',display:'flex', color:'#555555',  wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.title}</span>*/}
-                                    <span style={{ display:'flex', color:'#717273',fontSize:'16px', fontWeight:'normal', wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.description}</span>
-                                </div>
-                            </div>
+                            <PostComponent postId={post._id}/>
+
                         ))}
                     </div>
 

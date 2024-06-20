@@ -5,4 +5,5 @@ export interface Post{
     employee_id:string;
     likedBy:string[];
     writer_name:string;
+    comments:Comment[];
 }
