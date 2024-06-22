@@ -275,8 +275,10 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
                                             ):null}
 
                                             {/*    open all message box*/}
+
                                             <div  className={`${styles.fade_in} ${messageBoxIsOpen ? `${styles.allMessagesContainer_visible}` :`${styles.allMessagesContainer_hidden}`}`}>
                                                 {/*all user chats*/}
+                                                {messageBoxIsOpen&&(
                                                 <div className={styles.allMessagesContainer}  >
                                                     {chats.length>0?chats.map((chat:Chat, index)=>
                                                                 // chat box
@@ -298,8 +300,9 @@ const  BasicComponent  = observer( (props:basicComponentProps)=>{
                                                     ):null}
                                                 </div>
 
-
+                                                )}
                                             </div>
+
                                             {/*users chat box*/}
                                             <div  style={{position:'relative', bottom:'20px', width:'40vh', backgroundColor:'white'}} onClick={()=> setmessageBoxIsOpen(!messageBoxIsOpen)}>
                                                 <div className={styles.messageContainerMain}>
