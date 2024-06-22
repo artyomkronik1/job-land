@@ -1,12 +1,30 @@
 import { Injectable } from '@nestjs/common';
 import {InjectModel} from "@nestjs/mongoose";
 import {Model} from "mongoose";
-import {Post} from "./post.model";
+import {comment, Post} from "./post.model";
 
 @Injectable()
 export class PostsService {
     constructor(@InjectModel('Post') private readonly postModel: Model<Post>) {}
+        public async addComment(postId:string, comment:comment){
+            try {
+                const post = await this.postModel.findById(postId);
 
+                if (!post) {
+                    throw new Error('Post not found');
+                }
+
+                post.comments.push(comment);
+                await post.save();
+
+                return {
+                    success:true,
+                    post:post
+                };
+            } catch (error) {
+                throw new Error(`Failed to add comment: ${error.message}`);
+            }
+        }
     public async likePost(postId: string, like: boolean, userId: string) {
         try {
             // Find the post by its ID

@@ -1,3 +1,5 @@
+import {comment} from "./comment";
+
 export interface Post{
     _id: string;
     title: string;
@@ -5,5 +7,5 @@ export interface Post{
     employee_id:string;
     likedBy:string[];
     writer_name:string;
-    comments:Comment[];
+    comments:comment[];
 }

@@ -21,15 +21,26 @@ import EditPost from "../../dialogs/edit-post/edit-post";
 import {toast} from "react-toastify";
 import like from "../../assets/images/like.png";
 import liked from "../../assets/images/liked.png";
-import comment from '../../assets/images/comment.png'
-const  PostComponent  = observer( (props:any)=>{
+import commentimg from '../../assets/images/comment.png'
+import {comment} from '../../interfaces/comment'
+import TextInputField from "../../base-components/text-input/text-input-field";
+import postService from "../../services/postService";
+const   PostComponent  = observer( (props:any)=>{
     const [likeFlag, setlike] = useState(false);
+    const [commentFlag, setcommentFlag] = useState(false);
+    const [commentAdded, setcommentAdded] = useState(false);
 
     //language
     const { t } = useTranslation();
     const { i18n } = useTranslation();
     const {postId}  = props;
     const [post, setPost] = useState<Post>(jobsStore.getPostInfoById(postId));
+    const [likesCounter, setlikesCounter] = useState(0);
+    const [commentsCounter, setcommentsCounter] = useState(post.comments.length);
+    const [usersCommentOnPost, setusersCommentOnPost] = useState('');
+
+
+
     const navigate = useNavigate();
     const [editPost, setEditPost] = useState(false);
     const [editingPost, seteditingPost] = useState<Post>({
@@ -41,14 +52,23 @@ const  PostComponent  = observer( (props:any)=>{
         likedBy:[],
         comments:[]
     });
-    const openEditingPost=(event: any, post:Post)=>{
+    useEffect(() => {
+        let count = 0;
+        post.likedBy.forEach((like:string)=>{
+            if(like.length>0){
+                count++;
+            }
+        })
+        setlikesCounter(count)
 
+    }, []);
+
+    const openEditingPost=(event: any, post:Post)=>{
         event.stopPropagation();
         seteditingPost(post)
         setEditPost(true)
     }
     const goToPost =  (post:Post)=>{
-
         UserStore.setLoading(true);
         setTimeout(() => {
             UserStore.setLoading(false);
@@ -71,7 +91,6 @@ const  PostComponent  = observer( (props:any)=>{
     }
     const closePopup=(success:boolean)=>{
         if(success){
-
             UserStore.setLoading(true);
             setTimeout(() => {
                 UserStore.setLoading(false);
@@ -80,15 +99,37 @@ const  PostComponent  = observer( (props:any)=>{
         }
         setEditPost(false)
     }
+    // likes
     useEffect(() => {
         setPost(jobsStore.getPostInfoById(postId))
     }, [likeFlag]);
     const setLikeOnPost = (event:any, post:Post)=>{
-
         event.stopPropagation();
         jobsStore.setLikeOnPost(post, UserStore.user.id, post.likedBy.includes(UserStore.user.id))
         setlike(!likeFlag)
     }
+    // comments
+    const commentOnPost = (event:any)=>{
+        event.stopPropagation();
+        setcommentFlag(true)
+
+    }
+    const addComment = (value:string)=>{
+        setusersCommentOnPost(value)
+    }
+    const postComment=()=>{
+        setusersCommentOnPost('')
+
+        const c:comment = {by:UserStore.user.id.toString(),text:usersCommentOnPost}
+       jobsStore.addCommentOnPost(post,c)
+        setcommentAdded(true)
+
+    }
+    useEffect(() => {
+        setPost(jobsStore.getPostInfoById(postId))
+        setcommentsCounter(post.comments.length)
+        setcommentAdded(false)
+    }, [commentAdded]);
     return (
         <>
 
@@ -116,7 +157,15 @@ const  PostComponent  = observer( (props:any)=>{
 
                         <div className={componentStyles.postContainer__main}>
                             {/*<span  style={{  fontSize:'19px',display:'flex', color:'#555555',  wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.title}</span>*/}
-                            <span style={{ display:'flex', color:'#717273',fontSize:'16px', fontWeight:'normal', wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.description}</span>
+                            <span style={{ display:'flex', color:'#181818',fontSize:'22px', fontWeight:'normal', wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.description}</span>
+
+                        </div>
+
+                        <div style={{padding:'15px', marginTop:'20px', marginBottom:'-20px' ,width:'97%' , display:'flex', justifyContent:'space-between'}}>
+                            {/*<span  style={{  fontSize:'19px',display:'flex', color:'#555555',  wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.title}</span>*/}
+                            <span style={{ display:'flex', color:'#717273',fontSize:'16px', fontWeight:'normal',}}> {likesCounter + t(' liked this post')}</span>
+                            <span style={{ display:'flex', color:'#717273',fontSize:'16px', fontWeight:'normal'}}> {commentsCounter + t(' comments')}</span>
+
                         </div>
 
                         <div className={globalStyles.separate_line_grey}> </div>
@@ -128,8 +177,40 @@ const  PostComponent  = observer( (props:any)=>{
                             { post.likedBy?.includes(UserStore.user.id)&&(
                                 <img onClick={(event)=>setLikeOnPost(event,post)} src={liked} style={{ cursor:'pointer',width:'30px'}}/>
                             )}
-                            <img  src={comment} style={{ cursor:'pointer',width:'30px'}}/>
+                            <img  onClick={(event) => commentOnPost(event)} src={commentimg} style={{ cursor:'pointer',width:'30px'}}/>
                         </div>
+                        {/*comment div*/}
+                        {commentFlag&&(
+                            <div onClick={(event)=>event.stopPropagation()}>
+                            {/*    users comments*/}
+                            <div style={{ marginTop:'30px', background:'white', display:'flex', width:'100%', height:'80px', justifyContent:'start', gap:'10px'}}>
+                            <ProfileImage name={UserStore.user.name}/>
+                            <TextInputField background={'grey'} type={'text'} placeHolder={t('Add a comment')} text={t('')} value={usersCommentOnPost} onChange={addComment}/>
+                            {usersCommentOnPost.length>0&&(
+                                <button className={globalStyles.btn} onClick={postComment}  style={{marginTop:'5px', width:'70px', height:'40px',}}> {t('post') }</button>
+                            )}
+                               </div>
+
+                                {/* All comments */}
+                                {post.comments.length > 0 && (
+                                    <div>
+                                        {post.comments.map((comment:comment, index) => (
+                                            <div key={index} style={{ display: 'flex', gap: '10px', marginTop: '10px', marginBottom:'50px' }}>
+                                                <ProfileImage name={UserStore.getUserInfoById(comment.by).name} />
+                                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                    <div className={componentStyles.postContainer__header__details} style={{borderRadius:'25px', padding:'10px', background:'#dfdfe0'}}>
+                                                        <span style={{fontSize:'20px', color:'#1c1c39'}}> {UserStore.getUserInfoById(comment.by).name}</span>
+                                                        <span style={{color:'#717273',fontSize:'16px', fontWeight:'normal'}} className={globalStyles.simpleP}> {UserStore.getUserInfoById(comment.by).about}</span>
+                                                        <span style={{marginTop:'10px', fontSize:'20px', color:'#1c1c39'}}> {comment.text}</span>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        )}
                     </div>
                 </div>
 

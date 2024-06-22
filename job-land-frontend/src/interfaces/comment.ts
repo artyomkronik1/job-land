@@ -1,4 +1,4 @@
-export interface Comment{
-    text:String;
-    by:String;
+export interface comment{
+    text:string;
+    by:string;
 }

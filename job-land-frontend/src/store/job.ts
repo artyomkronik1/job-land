@@ -2,6 +2,8 @@ import {action, makeAutoObservable, makeObservable, observable} from "mobx";
 import {create, persist} from "mobx-persist";
 import {Job} from "../interfaces/job";
 import {Post} from "../interfaces/post";
+import {comment} from "../interfaces/comment";
+
 import axios from "axios";
 import UserStore from "./user";
 import jobService from "../services/jobService";
@@ -59,6 +61,19 @@ class JobsStore{
         }
         return res;
     }
+
+    addCommentOnPost = async (post:Post, comment:comment)=>{
+        post.comments.push(comment)
+        this.followPost.map((posts: Post) => {
+            if(posts._id == post._id){
+                posts = post
+            }
+        })
+        // updating in server
+       await  postService.addComment(comment, post._id)
+
+    }
+
     setLikeOnPost=async(post:Post, user:string,like:boolean)=> {
         // updating localy
         const index = post.likedBy.indexOf(user);

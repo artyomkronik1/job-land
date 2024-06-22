@@ -22,6 +22,7 @@ import {toast} from "react-toastify";
 import like from "../../assets/images/like.png";
 import liked from "../../assets/images/liked.png";
 import comment from '../../assets/images/comment.png'
+import PostComponen from "../post-component/post-componen";
 const  PostPage  = observer( ()=>{
     const [likeFlag, setlike] = useState(false);
 
@@ -85,43 +86,10 @@ const  PostPage  = observer( ()=>{
                 <EditPost postForEdit={editingPost} isOpen={editPost} onClose={closePopup}/>
             )}
 
-            <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
-                <div style={{marginTop:'90px',display:'flex', flexDirection:'column', alignItems:'center', width:'100%'}} >
-
-                    <div className={componentStyles.postContainer} style={{width:'100%'}}>
-                        <div style={{display:'flex', justifyContent:'space-between', width:'100%'}}>
-                            <div className={componentStyles.postContainer__header} onClick={()=>goToUserProfile(post.writer_name)}>
-                                <ProfileImage name={post.writer_name}/>
-                                <div className={componentStyles.postContainer__header__details}>
-                                    <span style={{fontSize:'20px', color:'#1c1c39'}}> {post.writer_name}</span>
-                                    <span style={{color:'#717273',fontSize:'16px', fontWeight:'normal'}} className={globalStyles.simpleP}> {UserStore.users.filter(user=>user.id== post.employee_id)[0]?.about}</span>
-                                </div>
-                            </div>
-                            {UserStore.user.id == post.employee_id &&(
-                                <img onClick={()=>openEditingPost(post)} src={editImg} style={{width:'20px', height:'20px', padding:'10px', cursor:'pointer'}}/>
-                            )}
-                        </div>
-
-                        <div className={componentStyles.postContainer__main}>
-                            {/*<span  style={{  fontSize:'19px',display:'flex', color:'#555555',  wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.title}</span>*/}
-                            <span style={{ display:'flex', color:'#717273',fontSize:'16px', fontWeight:'normal', wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.description}</span>
-                        </div>
-
-                        <div className={globalStyles.separate_line_grey}> </div>
-                        <div style={{display:'flex', justifyContent:'start', width:'100%', padding:'10px', gap:'20px' }}>
-                            {/*    like*/}
-                            {!post.likedBy?.includes(UserStore.user.id)&&(
-                                <img onClick={(event)=>setLikeOnPost(event,post)} src={like} style={{cursor:'pointer', width:'30px'}}/>
-                            )}
-                            { post.likedBy?.includes(UserStore.user.id)&&(
-                                <img onClick={(event)=>setLikeOnPost(event,post)} src={liked} style={{ cursor:'pointer',width:'30px'}}/>
-                            )}
-                            <img  src={comment} style={{ cursor:'pointer',width:'30px'}}/>
-                        </div>
-                    </div>
+                <div style={{marginTop:'90px'}}>
+                  <PostComponen postId={post._id}/>
                 </div>
 
-            </div>
         </>
 
     );

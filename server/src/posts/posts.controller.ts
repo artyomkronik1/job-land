@@ -2,6 +2,7 @@ import {Body, Controller, Get,Post} from '@nestjs/common';
 import {PostsService} from "./posts.service";
 import {loginData} from "../user/user.controller";
 import {Message} from "../message/message.model";
+import {comment} from "./post.model";
 @Controller('posts')
 export class PostsController {
     constructor(private postService: PostsService) {
@@ -31,10 +32,19 @@ export class PostsController {
         return this.postService.editPost(post)
     }
 
+
+    @Post('/comment')
+    async addComment(@Body('post') post: any, @Body('comment') comment: comment )
+        {
+            return this.postService.addComment(post, comment)
+        }
     @Post('/like')
     async likedPost(@Body('post') post: any, @Body('like') like: boolean,  @Body('user') user: string) {
         {
             return this.postService.likePost(post, like, user)
         }
+
+
     }
+
 }

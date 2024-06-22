@@ -5,10 +5,28 @@ import {Chat} from "../interfaces/chat";
 import {Post} from "../interfaces/post";
 import UserStore from "../store/user";
 import User from "../store/user";
+import {comment} from "../interfaces/comment";
 
 
 const PostsService = {
 
+
+    async addComment(comment:comment, post:string):Promise<any>{
+        try {
+            const result = await axios.post('http://localhost:3002/posts/comment', {post, comment});
+            if (result.data.success) {
+                return result.data
+
+            } else {
+
+                return []
+
+            }
+        } catch (error) {
+            return []
+            console.error('Error add comment on post:', error);
+        }
+    },
     async setLikeOnPost(post:Post,user:string, like:boolean):Promise<any>{
         try {
             const result = await axios.post('http://localhost:3002/posts/like', {post, like, user});

@@ -16,6 +16,11 @@ export interface Post{
    employee_id:string;
    writer_name:string;
     likedBy:string[];
-    comments:Comment[]
+    comments:comment[]
+}
+
+export interface comment{
+    text:string;
+    by:string;
 }
 

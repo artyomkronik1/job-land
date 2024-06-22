@@ -39,10 +39,34 @@
     border:2px solid $mainColor;
     border-radius:30px;
 }
+
+
+
 .input:focus, .input_small:focus
 {
     border:2px solid $secondColor;
     font-size: 16px;
     padding-left: 20px;
     color:$secondColor
+}
+
+
+.input_generic{
+
+    outline: none;
+    font-size: 16px;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 40px;
+    width:400px;
+    border-radius:30px;
+}
+.input_small_generic{
+    outline: none;
+    font-size: 16px;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 40px;
+    width:200px;
+    border-radius:30px;
 }
