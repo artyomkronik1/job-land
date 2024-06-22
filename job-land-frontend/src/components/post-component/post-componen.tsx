@@ -141,7 +141,7 @@ const   PostComponent  = observer( (props:any)=>{
             <div dir={ UserStore.getLanguage()=='en'?'ltr':'rtl'}>
                 <div style={{marginTop:'20px',display:'flex', flexDirection:'column', alignItems:'center', width:'100%'}} >
 
-                    <div className={componentStyles.postContainer} style={{width:'100%'}} onClick={()=>goToPost(post)}>
+                    <div className={componentStyles.postContainer} style={{alignSelf:'start', width:'60%'}} onClick={()=>goToPost(post)}>
                         <div style={{display:'flex', justifyContent:'space-between', width:'100%'}}>
                             <div className={componentStyles.postContainer__header} onClick={()=>goToUserProfile(post.writer_name)}>
                                 <ProfileImage name={post.writer_name}/>
@@ -193,12 +193,12 @@ const   PostComponent  = observer( (props:any)=>{
 
                                 {/* All comments */}
                                 {post.comments.length > 0 && (
-                                    <div>
+                                    <div style={{height:'350px', overflowY:'scroll'}}>
                                         {post.comments.map((comment:comment, index) => (
                                             <div key={index} style={{ display: 'flex', gap: '10px', marginTop: '10px', marginBottom:'50px' }}>
                                                 <ProfileImage name={UserStore.getUserInfoById(comment.by).name} />
-                                                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                                    <div className={componentStyles.postContainer__header__details} style={{borderRadius:'25px', padding:'10px', background:'#dfdfe0'}}>
+                                                <div style={{ display: 'flex', flexDirection: 'column' , width:'50%'}}>
+                                                    <div className={componentStyles.postContainer__header__details} style={{ borderRadius:'25px', padding:'10px', background:'#dfdfe0'}}>
                                                         <span style={{fontSize:'20px', color:'#1c1c39'}}> {UserStore.getUserInfoById(comment.by).name}</span>
                                                         <span style={{color:'#717273',fontSize:'16px', fontWeight:'normal'}} className={globalStyles.simpleP}> {UserStore.getUserInfoById(comment.by).about}</span>
                                                         <span style={{marginTop:'10px', fontSize:'20px', color:'#1c1c39'}}> {comment.text}</span>

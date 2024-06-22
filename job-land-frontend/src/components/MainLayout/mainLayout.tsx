@@ -144,8 +144,8 @@ const setLikeOnPost = (event:any, post:Post)=>{
 
                                         </div>
                                         {/*    posts*/}
-                                        <div style={{display:'flex', justifyContent:'center'}}>
-                                          <div className={globalStyles.separate_line_grey}> </div>
+                                        <div style={{display:'flex', justifyContent:'start'}}>
+                                          <div className={globalStyles.separate_line_grey} style={{width:'60%'}}> </div>
                                         </div>
                                         <div  style={{display:'flex', flexDirection:'column'}}>
 
