@@ -9,8 +9,38 @@ import {comment} from "../interfaces/comment";
 
 
 const PostsService = {
+    async removeComment(comment:comment, post:string):Promise<any>{
+        try {
+            const result = await axios.post('http://localhost:3002/posts/comment/remove', {post, comment});
+            if (result.data.success) {
+                return result.data
 
+            } else {
 
+                return []
+
+            }
+        } catch (error) {
+            return []
+            console.error('Error remove comment on post:', error);
+        }
+    },
+    async saveUpdatedComment(comment:comment, post:string):Promise<any>{
+        try {
+            const result = await axios.post('http://localhost:3002/posts/comment/update', {post, comment});
+            if (result.data.success) {
+                return result.data
+
+            } else {
+
+                return []
+
+            }
+        } catch (error) {
+            return []
+            console.error('Error update comment on post:', error);
+        }
+    },
     async addComment(comment:comment, post:string):Promise<any>{
         try {
             const result = await axios.post('http://localhost:3002/posts/comment', {post, comment});

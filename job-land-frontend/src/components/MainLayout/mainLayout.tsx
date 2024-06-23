@@ -44,7 +44,7 @@ const  MainLayout  = observer( ()=>{
 
     // update every 5 minutes the posts
     useEffect(() => {
-        setPosts(jobsStore.followPost)
+        jobsStore.getAllPosts()
     }, []);
     // update every 5 minutes the posts
     useEffect(() => {

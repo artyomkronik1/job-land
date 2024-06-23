@@ -1,7 +1,7 @@
 import {observer} from "mobx-react-lite";
 import UserStore from '../../store/user';
 import {useTranslation} from "react-i18next";
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import JobFilterBtn from "../../base-components/job-filter-btn/job-filter-btn";
 import globalStyles from "../../assets/global-styles/styles.module.scss";
 import {Job, JobFilters} from "../../interfaces/job";
@@ -24,7 +24,7 @@ import liked from "../../assets/images/liked.png";
 import commentimg from '../../assets/images/comment.png'
 import {comment} from '../../interfaces/comment'
 import TextInputField from "../../base-components/text-input/text-input-field";
-import postService from "../../services/postService";
+import { v4 as uuidv4 } from 'uuid';
 const   PostComponent  = observer( (props:any)=>{
     const [likeFlag, setlike] = useState(false);
     const [commentFlag, setcommentFlag] = useState(false);
@@ -38,7 +38,23 @@ const   PostComponent  = observer( (props:any)=>{
     const [likesCounter, setlikesCounter] = useState(0);
     const [commentsCounter, setcommentsCounter] = useState(post.comments.length);
     const [usersCommentOnPost, setusersCommentOnPost] = useState('');
+    const [commentOptionsFlag, setcommentOptionsFlag] = useState('');
+    const [editCommentFlag, seteditCommentFlag] = useState('');
+    const [removeCommentFlag, setremoveCommentFlag] = useState(false);
 
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setcommentOptionsFlag('');
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
 
     const navigate = useNavigate();
@@ -120,16 +136,34 @@ const   PostComponent  = observer( (props:any)=>{
     const postComment=()=>{
         setusersCommentOnPost('')
 
-        const c:comment = {by:UserStore.user.id.toString(),text:usersCommentOnPost}
+        const c:comment = {by:UserStore.user.id.toString(),text:usersCommentOnPost, id:uuidv4()}
        jobsStore.addCommentOnPost(post,c)
         setcommentAdded(true)
 
     }
     useEffect(() => {
+        console.log('a')
         setPost(jobsStore.getPostInfoById(postId))
         setcommentsCounter(post.comments.length)
         setcommentAdded(false)
-    }, [commentAdded]);
+    }, [commentAdded, editCommentFlag,removeCommentFlag]);
+
+    const editComment = (comment:comment)=>{
+        setcommentOptionsFlag('')
+        seteditCommentFlag(comment.id)
+    }
+    const removeComment = (comment:comment)=>{
+        setcommentOptionsFlag('')
+        jobsStore.removeComment(post,comment)
+        setremoveCommentFlag(!removeCommentFlag)
+
+    }
+    const postUpdatedComment = (comment:comment)=>{
+
+        jobsStore.updateCommentForPost(post,comment)
+        seteditCommentFlag('')
+
+    }
     return (
         <>
 
@@ -161,10 +195,10 @@ const   PostComponent  = observer( (props:any)=>{
 
                         </div>
 
-                        <div style={{padding:'15px', marginTop:'20px', marginBottom:'-20px' ,width:'97%' , display:'flex', justifyContent:'space-between'}}>
+                        <div  onClick={(event)=>event.stopPropagation()} style={{padding:'15px', marginTop:'20px', marginBottom:'-20px' ,width:'97%' , display:'flex', justifyContent:'space-between'}}>
                             {/*<span  style={{  fontSize:'19px',display:'flex', color:'#555555',  wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.title}</span>*/}
                             <span style={{ display:'flex', color:'#717273',fontSize:'16px', fontWeight:'normal',}}> {likesCounter + t(' liked this post')}</span>
-                            <span style={{ display:'flex', color:'#717273',fontSize:'16px', fontWeight:'normal'}}> {commentsCounter + t(' comments')}</span>
+                            <span onClick={()=>setcommentFlag(true)} style={{ cursor:'pointer', display:'flex', color:'#717273',fontSize:'16px', fontWeight:'normal'}}> {commentsCounter + t(' comments')}</span>
 
                         </div>
 
@@ -193,24 +227,45 @@ const   PostComponent  = observer( (props:any)=>{
 
                                 {/* All comments */}
                                 {post.comments.length > 0 && (
-                                    <div style={{height:'350px', overflowY:'scroll'}}>
+                                    <div style={{maxHeight:'350px', overflowY:'scroll'}}>
                                         {post.comments.map((comment:comment, index) => (
                                             <div key={index} style={{ display: 'flex', gap: '10px', marginTop: '10px', marginBottom:'50px' }}>
                                                 <ProfileImage name={UserStore.getUserInfoById(comment.by).name} />
                                                 <div style={{ display: 'flex', flexDirection: 'column' , width:'50%'}}>
-                                                    <div className={componentStyles.postContainer__header__details} style={{ borderRadius:'25px', padding:'10px', background:'#dfdfe0'}}>
+                                                    <div className={componentStyles.postContainer__header__details} style={{display:'flex',flexDirection:'row', justifyContent:'space-between', borderRadius:'25px', padding:'10px', background:'#dfdfe0'}}>
+                                                    <div style={{display:'flex', flexDirection:'column', alignItems:'start'}}>
                                                         <span style={{fontSize:'20px', color:'#1c1c39'}}> {UserStore.getUserInfoById(comment.by).name}</span>
                                                         <span style={{color:'#717273',fontSize:'16px', fontWeight:'normal'}} className={globalStyles.simpleP}> {UserStore.getUserInfoById(comment.by).about}</span>
-                                                        <span style={{marginTop:'10px', fontSize:'20px', color:'#1c1c39'}}> {comment.text}</span>
-
+                                                        {editCommentFlag==comment.id?(
+                                                            <>
+                                                            <TextInputField background={'grey'} type={'text'} size={'small'} placeHolder={t('Add a comment')} text={t('')} value={comment.text} onChange={(value:string)=>comment.text = value}/>
+                                                            <button className={globalStyles.btn} onClick={()=>postUpdatedComment(comment)}  style={{marginTop:'5px', width:'70px', height:'40px',}}> {t('post') }</button>
+                                                            </>
+                                                            ):<span style={{marginTop:'10px', fontSize:'20px', color:'#1c1c39'}}> {comment.text}</span>
+                                                        }
+                                                    </div>
+                                                        <div style={{display:'flex', flexDirection:'column'}}>
+                                                        <div onClick={()=>setcommentOptionsFlag(comment.id)} style={{display:'flex', justifyContent:'end', marginTop:'-25px', cursor:'pointer', fontSize:'35px'}}>...</div>
+                                                        {commentOptionsFlag === comment.id && comment.by === UserStore.user.id?(
+                                                            <div style={{position:'relative'}}>
+                                                            <div ref={dropdownRef} style={{position:'absolute',zIndex:'1' , width:'100px', gap:'10px', border:'1px solid rgb(223, 223, 224)', marginLeft:'-60px', alignItems:'start', borderRadius:'10px', background:'white', display:'flex', flexDirection:'column'}}>
+                                                                <div onClick={()=>editComment(comment)} className={componentStyles.commentOptionText}> <span>edit</span></div>
+                                                                <div  onClick={()=>removeComment(comment)} className={componentStyles.commentOptionText}> <span>remove</span></div>
+                                                            </div>
+                                                            </div>
+                                                        ):null}
+                                                        </div>
                                                     </div>
                                                 </div>
+
                                             </div>
                                         ))}
                                     </div>
                                 )}
+
                             </div>
                         )}
+
                     </div>
                 </div>
 

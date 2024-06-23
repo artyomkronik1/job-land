@@ -61,7 +61,32 @@ class JobsStore{
         }
         return res;
     }
+    removeComment = async (post:Post, comment:comment)=>{
+        post.comments = post.comments.filter((c) => c.id !== comment.id);
 
+        this.followPost.map((posts: Post) => {
+            if(posts._id == post._id){
+                posts = post
+            }
+        })
+        // updating in server
+        await  postService.removeComment(comment, post._id)
+    }
+    updateCommentForPost = async (post:Post, comment:comment)=>{
+        post.comments.map((c:comment)=>{
+          if(c.id==comment.id)
+          {
+              c.text = comment.text
+          }
+        })
+        this.followPost.map((posts: Post) => {
+            if(posts._id == post._id){
+                posts = post
+            }
+        })
+        // updating in server
+        await  postService.saveUpdatedComment(comment, post._id)
+    }
     addCommentOnPost = async (post:Post, comment:comment)=>{
         post.comments.push(comment)
         this.followPost.map((posts: Post) => {
