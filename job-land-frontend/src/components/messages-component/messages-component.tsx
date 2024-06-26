@@ -54,9 +54,6 @@ const MessagesComponent = () => {
                     message.content.toLowerCase().includes(messageSearch.toLowerCase())
                 );
             });
-            chats.forEach((c) => {
-                console.log(UserStore.getUserInfoById(c.messages[0].receiver).name.toLowerCase().includes(messageSearch.toLowerCase()))
-            })
             setChats(filtered);
         }
         else {
@@ -276,16 +273,26 @@ const MessagesComponent = () => {
                                                 {msg.sender == userStore.user.id ? (
                                                     <div style={{ display: 'flex', justifyContent: 'start', width: '100%', gap: '8px' }}>
                                                         <ProfileImage name={UserStore.user.name} />
-                                                        <div style={{ display: 'flex', gap: '10px', flexDirection: 'column', alignItems: 'start', justifyContent: 'center' }}>
-                                                            <span style={{ fontSize: '18px', color: '#404141' }} className={globalStyles.simpleP}>{msg.content}</span>
+                                                        <div style={{ marginInlineStart: '5px', display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'start' }}>
+                                                            <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'start', justifyContent: 'center' }}>
+
+                                                                <span style={{ fontSize: '15px', color: '#79797a' }} className={globalStyles.simpleP}>{UserStore.getUserNameById(msg.sender)}</span>
+                                                                <span style={{ fontSize: '13px', fontWeight: 'normal', color: '#79797a' }} className={globalStyles.simpleP}>{msg.timestamp}</span>
+                                                            </div>
+                                                            <span style={{ fontSize: '20px', color: '#404141' }} className={globalStyles.simpleP}>{msg.content}</span>
                                                         </div>
                                                     </div>
                                                 ) :
                                                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                                                         <div style={{ display: 'flex', justifyContent: 'start', width: '100%', gap: '8px' }}>
                                                             <ProfileImage name={UserStore.getUserNameById(msg.sender)} />
-                                                            <div style={{ display: 'flex', gap: '10px', flexDirection: 'column', alignItems: 'start', justifyContent: 'center' }}>
-                                                                <span style={{ fontSize: '18px', color: '#404141' }} className={globalStyles.simpleP}>{msg.content}</span>
+                                                            <div style={{ marginInlineStart: '5px', display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'start' }}>
+                                                                <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'start', justifyContent: 'center' }}>
+
+                                                                    <span style={{ fontSize: '15px', color: '#79797a' }} className={globalStyles.simpleP}>{UserStore.getUserNameById(msg.sender)}</span>
+                                                                    <span style={{ fontSize: '13px', fontWeight: 'normal', color: '#79797a' }} className={globalStyles.simpleP}>{msg.timestamp}</span>
+                                                                </div>
+                                                                <span style={{ fontSize: '20px', color: '#404141' }} className={globalStyles.simpleP}>{msg.content}</span>
                                                             </div>
                                                         </div>
                                                     </div>}
