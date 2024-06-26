@@ -22,5 +22,6 @@ export interface Post{
 export interface comment{
     text:string;
     by:string;
+    id:string
 }
 

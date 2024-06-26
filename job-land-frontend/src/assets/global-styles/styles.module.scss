@@ -1,109 +1,123 @@
 //general
 //colors
-$mainColor:#0a66c2;
+$mainColor: #0a66c2;
 $secondColor :#004182;
 $thirdColor : #f1f1f1;
 $backGround: #f1f1f1;
-$blackColor:rgb(0 0 0/.9);
+$blackColor: rgb(0 0 0/.9);
+
 //spans
-.mainSpan{
-  color:$mainColor;
+.mainSpan {
+  color: $mainColor;
   font-weight: bold;
-  font-size:18px
+  font-size: 18px
 }
 
-.mainGreySpan{
-  color:rgb(0 0 0/.9);
+.mainGreySpan {
+  color: rgb(0 0 0/.9);
   font-weight: bold;
-  font-size:18px
+  font-size: 18px
 }
-.mainSpan:hover , .mainSpan:active{
-  color:$secondColor;
+
+.mainSpan:hover,
+.mainSpan:active {
+  color: $secondColor;
 }
-.simplePBlack{
-  color:$blackColor;
+
+.simplePBlack {
+  color: $blackColor;
   font-weight: bold;
-  font-size:18px
+  font-size: 18px
 }
-.simpleP{
-  color:$mainColor;
+
+.simpleP {
+  color: $mainColor;
   font-weight: bold;
-  font-size:18px
+  font-size: 18px
 }
+
 .h2 {
-  font-size:25px;
-  color:$mainColor;
+  font-size: 25px;
+  color: $mainColor;
   font-weight: bold;
 }
+
 //btns
-.btn{
-  cursor:pointer;
-  width:200px;
-  height:50px;
+.btn {
+  cursor: pointer;
+  width: 200px;
+  height: 50px;
   display: flex;
-  border:1px solid $mainColor;
-  justify-content: center;;
+  border: 1px solid $mainColor;
+  justify-content: center;
+  ;
   align-items: center;
   border-radius: 30px;
   background-color: $mainColor;
-  font-weight:bold;
-  font-size:18px;
-  color:white;
+  font-weight: bold;
+  font-size: 18px;
+  color: white;
   outline: none;
 }
-.btn:hover, .btn:checked{
-  border:1px solid $secondColor;
+
+.btn:hover,
+.btn:checked {
+  border: 1px solid $secondColor;
   background-color: $secondColor;
 }
 
-.btn_border{
-  cursor:pointer;
+.btn_border {
+  cursor: pointer;
   outline: none;
-  width:200px;
-  height:50px;
+  width: 200px;
+  height: 50px;
   display: flex;
-  border:1px solid $mainColor;
-  justify-content: center;;
+  border: 1px solid $mainColor;
+  justify-content: center;
+  ;
   align-items: center;
   border-radius: 30px;
   background-color: white;
-  font-weight:bold;
-  font-size:18px;
-  color:$mainColor;
+  font-weight: bold;
+  font-size: 18px;
+  color: $mainColor;
 
 }
 
 
-.btn_border:hover{
-  border:1px solid $mainColor;
-  color:$mainColor;
+.btn_border:hover {
+  border: 1px solid $mainColor;
+  color: $mainColor;
   background-color: rgba(112, 181, 249, 0.2);
 }
+
 //lines
-.separate_line{
-  width:400px;
+.separate_line {
+  width: 400px;
   display: block;
-  border:1px dashed $mainColor;
+  border: 1px dashed $mainColor;
 }
-.separate_line_grey{
-  width:100%;
+
+.separate_line_grey {
+  width: 100%;
   display: block;
   margin-top: 20px;
   margin-bottom: 20px;
-  border:1px solid #dcdcdc;
+  border: 1px solid #dcdcdc;
 }
+
 //pictures
-.logoPic{
+.logoPic {
   display: flex;
   justify-content: start;
   width: 150px;
   height: 120px;
-margin-inline-start: 20px;
+  margin-inline-start: 20px;
 }
 
 //forms
-.basicForm{
-  border:1px solid #e2e2e3;
+.basicForm {
+  border: 1px solid #e2e2e3;
   background-color: white;
   border-radius: 20px;
   width: 60%;
@@ -112,51 +126,59 @@ margin-inline-start: 20px;
 
 
 //basic component style
-.main{
-  display:flex;
+.main {
+  display: flex;
   height: 100vh;
 }
-.left{
+
+.left {
   overflow-y: scroll;
   position: fixed;
-  height:100% ;
+  height: 100%;
   display: flex;
   gap: 80px;
   justify-content: start;
   padding: 0 20px;
   flex-direction: column;
 }
+
 //box shadows
 [dir="rtl"] {
   .fade_in {
     margin-left: -20px;
     margin-right: 20px;
   }
+
   .left {
     padding-inline-start: 45px;
 
-    min-width: 29vh!important;
+    min-width: 29vh !important;
     box-shadow: -5px 0px 10px 1px #aaaaaa;
   }
+
   .right_main_messages {
     flex-direction: row;
     gap: 20px;
     padding: 10px 50px 20px 60px;
     position: fixed;
     bottom: 0px;
+    z-index: 102;
     display: flex;
     justify-content: end;
     left: 47px;
   }
-  .right_header{
+
+  .right_header {
     box-shadow: -8px 0px 10px 0px #888888;
   }
 }
+
 [dir="ltr"] {
   .fade_in {
     margin-right: -10px;
     margin-left: 30px;
   }
+
   .right_main_messages {
     flex-direction: row;
     gap: 10px;
@@ -167,42 +189,48 @@ margin-inline-start: 20px;
     justify-content: start;
     right: 47px;
   }
+
   .left {
     padding-inline-start: 30px;
     min-width: 29.5vh;
-    box-shadow: 0px 1px 10px 1px  #888888
+    box-shadow: 0px 1px 10px 1px #888888
   }
-  .right_header{
+
+  .right_header {
     box-shadow: 8px 0px 10px 0px #888888;
   }
 }
-.logoStyle{
-  width:150px;
+
+.logoStyle {
+  width: 150px;
   margin-inline-start: 0px;
 }
-.right{
+
+.right {
   margin-inline-start: 256px;
   width: 50%;
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
 }
-.right_header{
+
+.right_header {
   z-index: 101;
   background-color: white;
-  border-bottom:2px solid $thirdColor;
+  border-bottom: 2px solid $thirdColor;
   padding-inline-start: 20px;
   // margin-inline-start: 7px;
   padding-bottom: 20px;
   padding-top: 10px;
-  gap:50px;
+  gap: 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   //position: fixed;
- // width: 87% ;
+  // width: 87% ;
 }
-.right_main{
+
+.right_main {
   background-color: $thirdColor;
   flex: 1 1 auto;
   //margin-inline-end: 3%;
@@ -212,7 +240,8 @@ margin-inline-start: 20px;
   position: relative;
   justify-content: start;
 }
-.right_main_main{
+
+.right_main_main {
   padding: 20px 50px 20px;
   display: flex;
   background-color: $thirdColor;
@@ -220,12 +249,14 @@ margin-inline-start: 20px;
   justify-content: start;
   flex-direction: column;
 }
-.right_main_messages{
 
+.right_main_messages {
+  z-index: 102;
   flex-direction: column;
   align-items: end;
 }
-.messageContainer{
+
+.messageContainer {
 
   display: flex;
   //padding: 0 0 10px 10px;
@@ -235,76 +266,87 @@ margin-inline-start: 20px;
   align-items: center;
   flex-direction: row;
 }
+
 //active chat
-.activeChat{
+.activeChat {
   flex-direction: column;
-  background-color:white;
-  position:relative;
-  bottom:20px;
-  width:40vh;
-  height:700px;
+  background-color: white;
+  position: relative;
+  bottom: 20px;
+  width: 40vh;
+  height: 500px;
   border-radius: 20px;
-  border:1px solid #e2e2e3;
+  border: 1px solid #e2e2e3;
   display: flex;
 }
-.activeChatHeader{
-  padding:10px;
+
+.activeChatHeader {
+  padding: 10px;
   display: flex;
-  height:50px;
+  height: 50px;
   gap: 10px;
   width: 95%;
-  border-bottom:1px solid #e2e2e3;
+  border-bottom: 1px solid #e2e2e3;
   justify-content: space-between;
 }
 
-.x_image{
+.x_image {
   cursor: pointer;
   height: 30px;
   width: 30px;
   display: flex;
 }
-.messageContainerMain{
-  border:1px solid $thirdColor;
+
+.messageContainerMain {
+  border: 1px solid $thirdColor;
   display: flex;
   padding: 10px;
   gap: 8px;
   justify-content: start;
   flex-direction: row;
 }
-.languageDivBasic{
+
+.languageDivBasic {
   display: flex;
 }
-.languageDiv{
+
+.languageDiv {
   position: relative;
 }
-.enlanguagePic{
+
+.enlanguagePic {
   max-width: 60%;
-  cursor:pointer;
+  cursor: pointer;
   transition: transform 0.5s;
-}
-.enlanguagePic:hover{
-  transform: scale(1.2); /* Increase the size of the image on hover */
 }
 
-.heLanguagePic{
+.enlanguagePic:hover {
+  transform: scale(1.2);
+  /* Increase the size of the image on hover */
+}
+
+.heLanguagePic {
   max-width: 40%;
-  cursor:pointer;
+  cursor: pointer;
   transition: transform 0.5s;
 }
-.heLanguagePic:hover{
-  transform: scale(1.2); /* Increase the size of the image on hover */
+
+.heLanguagePic:hover {
+  transform: scale(1.2);
+  /* Increase the size of the image on hover */
 }
 
 //messages
-.allMessagesContainer{
+.allMessagesContainer {
   position: fixed;
   background-color: white;
   width: 40vh;
-  display:flex;
+  display: flex;
   flex-direction: column;
   margin-bottom: 70px;
   bottom: 20px;
 }
+
 .fade_in {
   flex-direction: column;
   display: flex;

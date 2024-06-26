@@ -6,6 +6,56 @@ import {comment, Post} from "./post.model";
 @Injectable()
 export class PostsService {
     constructor(@InjectModel('Post') private readonly postModel: Model<Post>) {}
+    public async removeCommentOnPost(postId: string, comment: comment): Promise<{ success: boolean; post: Post }> {
+        try {
+            const post = await this.postModel.findById(postId);
+
+            if (!post) {
+                throw new Error('Post not found');
+            }
+
+            post.comments = post.comments.filter((c) => c.id.toString() !== comment.id);
+
+             await post.save();
+
+
+            return {
+                success: true,
+                post: post,
+            };
+        } catch (error) {
+            throw new Error(`Failed to remove comment: ${error.message}`);
+        }
+    }
+
+    public async updateCommentOnPost(postId: string, updatedComment: comment): Promise<{ success: boolean; post: Post }> {
+        try {
+            const post = await this.postModel.findById(postId);
+
+            if (!post) {
+                throw new Error('Post not found');
+            }
+
+            // Find the comment to update
+            const commentToUpdate = post.comments.find((c) => c.id === updatedComment.id);
+
+            if (!commentToUpdate) {
+                throw new Error('Comment not found');
+            }
+
+            // Update the comment text
+            commentToUpdate.text = updatedComment.text;
+
+            await post.save();
+
+            return {
+                success: true,
+                post: post,
+            };
+        } catch (error) {
+            throw new Error(`Failed to update comment: ${error.message}`);
+        }
+    }
         public async addComment(postId:string, comment:comment){
             try {
                 const post = await this.postModel.findById(postId);
@@ -25,6 +75,8 @@ export class PostsService {
                 throw new Error(`Failed to add comment: ${error.message}`);
             }
         }
+
+
     public async likePost(postId: string, like: boolean, userId: string) {
         try {
             // Find the post by its ID

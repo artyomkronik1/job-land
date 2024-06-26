@@ -38,6 +38,16 @@ export class PostsController {
         {
             return this.postService.addComment(post, comment)
         }
+    @Post('/comment/update')
+    async updateCommentOnPost(@Body('post') post: any, @Body('comment') comment: comment )
+    {
+        return this.postService.updateCommentOnPost(post, comment)
+    }
+    @Post('/comment/remove')
+    async removeCommentOnPost(@Body('post') post: any, @Body('comment') comment: comment )
+    {
+        return this.postService.removeCommentOnPost(post, comment)
+    }
     @Post('/like')
     async likedPost(@Body('post') post: any, @Body('like') like: boolean,  @Body('user') user: string) {
         {
