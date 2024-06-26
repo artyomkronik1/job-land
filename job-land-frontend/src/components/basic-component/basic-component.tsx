@@ -242,9 +242,11 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                                                             <div style={{ display: 'flex', justifyContent: 'start', width: '100%', gap: '8px' }}>
                                                                                 <ProfileImage name={UserStore.user.name} />
                                                                                 <div style={{ marginInlineStart: '5px', display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'start' }}>
-                                                                                    <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'start', justifyContent: 'center' }}>
+                                                                                    <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'baseline', justifyContent: 'center' }}>
 
                                                                                         <span style={{ fontSize: '15px', color: '#79797a' }} className={globalStyles.simpleP}>{UserStore.getUserNameById(msg.sender)}</span>
+                                                                                        <span style={{ fontSize: '13px', fontWeight: 'normal', color: '#79797a' }} className={globalStyles.simpleP}>{'-'}</span>
+
                                                                                         <span style={{ fontSize: '13px', fontWeight: 'normal', color: '#79797a' }} className={globalStyles.simpleP}>{msg.timestamp}</span>
                                                                                     </div>
                                                                                     <span style={{ fontSize: '20px', color: '#404141' }} className={globalStyles.simpleP}>{msg.content}</span>
@@ -255,9 +257,11 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                                                                 <div style={{ display: 'flex', justifyContent: 'start', width: '100%', gap: '8px' }}>
                                                                                     <ProfileImage name={UserStore.getUserNameById(msg.sender)} />
                                                                                     <div style={{ marginInlineStart: '5px', display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'start' }}>
-                                                                                        <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'start', justifyContent: 'center' }}>
+                                                                                        <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'baseline', justifyContent: 'center' }}>
 
                                                                                             <span style={{ fontSize: '15px', color: '#79797a' }} className={globalStyles.simpleP}>{UserStore.getUserNameById(msg.sender)}</span>
+                                                                                            <span style={{ fontSize: '13px', fontWeight: 'normal', color: '#79797a' }} className={globalStyles.simpleP}>{'-'}</span>
+
                                                                                             <span style={{ fontSize: '13px', fontWeight: 'normal', color: '#79797a' }} className={globalStyles.simpleP}>{msg.timestamp}</span>
                                                                                         </div>
                                                                                         <span style={{ fontSize: '20px', color: '#404141' }} className={globalStyles.simpleP}>{msg.content}</span>
