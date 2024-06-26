@@ -49,8 +49,8 @@ const MessagesComponent = () => {
                 // Check if any message's sender, receiver, or content includes messageSearch
                 return chat.messages.some((message) =>
 
-                    // UserStore.getUserInfoById(message.sender).name.toLowerCase().includes(messageSearch.toLowerCase()) ||
-                    UserStore.getUserInfoById(message.receiver).name.toLowerCase().includes(messageSearch.toLowerCase()) ||
+                    UserStore.user.id != message.sender && UserStore.getUserInfoById(message.sender).name.toLowerCase().includes(messageSearch.toLowerCase()) ||
+                    UserStore.user.id != message.receiver && UserStore.getUserInfoById(message.receiver).name.toLowerCase().includes(messageSearch.toLowerCase()) ||
                     message.content.toLowerCase().includes(messageSearch.toLowerCase())
                 );
             });
