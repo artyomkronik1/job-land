@@ -33,7 +33,8 @@ const PostComponent = observer((props: any) => {
     //language
     const { t } = useTranslation();
     const { i18n } = useTranslation();
-    const { postId } = props;
+    const postId = props.postId
+
     const [post, setPost] = useState<Post>(jobsStore.getPostInfoById(postId));
     const [likesCounter, setlikesCounter] = useState(0);
     const [commentsCounter, setcommentsCounter] = useState(post.comments.length);
@@ -85,13 +86,14 @@ const PostComponent = observer((props: any) => {
         setEditPost(true)
     }
     const goToPost = (post: Post) => {
-        UserStore.setLoading(true);
-        setTimeout(() => {
-            UserStore.setLoading(false);
-            navigate(`/posts/${post._id}`);
-            UserStore.setTab("Home")
-        }, 1000)
-
+        if (props.gotToPostFlag) {
+            UserStore.setLoading(true);
+            setTimeout(() => {
+                UserStore.setLoading(false);
+                navigate(`/posts/${post._id}`);
+                UserStore.setTab("Home")
+            }, 1000)
+        }
     }
 
     useEffect(() => {
@@ -175,7 +177,7 @@ const PostComponent = observer((props: any) => {
             <div dir={UserStore.getLanguage() == 'en' ? 'ltr' : 'rtl'}>
                 <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }} >
 
-                    <div className={componentStyles.postContainer} style={{ alignSelf: 'start', width: '60%' }} onClick={() => goToPost(post)}>
+                    <div className={componentStyles.postContainer} style={{ alignSelf: 'start', width: '80%' }} onClick={() => goToPost(post)}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                             <div className={componentStyles.postContainer__header} onClick={() => goToUserProfile(post.writer_name)}>
                                 <ProfileImage name={post.writer_name} />
@@ -256,8 +258,8 @@ const PostComponent = observer((props: any) => {
                                                             {commentOptionsFlag === comment.id && comment.by === UserStore.user.id ? (
                                                                 <div style={{ position: 'relative' }}>
                                                                     <div ref={dropdownRef} style={{ position: 'absolute', zIndex: '1', width: '100px', gap: '10px', border: '1px solid rgb(223, 223, 224)', marginLeft: '-60px', alignItems: 'start', borderRadius: '10px', background: 'white', display: 'flex', flexDirection: 'column' }}>
-                                                                        <div onClick={() => editComment(comment)} className={componentStyles.commentOptionText}> <span>edit</span></div>
-                                                                        <div onClick={() => removeComment(comment)} className={componentStyles.commentOptionText}> <span>remove</span></div>
+                                                                        <div onClick={() => editComment(comment)} className={componentStyles.commentOptionText}> <span>{t('edit')}</span></div>
+                                                                        <div onClick={() => removeComment(comment)} className={componentStyles.commentOptionText}> <span>{t('remove')}</span></div>
                                                                     </div>
                                                                 </div>
                                                             ) : null}
