@@ -1,10 +1,10 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './dropdown.module.scss'
-import {DropdownProps} from "../../interfaces/DropdownProps";
+import { DropdownProps } from "../../interfaces/DropdownProps";
 import JobFilterBtn from "../job-filter-btn/job-filter-btn";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
-const DropDown = (props:DropdownProps)=> {
+const DropDown = (props: DropdownProps) => {
     //language
     const { t } = useTranslation();
     const { i18n } = useTranslation();
@@ -13,7 +13,7 @@ const DropDown = (props:DropdownProps)=> {
     const [value, setvalue] = useState('');
     // listening when user click outside of dropdown so close it
     useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => { 
+        const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
                 setopenDrop(false);
             }
@@ -23,18 +23,18 @@ const DropDown = (props:DropdownProps)=> {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
-    const dropDownOptions=    props.options.map((value, index)=>(
-        <div key={index} style={{display:'flex', alignItems:'center', justifyContent:'center'}} className={styles.dropdownOption}>
-            {props.icons?(
+    const dropDownOptions = props.options.map((value, index) => (
+        <div key={index} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} className={styles.dropdownOption}>
+            {props.icons ? (
                 <i className={`${props.icons[index]}`}></i>
-            ):(null)}
+            ) : (null)}
 
-            <li  key={index} onClick={()=>props.changeDropValue(value)} >{t(value)}</li>
+            <li key={index} onClick={() => props.changeDropValue(value)} >{t(value)}</li>
         </div>
     ))
-    return(
-        <div ref={dropdownRef} style={{  display:'flex', alignItems:'center', gap:'10px', justifyContent:'center'}}  onClick={()=>setopenDrop(!openDrop)}>
-            <i style={{color: '#a9acb1', 'fontSize':'25px'}} className={`fa fa-caret-${openDrop ? 'up' : 'down'}`}   ></i>
+    return (
+        <div ref={dropdownRef} style={{ display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'center' }} onClick={() => setopenDrop(!openDrop)}>
+            <i style={{ color: '#a9acb1', 'fontSize': '25px' }} className={`fa fa-caret-${openDrop ? 'up' : 'down'}`}   ></i>
             {openDrop && (
                 <ul className={styles.dropdown}>
                     {dropDownOptions}

@@ -1,29 +1,29 @@
-import {action, makeAutoObservable, makeObservable, observable} from "mobx";
+import { action, makeAutoObservable, makeObservable, observable } from "mobx";
 import axios from 'axios';
-import {User} from "../interfaces/user";
-import {create, persist} from "mobx-persist";
+import { User } from "../interfaces/user";
+import { create, persist } from "mobx-persist";
 import jobsStore from "./job";
-import {Message} from "../interfaces/message";
-import {Chat} from "../interfaces/chat";
-import {Post} from "../interfaces/post";
+import { Message } from "../interfaces/message";
+import { Chat } from "../interfaces/chat";
+import { Post } from "../interfaces/post";
 import MessageService from "../services/messageService";
 import AuthService from "../services/authService";
 import UserService from "../services/userService";
 const hydrate = create({
-    jsonify:true
+    jsonify: true
 })
-class UserStore{
+class UserStore {
     @persist tab = "Home";
-    @persist  language ="en";
-    @persist loading=false;
-    @persist loggedIn= false;
-    @persist signedUp=true;
-    @persist('object') @observable users:User[]=[];
-    @persist('object') @observable chats:Chat[]=[]
-    @persist('object') @observable posts:Post[]=[]
-    @persist('object') @observable currentChat:{}={};
-    @persist('object') @observable user:User={id:"",password:"",role:"",email:"", about:"",name:"", follow:[], experience:"", education:""};
-    @persist session_key=localStorage.getItem('session_key')
+    @persist language = "en";
+    @persist loading = false;
+    @persist loggedIn = false;
+    @persist signedUp = true;
+    @persist('object') @observable users: User[] = [];
+    @persist('object') @observable chats: Chat[] = []
+    @persist('object') @observable posts: Post[] = []
+    @persist('object') @observable currentChat: {} = {};
+    @persist('object') @observable user: User = { id: "", password: "", role: "", email: "", about: "", name: "", follow: [], experience: "", education: "" };
+    @persist session_key = localStorage.getItem('session_key')
     constructor() {
         makeAutoObservable(this);
         // Hydrate the persisted data
@@ -34,78 +34,78 @@ class UserStore{
             console.log('UserStore has been hydrated');
         });
     }
-    getLoading(){
+    getLoading() {
         return this.loading;
     }
-    getTab(){
+    getTab() {
         return this.tab;
     }
-    getChats(){
+    getChats() {
         return this.chats
     }
-    getPost(){
+    getPost() {
         return this.chats
     }
-    getCurrentChat(){
+    getCurrentChat() {
         return this.currentChat
     }
-    getUser(){
-          return this.user
+    getUser() {
+        return this.user
     }
-    getLanguage(){
+    getLanguage() {
         return this.language
     }
-    getSessionKey(){
-          return this.session_key
+    getSessionKey() {
+        return this.session_key
     }
-    getLoggedIn(){
+    getLoggedIn() {
         return this.loggedIn
     }
-    getSignedUp(){
+    getSignedUp() {
         return this.signedUp
     }
-    setSignedUp(SignedUp:boolean){
+    setSignedUp(SignedUp: boolean) {
         this.signedUp = SignedUp
     }
-    setCurrentChat(msg:Chat){
+    setCurrentChat(msg: Chat) {
         this.currentChat = msg;
     }
-    setTab(t:string){
+    setTab(t: string) {
         this.tab = t;
     }
-    setLoggedIn(loggedIn:boolean){
+    setLoggedIn(loggedIn: boolean) {
         this.loggedIn = loggedIn
     }
-    setLoading(loading:boolean){
+    setLoading(loading: boolean) {
         this.loading = loading
     }
-    setLanguage(lan:string){
+    setLanguage(lan: string) {
         this.language = lan;
     }
-    setChats(m:Chat[]){
+    setChats(m: Chat[]) {
         this.chats = m
     }
-    setUsersPosts(p:Post[]){
+    setUsersPosts(p: Post[]) {
         this.posts = p;
     }
-    setUser(newuser:User){
-          this.user = newuser
+    setUser(newuser: User) {
+        this.user = newuser
     }
-    setAllUsers(users:User[]){
+    setAllUsers(users: User[]) {
         this.users = users
     }
-    setSessionKey(key:string){
+    setSessionKey(key: string) {
         this.session_key = key;
     }
     // init - main function to set all parameters
-    init =async()=>{
+    init = async () => {
         await this.getUsers()
         await this.getChatsByUser(this.user.id)
         await jobsStore.getAllPosts()
         await jobsStore.getALlJobs()
         //await this.getUserMessages();
-}
-     groupMessagesIntoChats = (messages: Message[]): any[] => {
+    }
+    groupMessagesIntoChats = (messages: Message[]): any[] => {
         const chats: { [key: string]: Message[] } = {};
 
         messages.forEach((message) => {
@@ -119,53 +119,53 @@ class UserStore{
         return Object.values(chats).map((messages) => ({ messages }));
     };
 
-   async getChatsByUser(id:string){
+    async getChatsByUser(id: string) {
 
-        const res= await MessageService.getChatsByUserId(id);
-        if(res.success){
+        const res = await MessageService.getChatsByUserId(id);
+        if (res.success) {
             this.setChats(res.chats)
         }
-        else{
+        else {
             this.setChats([])
         }
 
     }
-getUserNameById = (id:string):string=>{
-        const user =   this.users.find(user=>user.id==id) ;
-        return user? user.name :'';
+    getUserNameById = (id: string): string => {
+        const user = this.users.find(user => user.id == id);
+        return user ? user.name : '';
 
-}
+    }
     // @ts-ignore
-    getUserByName = (name:string):User =>{
-            let userr:User ={    id: "",
-                name: "",
-                password: "",
-                email: "",
-                role: "",
-                follow:[],
-                about:"",
-                education:"",
-                experience:""
-            }
-        this.users.forEach((user:User)=>{
-            if(user.name == name)
-            {
+    getUserByName = (name: string): User => {
+        let userr: User = {
+            id: "",
+            name: "",
+            password: "",
+            email: "",
+            role: "",
+            follow: [],
+            about: "",
+            education: "",
+            experience: ""
+        }
+        this.users.forEach((user: User) => {
+            if (user.name == name) {
                 userr = user
             }
         })
         return userr
     }
-getUserInfoById = (id:string):any =>{
-    return   this.users.find(user=>user.id==id) ;
-}
+    getUserInfoById = (id: string): any => {
+        return this.users.find(user => user.id == id);
+    }
 
-    getMessagesByPersons = async (otherId:string)=>{
+    getMessagesByPersons = async (otherId: string) => {
         try {
             let result: any;
             result = await axios({
                 method: 'get',
                 url: 'http://localhost:3002/messages',
-                params: {receiverId: this.user.id, senderId: otherId},
+                params: { receiverId: this.user.id, senderId: otherId },
             })
                 .then(response => {
                     if (result.data.success) {
@@ -181,17 +181,17 @@ getUserInfoById = (id:string):any =>{
                 });
 
 
-          //  const result = await axios.post('http://localhost:3002/messages',{receiverId:this.user.id , senderId:otherId});
+            //  const result = await axios.post('http://localhost:3002/messages',{receiverId:this.user.id , senderId:otherId});
 
         } catch (error) {
             console.error('Error getting messages', error);
         }
     }
-    getPostsByUserName = async ()=>{
+    getPostsByUserName = async () => {
         try {
             //sent
-            const allPostsByUser = await axios.post('http://localhost:3002/posts',{name:this.user.name});
-            if(allPostsByUser.data.success) {
+            const allPostsByUser = await axios.post('http://localhost:3002/posts', { name: this.user.name });
+            if (allPostsByUser.data.success) {
                 this.setUsersPosts(allPostsByUser.data.posts)
             }
         } catch (error) {
@@ -200,93 +200,92 @@ getUserInfoById = (id:string):any =>{
     }
 
 
-getUserMessages = async ()=>{
-    try {
-        //sent
-        const allSentMessages = await axios.post('http://localhost:3002/messages/byid',{receiverId:this.user.id});
-        if(allSentMessages.data.success) {
-            this.setChats(this.groupMessagesIntoChats(allSentMessages.data.messages))
+    getUserMessages = async () => {
+        try {
+            //sent
+            const allSentMessages = await axios.post('http://localhost:3002/messages/byid', { receiverId: this.user.id });
+            if (allSentMessages.data.success) {
+                this.setChats(this.groupMessagesIntoChats(allSentMessages.data.messages))
+            }
+            else {
+                return allSentMessages.data
+            }
+        } catch (error) {
+            console.error('Error getting users messages', error);
         }
-        else{
-            return allSentMessages.data
-        }
-    } catch (error) {
-        console.error('Error getting users messages', error);
     }
-}
-    getUserById =async (id:string)=>{
+    getUserById = async (id: string) => {
         try {
             const result = await UserService.getUserById(id)
-            if(result.success) {
+            if (result.success) {
                 return result
             }
-            else{
+            else {
                 return result.data
             }
         } catch (error) {
             console.error('Error getting users', error);
         }
     }
-    getUsers =async ()=>{
+    getUsers = async () => {
         try {
             const result = await UserService.getUsers()
-            console.log('result',result.data.success,result.data.users)
-            if(result.data.success) {
+            if (result.data.success) {
                 this.setAllUsers(result.data.users)
                 return result.data
             }
-            else{
+            else {
                 return result.data
             }
         } catch (error) {
             console.error('Error getting users:', error);
         }
-}
-    logout = async()=>{
+    }
+    logout = async () => {
         localStorage.removeItem('jobsStore')
         localStorage.removeItem('userStore')
 
         this.setLoggedIn(false)
     }
-    makeFollow= async (userId:string,userIdToFollow:string)=>{
+    makeFollow = async (userId: string, userIdToFollow: string) => {
         try {
-            const result = await axios.post('http://localhost:3002/users/follow', {userId,userIdToFollow});
-            if(result.data.success) {
-               this.setUser(result.data.user.user)
+            const result = await axios.post('http://localhost:3002/users/follow', { userId, userIdToFollow });
+            if (result.data.success) {
+                this.setUser(result.data.user.user)
                 return result.data
             }
-            else{
+            else {
                 return result.data
             }
         } catch (error) {
             console.error('Error making follow:', error);
         }
     }
-    signup = async (name:string,password:string, email:string, role:string)=>{
+    signup = async (name: string, password: string, email: string, role: string) => {
         try {
-            const result = await AuthService.signup( name, password, email, role);
+            const result = await AuthService.signup(name, password, email, role);
 
-            if(result.success) {
+            if (result.success) {
                 this.setUser(result.user)
                 this.setLoggedIn(true)
                 this.setSignedUp(true)
-              await  this.init();
+                await this.init();
                 return result
             }
-            else{
+            else {
                 return result
             }
         } catch (error) {
             console.error('Error signup:', error);
         }
     };
-    post = async(title:string, employee_id:string, description:string, userName:string)=>{
+    post = async (title: string, employee_id: string, description: string, userName: string) => {
         try {
-            const result = await axios.post('http://localhost:3002/posts/new', {title:title,employee_id:employee_id, description:description, writer_name:userName});
-            if(result.data.success) {
+            const result = await axios.post('http://localhost:3002/posts/new', { title: title, employee_id: employee_id, description: description, writer_name: userName });
+            if (result.data.success) {
                 return result.data
             }
-            else{
+            else {
                 return result.data
             }
         } catch (error) {
@@ -294,21 +293,21 @@ getUserMessages = async ()=>{
             console.error('Error post your post:', error);
         }
     }
-    login = async (email:string, password:string) => {
+    login = async (email: string, password: string) => {
         try {
-            const result = await AuthService.login( email,password);
-                if(result.success) {
-                    this.setLoading(false);
-                    this.setUser(result.user)
-                    this.setLoggedIn(true)
-                  await  this.init();
-                    return result
+            const result = await AuthService.login(email, password);
+            if (result.success) {
+                this.setLoading(false);
+                this.setUser(result.user)
+                this.setLoggedIn(true)
+                await this.init();
+                return result
 
-                }
-                else{
-                    this.setLoading(false);
-                    return result
-                }
+            }
+            else {
+                this.setLoading(false);
+                return result
+            }
         } catch (error) {
             this.setLoading(false);
             console.error('Error login:', error);

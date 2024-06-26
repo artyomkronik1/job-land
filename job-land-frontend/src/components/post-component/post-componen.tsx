@@ -25,6 +25,7 @@ import commentimg from '../../assets/images/comment.png'
 import { comment } from '../../interfaces/comment'
 import TextInputField from "../../base-components/text-input/text-input-field";
 import { v4 as uuidv4 } from 'uuid';
+import DropDown from "../../base-components/dropdown-component/dropdown";
 const PostComponent = observer((props: any) => {
     const [likeFlag, setlike] = useState(false);
     const [commentFlag, setcommentFlag] = useState(false);
@@ -144,7 +145,6 @@ const PostComponent = observer((props: any) => {
 
     }
     useEffect(() => {
-        console.log('a')
         setPost(jobsStore.getPostInfoById(postId))
         setcommentsCounter(post.comments.length)
         setcommentAdded(false)
@@ -164,6 +164,14 @@ const PostComponent = observer((props: any) => {
 
         jobsStore.updateCommentForPost(post, comment)
         seteditCommentFlag('')
+    }
+    const getSettingAction = (val: string) => {
+        if (val == 'Edit') {
+
+        }
+        if (val == 'Remove') {
+
+        }
 
     }
     return (
@@ -257,9 +265,22 @@ const PostComponent = observer((props: any) => {
                                                             )}
                                                             {commentOptionsFlag === comment.id && comment.by === UserStore.user.id ? (
                                                                 <div style={{ position: 'relative' }}>
-                                                                    <div ref={dropdownRef} style={{ position: 'absolute', zIndex: '1', width: '100px', gap: '10px', border: '1px solid rgb(223, 223, 224)', marginLeft: '-60px', alignItems: 'start', borderRadius: '10px', background: 'white', display: 'flex', flexDirection: 'column' }}>
-                                                                        <div onClick={() => editComment(comment)} className={componentStyles.commentOptionText}> <span>{t('edit')}</span></div>
-                                                                        <div onClick={() => removeComment(comment)} className={componentStyles.commentOptionText}> <span>{t('remove')}</span></div>
+                                                                    <div ref={dropdownRef} style={{ display: 'flex', flexDirection: 'column' }}>
+
+
+
+                                                                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'center', marginTop: '-20px' }} >
+
+                                                                            <ul className={componentStyles.dropdown}>
+                                                                                <div onClick={() => editComment(comment)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} className={componentStyles.dropdownOption}> <span>{t('edit')}</span></div>
+                                                                                <div onClick={() => removeComment(comment)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} className={componentStyles.dropdownOption}> <span>{t('remove')}</span></div>
+                                                                            </ul>
+
+                                                                        </div>
+
+
+
+
                                                                     </div>
                                                                 </div>
                                                             ) : null}

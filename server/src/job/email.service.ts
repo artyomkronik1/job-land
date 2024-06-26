@@ -9,9 +9,9 @@ export class EmailService {
     constructor() {
         // Initialize Nodemailer transporter
         this.transporter = nodemailer.createTransport({
-            host:'mail.openjavascript.info',
-            port:465,
-            secure:true,
+            host: 'mail.openjavascript.info',
+            port: 465,
+            secure: true,
             auth: {
                 user: 'test@openjavascript.info', // Your Gmail address
                 pass: 'NodeMailer123!', // Your Gmail password or App password
@@ -24,7 +24,7 @@ export class EmailService {
 
         try {
             // Send email
-            await this.transporter.sendMail( {
+            await this.transporter.sendMail({
                 from: 'OpenJavaScript <test@openjavascript.info',
                 to: to,
                 subject: subject,
