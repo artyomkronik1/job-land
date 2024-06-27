@@ -84,6 +84,19 @@ $blackColor: rgb(0 0 0/.9);
 
 }
 
+.liSearchValues {
+  cursor: pointer;
+  margin-inline-start: -25px;
+  padding: 10px;
+  margin-inline-end: 10px;
+  margin-top: -20px;
+  display: flex;
+  background: white;
+}
+
+.liSearchValues:hover {
+  background-color: #dcdcdc;
+}
 
 .btn_border:hover {
   border: 1px solid $mainColor;

@@ -143,9 +143,10 @@ const JobsComponent = observer(() => {
             })
             await searchJob();
         }, 500)
-
-
     }
+    const handleLocationClick = (region: string) => {
+        setsearchJobLoc(region); // Set the selected region to the input field
+    };
     return (
         <>
 
@@ -170,8 +171,37 @@ const JobsComponent = observer(() => {
 
                     {/* job input search */}
                     <div style={{ marginBottom: '30px', display: 'flex', justifyContent: 'start', gap: '20px' }}>
-                        <SearchInput placeHolder={t('title, skill or company')} value={searchJobName} ariaLabel={'Search..'} onChange={(vaalue) => setsearchJobName(vaalue)} />
-                        <SearchInput icon="fa-solid fa-location-dot" placeHolder={t('location')} value={searchJobLoc} ariaLabel={'Search..'} onChange={(vaalue) => setsearchJobLoc(vaalue)} />
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <SearchInput placeHolder={t('title, skill or company')} value={searchJobName} ariaLabel={'Search..'} onChange={(vaalue) => setsearchJobName(vaalue)} />
+
+                            {searchJobName.length > 0 && (
+                                <ul style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                                    {allJobs.map((job, index) => (
+                                        job.title.toLowerCase().includes(searchJobName.toLowerCase()) && (
+                                            <li onClick={() => setsearchJobName(job.title)} className={componentStyles.liSearchValues} key={index}><span className={componentStyles.mainSpan}>{job.title}</span></li>
+                                        )
+                                    )
+                                    )}
+                                </ul>
+                            )}
+                        </div>
+
+                        {/* job location */}
+                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <SearchInput icon="fa-solid fa-location-dot" placeHolder={t('location')} value={searchJobLoc} ariaLabel={'Search..'} onChange={(vaalue) => setsearchJobLoc(vaalue)} />
+
+                            {searchJobLoc.length > 0 && (
+                                <ul style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                                    {allJobs.map((job, index) => (
+                                        job.region.toLowerCase().includes(searchJobLoc.toLowerCase()) && (
+                                            <li onClick={() => handleLocationClick(job.region)} className={componentStyles.liSearchValues} key={index}><span className={componentStyles.mainSpan}>{job.region}</span></li>
+                                        )
+                                    )
+                                    )}
+                                </ul>
+                            )}
+                        </div>
+
                     </div>
                     {/*job component*/}
                     <div style={{ display: "flex", justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: '20px', width: '100%' }}>
