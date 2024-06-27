@@ -85,6 +85,8 @@ const MessagesComponent = () => {
         setusersFollowedBy(usersArr)
     }, []);
     const createNewMessage = () => {
+        console.log('a');
+
         setnewMessage(true)
         setnewChatFlag(false)
 
@@ -207,7 +209,7 @@ const MessagesComponent = () => {
                             </div>
 
                             <div className={styles.messagesContainer__rightSide}>
-                                {openChat && (
+                                {openChat && !newMessage && (
                                     <div style={{ marginBottom: '20px', borderBottom: '1px solid #dcdcdc', position: 'relative', display: 'flex', width: '100%', paddingLeft: '80px', height: '40px', background: 'white', alignItems: 'baseline', marginTop: '-20px' }}>
                                         <span style={{ color: 'rgb(64, 65, 65)', fontSize: '20px', fontWeight: 'bold' }}>{UserStore.user.id == openChat.messages[0].sender ? UserStore.getUserInfoById(openChat.messages[0].receiver).name : UserStore.getUserInfoById(openChat.messages[0].sender).name}</span>
                                     </div>
