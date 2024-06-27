@@ -226,7 +226,7 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                                                 <div onClick={() => goToUserProfile(UserStore.getUserInfoById(activeChat.messages[0].sender)?.name != UserStore.user.name ? UserStore.getUserInfoById(activeChat.messages[0].sender)?.name : UserStore.getUserInfoById(activeChat.messages[0].receiver)?.name)}>
                                                                     <ProfileImage name={UserStore.getUserInfoById(activeChat.messages[0].sender)?.name != UserStore.user.name ? UserStore.getUserInfoById(activeChat.messages[0].sender)?.name : UserStore.getUserInfoById(activeChat.messages[0].receiver)?.name} />
                                                                 </div>
-                                                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-around' }}>
+                                                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-around', gap: '10px' }}>
                                                                     <span className={styles.simpleP}> {UserStore.getUserInfoById(activeChat.messages[0].sender)?.name != UserStore.user.name ? UserStore.getUserInfoById(activeChat.messages[0].sender)?.name : UserStore.getUserInfoById(activeChat.messages[0].receiver)?.name}</span>
                                                                     <span style={{ fontSize: '16px', fontWeight: 'normal' }} className={styles.simpleP}> {UserStore.getUserInfoById(activeChat.messages[0].sender)?.name != UserStore.user.name ? UserStore.getUserInfoById(activeChat.messages[0].sender)?.about : UserStore.getUserInfoById(activeChat.messages[0].receiver)?.about}</span>
                                                                 </div>
@@ -334,7 +334,7 @@ const BasicComponent = observer((props: basicComponentProps) => {
                             ) :
                                 <Login />
                             }
-                        </div>
+                        </div >
                     ) : UserStore.loggedIn === false && UserStore.signedUp ? (<Login />)
                         : (<SignIn />)}
                 </>
