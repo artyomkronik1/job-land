@@ -144,7 +144,7 @@ const PostNewJobPopup = (props: postNewJobPopup) => {
 
                     <div className={styles.main__header__body} style={{ marginTop: '40px', display: 'flex', width: '100%', justifyContent: 'space-around', flexDirection: 'row' }} >
 
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                             <TextInputField type={'text'} size={'small'} placeHolder={'job title'} text={t('Job Title')} value={title} onChange={handleChangeTitle} />
                             <TextInputField type={'text'} size={'small'} placeHolder={'job zone'} text={t('Job Zone')} value={zone} onChange={handleChangeZone} />
                             <TextInputField type={'number'} size={'small'} placeHolder={'job salary'} text={t('Job Salary')} value={salary} onChange={handleChangeSalary} />
@@ -152,7 +152,7 @@ const PostNewJobPopup = (props: postNewJobPopup) => {
 
                         </div>
 
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                             <TextInputField type={'text'} size={'small'} placeHolder={'job description'} text={t('Job Description')} value={description} onChange={handleChangeDescription} />
                             <TextInputField type={'text'} size={'small'} placeHolder={'job proffesion'} text={t('Job Proffesion')} value={proffesion} onChange={handleChangeProffesion} />
                             <TextInputField type={'text'} size={'small'} placeHolder={'job company'} text={t('Job Company')} value={companyName} onChange={handleChangeCompany} />

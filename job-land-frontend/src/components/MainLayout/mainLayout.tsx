@@ -126,11 +126,8 @@ const MainLayout = observer(() => {
             )}
             <div dir={UserStore.getLanguage() == 'en' ? 'ltr' : 'rtl'}>
                 <div>
-                    <div >
-                        {/*send resume */}
-                        {/*<img src={sendResume} height="20%"  />*/}
-                        {/*share a new post*/}
-                        <div style={{ display: 'flex', cursor: 'pointer', flexDirection: 'column', padding: '10px', marginTop: '50px', gap: '15px' }} className={globalStyles.basicForm}>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ display: 'flex', cursor: 'pointer', flexDirection: 'column', padding: '10px', marginTop: '50px', gap: '15px', alignSelf: 'center' }} className={globalStyles.basicForm}>
                             <div onClick={startPost} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                 <ProfileImage name={UserStore.user.name} />
                                 <div style={{ display: 'flex', justifyContent: 'start', padding: '10px 20px', borderRadius: '20px', border: '1px solid #a9acb1', backgroundColor: 'white', flex: '1 1 auto' }}>
@@ -144,7 +141,7 @@ const MainLayout = observer(() => {
 
                         </div>
                         {/*    posts*/}
-                        <div style={{ display: 'flex', justifyContent: 'start' }}>
+                        <div style={{ display: 'flex', justifyContent: 'center' }}>
                             <div className={globalStyles.separate_line_grey} style={{ width: '80%' }}> </div>
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column' }}>

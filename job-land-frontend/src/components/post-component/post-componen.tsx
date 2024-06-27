@@ -185,7 +185,7 @@ const PostComponent = observer((props: any) => {
             <div dir={UserStore.getLanguage() == 'en' ? 'ltr' : 'rtl'}>
                 <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }} >
 
-                    <div className={componentStyles.postContainer} style={{ alignSelf: 'start', width: '80%' }} onClick={() => goToPost(post)}>
+                    <div className={componentStyles.postContainer} style={{ alignSelf: 'center', width: '80%' }} onClick={() => goToPost(post)}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                             <div className={componentStyles.postContainer__header} onClick={() => goToUserProfile(post.writer_name)}>
                                 <ProfileImage name={post.writer_name} />
