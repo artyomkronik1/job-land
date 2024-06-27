@@ -205,7 +205,13 @@ const MessagesComponent = () => {
                                     </div>
                                 )}
                             </div>
+
                             <div className={styles.messagesContainer__rightSide}>
+                                {openChat && (
+                                    <div style={{ marginBottom: '20px', borderBottom: '1px solid #dcdcdc', position: 'relative', display: 'flex', width: '100%', paddingLeft: '80px', height: '40px', background: 'white', alignItems: 'baseline', marginTop: '-20px' }}>
+                                        <span style={{ color: 'rgb(64, 65, 65)', fontSize: '20px', fontWeight: 'bold' }}>{UserStore.user.id == openChat.messages[0].sender ? UserStore.getUserInfoById(openChat.messages[0].receiver).name : UserStore.getUserInfoById(openChat.messages[0].sender).name}</span>
+                                    </div>
+                                )}
                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', width: '100%' }}>
 
                                     {/*// new message*/}
@@ -266,12 +272,18 @@ const MessagesComponent = () => {
                                             )}
                                         </div>
                                     ) : null}
+
                                     {/*messages*/}
+
                                     <div style={{ display: 'flex', flexDirection: 'column', width: '100%', maxHeight: '50vh', overflowY: 'scroll' }}>
+
                                         {openChat && !newMessage ? openChat?.messages.map((msg: Message, index) =>
+
                                             <div key={index} style={{ display: 'flex', justifyContent: 'space-between', width: '100%', flexDirection: 'column', gap: '30px', marginBottom: '30px' }}>
                                                 {msg.sender == userStore.user.id ? (
                                                     <div style={{ display: 'flex', justifyContent: 'start', width: '100%', gap: '8px' }}>
+
+
                                                         <ProfileImage name={UserStore.user.name} />
                                                         <div style={{ marginInlineStart: '5px', display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'start' }}>
                                                             <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'baseline', justifyContent: 'center' }}>
