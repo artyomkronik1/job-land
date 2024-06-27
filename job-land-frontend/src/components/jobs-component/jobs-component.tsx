@@ -44,11 +44,9 @@ const JobsComponent = observer(() => {
         console.log(allJobs);
         if (searchJobName.length > 0) {
             const filteredJobs = jobsStore.getfilterJobs().filter(job => {
-                const matchesName = job.title.toLowerCase().includes(searchJobName.toLowerCase());
+                const matchesName = job.title.toLowerCase().includes(searchJobName.toLowerCase()) || job.hire_name.toLowerCase().includes(searchJobName.toLowerCase()) || job.zone.toLowerCase().includes(searchJobName.toLowerCase()) || job.profession.toLowerCase().includes(searchJobName.toLowerCase());
                 return matchesName;
             });
-
-            console.log('filteredJobs', filteredJobs);
             setAllJobs(filteredJobs);
         }
         else if (searchJobLoc.length > 0) {
@@ -118,16 +116,16 @@ const JobsComponent = observer(() => {
         });
     }// job filters by the all jobs properties
     const jobFilters: DropdownProps[] = [
-        { filterName: 'zone', options: Array.from(new Set(allJobs.map((job: Job) => job.zone))) },
-        { filterName: 'profession', options: Array.from(new Set(allJobs.map((job: Job) => job.profession))) },
-        { filterName: 'region', options: Array.from(new Set(allJobs.map((job: Job) => job.region))) },
-        { filterName: 'manner', options: Array.from(new Set(allJobs.map((job: Job) => job.manner))) },
-        { filterName: 'experienced_level', options: Array.from(new Set(allJobs.map((job: Job) => job.experienced_level))) },
-        { filterName: 'scope', options: Array.from(new Set(allJobs.map((job: Job) => job.scope))) },
+        { filterName: 'zone', options: Array.from(new Set(jobsStore.getfilterJobs().map((job: Job) => job.zone))) },
+        { filterName: 'profession', options: Array.from(new Set(jobsStore.getfilterJobs().map((job: Job) => job.profession))) },
+        { filterName: 'region', options: Array.from(new Set(jobsStore.getfilterJobs().map((job: Job) => job.region))) },
+        { filterName: 'manner', options: Array.from(new Set(jobsStore.getfilterJobs().map((job: Job) => job.manner))) },
+        { filterName: 'experienced_level', options: Array.from(new Set(jobsStore.getfilterJobs().map((job: Job) => job.experienced_level))) },
+        { filterName: 'scope', options: Array.from(new Set(jobsStore.getfilterJobs().map((job: Job) => job.scope))) },
     ]
 
     const jobFiltersHTML = jobFilters.map((value, index) => (
-        <div key={index} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+        <div key={index} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', zIndex: '10', }}>
             <JobFilterBtn text={t(value.filterName)} type={value.filterName} options={value.options} changeFilterValue={addNewFilterValue} />
         </div>
     ));
