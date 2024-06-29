@@ -22,7 +22,7 @@ class UserStore {
     @persist('object') @observable chats: Chat[] = []
     @persist('object') @observable posts: Post[] = []
     @persist('object') @observable currentChat: {} = {};
-    @persist('object') @observable user: User = { id: "", password: "", role: "", email: "", about: "", name: "", follow: [], experience: "", education: "" };
+    @persist('object') @observable user: User = { profilePicture: "", backgroundPicture: "", id: "", password: "", role: "", email: "", about: "", name: "", follow: [], experience: "", education: "" };
     @persist session_key = localStorage.getItem('session_key')
     constructor() {
         makeAutoObservable(this);
@@ -119,6 +119,17 @@ class UserStore {
         return Object.values(chats).map((messages) => ({ messages }));
     };
 
+    async uploadProfilePicture(formData: any, user: User) {
+
+
+    }
+    async uploadBackgroundPicture(formData: any) {
+
+
+    }
+
+
+
     async getChatsByUser(id: string) {
 
         const res = await MessageService.getChatsByUserId(id);
@@ -146,7 +157,9 @@ class UserStore {
             follow: [],
             about: "",
             education: "",
-            experience: ""
+            experience: "",
+            profilePicture: "",
+            backgroundPicture: ""
         }
         this.users.forEach((user: User) => {
             if (user.name == name) {

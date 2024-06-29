@@ -1,8 +1,8 @@
-import {action, makeAutoObservable, makeObservable, observable} from "mobx";
-import {create, persist} from "mobx-persist";
-import {Job} from "../interfaces/job";
-import {Post} from "../interfaces/post";
-import {comment} from "../interfaces/comment";
+import { action, makeAutoObservable, makeObservable, observable } from "mobx";
+import { create, persist } from "mobx-persist";
+import { Job } from "../interfaces/job";
+import { Post } from "../interfaces/post";
+import { comment } from "../interfaces/comment";
 
 import axios from "axios";
 import UserStore from "./user";
@@ -10,38 +10,38 @@ import jobService from "../services/jobService";
 import postService from "../services/postService";
 import PostsService from "../services/postService";
 const hydrate = create({
-    storage:localStorage,
-    jsonify:true
+    storage: localStorage,
+    jsonify: true
 })
-class JobsStore{
-    @persist('object') @observable filterJobs:Job[]=[];
-    @persist('object') @observable followPost:Post[]=[];
+class JobsStore {
+    @persist('object') @observable filterJobs: Job[] = [];
+    @persist('object') @observable followPost: Post[] = [];
     constructor() {
         makeAutoObservable(this);
     }
     // jobs that user follow for
-    getfollowJobs(){
+    getfollowJobs() {
         return this.followPost
     }
-    setfollowPosts(jobs:Post[]){
+    setfollowPosts(jobs: Post[]) {
         this.followPost = jobs
     }
     // jobs on job page
-    getfilterJobs(){
+    getfilterJobs() {
         return this.filterJobs
     }
-    setfilterJobs(jobs:Job[]){
+    setfilterJobs(jobs: Job[]) {
         this.filterJobs = jobs
     }
 
-    getALlJobs=async ()=>{
+    getALlJobs = async () => {
         try {
             const result = await jobService.getAllJobs({})
-            if(result.data.success) {
+            if (result.data.success) {
                 this.setfilterJobs(result.data.jobs)
 
             }
-            else{
+            else {
                 this.setfilterJobs([])
                 return result.data
 
@@ -51,55 +51,54 @@ class JobsStore{
             console.error('Error get jobs:', error);
         }
     }
-    getPostInfoById = (id:string):any =>{
-        return   this.followPost.find(post=>post._id==id) ;
+    getPostInfoById = (id: string): any => {
+        return this.followPost.find(post => post._id == id);
     }
-    editPost = async(postToEdit:Post)=>{
+    editPost = async (postToEdit: Post) => {
         const res = await postService.savePost(postToEdit);
-        if(res.success){
+        if (res.success) {
             await this.getAllPosts();
         }
         return res;
     }
-    removeComment = async (post:Post, comment:comment)=>{
+    removeComment = async (post: Post, comment: comment) => {
         post.comments = post.comments.filter((c) => c.id !== comment.id);
 
         this.followPost.map((posts: Post) => {
-            if(posts._id == post._id){
+            if (posts._id == post._id) {
                 posts = post
             }
         })
         // updating in server
-        await  postService.removeComment(comment, post._id)
+        await postService.removeComment(comment, post._id)
     }
-    updateCommentForPost = async (post:Post, comment:comment)=>{
-        post.comments.map((c:comment)=>{
-          if(c.id==comment.id)
-          {
-              c.text = comment.text
-          }
+    updateCommentForPost = async (post: Post, comment: comment) => {
+        post.comments.map((c: comment) => {
+            if (c.id == comment.id) {
+                c.text = comment.text
+            }
         })
         this.followPost.map((posts: Post) => {
-            if(posts._id == post._id){
+            if (posts._id == post._id) {
                 posts = post
             }
         })
         // updating in server
-        await  postService.saveUpdatedComment(comment, post._id)
+        await postService.saveUpdatedComment(comment, post._id)
     }
-    addCommentOnPost = async (post:Post, comment:comment)=>{
+    addCommentOnPost = async (post: Post, comment: comment) => {
         post.comments.push(comment)
         this.followPost.map((posts: Post) => {
-            if(posts._id == post._id){
+            if (posts._id == post._id) {
                 posts = post
             }
         })
         // updating in server
-       await  postService.addComment(comment, post._id)
+        await postService.addComment(comment, post._id)
 
     }
 
-    setLikeOnPost=async(post:Post, user:string,like:boolean)=> {
+    setLikeOnPost = async (post: Post, user: string, like: boolean) => {
         // updating localy
         const index = post.likedBy.indexOf(user);
 
@@ -115,21 +114,21 @@ class JobsStore{
                 posts = post
             }
         })
-         // updating in server
-         await PostsService.setLikeOnPost(post, user, like)
+        // updating in server
+        await PostsService.setLikeOnPost(post, user, like)
     }
 
-     getAllPosts=async()=>{
+    getAllPosts = async () => {
         try {
             const result = await axios.get('http://localhost:3002/posts');
-            if(result.data.success) {
+            if (result.data.success) {
                 // filter only the posts user follow or itself posts
                 const postsFollowedbyUser = result.data.posts.filter((post: Post) => {
-                    return UserStore.user.follow.includes(post.employee_id) || UserStore.user.id == post.employee_id ;
+                    return UserStore.user.follow.includes(post.employee_id) || UserStore.user.id == post.employee_id;
                 });
                 this.setfollowPosts(postsFollowedbyUser)
             }
-            else{
+            else {
                 this.setfollowPosts([])
                 return result.data
 

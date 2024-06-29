@@ -87,7 +87,7 @@ const StartPostDialog = (props: postProps) => {
                 <ToastComponent />
                 <div ref={dialogRef} className={styles.main}>
                     <div className={styles.main__header} style={{ marginBottom: '30px' }}>
-                        <ProfileImage name={UserStore.user.name} />
+                        <ProfileImage user={UserStore.user} />
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
                             <span style={{ fontSize: '20px' }} className={globalStyles.mainGreySpan}>{UserStore.user.name}</span>
                             <span style={{ fontSize: '18px', fontWeight: 'normal', color: '#79797a' }} className={globalStyles.mainGreySpan}>{UserStore.user.about}</span>

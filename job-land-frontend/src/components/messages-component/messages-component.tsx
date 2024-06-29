@@ -193,7 +193,7 @@ const MessagesComponent = () => {
                                     <div key={index} className={styles.messagesContainer__leftSide__messageBox} onClick={() => openNewChat(chat)} >
                                         <div className={chat._id == openChat?._id ? styles.openedChat : styles.closedChat} style={{ paddingBottom: '30px', paddingTop: '30px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
                                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'start', gap: '10px', paddingLeft: '10px', paddingRight: '10px' }}>
-                                                <ProfileImage name={chat.messages[0].sender != UserStore.user.id ? UserStore.getUserNameById(chat.messages[0].sender) : UserStore.getUserNameById(chat.messages[0].receiver)} />
+                                                <ProfileImage user={chat.messages[0].sender != UserStore.user.id ? UserStore.getUserInfoById(chat.messages[0].sender) : UserStore.getUserInfoById(chat.messages[0].receiver)} />
                                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'start' }}>
                                                     <span style={{ fontSize: '15px', color: '#404141' }} className={globalStyles.simpleP}>{UserStore.user.id != chat.messages[0].receiver ? UserStore.getUserNameById(chat.messages[0].receiver) : UserStore.getUserNameById(chat.messages[0].sender)}</span>
                                                     <span style={{ fontSize: '13px', fontWeight: 'normal', color: '#79797a' }} className={globalStyles.simpleP}>{UserStore.user.id != chat.messages[0].receiver ? UserStore.getUserInfoById(chat.messages[0].receiver)?.about : UserStore.getUserInfoById(chat.messages[0].sender)?.about}</span>
@@ -236,7 +236,7 @@ const MessagesComponent = () => {
                                                                     <div style={{ cursor: 'pointer' }} className={styles.messagesContainer__leftSide__messageBox} onClick={() => openNewMessageChat(user)} >
                                                                         <div className={styles.closedChat} style={{ paddingBottom: '30px', paddingTop: '30px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
                                                                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'start', gap: '10px', paddingLeft: '10px', paddingRight: '10px' }}>
-                                                                                <ProfileImage name={user.name} />
+                                                                                <ProfileImage user={user} />
                                                                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'start' }}>
                                                                                     <span style={{ fontSize: '15px', color: '#404141' }} className={globalStyles.simpleP}>{user.name}</span>
                                                                                     <span style={{ fontSize: '13px', fontWeight: 'normal', color: '#79797a' }} className={globalStyles.simpleP}>{user.about}</span>
@@ -258,7 +258,7 @@ const MessagesComponent = () => {
                                                 <div style={{ marginTop: '50px' }}>
                                                     <div style={{ display: 'flex', gap: '10px' }}>
                                                         {/*write a new msg*/}
-                                                        <ProfileImage name={newUserToChat.name} />
+                                                        <ProfileImage user={newUserToChat} />
                                                         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'start' }}>
                                                             <span style={{ fontSize: '15px', color: '#404141' }} className={globalStyles.simpleP}>{newUserToChat.name}</span>
                                                             <span style={{ fontSize: '13px', fontWeight: 'normal', color: '#79797a' }} className={globalStyles.simpleP}>{newUserToChat.about}</span>
@@ -286,7 +286,7 @@ const MessagesComponent = () => {
                                                     <div style={{ display: 'flex', justifyContent: 'start', width: '100%', gap: '8px' }}>
 
 
-                                                        <ProfileImage name={UserStore.user.name} />
+                                                        <ProfileImage user={UserStore.user} />
                                                         <div style={{ marginInlineStart: '5px', display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'start' }}>
                                                             <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'baseline', justifyContent: 'center' }}>
 
@@ -301,7 +301,7 @@ const MessagesComponent = () => {
                                                 ) :
                                                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                                                         <div style={{ display: 'flex', justifyContent: 'start', width: '100%', gap: '8px' }}>
-                                                            <ProfileImage name={UserStore.getUserNameById(msg.sender)} />
+                                                            <ProfileImage user={UserStore.getUserInfoById(msg.sender)} />
                                                             <div style={{ marginInlineStart: '5px', display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'baseline' }}>
                                                                 <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'start', justifyContent: 'center' }}>
 

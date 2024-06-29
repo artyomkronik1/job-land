@@ -1,24 +1,24 @@
-import React, {ReactNode, useEffect, useRef, useState} from 'react';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import UserStore from "../../store/user";
 import styles from './edit-profile.module.scss'
 import globalStyles from '../../assets/global-styles/styles.module.scss'
 import ProfileImage from "../../base-components/profile-image/profile-image-component";
-import {useTranslation} from "react-i18next";
-import {toast} from "react-toastify";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 import Popup from "../../base-components/popup/popup-component";
 import WarningPopup from "../../base-components/warning-popyp/warning-popup";
 import ToastComponent from "../../base-components/toaster/ToastComponent";
 import jobsStore from "../../store/job";
-import {User} from "../../interfaces/user";
+import { User } from "../../interfaces/user";
 import TextInputField from "../../base-components/text-input/text-input-field";
-import {Post} from "../../interfaces/post";
+import { Post } from "../../interfaces/post";
 import userService from "../../services/userService";
-export interface editProfileProps{
-    isOpen:boolean;
-    profileForEdit:User;
-    onClose:(success:boolean)=>void;
+export interface editProfileProps {
+    isOpen: boolean;
+    profileForEdit: User;
+    onClose: (success: boolean) => void;
 }
-const EditProfileDialog = (props:editProfileProps) => {
+const EditProfileDialog = (props: editProfileProps) => {
     const dialogRef = useRef<HTMLDivElement>(null);
     //language
     const { t } = useTranslation();
@@ -27,7 +27,7 @@ const EditProfileDialog = (props:editProfileProps) => {
     const [showWarningPopup, setshowWarningPopup] = useState(false)
     const [hasChanges, setHasChanges] = useState(false);
 
-    const saveSettings=async()=> {
+    const saveSettings = async () => {
         // check if there is not empty
         if (profileInEdit.name.length == 0 || profileInEdit.about.length == 0) {
             setTimeout(() => {
@@ -35,17 +35,16 @@ const EditProfileDialog = (props:editProfileProps) => {
             }, 1000)
         } else {
             // set info
-           const res =  await userService.setUserInfo(profileInEdit)
-            if(res.data.success) {
-                 // set current user
-                 UserStore.setUser(profileInEdit)
+            const res = await userService.setUserInfo(profileInEdit)
+            if (res.data.success) {
+                // set current user
+                UserStore.setUser(profileInEdit)
                 toast.success(t('SUCCESS'));
                 setTimeout(() => {
                     closeFinalDialog()
                 }, 1000)
             }
-            else if(!res.data.success)
-            {
+            else if (!res.data.success) {
                 toast.error(t('ERROR' + res.data.errorCode));
 
             }
@@ -53,13 +52,14 @@ const EditProfileDialog = (props:editProfileProps) => {
         }
     }
     // close dialog
-    const closeDialog=()=>{
+    const closeDialog = () => {
         // Check if there are changes
         if (hasChanges) {
             setshowWarningPopup(true);
         } else {
             closeFinalDialog();
-        }    }
+        }
+    }
     const closeFinalDialog = () => {
         props.onClose(hasChanges);
     };
@@ -83,7 +83,7 @@ const EditProfileDialog = (props:editProfileProps) => {
     // listening when user click outside of popup so close it
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (dialogRef.current && !dialogRef.current.contains(event.target as Node) ) {
+            if (dialogRef.current && !dialogRef.current.contains(event.target as Node)) {
                 closeDialog();
             }
         };
@@ -99,31 +99,31 @@ const EditProfileDialog = (props:editProfileProps) => {
                 <ToastComponent />
                 <div ref={dialogRef} className={styles.main}>
                     <div className={styles.main__header}>
-                        <ProfileImage name={profileInEdit.name}/>
-                        <div style={{marginTop:'10px', display:'flex', flexDirection:'column'}}>
-                        {/*name*/}
-                        <div style={{display:'flex', flexDirection:'column', alignItems:'start'}}>
-                            <TextInputField type={'text'} placeHolder={t('Enter Your Full Name')} text={t('Full Name')} value={profileInEdit.name} onChange={handleChangeName}/>
-                        </div>
-                        {/*about*/}
-                        <div style={{display:'flex', flexDirection:'column', alignItems:'start'}}>
-                            <TextInputField type={'text'} placeHolder={t('Enter About Yourself')} text={t('About')} value={profileInEdit.about} onChange={handleChangeAbout}/>
-                        </div>
+                        {/* <ProfileImage name={profileInEdit.name}/> */}
+                        <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column' }}>
+                            {/*name*/}
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
+                                <TextInputField type={'text'} placeHolder={t('Enter Your Full Name')} text={t('Full Name')} value={profileInEdit.name} onChange={handleChangeName} />
+                            </div>
+                            {/*about*/}
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
+                                <TextInputField type={'text'} placeHolder={t('Enter About Yourself')} text={t('About')} value={profileInEdit.about} onChange={handleChangeAbout} />
+                            </div>
 
 
                         </div>
                     </div>
-                    <div style={{display:'flex', justifyContent:'center'}}>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <div className={globalStyles.separate_line_grey}></div>
                     </div>
-                    <div style={{display:'flex', justifyContent:'end', flex:'1 1 auto'}}>
-                        <button style={{width:'80px'}} onClick={saveSettings}  className={globalStyles.btn}>{t('Save')}</button>
+                    <div style={{ display: 'flex', justifyContent: 'end', flex: '1 1 auto' }}>
+                        <button style={{ width: '80px' }} onClick={saveSettings} className={globalStyles.btn}>{t('Save')}</button>
                     </div>
                 </div>
             </Popup>
             <WarningPopup
                 isOpen={showWarningPopup}
-                onClose={() =>  props.onClose(false)}
+                onClose={() => props.onClose(false)}
                 onConfirm={saveSettings}
                 onCancel={() => props.onClose(false)}
                 warningText={t('Do you wanna save changes?')}

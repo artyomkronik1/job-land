@@ -49,16 +49,17 @@ const JobPopup = (props: jobPopupProps) => {
         }
     };
 
-    const handleUpload = async() => {
+    const handleUpload = async () => {
         if (file) {
             const formData = new FormData();
             formData.append('cv', file);
             const serviceID = "service_ktqrx6g";
             const templateID = "template_popyu06";
-            const params = { from_name:"Job Land", email:userStore.getUserInfoById(props.children.hire_manager_id)?.email,to_name:props.children.hire_name, message:"Hi, new cv !"}
+            const params = { from_name: "Job Land", email: userStore.getUserInfoById(props.children.hire_manager_id)?.email, to_name: props.children.hire_name, message: "Hi, new cv !" }
             try {
-                const res = await emailjs.send(serviceID, templateID, params,{
-                    publicKey: 'uBgCORDaioscnVWOQ'}
+                const res = await emailjs.send(serviceID, templateID, params, {
+                    publicKey: 'uBgCORDaioscnVWOQ'
+                }
                 );
                 alert('You have upload resume successfully');
                 props.onClose(true)
@@ -81,21 +82,21 @@ const JobPopup = (props: jobPopupProps) => {
                 <div ref={dialogRef} className={styles.main}>
                     <div className={styles.main__header}>
                         <div style={{ display: 'flex', gap: '10px', marginBottom: '40px' }}>
-                            <ProfileImage name={props.children.hire_name} />
+                            <ProfileImage user={userStore.getUserInfoById(props.children.hire_manager_id)} />
                             <div className={componentStyles.postContainer__header__details}>
                                 <span style={{ fontSize: '20px', color: '#1c1c39' }}>{props.children.hire_name}</span>
                                 <span style={{ color: '#717273', fontSize: '16px', fontWeight: 'normal' }} className={globalStyles.simpleP}>
-                                  {props.children.company_name}
-                </span>
+                                    {props.children.company_name}
+                                </span>
                             </div>
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
-                                  <span style={{ fontSize: '20px' }} className={globalStyles.mainGreySpan}>
-                                    {props.children.title}
-                                  </span>
+                            <span style={{ fontSize: '20px' }} className={globalStyles.mainGreySpan}>
+                                {props.children.title}
+                            </span>
                             <span
                                 style={{
-                                    marginTop:'20px',
+                                    marginTop: '20px',
 
                                     display: 'flex',
                                     color: '#717273',
@@ -108,32 +109,32 @@ const JobPopup = (props: jobPopupProps) => {
                                     overflow: 'hidden',
                                 }}
                             >
-                {props.children.description}
-              </span>
+                                {props.children.description}
+                            </span>
                         </div>
                         {/* Add CV */}
                         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: '30px', gap: '10px' }}>
-                            <label htmlFor="cv-upload" onClick={openFileManager} style={{display:"flex", gap:'10px',cursor:'pointer'}}>
+                            <label htmlFor="cv-upload" onClick={openFileManager} style={{ display: "flex", gap: '10px', cursor: 'pointer' }}>
 
-                            <span className={globalStyles.mainSpan} style={{ fontSize: '22px' }}>
-                                {fileName ? fileName : t('add cv')} {/* Display filename if available, otherwise show "Add CV" */}
-                              </span>
-                            <div>
-                                <input
-                                    type="file"
-                                    accept=".pdf,.doc,.docx"
-                                    onChange={handleFileChange}
-                                    style={{ display: 'none' }}
-                                    ref={fileInputRef} // Assign the ref to the file input element
-                                />
+                                <span className={globalStyles.mainSpan} style={{ fontSize: '22px' }}>
+                                    {fileName ? fileName : t('add cv')} {/* Display filename if available, otherwise show "Add CV" */}
+                                </span>
+                                <div>
+                                    <input
+                                        type="file"
+                                        accept=".pdf,.doc,.docx"
+                                        onChange={handleFileChange}
+                                        style={{ display: 'none' }}
+                                        ref={fileInputRef} // Assign the ref to the file input element
+                                    />
                                     <img
-                                        style={{ cursor: 'pointer', color:'red' }}
+                                        style={{ cursor: 'pointer', color: 'red' }}
                                         width={30}
                                         height={30}
                                         src={addcv}
                                         alt="Upload CV"
                                     />
-                            </div>
+                                </div>
                             </label>
 
                         </div>

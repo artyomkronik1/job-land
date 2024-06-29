@@ -198,7 +198,9 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                             <div style={{ display: 'flex', gap: '50px', alignItems: 'center' }}>
                                                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                                     <DropDown options={['Profile', 'Logout']} changeDropValue={getSettingAction} icons={['fa fa-user-circle', 'fa fa-sign-out']}>
-                                                        <ProfileImage name={UserStore.user.name} />
+
+                                                        <ProfileImage user={UserStore.user} />
+
                                                     </DropDown>
                                                     <div className={styles.languageDivBasic}>
                                                         {UserStore.getLanguage() == 'en' ?
@@ -224,7 +226,7 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                                         <div className={styles.activeChatHeader}>
                                                             <div style={{ display: 'flex', gap: '5px' }}>
                                                                 <div onClick={() => goToUserProfile(UserStore.getUserInfoById(activeChat.messages[0].sender)?.name != UserStore.user.name ? UserStore.getUserInfoById(activeChat.messages[0].sender)?.name : UserStore.getUserInfoById(activeChat.messages[0].receiver)?.name)}>
-                                                                    <ProfileImage name={UserStore.getUserInfoById(activeChat.messages[0].sender)?.name != UserStore.user.name ? UserStore.getUserInfoById(activeChat.messages[0].sender)?.name : UserStore.getUserInfoById(activeChat.messages[0].receiver)?.name} />
+                                                                    <ProfileImage user={UserStore.getUserInfoById(activeChat.messages[0].sender)?.name != UserStore.user.name ? UserStore.getUserInfoById(activeChat.messages[0].sender) : UserStore.getUserInfoById(activeChat.messages[0].receiver)} />
                                                                 </div>
                                                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-around', gap: '10px' }}>
                                                                     <span className={styles.simpleP}> {UserStore.getUserInfoById(activeChat.messages[0].sender)?.name != UserStore.user.name ? UserStore.getUserInfoById(activeChat.messages[0].sender)?.name : UserStore.getUserInfoById(activeChat.messages[0].receiver)?.name}</span>
@@ -240,7 +242,7 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                                                     <div key={index} style={{ display: 'flex', justifyContent: 'space-between', width: '100%', flexDirection: 'column', gap: '30px', marginBottom: '30px' }}>
                                                                         {msg.sender == userStore.user.id ? (
                                                                             <div style={{ display: 'flex', justifyContent: 'start', width: '100%', gap: '8px' }}>
-                                                                                <ProfileImage name={UserStore.user.name} />
+                                                                                <ProfileImage user={UserStore.user} />
                                                                                 <div style={{ marginInlineStart: '5px', display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'start' }}>
                                                                                     <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'baseline', justifyContent: 'center' }}>
 
@@ -255,7 +257,7 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                                                         ) :
                                                                             <div style={{ display: 'flex', flexDirection: 'column' }}>
                                                                                 <div style={{ display: 'flex', justifyContent: 'start', width: '100%', gap: '8px' }}>
-                                                                                    <ProfileImage name={UserStore.getUserNameById(msg.sender)} />
+                                                                                    <ProfileImage user={UserStore.getUserInfoById(msg.sender)} />
                                                                                     <div style={{ marginInlineStart: '5px', display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'start' }}>
                                                                                         <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'baseline', justifyContent: 'center' }}>
 
@@ -299,7 +301,7 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                                                 <div onClick={() => activateChat(chat)}>
                                                                     <div className={styles.messageContainer}>
                                                                         <div style={{ display: 'flex', gap: '10px' }}>
-                                                                            <ProfileImage name={chat.messages[0].sender != UserStore.user.id ? UserStore.getUserNameById(chat.messages[0].sender) : UserStore.getUserNameById(chat.messages[0].receiver)} />
+                                                                            <ProfileImage user={chat.messages[0].sender != UserStore.user.id ? UserStore.getUserInfoById(chat.messages[0].sender) : UserStore.getUserInfoById(chat.messages[0].receiver)} />
                                                                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-around' }}>
                                                                                 <span className={styles.simpleP}> {chat.messages[0].sender != UserStore.user.id ? UserStore.getUserNameById(chat.messages[0].sender) : UserStore.getUserNameById(chat.messages[0].receiver)}</span>
                                                                                 <span style={{ fontSize: '16px', fontWeight: 'normal' }} className={styles.simpleP}> {chat.messages[0].sender != UserStore.user.id ? UserStore.getUserInfoById(chat.messages[0].sender).about : UserStore.getUserInfoById(chat.messages[0].receiver).about}</span>
@@ -320,7 +322,7 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                                 {/*users chat box*/}
                                                 <div style={{ position: 'relative', bottom: '20px', width: '40vh', backgroundColor: 'white' }} onClick={() => setmessageBoxIsOpen(!messageBoxIsOpen)}>
                                                     <div className={styles.messageContainerMain}>
-                                                        <ProfileImage name={UserStore.user.name} />
+                                                        <ProfileImage user={UserStore.user} />
                                                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-around' }}>
                                                             <span className={styles.simpleP}> {UserStore.getUser().name}</span>
                                                             <span style={{ fontSize: '16px', fontWeight: 'normal' }} className={styles.simpleP}> {UserStore.getUser().about}</span>

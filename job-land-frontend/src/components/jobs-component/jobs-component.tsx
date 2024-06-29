@@ -208,7 +208,7 @@ const JobsComponent = observer(() => {
                         {allJobs.length > 0 ? allJobs.map((job: Job, index) => (
                             <div style={{ width: '90%' }} className={componentStyles.postContainer} key={index} onClick={() => seeFullJob(job)}>
                                 <div className={componentStyles.postContainer__header}>
-                                    <ProfileImage name={job.hire_name} />
+                                    <ProfileImage user={UserStore.getUserInfoById(job.hire_manager_id)} />
                                     <div className={componentStyles.postContainer__header__details}>
                                         <span style={{ fontSize: '20px', color: '#1c1c39' }}> {job.hire_name}</span>
                                         <span style={{ color: '#717273', fontSize: '16px', fontWeight: 'normal' }} className={globalStyles.simpleP}> {job.company_name}</span>

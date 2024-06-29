@@ -42,7 +42,7 @@ const EditPost = (props: editPostProps) => {
     // listening when user click outside of popup so close it
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (dialogRef.current && !dialogRef.current.contains(event.target as Node) ) {
+            if (dialogRef.current && !dialogRef.current.contains(event.target as Node)) {
                 closeDialog();
             }
         };
@@ -58,7 +58,7 @@ const EditPost = (props: editPostProps) => {
             toast.error(t('ERROR! Description is empty'));
         } else {
 
-            const res = await  jobsStore.editPost(postToEdit)
+            const res = await jobsStore.editPost(postToEdit)
             if (res?.success) {
                 toast.success(t('SUCCESS'));
             } else {
@@ -88,35 +88,35 @@ const EditPost = (props: editPostProps) => {
                 <ToastComponent />
                 <div ref={dialogRef} className={styles.main}>
                     <div className={styles.main__header} style={{ marginBottom: '30px' }}>
-                        <ProfileImage name={UserStore.user.name} />
+                        <ProfileImage user={UserStore.user} />
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
-              <span style={{ fontSize: '20px' }} className={globalStyles.mainGreySpan}>
-                {UserStore.user.name}
-              </span>
+                            <span style={{ fontSize: '20px' }} className={globalStyles.mainGreySpan}>
+                                {UserStore.user.name}
+                            </span>
                             <span style={{ fontSize: '18px', fontWeight: 'normal', color: '#79797a' }} className={globalStyles.mainGreySpan}>
-                {UserStore.user.about}
-              </span>
+                                {UserStore.user.about}
+                            </span>
                         </div>
                     </div>
 
                     <div className={styles.main__header__body} style={{ marginTop: '0px' }}>
-            <textarea
-                value={postToEdit.description}
-                placeholder={t('What do you want to talk about?')}
-                style={{
-                    outline: 'none',
-                    resize: 'none',
-                    width: '100%',
-                    backgroundColor: 'white',
-                    borderRadius: '30px',
-                    border: 'none',
-                    paddingLeft: '20px',
-                    color: '#79797a',
-                    fontSize: '25px',
-                    height: '100%',
-                }}
-                onChange={handleChange}
-            ></textarea>
+                        <textarea
+                            value={postToEdit.description}
+                            placeholder={t('What do you want to talk about?')}
+                            style={{
+                                outline: 'none',
+                                resize: 'none',
+                                width: '100%',
+                                backgroundColor: 'white',
+                                borderRadius: '30px',
+                                border: 'none',
+                                paddingLeft: '20px',
+                                color: '#79797a',
+                                fontSize: '25px',
+                                height: '100%',
+                            }}
+                            onChange={handleChange}
+                        ></textarea>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <div className={globalStyles.separate_line_grey}></div>
@@ -130,7 +130,7 @@ const EditPost = (props: editPostProps) => {
             </Popup>
             <WarningPopup
                 isOpen={showWarningPopup}
-                onClose={() =>  props.onClose(false)}
+                onClose={() => props.onClose(false)}
                 onConfirm={post}
                 onCancel={() => props.onClose(false)}
                 warningText={t('Do you wanna save changes?')}

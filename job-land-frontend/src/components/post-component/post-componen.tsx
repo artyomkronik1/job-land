@@ -185,10 +185,10 @@ const PostComponent = observer((props: any) => {
             <div dir={UserStore.getLanguage() == 'en' ? 'ltr' : 'rtl'}>
                 <div style={{ marginTop: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }} >
 
-                    <div className={componentStyles.postContainer} style={{ alignSelf: 'center', width: '80%' }} onClick={() => goToPost(post)}>
+                    <div className={componentStyles.postContainer} style={{ alignSelf: 'center', width: '100%' }} onClick={() => goToPost(post)}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                             <div className={componentStyles.postContainer__header} onClick={() => goToUserProfile(post.writer_name)}>
-                                <ProfileImage name={post.writer_name} />
+                                <ProfileImage user={UserStore.getUserInfoById(post.employee_id)} />
                                 <div className={componentStyles.postContainer__header__details}>
                                     <span style={{ fontSize: '20px', color: '#1c1c39' }}> {post.writer_name}</span>
                                     <span style={{ color: '#717273', fontSize: '16px', fontWeight: 'normal' }} className={globalStyles.simpleP}> {UserStore.users.filter(user => user.id == post.employee_id)[0]?.about}</span>
@@ -227,8 +227,8 @@ const PostComponent = observer((props: any) => {
                         {commentFlag && (
                             <div onClick={(event) => event.stopPropagation()}>
                                 {/*    users comments*/}
-                                <div style={{ marginTop: '30px', background: 'white', display: 'flex', width: '100%', height: '80px', justifyContent: 'start', gap: '10px' }}>
-                                    <ProfileImage name={UserStore.user.name} />
+                                <div style={{ marginTop: '30px', background: 'white', display: 'flex', width: '100%', justifyContent: 'start', gap: '10px' }}>
+                                    <ProfileImage user={UserStore.user} />
                                     <TextInputField background={'grey'} type={'text'} placeHolder={t('Add a comment')} text={t('')} value={usersCommentOnPost} onChange={addComment} />
                                     {usersCommentOnPost.length > 0 && (
                                         <button className={globalStyles.btn} onClick={postComment} style={{ marginTop: '5px', width: '70px', height: '40px', }}> {t('post')}</button>
@@ -240,7 +240,7 @@ const PostComponent = observer((props: any) => {
                                     <div style={{ maxHeight: '350px', overflowY: 'scroll' }}>
                                         {post.comments.map((comment: comment, index) => (
                                             <div key={index} style={{ display: 'flex', gap: '10px', marginTop: '10px', marginBottom: '50px' }}>
-                                                <ProfileImage name={UserStore.getUserInfoById(comment.by).name} />
+                                                <ProfileImage user={UserStore.getUserInfoById(comment.by)} />
                                                 <div style={{ display: 'flex', flexDirection: 'column', width: '450px' }}>
                                                     <div className={componentStyles.postContainer__header__details} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderRadius: '25px', padding: '10px', background: '#dfdfe0' }}>
                                                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>

@@ -129,7 +129,7 @@ const MainLayout = observer(() => {
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                         <div style={{ display: 'flex', cursor: 'pointer', flexDirection: 'column', padding: '10px', marginTop: '50px', gap: '15px', alignSelf: 'center' }} className={globalStyles.basicForm}>
                             <div onClick={startPost} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                <ProfileImage name={UserStore.user.name} />
+                                <ProfileImage user={UserStore.user} />
                                 <div style={{ display: 'flex', justifyContent: 'start', padding: '10px 20px', borderRadius: '20px', border: '1px solid #a9acb1', backgroundColor: 'white', flex: '1 1 auto' }}>
                                     <span style={{ color: '#a9acb1', fontSize: '19px', fontWeight: 'bold' }}> {t('Start a post...')}</span>
                                 </div>
@@ -144,7 +144,7 @@ const MainLayout = observer(() => {
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
                             <div className={globalStyles.separate_line_grey} style={{ width: '80%' }}> </div>
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', width: '80%', alignSelf: 'center' }}>
 
                             {posts.length > 0 ? posts.map((post: Post, index) => (
                                 <PostComponen postId={post._id} gotToPostFlag={true} />)) : (

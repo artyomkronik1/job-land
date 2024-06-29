@@ -4,38 +4,41 @@ import mongoose, { Model } from 'mongoose';
 import { User } from './user.model';
 import * as bcrypt from 'bcrypt';
 import * as CryptoJS from 'crypto-js';
-import {UserSchema} from "./user.model";
+import { UserSchema } from "./user.model";
 
 const secretKey = 'job-land'; // Replace with your secret key
-import * as crypto  from "crypto";
-import {makeFollowData} from "./user.controller";
+import * as crypto from "crypto";
+import { makeFollowData } from "./user.controller";
 @Injectable()
 export class UserService {
-  constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
+  constructor(@InjectModel('User') private readonly userModel: Model<User>) { }
   async logIn(email: string, password: string) {
     const decryptedPassword = CryptoJS.AES.decrypt(
-        password,
-        secretKey,
+      password,
+      secretKey,
     ).toString(CryptoJS.enc.Utf8);
     //find user by email
     const user = await this.userModel
       .find({ email: email, password: decryptedPassword })
-      .select('id name email password role follow about')
+      .select('id name email password role follow about experience education profilePicture backgroundPicture')
       .exec();
     if (user.length > 0) {
+
       const sessionKey = this.generateSessionKey();
       return {
         success: true,
         user: {
-          id:user[0].id,
-          name:user[0].name,
-          role:user[0].role,
-          email:user[0].email,
-          password:password,
-          follow:user[0].follow,
-          about:user[0].about,
-          experience:user[0].experience,
-          education:user[0].education,
+          id: user[0].id,
+          name: user[0].name,
+          role: user[0].role,
+          email: user[0].email,
+          password: password,
+          follow: user[0].follow,
+          about: user[0].about,
+          experience: user[0].experience,
+          education: user[0].education,
+          profilePicture: user[0].profilePicture,
+          backgroundPicture: user[0].backgroundPicture
         },
         session_key: sessionKey,
       };
@@ -75,10 +78,12 @@ export class UserService {
         password: decryptedPassword,
         email: user.email,
         role: user.role,
-        follow:[],
-        about:'',
-        experience:'',
-        education:''
+        follow: [],
+        about: '',
+        experience: '',
+        education: '',
+        profilePicture: '',
+        backgroundPicture: ''
       });
       const result = await newUser.save();
       if (result) {
@@ -86,15 +91,17 @@ export class UserService {
         return {
           success: true,
           user: {
-            id:newUser.id,
-            name:newUser.name,
-            role:newUser.role,
-            email:newUser.email,
-            password:user.password,
-            follow:[],
-           about:"",
-            experience:'',
-            education:''
+            id: newUser.id,
+            name: newUser.name,
+            role: newUser.role,
+            email: newUser.email,
+            password: user.password,
+            follow: [],
+            profilePicture: '',
+            backgroundPicture: '',
+            about: "",
+            experience: '',
+            education: ''
           },
           session_key: sessionKey,
         };
@@ -119,29 +126,31 @@ export class UserService {
   ): Promise<boolean> {
     return await bcrypt.compare(plainTextPassword, hashedPassword);
   }
-  public async makeFollow(info:makeFollowData){
+  public async makeFollow(info: makeFollowData) {
     const myUser = await this.getSingleUser(info.userId);
     const userToFollow = await this.getSingleUser(info.userIdToFollow)
     myUser.user.follow = [...myUser.user.follow, userToFollow.user.id]
 
     const updatedUser = await this.userModel.findByIdAndUpdate(info.userId, { follow: myUser.user.follow }, { new: false });
 
-    return {success:true, user:myUser}
+    return { success: true, user: myUser }
 
   }
-  public async setUser(info:any) {
+  public async setUser(info: any) {
 
     let u = await this.userModel.findById(info.user.id);
     if (!u) {
       // Handle the case where the user with the given ID is not found
-      return {success: false, errorCode: 'fail_to_find_user',};
+      return { success: false, errorCode: 'fail_to_find_user', };
     } else {
       u.name = info.user.name;
       u.about = info.user.about
       u.education = info.user.education;
-      u.experience = info.user.experience
+      u.experience = info.user.experience,
+        u.profilePicture = info.user.profilePicture,
+        u.backgroundPicture = info.user.backgroundPicture
       await u.save()
-        return {success: true, user: u}
+      return { success: true, user: u }
     }
   }
   public async getSingleUser(id: string) {
@@ -155,10 +164,12 @@ export class UserService {
           email: user.email,
           password: user.password,
           role: user.role,
-          follow:user.follow,
-          about:user.about,
-          experience:user.experience,
-          education:user.education,
+          follow: user.follow,
+          about: user.about,
+          experience: user.experience,
+          education: user.education,
+          profilePicture: user.profilePicture,
+          backgroundPicture: user.backgroundPicture
         },
       };
     } else {
@@ -180,10 +191,12 @@ export class UserService {
           email: user.email,
           password: user.password,
           role: user.role,
-          about:user.about,
-          follow:user.follow,
-          experience:user.experience,
-          education:user.education,
+          about: user.about,
+          follow: user.follow,
+          experience: user.experience,
+          education: user.education,
+          profilePicture: user.profilePicture,
+          backgroundPicture: user.backgroundPicture
         })),
       };
     } else {
