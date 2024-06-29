@@ -320,15 +320,18 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                                 </div>
 
                                                 {/*users chat box*/}
-                                                <div style={{ position: 'relative', bottom: '20px', width: '40vh', backgroundColor: 'white' }} onClick={() => setmessageBoxIsOpen(!messageBoxIsOpen)}>
-                                                    <div className={styles.messageContainerMain}>
-                                                        <ProfileImage user={UserStore.user} />
-                                                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-around' }}>
-                                                            <span className={styles.simpleP}> {UserStore.getUser().name}</span>
-                                                            <span style={{ fontSize: '16px', fontWeight: 'normal' }} className={styles.simpleP}> {UserStore.getUser().about}</span>
+                                                {chats && chats.length > 0 && (
+                                                    <div style={{ position: 'relative', bottom: '20px', width: '40vh', backgroundColor: 'white' }} onClick={() => setmessageBoxIsOpen(!messageBoxIsOpen)}>
+                                                        <div className={styles.messageContainerMain}>
+                                                            <ProfileImage user={UserStore.user} />
+                                                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-around' }}>
+                                                                <span className={styles.simpleP}> {UserStore.getUser().name}</span>
+                                                                <span style={{ fontSize: '16px', fontWeight: 'normal' }} className={styles.simpleP}> {UserStore.getUser().about}</span>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                )}
+
                                             </div>
                                         </div>
                                     </div>
