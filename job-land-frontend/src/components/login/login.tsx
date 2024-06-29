@@ -16,13 +16,13 @@ import { useNavigate } from "react-router";
 import CryptoJS from "crypto-js";
 import loginPicture from '../../assets/images/login.png'
 
+import 'firebase/compat/auth'; // Import the auth module explicitly
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth'; // Import the auth module explicitly
 
-
-import Spinner from "../../base-components/loading-spinner/loading-spinner";
 import { User } from '../../interfaces/user';
 const Login = observer(() => {
+
     //language
     const { t } = useTranslation();
     const { i18n } = useTranslation();
@@ -75,7 +75,10 @@ const Login = observer(() => {
         UserStore.setSignedUp(false)
         UserStore.setLoggedIn(false)
     }
-    const signInWithGoogle = async () => {
+    const signInWithGoogle = async (event: any) => {
+        console.log('a');
+        event.preventDefault()
+
         const provider = new firebase.auth.GoogleAuthProvider();
 
         try {
@@ -144,11 +147,17 @@ const Login = observer(() => {
                             <button className={globalStyles.btn} onClick={login}> {t('Sign In')}</button>
                         </div>
                         <div style={{ marginTop: "40px" }} className={globalStyles.separate_line}></div>
-                        <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '30px', alignItems: 'center' }}>
-                            <img className={styles.socialMedia} src={googleIcon} onClick={signInWithGoogle} />
-                            <p className={globalStyles.simpleP}>{t('OR')}</p>
-                            <img className={styles.socialMedia} src={facebookIcon} />
+
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '30px' }} onClick={(event) => signInWithGoogle(event)} >
+                            <button style={{ display: 'flex', alignItems: 'center', gap: '10px', width: '300px' }} className={globalStyles.btn_border} >
+                                <img className={styles.socialMedia} src={googleIcon} />
+                                <p className={globalStyles.simpleP}> {t('Continue with Google')} </p>
+                            </button>
                         </div>
+
+
+
+
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '30px' }}>
                             <button style={{ width: '300px' }} className={globalStyles.btn_border} onClick={() => goSignUp()}> {t('New in Jobland? join now!')}</button>
                         </div>

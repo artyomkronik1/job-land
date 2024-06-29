@@ -177,7 +177,8 @@ const MessagesComponent = () => {
                     <div style={{ backgroundColor: 'white', width: '100%', height: '150px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: '20px' }}>
                             <h1 style={{ paddingLeft: '20px', paddingRight: '20px', color: '#0a66c2' }}>{t('Messaging')}</h1>
-                            <SearchInput placeHolder={t('search for a message')} value={messageSearch} ariaLabel={'Search..'} onChange={(vaalue) => setmessageSearch(vaalue)} />
+                            {chats && chats.length > 0 && (<SearchInput placeHolder={t('search for a message')} value={messageSearch} ariaLabel={'Search..'} onChange={(vaalue) => setmessageSearch(vaalue)} />
+                            )}
                         </div>
                         <img style={{ marginRight: '50px', marginLeft: '50px', cursor: 'pointer' }} width={30} height={30} src={newmsg} onClick={createNewMessage} />
                     </div>
@@ -335,8 +336,8 @@ const MessagesComponent = () => {
 
 
                     ) : (
-                        <div>
-                            <span className={globalStyles.simpleP}>    {t("There is no messages")}</span>
+                        <div style={{ background: 'white', width: '100%', display: 'flex', justifyContent: 'center' }}>
+                            <span className={globalStyles.simpleP} style={{ marginTop: '50px', marginBottom: '50px', fontSize: '35px' }}>    {t("There is no messages")}</span>
 
                         </div>
                     )}

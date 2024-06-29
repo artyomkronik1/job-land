@@ -77,6 +77,7 @@ const MainLayout = observer(() => {
         setTimeout(() => {
             UserStore.setLoading(false);
             navigate('/network')
+            UserStore.setTab('Network')
         }, 1000)
     }
     const changeLanguage = (lng: string) => {
@@ -150,8 +151,8 @@ const MainLayout = observer(() => {
                                 <PostComponen postId={post._id} gotToPostFlag={true} />)) : (
 
                                 <div style={{ border: '1px solid #c3c4c5', backgroundColor: 'white', borderRadius: '20px', padding: '10px', display: 'flex', flexDirection: 'column', gap: '30px', alignItems: 'center' }}>
-                                    <span className={globalStyles.h2}>{'There is no posts...'}</span>
-                                    <button onClick={() => goToNetwork()} className={globalStyles.btn}>{'Start follow'}</button>
+                                    <span className={globalStyles.h2}>{t('There is no posts...')}</span>
+                                    <button onClick={() => goToNetwork()} className={globalStyles.btn}>{t('Start follow')}</button>
 
                                 </div>
                             )}
