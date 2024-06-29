@@ -11,6 +11,7 @@ import { I18nextProvider } from 'react-i18next';
 import { Context } from './context'
 import firebase from 'firebase/compat/app'
 import i18n from './locales/i18n'
+import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 // firebase config and initialize 
 const firebaseConfig = {
   apiKey: "AIzaSyCdPRSZCNMWpboV-eZNzQVaLE0TeIYSd6Q",
@@ -41,3 +42,4 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+

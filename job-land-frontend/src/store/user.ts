@@ -9,10 +9,12 @@ import { Post } from "../interfaces/post";
 import MessageService from "../services/messageService";
 import AuthService from "../services/authService";
 import UserService from "../services/userService";
-import ProfileImage from "../base-components/profile-image/profile-image-component";
+import CryptoJS from "crypto-js";
 const hydrate = create({
     jsonify: true
 })
+const secretKey = 'job-land';
+
 class UserStore {
     @persist tab = "Home";
     @persist language = "en";
@@ -327,7 +329,19 @@ class UserStore {
             console.error('Error post your post:', error);
         }
     }
+    loginWithGoogle = (email: string, username: string) => {
+        this.getUsers()
+        let user: any = {}
+        this.users.forEach((u: User) => {
+            if (u.email.toString() == email.toString() && u.name.toString() == username.toString()) {
+                user = u
+            }
+        })
+        return user
+
+    }
     login = async (email: string, password: string) => {
+
         try {
             const result = await AuthService.login(email, password);
             if (result.success) {
@@ -346,6 +360,7 @@ class UserStore {
             this.setLoading(false);
             console.error('Error login:', error);
         }
+
     };
 
 }

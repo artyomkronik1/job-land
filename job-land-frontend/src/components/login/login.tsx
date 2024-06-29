@@ -15,7 +15,13 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router";
 import CryptoJS from "crypto-js";
 import loginPicture from '../../assets/images/login.png'
+
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth'; // Import the auth module explicitly
+
+
 import Spinner from "../../base-components/loading-spinner/loading-spinner";
+import { User } from '../../interfaces/user';
 const Login = observer(() => {
     //language
     const { t } = useTranslation();
@@ -69,7 +75,40 @@ const Login = observer(() => {
         UserStore.setSignedUp(false)
         UserStore.setLoggedIn(false)
     }
+    const signInWithGoogle = async () => {
+        const provider = new firebase.auth.GoogleAuthProvider();
 
+        try {
+            const result = await firebase.auth().signInWithPopup(provider);
+            if (result && result.user && result.user.email && result.user.displayName) {
+                const user: User = UserStore.loginWithGoogle(result.user.email.toString(), result.user.displayName.toString())
+                if (user && user.email && user.password) {
+                    const encryptedPassword = CryptoJS.AES.encrypt(user.password, secretKey).toString();
+                    const res = await UserStore.login(user.email, encryptedPassword)
+                    if (res?.success) {
+                        resetParameter()
+                        UserStore.setLoading(true);
+                        toast.success(t('SUCCESS'));
+                        setTimeout(() => {
+                            UserStore.setLoading(false);
+                            UserStore.setSessionKey(res.session_key)
+                            navigate('/')
+                        }, 3000);
+                    } else {
+                        toast.error(t('ERROR') + ' ' + res?.errorCode);
+                    }
+                }
+            } else {
+                toast.error(t('ERROR User is not exist'));
+            }
+
+
+            // Handle additional logic here, such as saving the user to your database or redirecting
+        } catch (error) {
+            console.error(error);
+            toast.error('Failed to sign in with Google');
+        }
+    };
     return (
 
         <>
@@ -94,7 +133,9 @@ const Login = observer(() => {
                 {/*body*/}
                 <div className={styles.body}>
                     <div className={styles.textForm}>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginBottom: '30px' }}>
+                        <div style={{
+                            display: 'flex', flexDirection: 'column', gap: '20px', marginBottom: '30px'
+                        }}>
                             <TextInputField type={'text'} placeHolder={t('Enter Your Email')} text={t('Email')} value={userEmail} onChange={handleInputChangeEmail} />
                             <TextInputField type={'text'} placeHolder={t('Enter Your Password')} text={t('Password')} value={userPassword} onChange={handleInputChangePassword} />
                         </div>
@@ -104,7 +145,7 @@ const Login = observer(() => {
                         </div>
                         <div style={{ marginTop: "40px" }} className={globalStyles.separate_line}></div>
                         <div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '30px', alignItems: 'center' }}>
-                            <img className={styles.socialMedia} src={googleIcon} />
+                            <img className={styles.socialMedia} src={googleIcon} onClick={signInWithGoogle} />
                             <p className={globalStyles.simpleP}>{t('OR')}</p>
                             <img className={styles.socialMedia} src={facebookIcon} />
                         </div>
@@ -114,7 +155,7 @@ const Login = observer(() => {
                     </div>
                     <img src={loginPicture} />
                 </div>
-            </form>
+            </form >
         </>
     );
 })

@@ -11,7 +11,7 @@ export const UserSchema = new mongoose.Schema({
     experience: { type: String, required: false },
     education: { type: String, required: false },
     profilePicture: { type: String, required: false },
-    backgroundPicture: { type: String, required: true }
+    backgroundPicture: { type: String, required: false }
 
 })
 
