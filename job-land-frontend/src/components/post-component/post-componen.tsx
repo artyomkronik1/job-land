@@ -100,11 +100,11 @@ const PostComponent = observer((props: any) => {
     useEffect(() => {
         setPost(jobsStore.getPostInfoById(postId))
     }, [editPost]);
-    const goToUserProfile = (name: string) => {
+    const goToUserProfile = (userid: string) => {
         UserStore.setLoading(true);
         setTimeout(() => {
             UserStore.setLoading(false);
-            navigate(`/profile/${name}`);
+            navigate(`/profile/${userid}`);
             UserStore.setTab("Profile")
         }, 1000)
     }
@@ -187,7 +187,7 @@ const PostComponent = observer((props: any) => {
 
                     <div className={componentStyles.postContainer} style={{ alignSelf: 'center', width: '100%' }} onClick={() => goToPost(post)}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                            <div className={componentStyles.postContainer__header} onClick={() => goToUserProfile(post.writer_name)}>
+                            <div className={componentStyles.postContainer__header} onClick={() => goToUserProfile(post.employee_id)}>
                                 <ProfileImage user={UserStore.getUserInfoById(post.employee_id)} />
                                 <div className={componentStyles.postContainer__header__details}>
                                     <span style={{ fontSize: '20px', color: '#1c1c39' }}> {post.writer_name}</span>
@@ -237,7 +237,7 @@ const PostComponent = observer((props: any) => {
 
                                 {/* All comments */}
                                 {post.comments.length > 0 && (
-                                    <div style={{ maxHeight: '350px', overflowY: 'scroll' }}>
+                                    <div style={{ marginTop: '20px', maxHeight: '350px', overflowY: 'scroll' }}>
                                         {post.comments.map((comment: comment, index) => (
                                             <div key={index} style={{ display: 'flex', gap: '10px', marginTop: '10px', marginBottom: '50px' }}>
                                                 <ProfileImage user={UserStore.getUserInfoById(comment.by)} />
