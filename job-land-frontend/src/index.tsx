@@ -8,21 +8,33 @@ import { Global } from '@emotion/react';
 import globals from './assets/global-styles/globals';
 import UserStore from './store/user'
 import { I18nextProvider } from 'react-i18next';
-import {Context} from './context'
+import { Context } from './context'
+import firebase from 'firebase/compat/app'
 import i18n from './locales/i18n'
+// firebase config and initialize 
+const firebaseConfig = {
+  apiKey: "AIzaSyCdPRSZCNMWpboV-eZNzQVaLE0TeIYSd6Q",
+  authDomain: "job-land-fbf1b.firebaseapp.com",
+  projectId: "job-land-fbf1b",
+  storageBucket: "job-land-fbf1b.appspot.com",
+  messagingSenderId: "244318148604",
+  appId: "1:244318148604:web:df3340efb08628b8404479",
+  measurementId: "G-RNXP3F3FXV"
+};
+firebase.initializeApp(firebaseConfig)
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
 
-      <React.StrictMode>
-          <I18nextProvider i18n={i18n}>
-          <Global styles={globals} />
-          <Context.Provider value={UserStore}>
-           <App />
-          </Context.Provider>
-          </I18nextProvider>
-      </React.StrictMode>
+  <React.StrictMode>
+    <I18nextProvider i18n={i18n}>
+      <Global styles={globals} />
+      <Context.Provider value={UserStore}>
+        <App />
+      </Context.Provider>
+    </I18nextProvider>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

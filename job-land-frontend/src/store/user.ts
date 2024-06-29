@@ -9,6 +9,7 @@ import { Post } from "../interfaces/post";
 import MessageService from "../services/messageService";
 import AuthService from "../services/authService";
 import UserService from "../services/userService";
+import ProfileImage from "../base-components/profile-image/profile-image-component";
 const hydrate = create({
     jsonify: true
 })
@@ -119,11 +120,31 @@ class UserStore {
         return Object.values(chats).map((messages) => ({ messages }));
     };
 
-    async uploadProfilePicture(formData: any, user: User) {
+    async uploadProfilePicture(downloadURL: string, user: User) {
+        const updatedUser: User = { ...user, profilePicture: downloadURL };
+        this.setUser(updatedUser)
+        this.users.forEach((u: User) => {
+            if (u.id == user.id) {
+                u.profilePicture = downloadURL
+
+            }
+        })
+        UserService.setUserInfo(updatedUser)
+        //    await this.getUsers()
+
 
 
     }
-    async uploadBackgroundPicture(formData: any) {
+    async uploadBackgroundPicture(downloadURL: string, user: User) {
+        const updatedUser: User = { ...user, backgroundPicture: downloadURL };
+        this.setUser(updatedUser)
+        this.users.forEach((u: User) => {
+            if (u.id == user.id) {
+                u.backgroundPicture = downloadURL
+            }
+        })
+        UserService.setUserInfo(updatedUser)
+        //await this.getUsers()
 
 
     }

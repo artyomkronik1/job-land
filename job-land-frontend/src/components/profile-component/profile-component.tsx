@@ -50,7 +50,9 @@ const ProfileComponent = observer(() => {
     const { t } = useTranslation();
     const { i18n } = useTranslation();
     const [usersPosts, setusersPosts] = useState([]);
-    const [showPicturePopup, setshowPicturePopup] = useState('');
+    const [showPicturePopup, setshowPicturePopup] = useState(false);
+    const [pictureToEdit, setpictureToEdit] = useState('');
+
     const [isProfilePic, setisProfilePic] = useState(false);
 
     // update every 5 minutes the posts
@@ -95,11 +97,13 @@ const ProfileComponent = observer(() => {
         }
     }
     const editPicture = (pic: string, isProfile: boolean) => {
-        setshowPicturePopup(pic)
+        setshowPicturePopup(true)
+        setpictureToEdit(pic)
         setisProfilePic(isProfile)
     }
     const closeeditPicture = () => {
-        setshowPicturePopup('')
+        setshowPicturePopup(false)
+        setpictureToEdit('')
         setisProfilePic(false)
     }
     return (
@@ -115,8 +119,8 @@ const ProfileComponent = observer(() => {
             )}
 
 
-            {showPicturePopup.length > 0 && (
-                <PicturePopup isProfile={isProfilePic} onClose={closeeditPicture} picture={showPicturePopup} isOpen={showPicturePopup.length > 0} />
+            {showPicturePopup && (
+                <PicturePopup isProfile={isProfilePic} onClose={closeeditPicture} picture={pictureToEdit} isOpen={showPicturePopup} />
             )}
 
             <div dir={UserStore.getLanguage() == 'en' ? 'ltr' : 'rtl'}>

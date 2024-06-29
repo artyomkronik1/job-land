@@ -10,7 +10,7 @@ export const UserSchema = new mongoose.Schema({
     about: { type: String, required: false },
     experience: { type: String, required: false },
     education: { type: String, required: false },
-    profilePicture: { type: String, required: true },
+    profilePicture: { type: String, required: false },
     backgroundPicture: { type: String, required: true }
 
 })
