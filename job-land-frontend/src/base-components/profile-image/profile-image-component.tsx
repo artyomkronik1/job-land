@@ -54,7 +54,7 @@ const ProfileImage = (props: profileProps) => {
                 </div>
             ) :
 
-                <img src={props.user.profilePicture} style={{ width: props.size == 'big' ? '150px' : '50px', borderRadius: '50%' }} />
+                <img src={props.user.profilePicture} style={{ width: props.size == 'big' ? '150px' : '50px', height: props.size == 'big' ? '150px' : '50px', borderRadius: '50%' }} />
 
             }
         </>
