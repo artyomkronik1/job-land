@@ -54,9 +54,16 @@ const StartPostDialog = (props: postProps) => {
         } else {
             const res = await UserStore.post(title, UserStore.user.id, description, UserStore.user.name);
             if (res?.success) {
-                toast.success(t('SUCCESS'));
+
+                UserStore.setLoading(true);
+                setTimeout(() => {
+                    UserStore.setLoading(false);
+                    jobsStore.getAllPosts();
+                    toast.success(t('SUCCESS'));
+                }, 1000)
+
                 // Update posts with new post
-                await jobsStore.getAllPosts();
+
             } else {
                 toast.error(t('ERROR!') + ' ' + res?.errorCode);
             }
@@ -90,7 +97,7 @@ const StartPostDialog = (props: postProps) => {
                         <ProfileImage user={UserStore.user} />
                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
                             <span style={{ fontSize: '20px' }} className={globalStyles.mainGreySpan}>{UserStore.user.name}</span>
-                            <span style={{ fontSize: '18px', fontWeight: 'normal', color: '#79797a' }} className={globalStyles.mainGreySpan}>{UserStore.user.about}</span>
+                            <span style={{ fontSize: '18px', fontWeight: 'normal', color: '#79797a', overflow: 'hidden', maxWidth: '100%' }} className={globalStyles.mainGreySpan}>{UserStore.user.about}</span>
                         </div>
                     </div>
 
@@ -104,8 +111,10 @@ const StartPostDialog = (props: postProps) => {
                         <button style={{ width: '80px' }} onClick={post} className={globalStyles.btn}>{t('Post')}</button>
                     </div>
                 </div>
+                <ToastComponent />
             </Popup>
             <WarningPopup isOpen={showWarningPopup && description.length > 0} onClose={() => closeFinalyDialog} onConfirm={() => props.onClose(false)} onCancel={() => setshowWarningPopup(false)} warningText={t('Are you sure?')} />
+
         </>
     );
 };

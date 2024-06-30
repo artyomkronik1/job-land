@@ -126,7 +126,7 @@ class JobsStore {
                 const postsFollowedbyUser = result.data.posts.filter((post: Post) => {
                     return UserStore.user.follow.includes(post.employee_id) || UserStore.user.id == post.employee_id;
                 });
-                this.setfollowPosts(postsFollowedbyUser)
+                this.setfollowPosts(postsFollowedbyUser.reverse())
             }
             else {
                 this.setfollowPosts([])

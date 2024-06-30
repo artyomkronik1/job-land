@@ -325,7 +325,7 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                                         <div className={styles.messageContainerMain}>
                                                             <ProfileImage user={UserStore.user} />
                                                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-around' }}>
-                                                                <span className={styles.simpleP}> {UserStore.getUser().name}</span>
+                                                                <span className={styles.simpleP} style={{ wordBreak: 'break-word', overflow: 'hidden' }}> {UserStore.getUser().name}</span>
                                                                 <span style={{ fontSize: '16px', fontWeight: 'normal', maxHeight: '20px', overflow: 'hidden', wordBreak: 'break-word' }} className={styles.simpleP}> {UserStore.getUser().about}</span>
                                                             </div>
                                                         </div>

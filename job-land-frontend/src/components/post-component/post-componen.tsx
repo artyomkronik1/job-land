@@ -229,12 +229,19 @@ const PostComponent = observer((props: any) => {
                         {commentFlag && (
                             <div onClick={(event) => event.stopPropagation()}>
                                 {/*    users comments*/}
-                                <div style={{ marginTop: '30px', background: 'white', display: 'flex', width: '100%', justifyContent: 'start', gap: '10px' }}>
+                                <div style={{ marginTop: '30px', background: 'white', display: 'flex', width: '100%', justifyContent: 'start', gap: '10px', alignItems: 'center' }}>
                                     <ProfileImage user={UserStore.user} />
-                                    <TextInputField background={'grey'} type={'text'} placeHolder={t('Add a comment')} text={t('')} value={usersCommentOnPost} onChange={addComment} />
-                                    {usersCommentOnPost.length > 0 && (
-                                        <button className={globalStyles.btn} onClick={postComment} style={{ marginTop: '5px', width: '70px', height: '40px', }}> {t('post')}</button>
-                                    )}
+                                    <div style={{ width: '70%', display: 'flex', justifyContent: 'start', alignItems: 'center', gap: '10px' }}>
+                                        <div >
+                                            <TextInputField size={'small'} background={'grey'} type={'text'} placeHolder={t('Add a comment')} text={t('')} value={usersCommentOnPost} onChange={addComment} />
+                                        </div>
+                                        {usersCommentOnPost.length > 0 && (
+                                            <div>
+                                                <button className={globalStyles.btn} onClick={postComment} style={{ marginTop: '5px', width: '70px', height: '40px', }}> {t('post')}</button>
+                                            </div>
+                                        )}
+                                    </div>
+
                                 </div>
 
                                 {/* All comments */}
