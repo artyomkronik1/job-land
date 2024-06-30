@@ -195,7 +195,7 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                                 <SearchInput placeHolder={t('search...')} value={useSearchValue} ariaLabel={'Search..'} onChange={(vaalue) => setSearchValue(vaalue)} />
                                             </div>
                                             {/*user side*/}
-                                            <div style={{ display: 'flex', gap: '50px', alignItems: 'center' }}>
+                                            <div className={styles.rightHeader_right} style={{ display: 'flex', gap: '50px', alignItems: 'center', justifyContent: 'end', position: 'absolute' }}>
                                                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                                     <DropDown options={['Profile', 'Logout']} changeDropValue={getSettingAction} icons={['fa fa-user-circle', 'fa fa-sign-out']}>
 
@@ -215,7 +215,7 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                         </div>
                                         {/*main context*/}
                                         <div className={styles.right_main}>
-                                            <div className={styles.right_main_main}>
+                                            <div className={styles.right_main_main} style={{ marginTop: '50px' }}>
                                                 {props.children}
                                             </div>
                                             {/*messages*/}

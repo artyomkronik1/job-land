@@ -228,6 +228,8 @@ $blackColor: rgb(0 0 0/.9);
 }
 
 .right_header {
+  position: fixed;
+  width: 100%;
   z-index: 101;
   background-color: white;
   border-bottom: 2px solid $thirdColor;
@@ -237,10 +239,23 @@ $blackColor: rgb(0 0 0/.9);
   padding-top: 10px;
   gap: 50px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+
   //position: fixed;
   // width: 87% ;
+
+}
+
+[dir="ltr"] {
+  .rightHeader_right {
+    right: 170px;
+  }
+}
+
+[dir="rtl"] {
+  .rightHeader_right {
+    left: 235px;
+  }
 }
 
 .right_main {

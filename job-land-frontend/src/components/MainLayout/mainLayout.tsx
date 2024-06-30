@@ -98,7 +98,7 @@ const MainLayout = observer(() => {
                             <div onClick={startPost} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                 <ProfileImage user={UserStore.user} />
                                 <div style={{ display: 'flex', justifyContent: 'start', padding: '10px 20px', borderRadius: '20px', border: '1px solid #a9acb1', backgroundColor: 'white', flex: '1 1 auto' }}>
-                                    <span style={{ color: '#a9acb1', fontSize: '19px', fontWeight: 'bold' }}> {t('Start a post...')}</span>
+                                    <span style={{ color: 'rgb(118 120 125)', fontSize: '19px', fontWeight: 'normal' }}> {t('Start a post...')}</span>
                                 </div>
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
