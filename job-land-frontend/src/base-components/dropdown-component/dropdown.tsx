@@ -24,12 +24,12 @@ const DropDown = (props: DropdownProps) => {
         };
     }, []);
     const dropDownOptions = props.options.map((value, index) => (
-        <div key={index} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} className={styles.dropdownOption}>
+        <div onClick={() => props.changeDropValue(value)} key={index} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} className={styles.dropdownOption}>
             {props.icons ? (
                 <i className={`${props.icons[index]}`}></i>
             ) : (null)}
 
-            <li key={index} onClick={() => props.changeDropValue(value)} >{t(value)}</li>
+            <li key={index}  >{t(value)}</li>
         </div>
     ))
     return (
