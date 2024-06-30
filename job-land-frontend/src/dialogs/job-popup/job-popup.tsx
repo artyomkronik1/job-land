@@ -77,7 +77,7 @@ const JobPopup = (props: jobPopupProps) => {
 
     return (
         <>
-            <Popup >
+            <Popup popupTitle='Job details' width='100vh'>
                 <ToastComponent />
                 <div ref={dialogRef} className={styles.main}>
                     <div className={styles.main__header}>
@@ -142,7 +142,7 @@ const JobPopup = (props: jobPopupProps) => {
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <div className={globalStyles.separate_line_grey}></div>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'end', flex: '1 1 auto' }}>
+                    <div style={{ display: 'flex', justifyContent: 'end', flex: '1 1 auto', marginTop: '20px' }}>
                         <button style={{ width: '80px' }} className={globalStyles.btn} onClick={handleUpload}>
                             {t('Apply')}
                         </button>

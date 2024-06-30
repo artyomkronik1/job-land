@@ -79,6 +79,23 @@ const EditProfileDialog = (props: editProfileProps) => {
         setHasChanges(true); // Set changes flag when about changes
     };
 
+    const handleChangeExperience = (event: any) => {
+        setprofileInEdit({
+            ...profileInEdit,
+            experience: event,
+        });
+        setHasChanges(true); // Set changes flag when about changes
+    };
+
+
+    const handleChangeEduacation = (event: any) => {
+        setprofileInEdit({
+            ...profileInEdit,
+            education: event,
+        });
+        setHasChanges(true); // Set changes flag when about changes
+    };
+
 
     // listening when user click outside of popup so close it
     useEffect(() => {
@@ -95,28 +112,40 @@ const EditProfileDialog = (props: editProfileProps) => {
     return (
         <>
 
-            <Popup >
+            <Popup popupTitle='Profile details' width='100vh'>
                 <ToastComponent />
                 <div ref={dialogRef} className={styles.main}>
                     <div className={styles.main__header}>
                         {/* <ProfileImage name={profileInEdit.name}/> */}
-                        <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ marginTop: '10px', display: 'flex', flexDirection: 'column', gap: '40px', width: '95%' }}>
                             {/*name*/}
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
-                                <TextInputField type={'text'} placeHolder={t('Enter Your Full Name')} text={t('Full Name')} value={profileInEdit.name} onChange={handleChangeName} />
+                                <TextInputField size={'small'} type={'text'} placeHolder={t('Enter Your Full Name')} text={t('Full Name')} value={profileInEdit.name} onChange={handleChangeName} />
                             </div>
                             {/*about*/}
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
-                                <TextInputField type={'text'} placeHolder={t('Enter About Yourself')} text={t('About')} value={profileInEdit.about} onChange={handleChangeAbout} />
+                                <TextInputField size={'small'} type={'text'} placeHolder={t('Enter About Yourself')} text={t('About')} value={profileInEdit.about} onChange={handleChangeAbout} />
                             </div>
 
 
+                            {/*exoerience*/}
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
+                                <TextInputField size={'small'} type={'text'} placeHolder={t('Enter About Your Experience')} text={t('Experience')} value={profileInEdit.experience} onChange={handleChangeExperience} />
+                            </div>
+
+
+
+                            {/*education*/}
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
+                                <TextInputField size={'small'} type={'text'} placeHolder={t('Enter About Your Education')} text={t('Education')} value={profileInEdit.education} onChange={handleChangeEduacation} />
+                            </div>
+
                         </div>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
                         <div className={globalStyles.separate_line_grey}></div>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'end', flex: '1 1 auto' }}>
+                    <div style={{ display: 'flex', justifyContent: 'end', flex: '1 1 auto', marginTop: '20px' }}>
                         <button style={{ width: '80px' }} onClick={saveSettings} className={globalStyles.btn}>{t('Save')}</button>
                     </div>
                 </div>

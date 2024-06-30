@@ -170,7 +170,7 @@ const JobsComponent = observer(() => {
                     <div style={{ width: '80%' }} className={globalStyles.separate_line_grey}> </div>
 
                     {/* job input search */}
-                    <div style={{ marginBottom: '30px', display: 'flex', justifyContent: 'start', gap: '20px' }}>
+                    <div style={{ marginBottom: '30px', display: 'flex', justifyContent: 'start', gap: '20px', marginTop: '20px' }}>
                         <div style={{ display: 'flex', flexDirection: 'column' }}>
                             <SearchInput placeHolder={t('title, skill or company')} value={searchJobName} ariaLabel={'Search..'} onChange={(vaalue) => setsearchJobName(vaalue)} />
 

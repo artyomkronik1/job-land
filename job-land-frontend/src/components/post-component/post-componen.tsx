@@ -195,7 +195,9 @@ const PostComponent = observer((props: any) => {
                                 </div>
                             </div>
                             {UserStore.user.id == post.employee_id && (
-                                <img onClick={(event) => openEditingPost(event, post)} src={editImg} style={{ width: '20px', height: '20px', padding: '10px', cursor: 'pointer' }} />
+                                <div style={{ width: '30px', height: '30px', display: 'flex', borderRadius: '50%', border: '1px solid black' }}>
+                                    <img onClick={(event) => openEditingPost(event, post)} src={editImg} style={{ padding: '5px', cursor: 'pointer' }} />
+                                </div>
                             )}
                         </div>
 

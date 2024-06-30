@@ -83,7 +83,7 @@ const StartPostDialog = (props: postProps) => {
 
     return (
         <>
-            <Popup>
+            <Popup popupTitle='New post' width='90vh'>
                 <ToastComponent />
                 <div ref={dialogRef} className={styles.main}>
                     <div className={styles.main__header} style={{ marginBottom: '30px' }}>

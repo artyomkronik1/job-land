@@ -12,27 +12,31 @@
   justify-content: center;
   align-items: center;
 }
-.dialogContent_small{
+
+.dialogContent_small {
   overflow-y: scroll;
-  max-height:90vh;
+  max-height: 90vh;
   background: #fff;
-  padding: 15px;
+  //padding: 15px;
   width: 55vh;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
 }
+
 .dialogContent {
   overflow-y: scroll;
-  max-height:90vh;
+  max-height: 90vh;
   background: #fff;
-  padding: 15px;
-  width: 85vh;
+  //padding: 15px;
+  max-width: 85vh;
   border-radius: 8px;
   display: flex;
-flex-direction: column;
+  flex-direction: column;
 }
-.closeIcon{
+
+.closeIcon {
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -42,7 +46,9 @@ flex-direction: column;
   border-radius: 50%;
   height: 50px;
 }
-.closeIcon:hover{
-  color:black;
- background-color:$thirdColor ;
+
+.closeIcon:hover {
+  cursor: pointer;
+  color: black;
+  background-color: $thirdColor ;
 }

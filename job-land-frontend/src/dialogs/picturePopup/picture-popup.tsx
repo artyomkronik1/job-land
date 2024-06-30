@@ -156,7 +156,7 @@ const PicturePopup = (props: PicturePopupProps) => {
 
 	return (
 		<div style={{ overflow: 'hidden' }}>
-			<Popup>
+			<Popup popupTitle='' width='50vh'>
 				<ToastComponent />
 				<div ref={dialogRef} className={styles.main} style={{ marginTop: '50px', overflow: 'none', justifyContent: 'center', height: '100%', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 					{updatedPicture.length > 0 ? (
@@ -194,7 +194,7 @@ const PicturePopup = (props: PicturePopupProps) => {
 					}
 
 					<div style={{ display: 'flex', justifyContent: 'center', gap: '50px' }}>
-						<div className={styles.settings} onClick={triggerFileInput} >
+						<div className={styles.settings} onClick={triggerFileInput} style={{ gap: '8px' }} >
 							<img src={addPhoto} style={{ width: '25px' }} />
 							<span className={globalstyles.mainGreySpan}> {t('add photo')}</span>
 						</div>

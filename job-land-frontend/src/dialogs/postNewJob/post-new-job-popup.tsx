@@ -132,17 +132,13 @@ const PostNewJobPopup = (props: postNewJobPopup) => {
     return (
         <>
 
-            <Popup onClose={closeDialog}>
+            <Popup width='85vh' popupTitle='Job Information' onClose={closeDialog}>
                 <ToastComponent />
-                <div ref={dialogRef} className={styles.main}>
-                    <div className={styles.main__header}>
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
-                            <span style={{ fontSize: '26px', color: '#0a66c2' }} className={globalStyles.mainGreySpan}>{t('Job Information')}</span>
-                        </div>
-                    </div>
+                <div ref={dialogRef} className={styles.main} >
 
 
-                    <div className={styles.main__header__body} style={{ marginTop: '40px', display: 'flex', width: '100%', justifyContent: 'space-around', flexDirection: 'row' }} >
+
+                    <div className={styles.main__header__body} style={{ marginTop: '0px', display: 'flex', width: '100%', justifyContent: 'space-around', flexDirection: 'row' }} >
 
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                             <TextInputField type={'text'} size={'small'} placeHolder={'job title'} text={t('Job Title')} value={title} onChange={handleChangeTitle} />

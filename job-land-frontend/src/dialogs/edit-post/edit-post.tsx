@@ -84,7 +84,7 @@ const EditPost = (props: editPostProps) => {
 
     return (
         <>
-            <Popup >
+            <Popup popupTitle='Post details' width='100vh'>
                 <ToastComponent />
                 <div ref={dialogRef} className={styles.main}>
                     <div className={styles.main__header} style={{ marginBottom: '30px' }}>
@@ -123,7 +123,7 @@ const EditPost = (props: editPostProps) => {
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'end', flex: '1 1 auto' }}>
                         <button style={{ width: '80px' }} onClick={post} className={globalStyles.btn}>
-                            {t('Post')}
+                            {t('Save')}
                         </button>
                     </div>
                 </div>
