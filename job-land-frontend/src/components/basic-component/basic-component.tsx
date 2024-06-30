@@ -326,7 +326,7 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                                             <ProfileImage user={UserStore.user} />
                                                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-around' }}>
                                                                 <span className={styles.simpleP}> {UserStore.getUser().name}</span>
-                                                                <span style={{ fontSize: '16px', fontWeight: 'normal' }} className={styles.simpleP}> {UserStore.getUser().about}</span>
+                                                                <span style={{ fontSize: '16px', fontWeight: 'normal', maxHeight: '20px', overflow: 'hidden', wordBreak: 'break-word' }} className={styles.simpleP}> {UserStore.getUser().about}</span>
                                                             </div>
                                                         </div>
                                                     </div>

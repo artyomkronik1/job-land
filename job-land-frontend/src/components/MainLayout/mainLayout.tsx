@@ -80,42 +80,8 @@ const MainLayout = observer(() => {
             UserStore.setTab('Network')
         }, 1000)
     }
-    const changeLanguage = (lng: string) => {
-        UserStore.setLanguage(lng)
-        i18n.changeLanguage(lng);
-    };
 
 
-    const goToUserProfile = (event: any, name: string) => {
-        event.stopPropagation(); // Prevent the click from propagating to the outer container
-
-        event.preventDefault();
-        setgoToProfileFlag(true)
-        UserStore.setLoading(true);
-        setTimeout(() => {
-            UserStore.setLoading(false);
-            navigate(`/profile/${name}`);
-            UserStore.setTab("Profile")
-        }, 1000)
-    }
-
-    const goToPost = (post: Post) => {
-        if (!goToProfileFlag) {
-            UserStore.setLoading(true);
-            setTimeout(() => {
-                UserStore.setLoading(false);
-                navigate(`/posts/${post._id}`);
-                UserStore.setTab("Home")
-            }, 1000)
-        }
-    }
-
-    const setLikeOnPost = (event: any, post: Post) => {
-
-        event.stopPropagation();
-        jobsStore.setLikeOnPost(post, UserStore.user.id, post.likedBy.includes(UserStore.user.id))
-        setlike(!likeFlag)
-    }
     return (
         <>
 

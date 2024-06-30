@@ -147,16 +147,18 @@ const ProfileComponent = observer(() => {
                             <div style={{ width: '30px', right: '0px', top: '25px', background: 'white', height: '30px', position: 'absolute', display: 'flex', borderRadius: '50%', border: '1px solid black' }}>
                                 <img onClick={editProfile} src={editImg} style={{ padding: '5px', cursor: 'pointer' }} />
                             </div>
-                            <div style={{ flexDirection: 'row', gap: '10px', alignItems: 'center', display: 'flex' }}>
-                                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                    <span className={styles.mainSpan} style={{ fontSize: '25px' }}>{user.name}</span>
-                                    <span className={styles.mainSpan} style={{ fontSize: '18px' }}>{user.about}</span>
+                            <div style={{ justifyContent: 'space-between', marginTop: '20px', display: 'flex', flexDirection: 'row', width: '100%', alignItems: 'center' }}>
+                                <div style={{ display: 'flex', maxWidth: '70%', flexDirection: 'column', alignItems: 'flex-start' }}>
+                                    <span className={styles.mainSpan} style={{ wordBreak: 'break-word', fontSize: '25px' }}>{user.name}</span>
+                                    <span className={styles.mainSpan} style={{ maxHeight: '30px', width: '100%', overflow: 'hidden', wordBreak: 'break-word', fontSize: '18px' }}>{user.about}</span>
+                                </div>
+
+                                <div style={{ display: 'flex', width: '30%', flexDirection: 'column', gap: '5px', alignItems: 'end' }}>
+                                    <span className={styles.mainSpan} style={{ maxHeight: '30px', wordBreak: 'break-word', display: 'flex', overflow: 'hidden', justifyContent: 'center', width: '50%', fontSize: '18px' }}>{user.experience}</span>
+                                    <span className={styles.mainSpan} style={{ maxHeight: '30px', wordBreak: 'break-word', fontSize: '18px', overflow: 'hidden', justifyContent: 'center', width: '50%' }}>{user.education}</span>
                                 </div>
                             </div>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', }}>
-                                <span>last experience</span>
-                                <span>last education</span>
-                            </div>
+
                         </div>
                     </div>
                     {/*separate line*/}
