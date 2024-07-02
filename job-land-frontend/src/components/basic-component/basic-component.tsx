@@ -26,6 +26,7 @@ import globalStyles from "../../assets/global-styles/styles.module.scss";
 import TextAreaComponent from "../../base-components/textArea/text-area-component";
 import MessageService from "../../services/messageService";
 import PostNewJobPopup from "../../dialogs/postNewJob/post-new-job-popup";
+import ForgotPassComponent from "../forgotPass-component/forgotPass-component";
 
 export interface basicComponentProps {
     children: ReactNode;
@@ -64,6 +65,10 @@ const BasicComponent = observer((props: basicComponentProps) => {
         }, 1000)
 
     }
+    // setting chats -- updating
+    useEffect(() => {
+        setChats(UserStore.getChats())
+    }, []);
     // message box
     const [messageBoxIsOpen, setmessageBoxIsOpen] = useState(false);
     // search
@@ -173,6 +178,7 @@ const BasicComponent = observer((props: basicComponentProps) => {
             )}
             {!UserStore.loading ? (
                 <>
+
                     {UserStore.loggedIn && UserStore.signedUp ? (
                         <div dir={UserStore.getLanguage() == 'en' ? 'ltr' : 'rtl'}>
                             {UserStore.getSessionKey() ? (
@@ -228,9 +234,9 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                                                 <div onClick={() => goToUserProfile(UserStore.getUserInfoById(activeChat.messages[0].sender)?.name != UserStore.user.name ? UserStore.getUserInfoById(activeChat.messages[0].sender)?.name : UserStore.getUserInfoById(activeChat.messages[0].receiver)?.name)}>
                                                                     <ProfileImage user={UserStore.getUserInfoById(activeChat.messages[0].sender)?.name != UserStore.user.name ? UserStore.getUserInfoById(activeChat.messages[0].sender) : UserStore.getUserInfoById(activeChat.messages[0].receiver)} />
                                                                 </div>
-                                                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-around', gap: '10px' }}>
+                                                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-around', gap: '5px' }}>
                                                                     <span className={styles.simpleP}> {UserStore.getUserInfoById(activeChat.messages[0].sender)?.name != UserStore.user.name ? UserStore.getUserInfoById(activeChat.messages[0].sender)?.name : UserStore.getUserInfoById(activeChat.messages[0].receiver)?.name}</span>
-                                                                    <span style={{ fontSize: '16px', fontWeight: 'normal' }} className={styles.simpleP}> {UserStore.getUserInfoById(activeChat.messages[0].sender)?.name != UserStore.user.name ? UserStore.getUserInfoById(activeChat.messages[0].sender)?.about : UserStore.getUserInfoById(activeChat.messages[0].receiver)?.about}</span>
+                                                                    <span style={{ fontSize: '16px', fontWeight: 'normal', wordBreak: 'break-word', overflow: 'hidden', maxHeight: '30px' }} className={styles.simpleP}> {UserStore.getUserInfoById(activeChat.messages[0].sender)?.name != UserStore.user.name ? UserStore.getUserInfoById(activeChat.messages[0].sender)?.about : UserStore.getUserInfoById(activeChat.messages[0].receiver)?.about}</span>
                                                                 </div>
                                                             </div>
                                                             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }} onClick={() => closeActiveChat()}> <img src={x} className={styles.x_image} /></div>
@@ -304,7 +310,7 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                                                             <ProfileImage user={chat.messages[0].sender != UserStore.user.id ? UserStore.getUserInfoById(chat.messages[0].sender) : UserStore.getUserInfoById(chat.messages[0].receiver)} />
                                                                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', justifyContent: 'space-around' }}>
                                                                                 <span className={styles.simpleP}> {chat.messages[0].sender != UserStore.user.id ? UserStore.getUserNameById(chat.messages[0].sender) : UserStore.getUserNameById(chat.messages[0].receiver)}</span>
-                                                                                <span style={{ fontSize: '16px', fontWeight: 'normal' }} className={styles.simpleP}> {chat.messages[0].sender != UserStore.user.id ? UserStore.getUserInfoById(chat.messages[0].sender).about : UserStore.getUserInfoById(chat.messages[0].receiver).about}</span>
+                                                                                <span style={{ fontSize: '16px', fontWeight: 'normal', wordBreak: 'break-word', overflow: 'hidden', maxHeight: '20px' }} className={styles.simpleP}> {chat.messages[0].sender != UserStore.user.id ? UserStore.getUserInfoById(chat.messages[0].sender).about : UserStore.getUserInfoById(chat.messages[0].receiver).about}</span>
                                                                             </div>
                                                                         </div>
                                                                         {UserStore.getLanguage() == 'en' ? (<i style={{ color: '#0a66c2', fontSize: '30px' }} className="fa fa-arrow-circle-right" ></i>)
@@ -340,8 +346,11 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                 <Login />
                             }
                         </div >
-                    ) : UserStore.loggedIn === false && UserStore.signedUp ? (<Login />)
-                        : (<SignIn />)}
+                    ) : UserStore.loggedIn === false && UserStore.forgotPass ? (<ForgotPassComponent />)
+
+
+                        : UserStore.loggedIn === false && UserStore.signedUp ? (<Login />)
+                            : (<SignIn />)}
                 </>
             ) : (<Spinner />)}
         </>

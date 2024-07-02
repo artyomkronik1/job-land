@@ -21,6 +21,7 @@ class UserStore {
     @persist loading = false;
     @persist loggedIn = false;
     @persist signedUp = true;
+    @persist forgotPass = false;
     @persist('object') @observable users: User[] = [];
     @persist('object') @observable chats: Chat[] = []
     @persist('object') @observable posts: Post[] = []
@@ -42,6 +43,9 @@ class UserStore {
     }
     getTab() {
         return this.tab;
+    }
+    getForgotPass() {
+        return this.forgotPass;
     }
     getChats() {
         return this.chats
@@ -81,6 +85,9 @@ class UserStore {
     }
     setLoading(loading: boolean) {
         this.loading = loading
+    }
+    setForgotPass(pass: boolean) {
+        this.forgotPass = pass
     }
     setLanguage(lan: string) {
         this.language = lan;
@@ -167,6 +174,11 @@ class UserStore {
     getUserNameById = (id: string): string => {
         const user = this.users.find(user => user.id == id);
         return user ? user.name : '';
+
+    }
+    getUserByEmail = (email: string): any => {
+        const user = this.users.find(user => user.email == email.toString());
+        return user;
 
     }
     // @ts-ignore

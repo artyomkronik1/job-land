@@ -116,6 +116,11 @@ const Login = observer(() => {
             toast.error('Failed to sign in with Google');
         }
     };
+    const goToForgotPass = () => {
+        UserStore.setForgotPass(true)
+
+        navigate('/forgotPass')
+    }
     return (
 
         <>
@@ -146,7 +151,7 @@ const Login = observer(() => {
                             <TextInputField type={'text'} placeHolder={t('Enter Your Email')} text={t('Email')} value={userEmail} onChange={handleInputChangeEmail} />
                             <TextInputField type={'text'} placeHolder={t('Enter Your Password')} text={t('Password')} value={userPassword} onChange={handleInputChangePassword} />
                         </div>
-                        <a className={globalStyles.mainSpan}>{t('Forgot your password?')}</a>
+                        <a className={globalStyles.mainSpan} onClick={() => goToForgotPass()} style={{ cursor: 'pointer' }}>{t('Forgot your password?')}</a>
                         <div style={{ marginTop: "15px", display: "flex", justifyContent: "center" }}>
                             <button className={globalStyles.btn} onClick={login}> {t('Sign In')}</button>
                         </div>

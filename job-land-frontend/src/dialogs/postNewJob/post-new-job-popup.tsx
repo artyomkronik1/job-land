@@ -132,15 +132,19 @@ const PostNewJobPopup = (props: postNewJobPopup) => {
     return (
         <>
 
-            <Popup width='85vh' popupTitle='Job Information' onClose={closeDialog}>
+            <Popup width='100vh' popupTitle='Job Information' onClose={closeDialog}>
                 <ToastComponent />
                 <div ref={dialogRef} className={styles.main} >
 
 
 
-                    <div className={styles.main__header__body} style={{ marginTop: '0px', display: 'flex', width: '100%', justifyContent: 'space-around', flexDirection: 'row' }} >
+                    <div className={styles.main__header__body} style={{
+                        marginTop: '0px', display: 'flex', width: '100%', flexDirection: 'row', justifyContent: 'start',
+                        paddingLeft: '60px',
+                        paddingRight: '60px', gap: '80px'
+                    }} >
 
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '35%' }}>
                             <TextInputField type={'text'} size={'small'} placeHolder={'job title'} text={t('Job Title')} value={title} onChange={handleChangeTitle} />
                             <TextInputField type={'text'} size={'small'} placeHolder={'job zone'} text={t('Job Zone')} value={zone} onChange={handleChangeZone} />
                             <TextInputField type={'number'} size={'small'} placeHolder={'job salary'} text={t('Job Salary')} value={salary} onChange={handleChangeSalary} />
@@ -148,7 +152,7 @@ const PostNewJobPopup = (props: postNewJobPopup) => {
 
                         </div>
 
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '35%' }}>
                             <TextInputField type={'text'} size={'small'} placeHolder={'job description'} text={t('Job Description')} value={description} onChange={handleChangeDescription} />
                             <TextInputField type={'text'} size={'small'} placeHolder={'job proffesion'} text={t('Job Proffesion')} value={proffesion} onChange={handleChangeProffesion} />
                             <TextInputField type={'text'} size={'small'} placeHolder={'job company'} text={t('Job Company')} value={companyName} onChange={handleChangeCompany} />
