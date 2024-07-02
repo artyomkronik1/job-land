@@ -88,7 +88,7 @@ const MessagesComponent = () => {
 
         setnewMessage(true)
         setnewChatFlag(false)
-
+        console.log('a')
 
         setOpenChat({ _id: "", messages: [] })
     }
@@ -240,7 +240,7 @@ const MessagesComponent = () => {
                                                                                 <ProfileImage user={user} />
                                                                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'start' }}>
                                                                                     <span style={{ fontSize: '15px', color: '#404141' }} className={globalStyles.simpleP}>{user.name}</span>
-                                                                                    <span style={{ fontSize: '13px', fontWeight: 'normal', color: '#79797a' }} className={globalStyles.simpleP}>{user.about}</span>
+                                                                                    <span style={{ fontSize: '13px', fontWeight: 'normal', color: '#79797a', wordBreak: 'break-word', overflow: 'hidden', maxHeight: '15px' }} className={globalStyles.simpleP}>{user.about}</span>
 
                                                                                 </div>
                                                                             </div>
@@ -262,7 +262,7 @@ const MessagesComponent = () => {
                                                         <ProfileImage user={newUserToChat} />
                                                         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'start' }}>
                                                             <span style={{ fontSize: '15px', color: '#404141' }} className={globalStyles.simpleP}>{newUserToChat.name}</span>
-                                                            <span style={{ fontSize: '13px', fontWeight: 'normal', color: '#79797a' }} className={globalStyles.simpleP}>{newUserToChat.about}</span>
+                                                            <span style={{ fontSize: '13px', fontWeight: 'normal', color: '#79797a', wordBreak: 'break-word', overflow: 'hidden', maxHeight: '15px' }} className={globalStyles.simpleP}>{newUserToChat.about}</span>
 
                                                         </div>
 
@@ -337,8 +337,72 @@ const MessagesComponent = () => {
 
                     ) : (
                         <div style={{ background: 'white', width: '100%', display: 'flex', justifyContent: 'center' }}>
-                            <span className={globalStyles.simpleP} style={{ marginTop: '50px', marginBottom: '50px', fontSize: '35px' }}>    {t("There is no messages")}</span>
+                            {!newMessage && (
+                                <span className={globalStyles.simpleP} style={{ marginTop: '50px', marginBottom: '50px', fontSize: '35px' }}>    {t("There is no messages")}</span>
 
+                            )}
+
+
+
+
+                            {/*// new message*/}
+                            {openChat?._id == "" && newMessage ? (
+                                <div style={{ display: 'flex', marginTop: '-20px', flexDirection: 'column', padding: '10px' }}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                                        <h2 style={{ display: 'flex', justifyContent: 'start', paddingLeft: '20px', paddingRight: '20px', color: '#0a66c2' }}>{t('New chat')}</h2>
+                                        <div style={{ marginTop: '18px', borderBottom: '1px solid #cfd0d2', width: '100%', display: 'flex', justifyContent: 'start' }}></div>
+                                    </div>
+                                    {openChat?._id == "" && newMessage && !newChatFlag && (
+                                        <div style={{ display: 'flex', width: '100%', marginTop: '40px', flexDirection: 'column' }}>
+                                            <SearchInput placeHolder={t('Type a name...')} value={searchContactName} ariaLabel={t('Type a name')} onChange={setsearchContactName} />
+                                            <div style={{ marginTop: '20px', paddingBottom: '20px', paddingLeft: '20px', paddingRight: '20px', borderRadius: '25px', border: '1px solid #cfd0d2', height: '100%' }}>
+                                                <div style={{ overflowY: 'scroll' }}>
+                                                    {usersFollowedBy.length > 0 ? usersFollowedBy.map((user: User, index) =>
+                                                        <div key={index}  >
+
+
+                                                            {/*<div className={globalStyles.separate_line_grey} style={{marginBottom:'50px' ,width:'110%' }}></div>*/}
+                                                            <div style={{ cursor: 'pointer' }} className={styles.messagesContainer__leftSide__messageBox} onClick={() => openNewMessageChat(user)} >
+                                                                <div className={styles.closedChat} style={{ paddingBottom: '30px', paddingTop: '30px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                                                                    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'start', gap: '10px', paddingLeft: '10px', paddingRight: '10px' }}>
+                                                                        <ProfileImage user={user} />
+                                                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'start' }}>
+                                                                            <span style={{ fontSize: '15px', color: '#404141' }} className={globalStyles.simpleP}>{user.name}</span>
+                                                                            <span style={{ fontSize: '13px', fontWeight: 'normal', color: '#79797a', wordBreak: 'break-word', overflow: 'hidden', maxHeight: '15px' }} className={globalStyles.simpleP}>{user.about}</span>
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div style={{ borderBottom: '1px solid #cfd0d2', width: '100%', display: 'flex', justifyContent: 'start' }}></div>
+                                                            </div>
+                                                        </div>
+                                                    ) : null}
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    )}
+                                    {openChat?._id == "" && newMessage && newChatFlag && newUserToChat && (
+                                        <div style={{ marginTop: '50px' }}>
+                                            <div style={{ display: 'flex', gap: '10px' }}>
+                                                {/*write a new msg*/}
+                                                <ProfileImage user={newUserToChat} />
+                                                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'start' }}>
+                                                    <span style={{ fontSize: '15px', color: '#404141' }} className={globalStyles.simpleP}>{newUserToChat.name}</span>
+                                                    <span style={{ fontSize: '13px', fontWeight: 'normal', color: '#79797a', wordBreak: 'break-word', overflow: 'hidden', maxHeight: '15px' }} className={globalStyles.simpleP}>{newUserToChat.about}</span>
+
+                                                </div>
+
+                                            </div>
+                                            <div style={{ width: '100%', marginTop: '40px' }}>
+                                                <div style={{ paddingBottom: '5px', borderBottom: '1px solid #cfd0d2', marginBottom: '15px', width: '100%', display: 'flex', justifyContent: 'start' }}></div>
+                                                <TextAreaComponent color={'grey'} onSendClick={sendNewMessageToNewChat} onChange={setnewMessageContentHandler} value={newMessageContent} textPlaceHolder={t('Write a message')} />
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            ) : null}
                         </div>
                     )}
                 </div>
