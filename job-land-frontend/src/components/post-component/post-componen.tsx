@@ -191,7 +191,7 @@ const PostComponent = observer((props: any) => {
                                 <ProfileImage user={UserStore.getUserInfoById(post.employee_id)} />
                                 <div className={componentStyles.postContainer__header__details}>
                                     <span style={{ fontSize: '20px', color: '#1c1c39' }}> {post.writer_name}</span>
-                                    <span style={{ color: '#717273', fontSize: '16px', fontWeight: 'normal' }} className={globalStyles.simpleP}> {UserStore.users.filter(user => user.id == post.employee_id)[0]?.about}</span>
+                                    <span style={{ color: '#717273', fontSize: '16px', fontWeight: 'normal', wordBreak: 'break-word' }} className={globalStyles.simpleP}> {UserStore.users.filter(user => user.id == post.employee_id)[0]?.about}</span>
                                 </div>
                             </div>
                             {UserStore.user.id == post.employee_id && (
