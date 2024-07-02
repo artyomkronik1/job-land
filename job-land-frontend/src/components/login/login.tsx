@@ -76,7 +76,7 @@ const Login = observer(() => {
         UserStore.setLoggedIn(false)
     }
     const signInWithGoogle = async (event: any) => {
-        console.log('a');
+
         event.preventDefault()
 
         const provider = new firebase.auth.GoogleAuthProvider();
@@ -85,6 +85,7 @@ const Login = observer(() => {
             const result = await firebase.auth().signInWithPopup(provider);
             if (result && result.user && result.user.email && result.user.displayName) {
                 const user: User = UserStore.loginWithGoogle(result.user.email.toString(), result.user.displayName.toString())
+                console.log(user)
                 if (user && user.email && user.password) {
                     const encryptedPassword = CryptoJS.AES.encrypt(user.password, secretKey).toString();
                     const res = await UserStore.login(user.email, encryptedPassword)
@@ -100,6 +101,9 @@ const Login = observer(() => {
                     } else {
                         toast.error(t('ERROR') + ' ' + res?.errorCode);
                     }
+                }
+                else {
+                    toast.error(t('ERROR User is not exist'));
                 }
             } else {
                 toast.error(t('ERROR User is not exist'));
