@@ -47,18 +47,23 @@ const ForgotPassComponent = observer(() => {
 		else {
 			await UserStore.getUsers();
 			const user = UserStore.getUserByEmail(userEmail)
-			console.log(user)
-			const serviceID = "service_ktqrx6g";
-			const templateID = "template_popyu06";
-			const params = { from_name: "Job Land", email: userEmail, to_name: user?.name, message: "Hi, here is your password ! " + "'" + user?.password + "' \n" + "Please save it" }
-			try {
-				const res = await emailjs.send(serviceID, templateID, params, {
-					publicKey: 'uBgCORDaioscnVWOQ'
+			if (user && user.email) {
+				const serviceID = "service_ktqrx6g";
+				const templateID = "template_popyu06";
+				const params = { from_name: "Job Land", email: userEmail, to_name: user?.name, message: "Hi, here is your password ! " + "'" + user?.password + "' \n" + "Please save it" }
+				try {
+					const res = await emailjs.send(serviceID, templateID, params, {
+						publicKey: 'uBgCORDaioscnVWOQ'
+					}
+					);
+					window.alert('Please check your email \n We sent your password')
+				} catch (err) {
+					console.log(err);
 				}
-				);
-				window.alert('Please check your email \n We sent your password')
-			} catch (err) {
-				console.log(err);
+			}
+			else {
+				window.alert('User is not exist')
+
 			}
 
 

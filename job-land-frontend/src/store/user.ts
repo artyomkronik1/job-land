@@ -311,21 +311,42 @@ class UserStore {
     }
     signup = async (name: string, password: string, email: string, role: string) => {
         try {
-            const result = await AuthService.signup(name, password, email, role);
-
-            if (result.success) {
-                this.setUser(result.user)
-                this.setLoggedIn(true)
-                this.setSignedUp(true)
-                await this.init();
-                return result
+            await this.getUsers();
+            const isUserExist = this.users.find((u: User) => u.email == email)
+            if (isUserExist) {
+                return { success: false, errorCode: "Email is already in use" }
             }
             else {
-                return result
+
+                // email check
+                const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (email.length == 0) {
+                    return { success: false, errorCode: "Email is empty" }
+
+                }
+                else if (!regex.test(email)) {
+                    return { success: false, errorCode: "Email is invalid" }
+
+                }
+                else {
+                    const result = await AuthService.signup(name, password, email, role);
+
+                    if (result.success) {
+                        this.setUser(result.user)
+                        this.setLoggedIn(true)
+                        this.setSignedUp(true)
+                        await this.init();
+                        return result
+                    }
+                    else {
+                        return result
+                    }
+                }
             }
         } catch (error) {
             console.error('Error signup:', error);
         }
+
     };
     post = async (title: string, employee_id: string, description: string, userName: string) => {
         try {
