@@ -54,6 +54,19 @@ class JobsStore {
     getPostInfoById = (id: string): any => {
         return this.followPost.find(post => post._id == id);
     }
+    addApplicate = async (job: any, id: string) => {
+        if (!job.applications.includes(id)) {
+            job.applications.push(id);
+            this.filterJobs.forEach((j: Job) => {
+                if (j.id == job.id) {
+                    j.applications.push(id)
+                }
+            })
+            return jobService.addApplicate(job._id, id)
+
+        }
+
+    }
     editPost = async (postToEdit: Post) => {
         const res = await postService.savePost(postToEdit);
         if (res.success) {

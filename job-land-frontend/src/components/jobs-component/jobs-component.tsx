@@ -78,7 +78,8 @@ const JobsComponent = observer(() => {
         region: "",
         manner: "",
         experienced_level: "",
-        scope: ""
+        scope: "",
+        applications: []
     });
 
 
@@ -206,15 +207,32 @@ const JobsComponent = observer(() => {
                     {/*job component*/}
                     <div style={{ display: "flex", justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: '20px', width: '100%' }}>
                         {allJobs.length > 0 ? allJobs.map((job: Job, index) => (
-                            <div style={{ width: '90%' }} className={componentStyles.postContainer} key={index} onClick={() => seeFullJob(job)}>
-                                <div className={componentStyles.postContainer__header}>
-                                    <ProfileImage user={UserStore.getUserInfoById(job.hire_manager_id)} />
-                                    <div className={componentStyles.postContainer__header__details}>
-                                        <span style={{ fontSize: '20px', color: '#1c1c39' }}> {job.hire_name}</span>
-                                        <span style={{ color: '#717273', fontSize: '16px', fontWeight: 'normal' }} className={globalStyles.simpleP}> {job.company_name}</span>
+                            <div style={{ width: '90%' }} className={job.applications.includes(UserStore.user.id) ? componentStyles.jobContainerApplied : componentStyles.postContainer} key={index} onClick={() => seeFullJob(job)}>
+                                {!job.applications.includes(UserStore.user.id) ? (
+                                    <div className={componentStyles.postContainer__header}>
+                                        <ProfileImage user={UserStore.getUserInfoById(job.hire_manager_id)} />
+                                        <div className={componentStyles.postContainer__header__details}>
+                                            <span style={{ fontSize: '20px', color: '#1c1c39' }}> {job.hire_name}</span>
+                                            <span style={{ color: '#717273', fontSize: '16px', fontWeight: 'normal' }} className={globalStyles.simpleP}> {job.company_name}</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className={componentStyles.postContainer__main}>
+                                ) :
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                                        <div className={componentStyles.postContainer__header}>
+                                            <ProfileImage user={UserStore.getUserInfoById(job.hire_manager_id)} />
+                                            <div className={componentStyles.postContainer__header__details}>
+                                                <span style={{ fontSize: '20px', color: '#1c1c39' }}> {job.hire_name}</span>
+                                                <span style={{ color: '#717273', fontSize: '16px', fontWeight: 'normal' }} className={globalStyles.simpleP}> {job.company_name}</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <span style={{ color: 'black  ', fontSize: '26px', fontWeight: 'normal' }} className={globalStyles.simpleP}> {t('Already applied')}</span>
+
+                                        </div>
+                                    </div>
+                                }
+
+                                <div className={job.applications.includes(UserStore.user.id) ? componentStyles.jobContainerApplied__main : componentStyles.postContainer__main}>
                                     <span style={{ fontSize: '19px', display: 'flex', color: '#555555', wordBreak: 'break-all', width: '100%', maxWidth: '100%', maxHeight: '100%', overflow: 'hidden' }}> {job.title}</span>
                                     <span style={{ display: 'flex', color: '#717273', fontSize: '16px', fontWeight: 'normal', wordBreak: 'break-all', width: '100%', maxWidth: '100%', maxHeight: '100%', overflow: 'hidden' }}> {job.description}</span>
                                 </div>

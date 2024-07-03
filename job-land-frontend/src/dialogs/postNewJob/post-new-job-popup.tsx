@@ -68,6 +68,7 @@ const PostNewJobPopup = (props: postNewJobPopup) => {
                 manner: manner,
                 experienced_level: level,
                 scope: scope,
+                applications: []
 
             })
             if (res?.success) {

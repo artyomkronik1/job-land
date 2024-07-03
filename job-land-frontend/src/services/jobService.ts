@@ -1,14 +1,27 @@
 // MessageService.ts
 import axios, { AxiosResponse } from 'axios';
-import {Job} from "../interfaces/job";
+import { Job } from "../interfaces/job";
 
 
 const BASE_URL: string = 'http://localhost:3002';
 
 const JobService = {
-    async postNewJob(job:Job) {
+
+    async addApplicate(jobid: string, id: string) {
         try {
-            const result = await axios.post('http://localhost:3002/jobs/new', {job});
+            const result = await axios.post('http://localhost:3002/jobs/apply', { jobid, id });
+            if (result.data.success) {
+                return result.data;
+            } else {
+                return result.data;
+            }
+        } catch (error) {
+            console.error('Error apply new job:', error);
+        }
+    },
+    async postNewJob(job: Job) {
+        try {
+            const result = await axios.post('http://localhost:3002/jobs/new', { job });
             if (result.data.success) {
                 return result.data;
             } else {
@@ -19,9 +32,9 @@ const JobService = {
         }
     },
 
-    async getAllJobs(filters:any){
+    async getAllJobs(filters: any) {
         try {
-            const result = await axios.post('http://localhost:3002/jobs' ,{properties:filters});
+            const result = await axios.post('http://localhost:3002/jobs', { properties: filters });
             if (result.data.success) {
                 return result;
             } else {

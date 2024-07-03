@@ -78,3 +78,39 @@
     flex-direction: column;
   }
 }
+
+
+
+.jobContainerApplied {
+  // 71db1b
+  border: 1px solid #71db1b;
+  padding: 10px;
+  background-color: #dbf7d0;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    display: flex;
+    justify-content: start;
+    gap: 8px;
+
+    &__details {
+      display: flex;
+      align-items: start;
+      flex-direction: column;
+    }
+  }
+
+  &__main {
+    display: flex;
+    font-weight: bold;
+    color: rgb(0 0 0/.6);
+    justify-content: center;
+    align-items: center;
+    background-color: #dbf7d0;
+    padding: 15px;
+    gap: 5px;
+    flex-direction: column;
+  }
+}

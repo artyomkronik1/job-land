@@ -10,6 +10,8 @@ import addcv from '../../assets/images/addcv.png';
 import componentStyles from '../../components/MainLayout/mainLayout.module.scss';
 import emailjs from '@emailjs/browser';
 import userStore from "../../store/user";
+import jobService from '../../services/jobService';
+import jobsStore from '../../store/job';
 
 export interface jobPopupProps {
     isOpen: boolean;
@@ -57,12 +59,18 @@ const JobPopup = (props: jobPopupProps) => {
             const templateID = "template_popyu06";
             const params = { from_name: "Job Land", email: userStore.getUserInfoById(props.children.hire_manager_id)?.email, to_name: props.children.hire_name, message: "Hi, new cv !" }
             try {
+                const addRes = await jobsStore.addApplicate(props.children, userStore.user.id)
                 const res = await emailjs.send(serviceID, templateID, params, {
                     publicKey: 'uBgCORDaioscnVWOQ'
+                });
+                if (addRes.success) {
+                    alert('You have upload resume successfully');
+                    props.onClose(true)
                 }
-                );
-                alert('You have upload resume successfully');
-                props.onClose(true)
+                else {
+                    alert('Failed to upload your resume');
+
+                }
             } catch (err) {
                 console.log(err);
             }
@@ -113,40 +121,46 @@ const JobPopup = (props: jobPopupProps) => {
                             </span>
                         </div>
                         {/* Add CV */}
-                        <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: '30px', gap: '10px' }}>
-                            <label htmlFor="cv-upload" onClick={openFileManager} style={{ display: "flex", gap: '10px', cursor: 'pointer' }}>
+                        {!props.children.applications.includes(userStore.user.id) && (
+                            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: '30px', gap: '10px' }}>
+                                <label htmlFor="cv-upload" onClick={openFileManager} style={{ display: "flex", gap: '10px', cursor: 'pointer' }}>
 
-                                <span className={globalStyles.mainSpan} style={{ fontSize: '22px' }}>
-                                    {fileName ? fileName : t('add cv')} {/* Display filename if available, otherwise show "Add CV" */}
-                                </span>
-                                <div>
-                                    <input
-                                        type="file"
-                                        accept=".pdf,.doc,.docx"
-                                        onChange={handleFileChange}
-                                        style={{ display: 'none' }}
-                                        ref={fileInputRef} // Assign the ref to the file input element
-                                    />
-                                    <img
-                                        style={{ cursor: 'pointer', color: 'red' }}
-                                        width={30}
-                                        height={30}
-                                        src={addcv}
-                                        alt="Upload CV"
-                                    />
-                                </div>
-                            </label>
+                                    <span className={globalStyles.mainSpan} style={{ fontSize: '22px' }}>
+                                        {fileName ? fileName : t('add cv')} {/* Display filename if available, otherwise show "Add CV" */}
+                                    </span>
+                                    <div>
+                                        <input
+                                            type="file"
+                                            accept=".pdf,.doc,.docx"
+                                            onChange={handleFileChange}
+                                            style={{ display: 'none' }}
+                                            ref={fileInputRef} // Assign the ref to the file input element
+                                        />
+                                        <img
+                                            style={{ cursor: 'pointer', color: 'red' }}
+                                            width={30}
+                                            height={30}
+                                            src={addcv}
+                                            alt="Upload CV"
+                                        />
+                                    </div>
+                                </label>
 
-                        </div>
+                            </div>
+                        )}
+
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <div className={globalStyles.separate_line_grey}></div>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'end', flex: '1 1 auto', marginTop: '20px' }}>
-                        <button style={{ width: '80px' }} className={globalStyles.btn} onClick={handleUpload}>
-                            {t('Apply')}
-                        </button>
-                    </div>
+
+                    {!props.children.applications.includes(userStore.user.id) && (
+                        <div style={{ display: 'flex', justifyContent: 'end', flex: '1 1 auto', marginTop: '20px' }}>
+                            <button style={{ width: '80px' }} className={globalStyles.btn} onClick={handleUpload}>
+                                {t('Apply')}
+                            </button>
+                        </div>
+                    )}
                 </div>
             </Popup>
         </>
