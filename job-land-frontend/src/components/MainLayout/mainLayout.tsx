@@ -44,9 +44,9 @@ const MainLayout = observer(() => {
 
 
     // update every 5 minutes the posts
-    useEffect(() => {
-        jobsStore.getAllPosts()
-    });
+    // useEffect(() => {
+    //     jobsStore.getAllPosts()
+    // }, []);
     // update every 5 minutes the posts
     useEffect(() => {
         setPosts(jobsStore.followPost)
@@ -64,7 +64,7 @@ const MainLayout = observer(() => {
         }
         setEditPost(false)
         setopenPopup(false)
-        //    jobsStore.getAllPosts()
+        jobsStore.getAllPosts()
 
     }
 

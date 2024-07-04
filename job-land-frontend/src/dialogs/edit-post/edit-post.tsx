@@ -11,10 +11,10 @@ import ToastComponent from '../../base-components/toaster/ToastComponent';
 import jobsStore from '../../store/job';
 import TextInputField from '../../base-components/text-input/text-input-field';
 import { Post } from '../../interfaces/post';
-import userService from '../../services/userService';
-import postService from '../../services/postService';
-import JobService from "../../services/jobService";
 
+import uploadImg from '../../assets/images/uploadImg.png'
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/storage'
 export interface editPostProps {
     postForEdit: Post;
     isOpen: boolean;
@@ -28,6 +28,7 @@ const EditPost = (props: editPostProps) => {
     const [showWarningPopup, setShowWarningPopup] = useState(false);
     const [postToEdit, setPostToEdit] = useState<Post>(props.postForEdit);
     const [hasChanges, setHasChanges] = useState(false);
+    const [updatedPicture, setupdatedPicture] = useState(postToEdit.picture);
 
 
 
@@ -82,6 +83,40 @@ const EditPost = (props: editPostProps) => {
     };
 
 
+
+    const handleBackgroundPicChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            const storageRef = firebase.storage().ref()
+            const fileRef = storageRef.child(file.name)
+            fileRef.put(file).then((snapchot) => {
+                snapchot.ref.getDownloadURL()
+                    .then((downloadURL) => {
+                        console.log(downloadURL)
+                        uploadPic(downloadURL);
+                        //setImgUrl
+                    })
+            })
+
+
+        }
+    };
+
+    const triggerFileInput = () => {
+        const fileInput = document.getElementById("picInput");
+        if (fileInput) {
+            fileInput.click();
+            //uploadPic(fileInput)
+        }
+    };
+    const uploadPic = async (downloadURL: string) => {
+        setupdatedPicture(downloadURL)
+        postToEdit.picture = downloadURL
+        console.log(downloadURL);
+
+    };
+
+
     return (
         <>
             <Popup popupTitle='Post details' width='100vh'>
@@ -100,31 +135,61 @@ const EditPost = (props: editPostProps) => {
                     </div>
 
                     <div className={styles.main__header__body} style={{ marginTop: '0px' }}>
-                        <textarea
-                            value={postToEdit.description}
-                            placeholder={t('What do you want to talk about?')}
-                            style={{
-                                outline: 'none',
-                                resize: 'none',
-                                width: '100%',
-                                backgroundColor: 'white',
-                                borderRadius: '30px',
-                                border: 'none',
-                                paddingLeft: '20px',
-                                color: '#79797a',
-                                fontSize: '25px',
-                                height: '100%',
-                            }}
-                            onChange={handleChange}
-                        ></textarea>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '50px' }}>
+                            {updatedPicture.length > 0 && (<div >
+
+                                <label htmlFor="picInput">
+                                    <img
+                                        src={updatedPicture}
+                                        style={{ width: '100%', cursor: "pointer", display: 'flex', height: '100%' }}
+                                    />
+                                </label>
+
+                                <input
+                                    type="file"
+                                    id="picInput"
+                                    accept="image/*"
+                                    style={{ display: "none" }}
+                                    onChange={handleBackgroundPicChange}
+                                />
+                            </div>
+                            )}
+                            <textarea
+                                value={postToEdit.description}
+                                placeholder={t('What do you want to talk about?')}
+                                style={{
+                                    outline: 'none',
+                                    resize: 'none',
+                                    width: '100%',
+                                    backgroundColor: 'white',
+                                    borderRadius: '30px',
+                                    border: 'none',
+                                    paddingLeft: '20px',
+                                    color: '#79797a',
+                                    fontSize: '25px',
+                                    height: '100%',
+                                }}
+                                onChange={handleChange}
+                            ></textarea>
+                        </div>
+
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <div className={globalStyles.separate_line_grey}></div>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'end', flex: '1 1 auto' }}>
-                        <button style={{ width: '80px' }} onClick={post} className={globalStyles.btn}>
-                            {t('Save')}
-                        </button>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                        {postToEdit.picture.length > 0 && (
+                            <div className={styles.settings} onClick={triggerFileInput} style={{ gap: '8px' }} >
+                                <img src={uploadImg} style={{ width: '25px' }} />
+                                <span className={globalStyles.mainGreySpan}> {t('add photo')}</span>
+                            </div>
+                        )}
+                        <div style={{ display: 'flex', justifyContent: 'end', flex: '1 1 auto' }}>
+                            <button style={{ width: '80px' }} onClick={post} className={globalStyles.btn}>
+                                {t('Save')}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </Popup>

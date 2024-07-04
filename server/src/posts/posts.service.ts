@@ -152,7 +152,7 @@ export class PostsService {
         } else {
             p.title = post.post.title
             p.description = post.post.description
-
+            p.picture = post.post.picture
 
             await p.save()
             return { success: true, post: p }

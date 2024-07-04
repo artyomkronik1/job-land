@@ -68,13 +68,14 @@
 
   &__main {
     display: flex;
+
     font-weight: bold;
     color: rgb(0 0 0/.6);
     justify-content: center;
-    align-items: center;
+    align-items: start;
     background-color: white;
     padding: 15px;
-    gap: 5px;
+    gap: 20px;
     flex-direction: column;
   }
 }
