@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import {InjectModel} from "@nestjs/mongoose";
-import {Model} from "mongoose";
-import {comment, Post} from "./post.model";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { comment, Post } from "./post.model";
 
 @Injectable()
 export class PostsService {
-    constructor(@InjectModel('Post') private readonly postModel: Model<Post>) {}
+    constructor(@InjectModel('Post') private readonly postModel: Model<Post>) { }
     public async removeCommentOnPost(postId: string, comment: comment): Promise<{ success: boolean; post: Post }> {
         try {
             const post = await this.postModel.findById(postId);
@@ -16,7 +16,7 @@ export class PostsService {
 
             post.comments = post.comments.filter((c) => c.id.toString() !== comment.id);
 
-             await post.save();
+            await post.save();
 
 
             return {
@@ -56,25 +56,25 @@ export class PostsService {
             throw new Error(`Failed to update comment: ${error.message}`);
         }
     }
-        public async addComment(postId:string, comment:comment){
-            try {
-                const post = await this.postModel.findById(postId);
+    public async addComment(postId: string, comment: comment) {
+        try {
+            const post = await this.postModel.findById(postId);
 
-                if (!post) {
-                    throw new Error('Post not found');
-                }
-
-                post.comments.push(comment);
-                await post.save();
-
-                return {
-                    success:true,
-                    post:post
-                };
-            } catch (error) {
-                throw new Error(`Failed to add comment: ${error.message}`);
+            if (!post) {
+                throw new Error('Post not found');
             }
+
+            post.comments.push(comment);
+            await post.save();
+
+            return {
+                success: true,
+                post: post
+            };
+        } catch (error) {
+            throw new Error(`Failed to add comment: ${error.message}`);
         }
+    }
 
 
     public async likePost(postId: string, like: boolean, userId: string) {
@@ -113,68 +113,71 @@ export class PostsService {
     }
 
 
-    public async getPostByUserName(name:string){
+    public async getPostByUserName(name: string) {
         const posts = await this.postModel.find({ writer_name: name }).exec();
-        if (posts.length>0) {
+        if (posts.length > 0) {
             return {
                 success: true,
                 posts: posts,
             }
-        } else{
+        } else {
             return {
-                success:false,
-                errorCode:"fail_to_find_posts"
+                success: false,
+                errorCode: "fail_to_find_posts"
             }
         }
     }
-    public async getPostByUserId(data:any){
+    public async getPostByUserId(data: any) {
         const posts = await this.postModel.find({ employee_id: data.id.toString() }).exec();
-        if (posts.length>0) {
+        if (posts.length > 0) {
             return {
                 success: true,
                 posts: posts,
             }
-        } else{
+        } else {
             return {
-                success:false,
-                errorCode:"fail_to_find_posts"
+                success: false,
+                errorCode: "fail_to_find_posts"
             }
         }
     }
 
 
-    public async editPost(post:any){
+    public async editPost(post: any) {
 
         let p = await this.postModel.findById(post.post._id.toString());
         if (!p) {
             // Handle the case where the user with the given ID is not found
-            return {success: false, errorCode: 'fail_to_find_post',};
+            return { success: false, errorCode: 'fail_to_find_post', };
         } else {
             p.title = post.post.title
             p.description = post.post.description
 
 
             await p.save()
-            return {success: true, post: p}
+            return { success: true, post: p }
         }
     }
-    public async postNewPost(post:any){
+    public async postNewPost(post: any) {
         const newPost = new this.postModel({
             writer_name: post.writer_name,
             title: post.title,
             description: post.description,
-            employee_id:post.employee_id,
+            employee_id: post.employee_id,
+            picture: post.postPicture
         });
         const result = await newPost.save();
         if (result) {
             return {
                 success: true,
                 post: {
-                    id:newPost.id,
+                    id: newPost.id,
                     writer_name: newPost.writer_name,
                     title: newPost.title,
                     description: newPost.description,
-                    employee_id:newPost.employee_id,
+                    employee_id: newPost.employee_id,
+                    picture: post.postPicture
+
                 },
             };
         } else {
@@ -184,17 +187,17 @@ export class PostsService {
             };
         }
     }
-    public async getAllPosts(){
-        const posts:Post[] = await this.postModel.find().exec();
-        if (posts.length>0) {
+    public async getAllPosts() {
+        const posts: Post[] = await this.postModel.find().exec();
+        if (posts.length > 0) {
             return {
                 success: true,
                 posts: posts,
             }
-        } else{
+        } else {
             return {
-                success:false,
-                errorCode:"fail_to_find_posts"
+                success: false,
+                errorCode: "fail_to_find_posts"
             }
         }
     }

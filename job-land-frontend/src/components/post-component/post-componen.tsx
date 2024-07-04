@@ -64,6 +64,7 @@ const PostComponent = observer((props: any) => {
     const [editingPost, seteditingPost] = useState<Post>({
         _id: "",
         title: "",
+        picture: '',
         description: "",
         employee_id: "",
         writer_name: "",
@@ -142,6 +143,8 @@ const PostComponent = observer((props: any) => {
         const c: comment = { by: UserStore.user.id.toString(), text: usersCommentOnPost, id: uuidv4() }
         jobsStore.addCommentOnPost(post, c)
         setcommentAdded(true)
+        setPost(jobsStore.getPostInfoById(postId))
+
 
     }
     useEffect(() => {
@@ -187,7 +190,7 @@ const PostComponent = observer((props: any) => {
 
                     <div className={componentStyles.postContainer} style={{ alignSelf: 'center', width: '100%' }} onClick={() => goToPost(post)}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                            <div className={componentStyles.postContainer__header} onClick={() => goToUserProfile(post.employee_id)}>
+                            <div style={{ cursor: 'pointer' }} className={componentStyles.postContainer__header} onClick={() => goToUserProfile(post.employee_id)}>
                                 <ProfileImage user={UserStore.getUserInfoById(post.employee_id)} />
                                 <div className={componentStyles.postContainer__header__details}>
                                     <span style={{ fontSize: '20px', color: '#1c1c39' }}> {post.writer_name}</span>
@@ -203,6 +206,9 @@ const PostComponent = observer((props: any) => {
 
                         <div className={componentStyles.postContainer__main}>
                             {/*<span  style={{  fontSize:'19px',display:'flex', color:'#555555',  wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.title}</span>*/}
+                            {post.picture && post.picture.length > 0 && (
+                                <img src={post.picture} />
+                            )}
                             <span style={{ display: 'flex', color: '#181818', fontSize: '22px', fontWeight: 'normal', wordBreak: 'break-all', width: '100%', maxWidth: '100%', maxHeight: '100%', overflow: 'hidden' }}> {post.description}</span>
 
                         </div>

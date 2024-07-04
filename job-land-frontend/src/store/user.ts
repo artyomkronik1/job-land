@@ -348,9 +348,9 @@ class UserStore {
         }
 
     };
-    post = async (title: string, employee_id: string, description: string, userName: string) => {
+    post = async (title: string, employee_id: string, description: string, userName: string, postPicture: string) => {
         try {
-            const result = await axios.post('http://localhost:3002/posts/new', { title: title, employee_id: employee_id, description: description, writer_name: userName });
+            const result = await axios.post('http://localhost:3002/posts/new', { title: title, employee_id: employee_id, description: description, writer_name: userName, postPicture: postPicture });
             if (result.data.success) {
                 return result.data
             }

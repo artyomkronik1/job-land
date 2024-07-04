@@ -38,24 +38,21 @@ const MainLayout = observer(() => {
         description: "",
         employee_id: "",
         writer_name: "",
-        comments: []
+        comments: [],
+        picture: ''
     });
 
 
     // update every 5 minutes the posts
     useEffect(() => {
         jobsStore.getAllPosts()
-    }, []);
+    });
     // update every 5 minutes the posts
     useEffect(() => {
         setPosts(jobsStore.followPost)
     }, [likeFlag]);
 
-    const openEditingPost = (event: any, post: Post) => {
-        event.stopPropagation(); // Prevent the click from propagating to the outer container
-        seteditingPost(post)
-        setEditPost(true)
-    }
+
     const closePopup = (success: boolean) => {
         if (success) {
             UserStore.setLoading(true);
@@ -67,6 +64,8 @@ const MainLayout = observer(() => {
         }
         setEditPost(false)
         setopenPopup(false)
+        //    jobsStore.getAllPosts()
+
     }
 
     const startPost = () => {
@@ -111,9 +110,10 @@ const MainLayout = observer(() => {
                         <div style={{ display: 'flex', justifyContent: 'center' }}>
                             <div className={globalStyles.separate_line_grey} style={{ width: '80%' }}> </div>
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', width: '80%', alignSelf: 'center' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', width: '80%', alignSelf: 'center', cursor: 'pointer' }}>
 
                             {posts.length > 0 ? posts.map((post: Post, index) => (
+
                                 <PostComponen postId={post._id} gotToPostFlag={true} />)) : (
 
                                 <div style={{ border: '1px solid #c3c4c5', backgroundColor: 'white', borderRadius: '20px', padding: '10px', display: 'flex', flexDirection: 'column', gap: '30px', alignItems: 'center' }}>

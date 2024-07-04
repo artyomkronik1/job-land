@@ -46,7 +46,9 @@ const ProfileComponent = observer(() => {
         description: "",
         employee_id: "",
         writer_name: "",
-        comments: []
+        comments: [],
+        picture: '',
+
     });
     //language
     const { t } = useTranslation();
