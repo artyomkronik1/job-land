@@ -180,7 +180,9 @@ const MessagesComponent = () => {
                             {chats && chats.length > 0 && (<SearchInput placeHolder={t('search for a message')} value={messageSearch} ariaLabel={'Search..'} onChange={(vaalue) => setmessageSearch(vaalue)} />
                             )}
                         </div>
-                        <img style={{ marginRight: '50px', marginLeft: '50px', cursor: 'pointer' }} width={30} height={30} src={newmsg} onClick={createNewMessage} />
+                        <div className={styles.newMsgPic} onClick={createNewMessage} >
+                            <img width={30} height={30} src={newmsg} />
+                        </div>
                     </div>
                     <div style={{ borderBottom: '1px solid #cfd0d2', width: '100%', display: 'flex', justifyContent: 'start' }}>
                     </div>
@@ -191,7 +193,7 @@ const MessagesComponent = () => {
                             <div className={styles.messagesContainer__leftSide}>
                                 {chats.map((chat: Chat, index) =>
 
-                                    <div key={index} className={styles.messagesContainer__leftSide__messageBox} onClick={() => openNewChat(chat)} >
+                                    <div style={{ cursor: 'pointer' }} key={index} className={styles.messagesContainer__leftSide__messageBox} onClick={() => openNewChat(chat)} >
                                         <div className={chat._id == openChat?._id ? styles.openedChat : styles.closedChat} style={{ paddingBottom: '30px', paddingTop: '30px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
                                             <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'start', gap: '10px', paddingLeft: '10px', paddingRight: '10px' }}>
                                                 <ProfileImage user={chat.messages[0].sender != UserStore.user.id ? UserStore.getUserInfoById(chat.messages[0].sender) : UserStore.getUserInfoById(chat.messages[0].receiver)} />

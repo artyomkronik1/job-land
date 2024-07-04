@@ -198,8 +198,8 @@ const PostComponent = observer((props: any) => {
                                 </div>
                             </div>
                             {UserStore.user.id == post.employee_id && (
-                                <div style={{ width: '30px', height: '30px', display: 'flex', borderRadius: '50%', border: '1px solid black' }}>
-                                    <img onClick={(event) => openEditingPost(event, post)} src={editImg} style={{ padding: '5px', cursor: 'pointer' }} />
+                                <div className={componentStyles.editImg} onClick={(event) => openEditingPost(event, post)} style={{ cursor: 'pointer' }}>
+                                    <img src={editImg} style={{ padding: '5px' }} />
                                 </div>
                             )}
                         </div>
@@ -225,12 +225,19 @@ const PostComponent = observer((props: any) => {
                         <div style={{ display: 'flex', justifyContent: 'start', width: '100%', padding: '10px', gap: '20px' }}>
                             {/*    like*/}
                             {!post.likedBy?.includes(UserStore.user.id) && (
-                                <img onClick={(event) => setLikeOnPost(event, post)} src={like} style={{ cursor: 'pointer', width: '30px' }} />
+                                <div className={componentStyles.editImg} onClick={(event) => setLikeOnPost(event, post)}>
+                                    <img src={like} style={{ cursor: 'pointer', width: '30px' }} />
+                                </div>
                             )}
                             {post.likedBy?.includes(UserStore.user.id) && (
-                                <img onClick={(event) => setLikeOnPost(event, post)} src={liked} style={{ cursor: 'pointer', width: '30px' }} />
+                                <div className={componentStyles.editImg} onClick={(event) => setLikeOnPost(event, post)} >
+
+                                    <img src={liked} style={{ cursor: 'pointer', width: '30px' }} />
+                                </div>
                             )}
-                            <img onClick={(event) => commentOnPost(event)} src={commentimg} style={{ cursor: 'pointer', width: '30px' }} />
+                            <div className={componentStyles.editImg} onClick={(event) => commentOnPost(event)}>
+                                <img src={commentimg} style={{ cursor: 'pointer', width: '30px' }} />
+                            </div>
                         </div>
                         {/*comment div*/}
                         {commentFlag && (

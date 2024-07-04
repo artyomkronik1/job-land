@@ -414,3 +414,30 @@ $blackColor: rgb(0 0 0/.9);
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+
+.settings {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 25px;
+  padding: 10px;
+}
+
+.settings:hover {
+  background: rgb(238, 235, 235);
+}
+
+.editImg {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  padding: 10px;
+  border-radius: 50%;
+  //border: 1px solid black;
+}
+
+.editImg:hover {
+  background: rgb(238, 235, 235);
+}

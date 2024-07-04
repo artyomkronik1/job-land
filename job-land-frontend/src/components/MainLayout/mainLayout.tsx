@@ -87,16 +87,16 @@ const MainLayout = observer(() => {
             <div dir={UserStore.getLanguage() == 'en' ? 'ltr' : 'rtl'}>
                 <div>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <div style={{ display: 'flex', cursor: 'pointer', flexDirection: 'column', padding: '10px', marginTop: '90px', gap: '15px', alignSelf: 'center' }} className={globalStyles.basicForm}>
-                            <div onClick={startPost} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <div onClick={startPost} style={{ display: 'flex', cursor: 'pointer', flexDirection: 'column', padding: '10px', marginTop: '90px', gap: '15px', alignSelf: 'center' }} className={globalStyles.basicForm}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                 <ProfileImage user={UserStore.user} />
                                 <div style={{ display: 'flex', justifyContent: 'start', padding: '10px 20px', borderRadius: '20px', border: '1px solid #a9acb1', backgroundColor: 'white', flex: '1 1 auto' }}>
                                     <span style={{ color: 'rgb(118 120 125)', fontSize: '19px', fontWeight: 'normal' }}> {t('Start a post...')}</span>
                                 </div>
                             </div>
                             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around' }}>
-                                <div style={{ display: 'flex', gap: '6px' }}> {t('Media')} <i style={{ color: 'red' }} className="fa-solid fa-image"></i> </div>
-                                <div style={{ display: 'flex', gap: '6px', }}>  {t('Write article')} <i style={{ color: 'blue' }} className="fa fa-newspaper"></i></div>
+                                <div className={styles.settings} style={{ display: 'flex', gap: '6px' }}> {t('Media')} <i style={{ color: 'red' }} className="fa-solid fa-image"></i> </div>
+                                <div className={styles.settings} style={{ display: 'flex', gap: '6px', }}>  {t('Write article')} <i style={{ color: 'blue' }} className="fa fa-newspaper"></i></div>
                             </div>
 
                         </div>

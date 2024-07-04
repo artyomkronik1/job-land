@@ -158,9 +158,9 @@ const StartPostDialog = (props: postProps) => {
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <div className={globalStyles.separate_line_grey}></div>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
                         <div style={{ display: 'flex', cursor: 'pointer' }} onClick={triggerFileInput}>
-                            <img src={uploadImg} />
+                            <img src={uploadImg} style={{ width: '40px', height: '40px' }} />
                         </div>
                         <div style={{ display: 'flex' }}>
                             <button style={{ width: '80px' }} onClick={post} className={globalStyles.btn}>{t('Post')}</button>
