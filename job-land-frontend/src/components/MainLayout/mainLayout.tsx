@@ -42,12 +42,6 @@ const MainLayout = observer(() => {
         picture: ''
     });
 
-
-    // update every 5 minutes the posts
-    // useEffect(() => {
-    //     jobsStore.getAllPosts()
-    // }, []);
-    // update every 5 minutes the posts
     useEffect(() => {
         setPosts(jobsStore.followPost)
     }, [likeFlag]);
@@ -93,7 +87,7 @@ const MainLayout = observer(() => {
             <div dir={UserStore.getLanguage() == 'en' ? 'ltr' : 'rtl'}>
                 <div>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        <div style={{ display: 'flex', cursor: 'pointer', flexDirection: 'column', padding: '10px', marginTop: '50px', gap: '15px', alignSelf: 'center' }} className={globalStyles.basicForm}>
+                        <div style={{ display: 'flex', cursor: 'pointer', flexDirection: 'column', padding: '10px', marginTop: '90px', gap: '15px', alignSelf: 'center' }} className={globalStyles.basicForm}>
                             <div onClick={startPost} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                                 <ProfileImage user={UserStore.user} />
                                 <div style={{ display: 'flex', justifyContent: 'start', padding: '10px 20px', borderRadius: '20px', border: '1px solid #a9acb1', backgroundColor: 'white', flex: '1 1 auto' }}>
