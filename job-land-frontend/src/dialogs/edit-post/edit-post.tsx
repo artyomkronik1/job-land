@@ -182,7 +182,7 @@ const EditPost = (props: editPostProps) => {
                         {postToEdit.picture.length > 0 && (
                             <div className={styles.settings} onClick={triggerFileInput} style={{ gap: '8px' }} >
                                 <img src={uploadImg} style={{ width: '25px' }} />
-                                <span className={globalStyles.mainGreySpan}> {t('add photo')}</span>
+                                <span className={globalStyles.mainGreySpan}> {t('edit photo')}</span>
                             </div>
                         )}
                         <div style={{ display: 'flex', justifyContent: 'end', flex: '1 1 auto' }}>
