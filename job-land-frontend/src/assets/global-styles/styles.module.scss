@@ -282,10 +282,11 @@ $blackColor: rgb(0 0 0/.9);
   z-index: 102;
   flex-direction: column;
   align-items: end;
+  cursor: pointer;
 }
 
 .messageContainer {
-
+  cursor: pointer;
   display: flex;
   //padding: 0 0 10px 10px;
   padding: 10px;
