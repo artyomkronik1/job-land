@@ -88,7 +88,6 @@ const MessagesComponent = () => {
 
         setnewMessage(true)
         setnewChatFlag(false)
-        console.log('a')
 
         setOpenChat({ _id: "", messages: [] })
     }

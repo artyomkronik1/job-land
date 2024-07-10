@@ -32,8 +32,11 @@ export interface basicComponentProps {
     children: ReactNode;
 }
 const BasicComponent = observer((props: basicComponentProps) => {
+    // new user to chat with
+    const [newUserToChat, setnewUserToChat] = useState<string>(UserStore.newUserToChat)
+
     // active chat
-    const [activeChat, setactiveChat] = useState<Chat | null>()
+    const [activeChat, setactiveChat] = useState<Chat>(UserStore.currentChat)
     const [newMessageContent, setnewMessageContent] = useState('');
 
     // users chats
@@ -65,6 +68,10 @@ const BasicComponent = observer((props: basicComponentProps) => {
         }, 1000)
 
     }
+    // updating every time active chat from store
+    useEffect(() => {
+        setactiveChat(UserStore.currentChat)
+    },);
     // setting chats -- updating
     useEffect(() => {
         setChats(UserStore.getChats())
@@ -123,9 +130,12 @@ const BasicComponent = observer((props: basicComponentProps) => {
     // active chat
     const activateChat = (chat: Chat) => {
         setactiveChat(chat)
+        UserStore.setCurrentChat(chat)
     }
     const closeActiveChat = () => {
-        setactiveChat(null)
+        setactiveChat({ _id: '', messages: [] })
+        UserStore.setCurrentChat({ _id: '', messages: [] })
+
     }
     const sendNewMessage = async () => {
         // getting now timestap
@@ -135,7 +145,7 @@ const BasicComponent = observer((props: basicComponentProps) => {
         const seconds = String(now.getSeconds()).padStart(2, '0'); // Get the current second and pad with leading zero if necessary
         const currentTime = `${hours}:${minutes}:${seconds}`;
 
-        if (activeChat) {
+        if (activeChat && activeChat._id && activeChat._id.length > 0) {
             const newMsg: Message = { content: newMessageContent, sender: userStore.user.id, receiver: activeChat.messages[0].sender != UserStore.user.id ? activeChat.messages[0].sender : activeChat.messages[0].receiver, timestamp: currentTime }
             const result = await MessageService.sendMessageToChat(activeChat._id, newMsg)
             if (result.success) {
@@ -227,7 +237,7 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                             {/*messages*/}
                                             <div className={styles.right_main_messages}>
                                                 {/*active chaat*/}
-                                                {activeChat ? (
+                                                {activeChat._id && activeChat._id.length > 0 ? (
                                                     <div className={styles.activeChat} >
                                                         <div className={styles.activeChatHeader}>
                                                             <div style={{ display: 'flex', gap: '5px' }}>

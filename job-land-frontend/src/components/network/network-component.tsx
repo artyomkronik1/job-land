@@ -10,8 +10,10 @@ import ProfileImage from "../../base-components/profile-image/profile-image-comp
 import globalStyles from "../../assets/global-styles/styles.module.scss";
 import { toast } from "react-toastify";
 import ToastComponent from "../../base-components/toaster/ToastComponent";
-
+import globals from "../../assets/global-styles/styles.module.scss";
+import { Chat } from "../../interfaces/chat";
 const NetworkComponent = observer(() => {
+    const [connections, setConnections] = useState<User[]>(UserStore.users.filter((user: User) => UserStore.user.follow.includes(user.id)))
     // users that this user not follow yet
     const [users, setUsers] = useState<User[]>(UserStore.users.filter((user: User) => !UserStore.user.follow.includes(user.id) && user.id != UserStore.user.id))
     const navigate = useNavigate();
@@ -22,7 +24,8 @@ const NetworkComponent = observer(() => {
         UserStore.setLanguage(lng)
         i18n.changeLanguage(lng);
     };
-    const makeFollow = async (userId: string, userIdToFollow: string) => {
+    const makeFollow = async (event: any, userId: string, userIdToFollow: string) => {
+        event.stopPropagation();
         const res = await UserStore.makeFollow(userId, userIdToFollow);
         if (res.success) {
             UserStore.setLoading(true);
@@ -35,7 +38,27 @@ const NetworkComponent = observer(() => {
             toast.success(t('ERROR'));
         }
     }
+    const goToUserProfile = (userid: string) => {
+        UserStore.setLoading(true);
+        setTimeout(() => {
+            UserStore.setLoading(false);
+            navigate(`/profile/${userid}`);
+            UserStore.setTab("Profile")
+        }, 1000)
+    }
+    const MessageToUser = (event: any, id: string) => {
+        event.stopPropagation();
+        const c = UserStore.chats.find((chat: Chat) => chat.messages[0].receiver == id || chat.messages[0].sender == id)
+        if (c) {
+            UserStore.setCurrentChat(c as Chat)
+        }
+        else {
+            UserStore.setnewUserToChat(id)
 
+        }
+        console.log(c);
+
+    }
     const [useSearchValue, setSearchValue] = useState('');
     return (
         <>
@@ -43,14 +66,35 @@ const NetworkComponent = observer(() => {
             <div dir={UserStore.getLanguage() == 'en' ? 'ltr' : 'rtl'}>
                 <div style={{ marginTop: '90px', display: 'flex', flexDirection: 'column', alignItems: 'start', width: '100%', flexWrap: 'wrap' }} >
                     {/*    network*/}
-                    <div style={{ display: "flex", flexDirection: 'column', gap: '20px', flexWrap: 'wrap', height: '100vh' }}>
-                        {users.map((user: User, index) => (
-                            <div className={styles.jobContainer} key={index}>
+                    {connections && connections.length > 0 && (
+                        <p className={globals.h2}> {t('Your connections')} </p>
+                    )}
+
+                    <div style={{ display: "flex", flexDirection: 'row', gap: '20px', flexWrap: 'wrap', width: '100%' }}>
+                        {connections && connections.length > 0 && connections.map((user: User, index: number) => (
+                            <div className={styles.jobContainer} key={index} onClick={() => goToUserProfile(user.id)}>
                                 <div className={styles.jobContainer__header}> <ProfileImage user={user} /> </div>
                                 <div className={styles.jobContainer__body}>
                                     <span style={{ fontSize: '22px', color: '#1c1c39' }}> {user.name}</span>
                                     <span style={{ color: '#717273', fontSize: '19px', fontWeight: 'normal', wordBreak: 'break-word', overflow: 'hidden', maxHeight: '30px', maxWidth: '200px' }} className={globalStyles.simpleP}> {user.about ? user.about : 'No about'}</span>
-                                    <button onClick={() => makeFollow(UserStore.user.id, user.id)} style={{ width: '15vh', display: 'flex', gap: '8px', height: '35px', alignItems: 'center', fontSize: '18px' }} className={globalStyles.btn_border}>
+                                    <button onClick={(event) => MessageToUser(event, user.id)} style={{ width: '15vh', display: 'flex', gap: '8px', height: '35px', alignItems: 'center', fontSize: '18px' }} className={globalStyles.btn_border}>
+                                        <i style={{ fontSize: '17px' }} className="fa-regular fa-message" aria-hidden="true"></i>
+                                        <span style={{ fontSize: '16px' }}> {t('Message')}</span>
+                                    </button>
+                                </div>
+                            </div>))}
+                    </div>
+
+                    <div className={globals.separate_line_grey} style={{ marginBottom: '20px', marginTop: '40px' }}></div>
+                    <p className={globals.h2}> {t('Make new connections')} </p>
+                    <div style={{ display: "flex", flexDirection: 'row', gap: '20px', flexWrap: 'wrap', maxHeight: '100vh' }}>
+                        {users.map((user: User, index) => (
+                            <div className={styles.jobContainer} key={index} onClick={() => goToUserProfile(user.id)}>
+                                <div className={styles.jobContainer__header} > <ProfileImage user={user} /> </div>
+                                <div className={styles.jobContainer__body}>
+                                    <span style={{ fontSize: '22px', color: '#1c1c39' }}> {user.name}</span>
+                                    <span style={{ color: '#717273', fontSize: '19px', fontWeight: 'normal', wordBreak: 'break-word', overflow: 'hidden', maxHeight: '30px', maxWidth: '200px' }} className={globalStyles.simpleP}> {user.about ? user.about : 'No about'}</span>
+                                    <button onClick={(event) => makeFollow(event, UserStore.user.id, user.id)} style={{ width: '15vh', display: 'flex', gap: '8px', height: '35px', alignItems: 'center', fontSize: '18px' }} className={globalStyles.btn_border}>
                                         <i style={{ fontSize: '17px' }} className="fa fa-user-plus" aria-hidden="true"></i>
                                         <span style={{ fontSize: '17px' }}> {t('Follow')}</span>
                                     </button>

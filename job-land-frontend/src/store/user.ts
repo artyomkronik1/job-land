@@ -22,10 +22,11 @@ class UserStore {
     @persist loggedIn = false;
     @persist signedUp = true;
     @persist forgotPass = false;
+    @persist('object') @observable newUserToChat: string = "";
     @persist('object') @observable users: User[] = [];
     @persist('object') @observable chats: Chat[] = []
     @persist('object') @observable posts: Post[] = []
-    @persist('object') @observable currentChat: {} = {};
+    @persist('object') @observable currentChat: Chat = { _id: '', messages: [] };
     @persist('object') @observable user: User = { profilePicture: "", backgroundPicture: "", id: "", password: "", role: "", email: "", about: "", name: "", follow: [], experience: "", education: "" };
     @persist session_key = localStorage.getItem('session_key')
     constructor() {
@@ -43,6 +44,9 @@ class UserStore {
     }
     getTab() {
         return this.tab;
+    }
+    getnewUserToChat() {
+        return this.newUserToChat;
     }
     getForgotPass() {
         return this.forgotPass;
@@ -88,6 +92,9 @@ class UserStore {
     }
     setForgotPass(pass: boolean) {
         this.forgotPass = pass
+    }
+    setnewUserToChat(id: string) {
+        this.newUserToChat = id
     }
     setLanguage(lan: string) {
         this.language = lan;
