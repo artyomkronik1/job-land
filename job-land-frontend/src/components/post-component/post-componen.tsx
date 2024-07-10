@@ -208,7 +208,9 @@ const PostComponent = observer((props: any) => {
                             {/*<span  style={{  fontSize:'19px',display:'flex', color:'#555555',  wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.title}</span>*/}
 
                             {post.picture && post.picture.length > 0 && (
-                                <img src={post.picture} />
+                                <div style={{ width: '100%' }}>
+                                    <img src={post.picture} style={{ width: '100%' }} />
+                                </div>
                             )}
                             <span style={{ display: 'flex', color: '#181818', fontSize: '22px', fontWeight: 'normal', wordBreak: 'break-all', width: '100%', maxWidth: '100%', maxHeight: '100%', overflow: 'hidden' }}> {post.description}</span>
 
