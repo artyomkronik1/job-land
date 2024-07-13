@@ -24,6 +24,58 @@ const NetworkComponent = observer(() => {
         UserStore.setLanguage(lng)
         i18n.changeLanguage(lng);
     };
+
+
+
+    useEffect(() => {
+
+        if (UserStore.searchValue.length > 0) {
+            let filteredUsers: User[] = []
+            let filteredConnections: User[] = []
+
+            connections.forEach((c: User) => {
+                if (c.name == UserStore.searchValue || c.about == UserStore.searchValue) {
+                    filteredUsers.push(c)
+                }
+
+            })
+
+
+            users.forEach((c: User) => {
+                if (c.name == UserStore.searchValue || c.about == UserStore.searchValue) {
+                    filteredConnections.push(c)
+                }
+
+            })
+            if (filteredUsers.length > 0) {
+                setConnections(filteredUsers)
+            }
+
+            else {
+                setConnections(UserStore.users.filter((user: User) => UserStore.user.follow.includes(user.id)))
+            }
+
+            if (filteredConnections.length > 0) {
+                setUsers(filteredConnections)
+            }
+            else {
+                setUsers(UserStore.users.filter((user: User) => !UserStore.user.follow.includes(user.id) && user.id != UserStore.user.id))
+
+            }
+
+
+        }
+        else {
+            setUsers(UserStore.users.filter((user: User) => !UserStore.user.follow.includes(user.id) && user.id != UserStore.user.id))
+
+            setConnections(UserStore.users.filter((user: User) => UserStore.user.follow.includes(user.id)))
+
+        }
+    }, [UserStore.searchValue]);
+
+
+
+
     const makeFollow = async (event: any, userId: string, userIdToFollow: string) => {
         event.stopPropagation();
         const res = await UserStore.makeFollow(userId, userIdToFollow);

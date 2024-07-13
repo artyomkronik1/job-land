@@ -19,7 +19,6 @@ const JobsComponent = observer(() => {
     //language
     const { t } = useTranslation();
     const { i18n } = useTranslation();
-    const [useSearchValue, setSearchValue] = useState('');
     const [searchJobName, setsearchJobName] = useState('');
     const [searchJobLoc, setsearchJobLoc] = useState('');
 
@@ -39,9 +38,10 @@ const JobsComponent = observer(() => {
     }, [filterValues]);
 
 
+
+
     // get jobs by name or location that changed dynamically
     useEffect(() => {
-        console.log(allJobs);
         if (searchJobName.length > 0) {
             const filteredJobs = jobsStore.getfilterJobs().filter(job => {
                 const matchesName = job.title.toLowerCase().includes(searchJobName.toLowerCase()) || job.hire_name.toLowerCase().includes(searchJobName.toLowerCase()) || job.zone.toLowerCase().includes(searchJobName.toLowerCase()) || job.profession.toLowerCase().includes(searchJobName.toLowerCase());
@@ -60,10 +60,7 @@ const JobsComponent = observer(() => {
             setAllJobs(jobsStore.getfilterJobs());
         }
     }, [searchJobName, searchJobLoc]);
-    const changeLanguage = (lng: string) => {
-        UserStore.setLanguage(lng)
-        i18n.changeLanguage(lng);
-    };
+
     // job full popup
     const [fullJob, setfullJob] = useState<Job>({
         id: "",

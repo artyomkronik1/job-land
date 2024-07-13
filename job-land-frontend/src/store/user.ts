@@ -22,6 +22,8 @@ class UserStore {
     @persist loggedIn = false;
     @persist signedUp = true;
     @persist forgotPass = false;
+    @persist searchValue = '';
+
     @persist('object') @observable newUserToChat: string = "";
     @persist('object') @observable users: User[] = [];
     @persist('object') @observable chats: Chat[] = []
@@ -44,6 +46,9 @@ class UserStore {
     }
     getTab() {
         return this.tab;
+    }
+    getSearchValue() {
+        return this.searchValue
     }
     getnewUserToChat() {
         return this.newUserToChat;
@@ -89,6 +94,9 @@ class UserStore {
     }
     setLoading(loading: boolean) {
         this.loading = loading
+    }
+    setSearchValue(v: string) {
+        this.searchValue = v
     }
     setForgotPass(pass: boolean) {
         this.forgotPass = pass

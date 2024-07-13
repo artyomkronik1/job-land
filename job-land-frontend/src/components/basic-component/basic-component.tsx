@@ -49,6 +49,8 @@ const BasicComponent = observer((props: basicComponentProps) => {
         UserStore.setLanguage(lng)
         i18n.changeLanguage(lng);
     };
+
+
     // profileSettings
 
     const [profileSettings, setprofileSettings] = useState('');
@@ -79,7 +81,11 @@ const BasicComponent = observer((props: basicComponentProps) => {
     // message box
     const [messageBoxIsOpen, setmessageBoxIsOpen] = useState(false);
     // search
-    const [useSearchValue, setSearchValue] = useState('');
+    const [useSearchValue, setSearchValue] = useState(UserStore.getSearchValue());
+    const setSearchValueInput = (value: string) => {
+
+        setSearchValue(value)
+    }
     //title
     const [postNewJob, setpostNewJob] = useState(false)
 
@@ -206,9 +212,15 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                     <div className={styles.right}>
                                         <div className={styles.right_header}>
                                             {/*left side*/}
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '40px', justifyContent: 'start' }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '80px', justifyContent: 'start' }}>
                                                 <h1 className={styles.h2}> {t(UserStore.getTab())}</h1>
-                                                <SearchInput placeHolder={t('search...')} value={useSearchValue} ariaLabel={'Search..'} onChange={(vaalue) => setSearchValue(vaalue)} />
+                                                <div style={{ display: 'flex', gap: '10px' }}>
+                                                    <SearchInput placeHolder={t('search...')} value={useSearchValue} ariaLabel={'Search..'} onChange={(vaalue) => setSearchValueInput(vaalue)} />
+                                                    <button onClick={() => UserStore.setSearchValue(useSearchValue)} style={{ width: '100px', height: '48px', display: 'flex', gap: '6px', padding: '20px' }} className={globalStyles.btn}>
+                                                        <span style={{ color: 'white', fontSize: '17px' }}>{t('Search')}</span>
+                                                        <i style={{ color: 'white', fontSize: '16px' }} className="fa fa-search" aria-hidden="true"></i>
+                                                    </button>
+                                                </div>
                                             </div>
                                             {/*user side*/}
                                             <div className={styles.rightHeader_right} style={{ display: 'flex', gap: '50px', alignItems: 'center', justifyContent: 'end', position: 'absolute' }}>
