@@ -20,6 +20,7 @@ import PostsService from "../../services/postService";
 import EditPost from "../../dialogs/edit-post/edit-post";
 import PostComponen from "../post-component/post-componen";
 const MainLayout = observer(() => {
+
     const [startIndex, setStartIndex] = useState(0);
     const navigate = useNavigate();
     //language
@@ -30,6 +31,8 @@ const MainLayout = observer(() => {
     const [editPost, setEditPost] = useState(false);
     const [goToProfileFlag, setgoToProfileFlag] = useState(false);
     const [likeFlag, setlike] = useState(false);
+    const [searchValue, setsearchValue] = useState(UserStore.searchValue);
+
 
     const [editingPost, seteditingPost] = useState<Post>({
         likedBy: [],
@@ -46,6 +49,20 @@ const MainLayout = observer(() => {
         setPosts(jobsStore.followPost)
     }, [likeFlag]);
 
+
+
+    // set users and connections by search value input
+    useEffect(() => {
+
+
+        if (UserStore.searchValue.length > 0) {
+            setPosts(posts.filter((p: Post) => p.writer_name.toLowerCase().includes(UserStore.searchValue.toLowerCase())))
+        }
+        else {
+            setPosts(jobsStore.followPost)
+        }
+
+    }, [UserStore.searchValue]);
 
     const closePopup = (success: boolean) => {
         if (success) {

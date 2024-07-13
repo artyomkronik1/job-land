@@ -170,7 +170,7 @@ const MessagesComponent = () => {
     return (
         <>
             <div dir={UserStore.getLanguage() == 'en' ? 'ltr' : 'rtl'}>
-                <div style={{ marginTop: '90px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', height: '100vh' }} >
+                <div style={{ marginTop: '90px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }} >
                     {/*    messages container*/}
                     {/*    title*/}
                     <div style={{ backgroundColor: 'white', width: '100%', height: '150px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -228,7 +228,7 @@ const MessagesComponent = () => {
                                             {openChat?._id == "" && newMessage && !newChatFlag && (
                                                 <div style={{ display: 'flex', width: '100%', marginTop: '40px', flexDirection: 'column' }}>
                                                     <SearchInput placeHolder={t('Type a name...')} value={searchContactName} ariaLabel={t('Type a name')} onChange={setsearchContactName} />
-                                                    <div style={{ marginTop: '20px', paddingBottom: '20px', paddingLeft: '20px', paddingRight: '20px', borderRadius: '25px', border: '1px solid #cfd0d2', height: '100%' }}>
+                                                    <div style={{ marginTop: '20px', paddingBottom: '20px', paddingLeft: '20px', paddingRight: '20px', borderRadius: '25px', border: '1px solid #cfd0d2', height: '40%', overflow: 'auto' }}>
                                                         <div style={{ overflowY: 'scroll' }}>
                                                             {usersFollowedBy.length > 0 ? usersFollowedBy.map((user: User, index) =>
                                                                 <div key={index}  >

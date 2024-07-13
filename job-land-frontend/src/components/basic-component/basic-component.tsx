@@ -225,11 +225,13 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                             {/*user side*/}
                                             <div className={styles.rightHeader_right} style={{ display: 'flex', gap: '50px', alignItems: 'center', justifyContent: 'end', position: 'absolute' }}>
                                                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                                    <DropDown options={['Profile', 'Logout']} changeDropValue={getSettingAction} icons={['fa fa-user-circle', 'fa fa-sign-out']}>
+                                                    <div style={{ cursor: 'pointer' }}>
+                                                        <DropDown options={['Profile', 'Logout']} changeDropValue={getSettingAction} icons={['fa fa-user-circle', 'fa fa-sign-out']}>
 
-                                                        <ProfileImage user={UserStore.user} />
+                                                            <ProfileImage user={UserStore.user} />
 
-                                                    </DropDown>
+                                                        </DropDown>
+                                                    </div>
                                                     <div className={styles.languageDivBasic}>
                                                         {UserStore.getLanguage() == 'en' ?
                                                             <img src={he} className={styles.heLanguagePic} onClick={() => changeLanguage('he')} />

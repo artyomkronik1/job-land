@@ -20,15 +20,13 @@ const NetworkComponent = observer(() => {
     //language
     const { t } = useTranslation();
     const { i18n } = useTranslation();
-    const changeLanguage = (lng: string) => {
-        UserStore.setLanguage(lng)
-        i18n.changeLanguage(lng);
-    };
-
-
-
+    // loading users
     useEffect(() => {
+        UserStore.getUsers();
+    }, [])
 
+    // set users and connections by search value input
+    useEffect(() => {
         if (UserStore.searchValue.length > 0) {
             let filteredUsers: User[] = []
             let filteredConnections: User[] = []
@@ -108,10 +106,8 @@ const NetworkComponent = observer(() => {
             UserStore.setnewUserToChat(id)
 
         }
-        console.log(c);
 
     }
-    const [useSearchValue, setSearchValue] = useState('');
     return (
         <>
             <ToastComponent />
