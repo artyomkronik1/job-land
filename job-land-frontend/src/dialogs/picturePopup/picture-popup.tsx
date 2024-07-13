@@ -17,12 +17,14 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/storage'
 import stylesProfilePioc from '../../base-components/profile-image/profile-image.module.scss'
 import { set } from 'mobx';
+import { User } from '../../interfaces/user';
 export interface PicturePopupProps {
 	isOpen: boolean;
 	onClose: (success: boolean) => void;
 	children?: ReactNode;
 	picture: string
 	isProfile: boolean
+	user?: User;
 }
 
 const PicturePopup = (props: PicturePopupProps) => {
@@ -31,6 +33,7 @@ const PicturePopup = (props: PicturePopupProps) => {
 	const { t } = useTranslation();
 	const { i18n } = useTranslation();
 	const [updatedPicture, setupdatedPicture] = useState(props.picture);
+
 
 	const getColorByLetter = (letter: string) => {
 		const colorOptions = [
@@ -49,27 +52,29 @@ const PicturePopup = (props: PicturePopupProps) => {
 		return selectedOption ? selectedOption.color : '#808080'; // Default color
 	}
 	const getbackgroundColor = () => {
-		if (props) {
+		if (props && props.user) {
 			let first_name = ""
-			const spaceIndex = UserStore.user.name?.indexOf(" "); // Find the index of the space
+			const spaceIndex = props.user.name?.indexOf(" "); // Find the index of the space
 			if (spaceIndex != -1) {
-				first_name = UserStore.user.name?.substring(0, spaceIndex);
+				first_name = props.user.name?.substring(0, spaceIndex);
 				return getColorByLetter(first_name[0]);
 			} else {
-				return getColorByLetter(UserStore.user.name[0]);
+				return getColorByLetter(props.user.name[0]);
 			}
 		}
 	}
 
-	const initials = (): string => {
-		const spaceIndex = UserStore.user.name.indexOf(" "); // Find the index of the space
-		if (spaceIndex != -1) {
-			const first_name = UserStore.user.name.substring(0, spaceIndex);
-			const last_name = UserStore.user.name.substring(spaceIndex + 1);
-			return first_name[0] + last_name[0];
-		}
-		else {
-			return UserStore.user.name[0]
+	const initials = () => {
+		if (props && props.user) {
+			const spaceIndex = props.user.name.indexOf(" "); // Find the index of the space
+			if (spaceIndex != -1) {
+				const first_name = props.user.name.substring(0, spaceIndex);
+				const last_name = props.user.name.substring(spaceIndex + 1);
+				return first_name[0] + last_name[0];
+			}
+			else {
+				return props.user.name[0]
+			}
 		}
 	}
 	useEffect(() => {
@@ -159,7 +164,7 @@ const PicturePopup = (props: PicturePopupProps) => {
 			<Popup popupTitle='' width='50vh'>
 				<ToastComponent />
 				<div ref={dialogRef} className={styles.main} style={{ marginTop: '50px', overflow: 'none', justifyContent: 'center', height: '100%', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-					{updatedPicture.length > 0 ? (
+					{updatedPicture && updatedPicture.length > 0 ? (
 						<div style={{ marginBottom: '50px' }}>
 							<label htmlFor="picInput">
 								<img
@@ -178,7 +183,27 @@ const PicturePopup = (props: PicturePopupProps) => {
 							/>
 						</div>
 
+					) : !props.isProfile ? (
+
+						<div style={{ marginBottom: '50px' }}>
+							<label htmlFor="picInput">
+								<img
+									src={updatedPicture}
+
+									alt="Background"
+									style={{ borderRadius: props.isProfile ? '50%' : '0%', width: '100%', cursor: "pointer", display: 'flex', height: '100%' }}
+								/>
+							</label>
+							<input
+								type="file"
+								id="picInput"
+								accept="image/*"
+								style={{ display: "none" }}
+								onChange={handleBackgroundPicChange}
+							/>
+						</div>
 					) :
+
 						<label htmlFor="picInput">
 							<div className={stylesProfilePioc.profileForm} style={{ display: 'flex', justifyContent: 'center', backgroundColor: `${getbackgroundColor()}`, width: '170px', height: '170px', marginBottom: '30px' }} >
 								<span style={{ display: 'flex', justifyContent: "center", alignItems: 'center', fontWeight: 'bold', fontSize: '70px' }}>{initials()}</span>
@@ -190,19 +215,23 @@ const PicturePopup = (props: PicturePopupProps) => {
 								style={{ display: "none" }}
 								onChange={handleBackgroundPicChange}
 							/>
-						</label>
-					}
+						</label>}
 
-					<div style={{ display: 'flex', justifyContent: 'center', gap: '50px' }}>
-						<div className={styles.settings} onClick={triggerFileInput} style={{ gap: '8px' }} >
-							<img src={addPhoto} style={{ width: '25px' }} />
-							<span className={globalstyles.mainGreySpan}> {t('add photo')}</span>
+
+					{props.user && UserStore.user.id === props.user.id && (
+						<div style={{ display: 'flex', justifyContent: 'center', gap: '50px' }} >
+							<div className={styles.settings} onClick={triggerFileInput} style={{ gap: '8px' }} >
+								<img src={addPhoto} style={{ width: '25px' }} />
+								<span className={globalstyles.mainGreySpan}> {t('add photo')}</span>
+							</div>
+							<div className={styles.settings} onClick={removePicture}>
+								<img src={d} style={{ width: '30px' }} />
+								<span className={globalstyles.mainGreySpan}>{t('delete photo')}</span>
+							</div>
 						</div>
-						<div className={styles.settings} onClick={removePicture}>
-							<img src={d} style={{ width: '30px' }} />
-							<span className={globalstyles.mainGreySpan}>{t('delete photo')}</span>
-						</div>					</div>
+					)}
 				</div>
+
 			</Popup>
 		</div>
 	);
