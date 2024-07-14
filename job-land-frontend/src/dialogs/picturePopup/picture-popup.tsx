@@ -161,79 +161,155 @@ const PicturePopup = (props: PicturePopupProps) => {
 
 	return (
 		<div style={{ overflow: 'hidden' }}>
-			<Popup popupTitle='' width='50vh'>
-				<ToastComponent />
-				<div ref={dialogRef} className={styles.main} style={{ marginTop: '50px', overflow: 'none', justifyContent: 'center', height: '100%', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-					{updatedPicture && updatedPicture.length > 0 ? (
-						<div style={{ marginBottom: '50px' }}>
-							<label htmlFor="picInput">
-								<img
-									src={updatedPicture}
+			{props.isProfile ? (
+				<Popup popupTitle='' width='50vh'>
+					<ToastComponent />
+					<div ref={dialogRef} className={styles.main} style={{ marginTop: '50px', overflow: 'none', justifyContent: 'center', height: '100%', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+						{updatedPicture && updatedPicture.length > 0 ? (
+							<div style={{ marginBottom: '50px' }}>
+								<label htmlFor="picInput" style={{ display: 'flex', justifyContent: 'center' }}>
+									<img
+										src={updatedPicture}
 
-									alt="Background"
-									style={{ borderRadius: props.isProfile ? '50%' : '0%', width: '100%', cursor: "pointer", display: 'flex', height: '100%' }}
+										alt="Background"
+										style={{ borderRadius: props.isProfile ? '50%' : '0%', width: '100%', cursor: "pointer", display: 'flex', height: '100%' }}
+									/>
+								</label>
+								<input
+									type="file"
+									id="picInput"
+									accept="image/*"
+									style={{ display: "none" }}
+									onChange={handleBackgroundPicChange}
 								/>
-							</label>
-							<input
-								type="file"
-								id="picInput"
-								accept="image/*"
-								style={{ display: "none" }}
-								onChange={handleBackgroundPicChange}
-							/>
-						</div>
+							</div>
 
-					) : !props.isProfile ? (
+						) : !props.isProfile ? (
 
-						<div style={{ marginBottom: '50px' }}>
-							<label htmlFor="picInput">
-								<img
-									src={updatedPicture}
+							<div style={{ marginBottom: '50px' }}>
+								<label htmlFor="picInput">
+									<img
+										src={updatedPicture}
 
-									alt="Background"
-									style={{ borderRadius: props.isProfile ? '50%' : '0%', width: '100%', cursor: "pointer", display: 'flex', height: '100%' }}
+										alt="Background"
+										style={{ borderRadius: props.isProfile ? '50%' : '0%', width: '100%', cursor: "pointer", display: 'flex', height: '100%' }}
+									/>
+								</label>
+								<input
+									type="file"
+									id="picInput"
+									accept="image/*"
+									style={{ display: "none" }}
+									onChange={handleBackgroundPicChange}
 								/>
-							</label>
-							<input
-								type="file"
-								id="picInput"
-								accept="image/*"
-								style={{ display: "none" }}
-								onChange={handleBackgroundPicChange}
-							/>
-						</div>
-					) :
-
-						<label htmlFor="picInput">
-							<div className={stylesProfilePioc.profileForm} style={{ display: 'flex', justifyContent: 'center', backgroundColor: `${getbackgroundColor()}`, width: '170px', height: '170px', marginBottom: '30px' }} >
-								<span style={{ display: 'flex', justifyContent: "center", alignItems: 'center', fontWeight: 'bold', fontSize: '70px' }}>{initials()}</span>
 							</div>
-							<input
-								type="file"
-								id="picInput"
-								accept="image/*"
-								style={{ display: "none" }}
-								onChange={handleBackgroundPicChange}
-							/>
-						</label>}
+						) :
+
+							<label htmlFor="picInput">
+								<div className={stylesProfilePioc.profileForm} style={{ display: 'flex', justifyContent: 'center', backgroundColor: `${getbackgroundColor()}`, width: '170px', height: '170px', marginBottom: '30px' }} >
+									<span style={{ display: 'flex', justifyContent: "center", alignItems: 'center', fontWeight: 'bold', fontSize: '70px' }}>{initials()}</span>
+								</div>
+								<input
+									type="file"
+									id="picInput"
+									accept="image/*"
+									style={{ display: "none" }}
+									onChange={handleBackgroundPicChange}
+								/>
+							</label>}
 
 
-					{props.user && UserStore.user.id === props.user.id && (
-						<div style={{ display: 'flex', justifyContent: 'center', gap: '50px' }} >
-							<div className={styles.settings} onClick={triggerFileInput} style={{ gap: '8px' }} >
-								<img src={addPhoto} style={{ width: '25px' }} />
-								<span className={globalstyles.mainGreySpan}> {t('add photo')}</span>
+						{props.user && UserStore.user.id === props.user.id && (
+							<div style={{ display: 'flex', justifyContent: 'center', gap: '50px' }} >
+								<div className={styles.settings} onClick={triggerFileInput} style={{ gap: '8px' }} >
+									<img src={addPhoto} style={{ width: '25px' }} />
+									<span className={globalstyles.mainGreySpan}> {t('add photo')}</span>
+								</div>
+								<div className={styles.settings} onClick={removePicture}>
+									<img src={d} style={{ width: '30px' }} />
+									<span className={globalstyles.mainGreySpan}>{t('delete photo')}</span>
+								</div>
 							</div>
-							<div className={styles.settings} onClick={removePicture}>
-								<img src={d} style={{ width: '30px' }} />
-								<span className={globalstyles.mainGreySpan}>{t('delete photo')}</span>
-							</div>
-						</div>
-					)}
-				</div>
+						)}
+					</div>
 
-			</Popup>
-		</div>
+				</Popup>
+			) :
+
+				<Popup popupTitle='' width='90%'>
+					<ToastComponent />
+					<div ref={dialogRef} className={styles.main} style={{ marginTop: '50px', overflow: 'none', justifyContent: 'center', height: '100%', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+						{updatedPicture && updatedPicture.length > 0 ? (
+							<div style={{ marginBottom: '50px', width: '-webkit-fill-available' }}>
+								<label htmlFor="picInput">
+									<img
+										src={updatedPicture}
+
+										alt="Background"
+										style={{ borderRadius: props.isProfile ? '50%' : '0%', width: '100%', cursor: "pointer", display: 'flex', }}
+									/>
+								</label>
+								<input
+									type="file"
+									id="picInput"
+									accept="image/*"
+									style={{ display: "none" }}
+									onChange={handleBackgroundPicChange}
+								/>
+							</div>
+
+						) : !props.isProfile ? (
+
+							<div style={{ marginBottom: '50px' }}>
+								<label htmlFor="picInput">
+									<img
+										src={updatedPicture}
+
+										alt="Background"
+										style={{ borderRadius: props.isProfile ? '50%' : '0%', width: '100%', cursor: "pointer", display: 'flex', height: '100%' }}
+									/>
+								</label>
+								<input
+									type="file"
+									id="picInput"
+									accept="image/*"
+									style={{ display: "none" }}
+									onChange={handleBackgroundPicChange}
+								/>
+							</div>
+						) :
+
+							<label htmlFor="picInput">
+								<div className={stylesProfilePioc.profileForm} style={{ display: 'flex', justifyContent: 'center', backgroundColor: `${getbackgroundColor()}`, width: '170px', height: '170px', marginBottom: '30px' }} >
+									<span style={{ display: 'flex', justifyContent: "center", alignItems: 'center', fontWeight: 'bold', fontSize: '70px' }}>{initials()}</span>
+								</div>
+								<input
+									type="file"
+									id="picInput"
+									accept="image/*"
+									style={{ display: "none" }}
+									onChange={handleBackgroundPicChange}
+								/>
+							</label>}
+
+
+						{props.user && UserStore.user.id === props.user.id && (
+							<div style={{ display: 'flex', justifyContent: 'center', gap: '50px' }} >
+								<div className={styles.settings} onClick={triggerFileInput} style={{ gap: '8px' }} >
+									<img src={addPhoto} style={{ width: '25px' }} />
+									<span className={globalstyles.mainGreySpan}> {t('add photo')}</span>
+								</div>
+								<div className={styles.settings} onClick={removePicture}>
+									<img src={d} style={{ width: '30px' }} />
+									<span className={globalstyles.mainGreySpan}>{t('delete photo')}</span>
+								</div>
+							</div>
+						)}
+					</div>
+
+				</Popup>
+			}
+		</div >
 	);
 };
 

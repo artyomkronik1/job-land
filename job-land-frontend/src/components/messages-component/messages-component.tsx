@@ -122,30 +122,46 @@ const MessagesComponent = () => {
         }
     }
     const sendNewMessageToNewChat = async () => {
-        // getting now timestap
+        // getting current timestamp
         const now = new Date();
-        const hours = String(now.getHours()).padStart(2, '0'); // Get the current hour and pad with leading zero if necessary
-        const minutes = String(now.getMinutes()).padStart(2, '0'); // Get the current minute and pad with leading zero if necessary
-        const seconds = String(now.getSeconds()).padStart(2, '0'); // Get the current second and pad with leading zero if necessary
-        const currentTime = `${hours}:${minutes}:${seconds}`;
+
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed, so we add 1
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+
+        // Get day of the week as a string
+        const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const dayOfWeek = daysOfWeek[now.getDay()];
+
+        // Construct the desired timestamp format
+        const currentTime = `${day}/${month}/${year}, ${dayOfWeek}, ${hours}:${minutes}:${seconds}`;
+
         if (newUserToChat) {
-            let newmsg: Message = { sender: UserStore.user.id, receiver: newUserToChat.id, content: newMessageContent, timestamp: currentTime }
-            const result = await MessageService.sendMessageToNewChat(newmsg)
+            let newmsg = {
+                sender: UserStore.user.id,
+                receiver: newUserToChat.id,
+                content: newMessageContent,
+                timestamp: currentTime
+            };
+
+            const result = await MessageService.sendMessageToNewChat(newmsg);
+
             if (result.success) {
                 UserStore.setLoading(true);
                 toast.success(t('SUCCESS'));
                 setTimeout(() => {
                     UserStore.setLoading(false);
                 }, 3000);
-
             }
+
             await UserStore.getChatsByUser(UserStore.user.id);
-            setChats(UserStore.getChats())
-
-
+            setChats(UserStore.getChats());
         }
-
     }
+
     const sendNewMessage = async () => {
         // getting now timestap
         const now = new Date();
@@ -211,11 +227,11 @@ const MessagesComponent = () => {
                             </div>
 
                             <div className={styles.messagesContainer__rightSide}>
-                                {openChat && !newMessage && (
+                                {/* {openChat && !newMessage && (
                                     <div style={{ marginBottom: '20px', borderBottom: '1px solid #dcdcdc', position: 'relative', display: 'flex', width: '100%', paddingLeft: '80px', height: '40px', background: 'white', alignItems: 'baseline', marginTop: '-20px' }}>
                                         <span style={{ marginRight: '20px', marginLeft: '20px', color: 'rgb(64, 65, 65)', fontSize: '20px', fontWeight: 'bold' }}>{UserStore.user.id == openChat.messages[0].sender ? UserStore.getUserInfoById(openChat.messages[0].receiver).name : UserStore.getUserInfoById(openChat.messages[0].sender).name}</span>
                                     </div>
-                                )}
+                                )} */}
                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', width: '100%' }}>
 
                                     {/*// new message*/}
