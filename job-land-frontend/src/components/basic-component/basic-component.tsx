@@ -165,6 +165,56 @@ const BasicComponent = observer((props: basicComponentProps) => {
     const setnewMessageContentHandler = (event: any) => {
         setnewMessageContent(event.target.value)
     }
+    const formatTimestampToTime = (timestamp: string) => {
+        const date = new Date(timestamp);
+
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+
+        return `${hours}:${minutes}:${seconds}`;
+    };
+
+    const getRelativeDateString = (timestamp: string) => {
+        const date = new Date(timestamp);
+        const currentDate = new Date();
+
+        // Check if the date is today
+        if (date.toDateString() === currentDate.toDateString()) {
+            return 'Today';
+        }
+
+        // Calculate yesterday's date
+        const yesterday = new Date(currentDate);
+        yesterday.setDate(currentDate.getDate() - 1);
+
+        // Check if the date is yesterday
+        if (date.toDateString() === yesterday.toDateString()) {
+            return 'Yesterday';
+        }
+
+        // Check if the date is within the current week
+        const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const dayOfWeek = daysOfWeek[date.getDay()];
+
+        // Check if the date is within the current month
+        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+            'August', 'September', 'October', 'November', 'December'];
+        const monthName = monthNames[date.getMonth()];
+        const dayOfMonth = date.getDate();
+
+        // Check if the date is within the current year
+        const year = date.getFullYear();
+
+        // Check if the date is more than a year ago
+        const currentYear = currentDate.getFullYear();
+
+        if (year === currentYear) {
+            return dayOfWeek;
+        } else {
+            return `${monthName} ${dayOfMonth}`;
+        }
+    };
     const moveOnSidebar = (str: string, index: number) => {
         if (str == 'top') {
             if (index == 6) {
@@ -272,16 +322,24 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                                                     <div key={index} style={{ display: 'flex', justifyContent: 'space-between', width: '100%', flexDirection: 'column', gap: '30px', marginBottom: '30px' }}>
                                                                         {msg.sender == userStore.user.id ? (
                                                                             <div style={{ display: 'flex', justifyContent: 'start', width: '100%', gap: '8px' }}>
-                                                                                <ProfileImage user={UserStore.user} />
-                                                                                <div style={{ marginInlineStart: '5px', display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'start' }}>
-                                                                                    <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'baseline', justifyContent: 'center' }}>
+                                                                                <div style={{ display: 'flex', flexDirection: 'column' }}>
 
-                                                                                        <span style={{ fontSize: '15px', color: '#79797a' }} className={globalStyles.simpleP}>{UserStore.getUserNameById(msg.sender)}</span>
-                                                                                        <span style={{ fontSize: '13px', fontWeight: 'normal', color: '#79797a' }} className={globalStyles.simpleP}>{'-'}</span>
+                                                                                    <div style={{ width: '100%', display: 'flex', justifyContent: 'center', color: '#0a66c2', fontWeight: 'bold', marginBottom: '10px' }}>{getRelativeDateString(msg.timestamp)}</div>
 
-                                                                                        <span style={{ fontSize: '13px', fontWeight: 'normal', color: '#79797a' }} className={globalStyles.simpleP}>{msg.timestamp}</span>
+
+                                                                                    <div style={{ display: 'flex', width: '100%' }}>
+                                                                                        <ProfileImage user={UserStore.user} />
+                                                                                        <div style={{ marginInlineStart: '5px', display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'start' }}>
+                                                                                            <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'baseline', justifyContent: 'center' }}>
+
+                                                                                                <span style={{ fontSize: '15px', color: '#79797a' }} className={globalStyles.simpleP}>{UserStore.getUserNameById(msg.sender)}</span>
+                                                                                                <span style={{ fontSize: '13px', fontWeight: 'normal', color: '#79797a' }} className={globalStyles.simpleP}>{'-'}</span>
+
+                                                                                                <span style={{ fontSize: '13px', fontWeight: 'normal', color: '#79797a' }} className={globalStyles.simpleP}>{formatTimestampToTime(msg.timestamp)}</span>
+                                                                                            </div>
+                                                                                            <span style={{ fontSize: '20px', color: '#404141' }} className={globalStyles.simpleP}>{msg.content}</span>
+                                                                                        </div>
                                                                                     </div>
-                                                                                    <span style={{ fontSize: '20px', color: '#404141' }} className={globalStyles.simpleP}>{msg.content}</span>
                                                                                 </div>
                                                                             </div>
                                                                         ) :

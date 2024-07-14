@@ -121,23 +121,57 @@ const MessagesComponent = () => {
             openNewChat(currentChat)
         }
     }
-    const sendNewMessageToNewChat = async () => {
-        // getting current timestamp
-        const now = new Date();
 
+    const getRelativeDateString = (timestamp: string) => {
+        const date = new Date(timestamp);
+        const currentDate = new Date();
+
+        // Check if the date is today
+        if (date.toDateString() === currentDate.toDateString()) {
+            return 'Today';
+        }
+
+        // Calculate yesterday's date
+        const yesterday = new Date(currentDate);
+        yesterday.setDate(currentDate.getDate() - 1);
+
+        // Check if the date is yesterday
+        if (date.toDateString() === yesterday.toDateString()) {
+            return 'Yesterday';
+        }
+
+        // Check if the date is within the current week
+        const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const dayOfWeek = daysOfWeek[date.getDay()];
+
+        // Check if the date is within the current month
+        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+            'August', 'September', 'October', 'November', 'December'];
+        const monthName = monthNames[date.getMonth()];
+        const dayOfMonth = date.getDate();
+
+        // Check if the date is within the current year
+        const year = date.getFullYear();
+
+        // Check if the date is more than a year ago
+        const currentYear = currentDate.getFullYear();
+
+        if (year === currentYear) {
+            return dayOfWeek;
+        } else {
+            return `${monthName} ${dayOfMonth}`;
+        }
+    };
+    const sendNewMessageToNewChat = async () => {
+        // Getting current timestamp in YYYY-MM-DDTHH:mm:ss format
+        const now = new Date();
         const year = now.getFullYear();
         const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed, so we add 1
         const day = String(now.getDate()).padStart(2, '0');
         const hours = String(now.getHours()).padStart(2, '0');
         const minutes = String(now.getMinutes()).padStart(2, '0');
         const seconds = String(now.getSeconds()).padStart(2, '0');
-
-        // Get day of the week as a string
-        const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        const dayOfWeek = daysOfWeek[now.getDay()];
-
-        // Construct the desired timestamp format
-        const currentTime = `${day}/${month}/${year}, ${dayOfWeek}, ${hours}:${minutes}:${seconds}`;
+        const currentTime = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 
         if (newUserToChat) {
             let newmsg = {
@@ -160,28 +194,79 @@ const MessagesComponent = () => {
             await UserStore.getChatsByUser(UserStore.user.id);
             setChats(UserStore.getChats());
         }
-    }
+    };
+
 
     const sendNewMessage = async () => {
-        // getting now timestap
+        // Getting current timestamp in YYYY-MM-DDTHH:mm:ss format
         const now = new Date();
-        const hours = String(now.getHours()).padStart(2, '0'); // Get the current hour and pad with leading zero if necessary
-        const minutes = String(now.getMinutes()).padStart(2, '0'); // Get the current minute and pad with leading zero if necessary
-        const seconds = String(now.getSeconds()).padStart(2, '0'); // Get the current second and pad with leading zero if necessary
-        const currentTime = `${hours}:${minutes}:${seconds}`;
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed, so we add 1
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        const currentTime = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 
         if (openChat) {
-            const newMsg: Message = { content: newMessageContent, sender: userStore.user.id, receiver: openChat.messages[0].sender != UserStore.user.id ? openChat.messages[0].sender : openChat.messages[0].receiver, timestamp: currentTime }
-            const result = await MessageService.sendMessageToChat(openChat._id, newMsg)
+            const newMsg = {
+                content: newMessageContent,
+                sender: userStore.user.id,
+                receiver: openChat.messages[0].sender !== UserStore.user.id ? openChat.messages[0].sender : openChat.messages[0].receiver,
+                timestamp: currentTime
+            };
+
+            const result = await MessageService.sendMessageToChat(openChat._id, newMsg);
+
             if (result.success) {
-                setOpenChat(result.chat)
-                setnewMessageContent('')
-                await UserStore.getChatsByUser(UserStore.user.id)
-
-
+                setOpenChat(result.chat);
+                setnewMessageContent('');
+                await UserStore.getChatsByUser(UserStore.user.id);
             }
-
         }
+    };
+    const formatTimestampToTime = (timestamp: string) => {
+        const date = new Date(timestamp);
+
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+
+        return `${hours}:${minutes}:${seconds}`;
+    };
+
+    const checkDate = (chat: Chat, msg: Message) => {
+        let res = true;
+        const date = new Date(msg.timestamp);
+
+        const year = String(date.getFullYear());
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is zero-indexed, so add 1
+        const day = String(date.getDate()).padStart(2, '0');
+
+        const hours = parseInt(String(date.getHours()).padStart(2, '0'), 10);
+        const minutes = parseInt(String(date.getMinutes()).padStart(2, '0'), 10);
+        const seconds = parseInt(String(date.getSeconds()).padStart(2, '0'), 10);
+
+
+        // chat.messages.forEach(m => {
+        //     if (
+        //         (m.content !== msg.content && m.receiver == msg.receiver && m.sender === msg.sender && String(new Date(m.timestamp).getDate()).padStart(2, '0') == day && String(new Date(m.timestamp).getMonth() + 1).padStart(2, '0') == month && String(new Date(m.timestamp).getFullYear()).padStart(2, '0') == year) && (parseInt(String(new Date(m.timestamp).getHours()).padStart(2, '0')) > hours)) {
+        //         console.log(m.content);
+
+        //         res = true
+        //     }
+
+        //     else if (
+        //         (m.content !== msg.content && m.receiver == msg.receiver && m.sender === msg.sender && parseInt(String(new Date(m.timestamp).getDate()).padStart(2, '0')) != day && String(new Date(m.timestamp).getMonth() + 1).padStart(2, '0') == month && String(new Date(m.timestamp).getFullYear()).padStart(2, '0') == year) && (parseInt(String(new Date(m.timestamp).getHours()).padStart(2, '0')) > hours)) {
+        //         console.log(m.content);
+
+        //         res = true
+        //     }
+
+
+        // });
+        return res;
+
     }
     return (
         <>
@@ -299,21 +384,29 @@ const MessagesComponent = () => {
 
                                         {openChat && !newMessage ? openChat?.messages.map((msg: Message, index) =>
 
-                                            <div key={index} style={{ display: 'flex', justifyContent: 'space-between', width: '100%', flexDirection: 'column', gap: '30px', marginBottom: '30px' }}>
+                                            <div key={index} style={{ display: 'flex', justifyContent: 'space-between', width: '100%', flexDirection: 'column', gap: '30px', marginBottom: '40px' }}>
                                                 {msg.sender == userStore.user.id ? (
-                                                    <div style={{ display: 'flex', justifyContent: 'start', width: '100%', gap: '8px' }}>
 
 
-                                                        <ProfileImage user={UserStore.user} />
-                                                        <div style={{ marginInlineStart: '5px', display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'start' }}>
-                                                            <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'baseline', justifyContent: 'center' }}>
+                                                    <div style={{ justifyContent: 'start', width: '100%', gap: '8px' }}>
+                                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                            {checkDate(openChat, msg) === true && (
+                                                                <div style={{ width: '100%', display: 'flex', justifyContent: 'center', color: '#0a66c2', fontWeight: 'bold', marginBottom: '10px' }}>{getRelativeDateString(msg.timestamp)}</div>
 
-                                                                <span style={{ fontSize: '15px', color: '#79797a' }} className={globalStyles.simpleP}>{UserStore.getUserNameById(msg.sender)}</span>
-                                                                <span style={{ fontSize: '13px', fontWeight: 'normal', color: '#79797a' }} className={globalStyles.simpleP}>{'-'}</span>
+                                                            )}
+                                                            <div style={{ display: 'flex', width: '100%' }}>
+                                                                <ProfileImage user={UserStore.user} />
+                                                                <div style={{ marginInlineStart: '5px', display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'start' }}>
+                                                                    <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'baseline', justifyContent: 'center' }}>
 
-                                                                <span style={{ fontSize: '13px', fontWeight: 'normal', color: '#79797a' }} className={globalStyles.simpleP}>{msg.timestamp}</span>
+                                                                        <span style={{ fontSize: '15px', color: '#79797a' }} className={globalStyles.simpleP}>{UserStore.getUserNameById(msg.sender)}</span>
+                                                                        <span style={{ fontSize: '13px', fontWeight: 'normal', color: '#79797a' }} className={globalStyles.simpleP}>{'-'}</span>
+
+                                                                        <span style={{ fontSize: '13px', fontWeight: 'normal', color: '#79797a' }} className={globalStyles.simpleP}>{formatTimestampToTime(msg.timestamp)}</span>
+                                                                    </div>
+                                                                    <span style={{ fontSize: '20px', color: '#404141' }} className={globalStyles.simpleP}>{msg.content}</span>
+                                                                </div>
                                                             </div>
-                                                            <span style={{ fontSize: '20px', color: '#404141' }} className={globalStyles.simpleP}>{msg.content}</span>
                                                         </div>
                                                     </div>
                                                 ) :
