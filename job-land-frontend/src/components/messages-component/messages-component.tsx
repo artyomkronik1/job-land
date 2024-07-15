@@ -65,13 +65,15 @@ const MessagesComponent = () => {
     // filtered new contacts
     useEffect(() => {
         if (searchContactName.length > 0) {
-            const filteredUsers = usersFollowedBy.filter(user => user.name.includes(searchContactName));
+            const filteredUsers = usersFollowedBy.filter(user => user.name.toLowerCase().includes(searchContactName.toLowerCase()));
             setusersFollowedBy(filteredUsers)
         }
         else {
             let usersArr: User[] = []
             UserStore.user.follow.map((user: string) => {
-                usersArr.push(UserStore.getUserInfoById(user))
+                if (!usersArr.includes(UserStore.getUserInfoById(user))) {
+                    usersArr.push(UserStore.getUserInfoById(user))
+                }
             })
             setusersFollowedBy(usersArr)
         }
@@ -329,7 +331,7 @@ const MessagesComponent = () => {
                                             {openChat?._id == "" && newMessage && !newChatFlag && (
                                                 <div style={{ display: 'flex', width: '100%', marginTop: '40px', flexDirection: 'column' }}>
                                                     <SearchInput placeHolder={t('Type a name...')} value={searchContactName} ariaLabel={t('Type a name')} onChange={setsearchContactName} />
-                                                    <div style={{ marginTop: '20px', paddingBottom: '20px', paddingLeft: '20px', paddingRight: '20px', borderRadius: '25px', border: '1px solid #cfd0d2', height: '40%', overflow: 'auto' }}>
+                                                    <div style={{ marginTop: '20px', paddingBottom: '20px', paddingLeft: '20px', paddingRight: '20px', borderRadius: '25px', border: '1px solid #cfd0d2', height: '60%', overflowY: 'auto' }}>
                                                         <div style={{ overflowY: 'scroll' }}>
                                                             {usersFollowedBy.length > 0 ? usersFollowedBy.map((user: User, index) =>
                                                                 <div key={index}  >

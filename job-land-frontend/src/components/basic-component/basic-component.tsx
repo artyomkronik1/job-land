@@ -266,8 +266,8 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                                 <h1 className={styles.h2}> {t(UserStore.getTab())}</h1>
                                                 <div style={{ display: 'flex', gap: '10px' }}>
                                                     <SearchInput placeHolder={t('search...')} value={useSearchValue} ariaLabel={'Search..'} onChange={(vaalue) => setSearchValueInput(vaalue)} />
-                                                    <button onClick={() => UserStore.setSearchValue(useSearchValue)} style={{ width: '100px', height: '48px', display: 'flex', gap: '6px', padding: '20px' }} className={globalStyles.btn}>
-                                                        <span style={{ color: 'white', fontSize: '17px' }}>{t('Search')}</span>
+                                                    <button onClick={() => UserStore.setSearchValue(useSearchValue)} style={{ width: '100px', height: '45px', display: 'flex', gap: '6px', padding: '20px' }} className={globalStyles.btn}>
+                                                        <span style={{ color: 'white', fontSize: '16px' }}>{t('Search')}</span>
                                                         <i style={{ color: 'white', fontSize: '16px' }} className="fa fa-search" aria-hidden="true"></i>
                                                     </button>
                                                 </div>
