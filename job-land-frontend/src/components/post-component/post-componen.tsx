@@ -98,17 +98,7 @@ const PostComponent = observer((props: any) => {
         }
     }
 
-    useEffect(() => {
-        const fetchData = async () => {
-            await jobsStore.getAllPosts();
-            const postInfo = jobsStore.getPostInfoById(postId);
-            setPost(postInfo);
-            setcommentsCounter(postInfo.comments.length);
 
-        };
-
-        fetchData();
-    }, []);
     const goToUserProfile = (userid: string) => {
         UserStore.setLoading(true);
         setTimeout(() => {
