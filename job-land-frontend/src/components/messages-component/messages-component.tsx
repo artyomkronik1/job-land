@@ -12,7 +12,7 @@ import { Chat } from "../../interfaces/chat";
 import MessageService from "../../services/messageService";
 import TextAreaComponent from "../../base-components/textArea/text-area-component";
 import Login from "../login/login";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import SearchInput from "../../base-components/search-input/search-input";
 import newmsg from '../../assets/images/newmsg.png'
 import { toast } from "react-toastify";
@@ -37,10 +37,16 @@ const MessagesComponent = () => {
     const [newChatFlag, setnewChatFlag] = useState<boolean>(false)
     const [newUserToChat, setnewUserToChat] = useState<User>()
     const [messageSearch, setmessageSearch] = useState('');
-    const handleInputChangeMessageSearch = (value: string) => {
-        setmessageSearch(value);
-    };
+    const navigate = useNavigate();
 
+    const goToUserProfile = (userid: string) => {
+        UserStore.setLoading(true);
+        setTimeout(() => {
+            UserStore.setLoading(false);
+            navigate(`/profile/${userid}`);
+            UserStore.setTab("Profile")
+        }, 1000)
+    }
     // filtered chats by messageSearch
     useEffect(() => {
         if (messageSearch.length > 0) {
@@ -397,7 +403,7 @@ const MessagesComponent = () => {
 
                                                             )}
                                                             <div style={{ display: 'flex', width: '100%' }}>
-                                                                <ProfileImage user={UserStore.user} />
+                                                                <div onClick={() => goToUserProfile(UserStore.user.id)}>    <ProfileImage user={UserStore.user} /></div>
                                                                 <div style={{ marginInlineStart: '5px', display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'start' }}>
                                                                     <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'baseline', justifyContent: 'center' }}>
 
@@ -414,7 +420,9 @@ const MessagesComponent = () => {
                                                 ) :
                                                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                                                         <div style={{ display: 'flex', justifyContent: 'start', width: '100%', gap: '8px' }}>
-                                                            <ProfileImage user={UserStore.getUserInfoById(msg.sender)} />
+
+                                                            <div onClick={() => goToUserProfile(UserStore.getUserInfoById(msg.sender))}>    <ProfileImage user={UserStore.getUserInfoById(msg.sender)} /></div>
+
                                                             <div style={{ marginInlineStart: '5px', display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'baseline' }}>
                                                                 <div style={{ display: 'flex', gap: '10px', flexDirection: 'row', alignItems: 'start', justifyContent: 'center' }}>
 
