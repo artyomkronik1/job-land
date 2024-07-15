@@ -99,8 +99,16 @@ const PostComponent = observer((props: any) => {
     }
 
     useEffect(() => {
-        setPost(jobsStore.getPostInfoById(postId))
-    }, [editPost]);
+        const fetchData = async () => {
+            await jobsStore.getAllPosts();
+            const postInfo = jobsStore.getPostInfoById(postId);
+            setPost(postInfo);
+            setcommentsCounter(postInfo.comments.length);
+
+        };
+
+        fetchData();
+    }, []);
     const goToUserProfile = (userid: string) => {
         UserStore.setLoading(true);
         setTimeout(() => {
@@ -123,6 +131,9 @@ const PostComponent = observer((props: any) => {
     useEffect(() => {
         setPost(jobsStore.getPostInfoById(postId))
     }, [likeFlag]);
+
+
+
     const setLikeOnPost = (event: any, post: Post) => {
         event.stopPropagation();
         jobsStore.setLikeOnPost(post, UserStore.user.id, post.likedBy.includes(UserStore.user.id))
@@ -133,34 +144,35 @@ const PostComponent = observer((props: any) => {
         event.stopPropagation();
         setcommentFlag(true)
 
+
     }
     const addComment = (value: string) => {
         setusersCommentOnPost(value)
     }
-    const postComment = () => {
+    const postComment = async () => {
         setusersCommentOnPost('')
-
         const c: comment = { by: UserStore.user.id.toString(), text: usersCommentOnPost, id: uuidv4() }
-        jobsStore.addCommentOnPost(post, c)
-        setcommentAdded(true)
-        setPost(jobsStore.getPostInfoById(postId))
+        setPost(await jobsStore.addCommentOnPost(post, c))
+        setcommentsCounter(post.comments.length);
+
 
 
     }
-    useEffect(() => {
-        setPost(jobsStore.getPostInfoById(postId))
-        setcommentsCounter(post.comments.length)
-        setcommentAdded(false)
-    }, [commentAdded, editCommentFlag, removeCommentFlag]);
+
 
     const editComment = (comment: comment) => {
         setcommentOptionsFlag('')
         seteditCommentFlag(comment.id)
+        setPost(jobsStore.getPostInfoById(postId))
+
     }
-    const removeComment = (comment: comment) => {
+    const removeComment = async (comment: comment) => {
         setcommentOptionsFlag('')
-        jobsStore.removeComment(post, comment)
-        setremoveCommentFlag(!removeCommentFlag)
+        setPost(await jobsStore.removeComment(post, comment))
+        setcommentsCounter(post.comments.length);
+
+
+
 
     }
     const postUpdatedComment = (comment: comment) => {
@@ -266,16 +278,16 @@ const PostComponent = observer((props: any) => {
                                         {post.comments.map((comment: comment, index) => (
                                             <div key={index} style={{ display: 'flex', gap: '10px', marginTop: '10px', marginBottom: '50px' }}>
                                                 <ProfileImage user={UserStore.getUserInfoById(comment.by)} />
-                                                <div style={{ display: 'flex', flexDirection: 'column', width: '450px' }}>
+                                                <div style={{ display: 'flex', flexDirection: 'column', width: '500px' }}>
                                                     <div className={componentStyles.postContainer__header__details} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', borderRadius: '25px', padding: '10px', background: '#dfdfe0' }}>
                                                         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
                                                             <span style={{ fontSize: '20px', color: '#1c1c39' }}> {UserStore.getUserInfoById(comment.by).name}</span>
-                                                            <span style={{ color: '#717273', fontSize: '16px', fontWeight: 'normal' }} className={globalStyles.simpleP}> {UserStore.getUserInfoById(comment.by).about}</span>
+                                                            <span style={{ color: '#717273', fontSize: '16px', fontWeight: 'normal', wordBreak: 'break-word' }} className={globalStyles.simpleP}> {UserStore.getUserInfoById(comment.by).about}</span>
                                                             {editCommentFlag == comment.id ? (
-                                                                <div style={{ display: 'flex', gap: '20px' }}>
+                                                                <div style={{ display: 'flex', }}>
 
                                                                     <TextInputField background={'grey'} type={'text'} size={'small'} placeHolder={t('Add a comment')} text={t('')} value={comment.text} onChange={(value: string) => comment.text = value} />
-                                                                    <button className={globalStyles.btn} onClick={() => postUpdatedComment(comment)} style={{ marginTop: '5px', width: '150px', height: '40px', }}> {t('save changes')}</button>
+                                                                    <button className={globalStyles.btn} onClick={() => postUpdatedComment(comment)} style={{ marginTop: '5px', width: '200px', height: '40px', }}> {t('save changes')}</button>
                                                                 </div>
                                                             ) : <span style={{ marginTop: '10px', fontSize: '20px', color: '#1c1c39' }}> {comment.text}</span>
                                                             }

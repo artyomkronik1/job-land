@@ -52,6 +52,7 @@ class JobsStore {
         }
     }
     getPostInfoById = (id: string): any => {
+
         return this.followPost.find(post => post._id == id);
     }
     addApplicate = async (job: any, id: string) => {
@@ -84,6 +85,7 @@ class JobsStore {
         })
         // updating in server
         await postService.removeComment(comment, post._id)
+        return post;
     }
     updateCommentForPost = async (post: Post, comment: comment) => {
         post.comments.map((c: comment) => {
@@ -108,6 +110,7 @@ class JobsStore {
         })
         // updating in server
         await postService.addComment(comment, post._id)
+        return post;
 
     }
 

@@ -48,7 +48,9 @@ const MainLayout = observer(() => {
     useEffect(() => {
         setPosts(jobsStore.followPost)
     }, [likeFlag]);
-
+    useEffect(() => {
+        jobsStore.getAllPosts()
+    }, []);
 
 
     // set users and connections by search value input
