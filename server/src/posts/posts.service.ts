@@ -30,32 +30,25 @@ export class PostsService {
 
     public async updateCommentOnPost(postId: string, updatedComment: comment): Promise<{ success: boolean; post: Post }> {
         try {
-            const post = await this.postModel.findById(postId);
+            const updatedPost = await this.postModel.findByIdAndUpdate(
+                postId,
+                { $set: { "comments.$[elem].text": updatedComment.text } },
+                { new: true, arrayFilters: [{ "elem.id": updatedComment.id }] }
+            );
 
-            if (!post) {
+            if (!updatedPost) {
                 throw new Error('Post not found');
             }
 
-            // Find the comment to update
-            const commentToUpdate = post.comments.find((c) => c.id === updatedComment.id);
-
-            if (!commentToUpdate) {
-                throw new Error('Comment not found');
-            }
-
-            // Update the comment text
-            commentToUpdate.text = updatedComment.text;
-
-            await post.save();
-
             return {
                 success: true,
-                post: post,
+                post: updatedPost,
             };
         } catch (error) {
             throw new Error(`Failed to update comment: ${error.message}`);
         }
     }
+
     public async addComment(postId: string, comment: comment) {
         try {
             const post = await this.postModel.findById(postId);
