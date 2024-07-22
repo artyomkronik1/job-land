@@ -16,6 +16,7 @@ import ProfileComponent from "./components/profile-component/profile-component";
 import MessagesComponent from "./components/messages-component/messages-component";
 import PostPage from "./components/post-page/post-page";
 import ForgotPassComponent from "./components/forgotPass-component/forgotPass-component"
+import NotificationComponent from './components/notification-component/notification-component';
 function App() {
     const { i18n } = useTranslation();
     useEffect(() => {
@@ -38,6 +39,9 @@ function App() {
                         <Route path="/messages/:chatId" element={<MessagesComponent />} />
                         <Route path="/posts/:postId" element={<PostPage />} />
                         <Route path="/forgotPass" element={<ForgotPassComponent />} />
+                        <Route path="/notifications" element={<NotificationComponent />} />
+
+
 
 
                     </Routes>

@@ -5,7 +5,8 @@ import { JobModule } from './job/job.module';
 import { PostsModule } from './posts/posts.module';
 import { MessageController } from './message/message.controller';
 import { MessageModule } from './message/message.module';
-import {ChatsModule} from "./chats/chats.module";
+import { ChatsModule } from "./chats/chats.module";
+import { NotificationModule } from './notification/notification.module';
 @Module({
   imports: [
     UserModule,
@@ -15,6 +16,8 @@ import {ChatsModule} from "./chats/chats.module";
     JobModule,
     PostsModule,
     MessageModule,
-      ChatsModule
-  ]})
-export class AppModule {}
+    ChatsModule,
+    NotificationModule
+  ]
+})
+export class AppModule { }

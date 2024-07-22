@@ -306,7 +306,7 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                             {/*messages*/}
                                             <div className={styles.right_main_messages}>
                                                 {/*active chaat*/}
-                                                {activeChat._id && activeChat._id.length > 0 ? (
+                                                {activeChat && activeChat._id && activeChat._id.length > 0 ? (
                                                     <div className={styles.activeChat} >
                                                         <div className={styles.activeChatHeader}>
                                                             <div style={{ display: 'flex', gap: '5px' }}>

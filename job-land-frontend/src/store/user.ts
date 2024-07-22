@@ -10,6 +10,8 @@ import MessageService from "../services/messageService";
 import AuthService from "../services/authService";
 import UserService from "../services/userService";
 import CryptoJS from "crypto-js";
+import { notification } from "../interfaces/notification";
+import NotificationService from "../services/notificationsService";
 const hydrate = create({
     jsonify: true
 })
@@ -27,6 +29,8 @@ class UserStore {
     @persist('object') @observable newUserToChat: string = "";
     @persist('object') @observable users: User[] = [];
     @persist('object') @observable chats: Chat[] = []
+    @persist('object') @observable notifications: notification[] = []
+
     @persist('object') @observable posts: Post[] = []
     @persist('object') @observable currentChat: Chat = { _id: '', messages: [] };
     @persist('object') @observable user: User = { profilePicture: "", backgroundPicture: "", id: "", password: "", role: "", email: "", about: "", name: "", follow: [], experience: "", education: "" };
@@ -52,6 +56,9 @@ class UserStore {
     }
     getnewUserToChat() {
         return this.newUserToChat;
+    }
+    getNotifications() {
+        return this.notifications;
     }
     getForgotPass() {
         return this.forgotPass;
@@ -122,13 +129,27 @@ class UserStore {
     setSessionKey(key: string) {
         this.session_key = key;
     }
+    setNotifications(notification: notification[]) {
+        this.notifications = notification
+    }
     // init - main function to set all parameters
     init = async () => {
         await this.getUsers()
         await this.getChatsByUser(this.user.id)
         await jobsStore.getAllPosts()
         await jobsStore.getALlJobs()
+
+        await this.getUsersNotifications(this.user.id);
         //await this.getUserMessages();
+    }
+
+    getUsersNotifications = async (id: string) => {
+        return await NotificationService.getNotifications(id);
+
+    }
+    makeNotifications = async (not: notification) => {
+        return await NotificationService.addNotifications(not);
+
     }
     groupMessagesIntoChats = (messages: Message[]): any[] => {
         const chats: { [key: string]: Message[] } = {};
