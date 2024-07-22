@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import UserStore from '../../store/user';
 import { useTranslation } from "react-i18next";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import globalStyles from '../../assets/global-styles/styles.module.scss'
 import styles from './messages.module.scss'
 import ProfileImage from "../../base-components/profile-image/profile-image-component";
@@ -47,43 +47,50 @@ const MessagesComponent = () => {
             UserStore.setTab("Profile")
         }, 1000)
     }
-    // filtered chats by messageSearch
-    useEffect(() => {
+
+    // Callback function to filter chats based on message search
+    const filterChats = useCallback(() => {
         if (messageSearch.length > 0) {
-
             const filtered = chats.filter((chat) => {
-                // Check if any message's sender, receiver, or content includes messageSearch
                 return chat.messages.some((message) =>
-
-                    UserStore.user.id != message.sender && UserStore.getUserInfoById(message.sender).name.toLowerCase().includes(messageSearch.toLowerCase()) ||
-                    UserStore.user.id != message.receiver && UserStore.getUserInfoById(message.receiver).name.toLowerCase().includes(messageSearch.toLowerCase()) ||
+                    UserStore.user.id !== message.sender && UserStore.getUserInfoById(message.sender).name.toLowerCase().includes(messageSearch.toLowerCase()) ||
+                    UserStore.user.id !== message.receiver && UserStore.getUserInfoById(message.receiver).name.toLowerCase().includes(messageSearch.toLowerCase()) ||
                     message.content.toLowerCase().includes(messageSearch.toLowerCase())
                 );
             });
             setChats(filtered);
-        }
-        else {
+        } else {
             setChats(UserStore.getChats());
-
         }
-    }, [messageSearch]);
+    }, [chats, messageSearch]);
 
-    // filtered new contacts
-    useEffect(() => {
+    // Callback function to filter users followed by based on contact name search
+    const filterUsersFollowedBy = useCallback(() => {
         if (searchContactName.length > 0) {
-            const filteredUsers = usersFollowedBy.filter(user => user.name.toLowerCase().includes(searchContactName.toLowerCase()));
-            setusersFollowedBy(filteredUsers)
-        }
-        else {
-            let usersArr: User[] = []
-            UserStore.user.follow.map((user: string) => {
-                if (!usersArr.includes(UserStore.getUserInfoById(user))) {
-                    usersArr.push(UserStore.getUserInfoById(user))
-                }
-            })
-            setusersFollowedBy(usersArr)
+            const filteredUsers = UserStore.user.follow
+                .map((userId: string) => UserStore.getUserInfoById(userId))
+                .filter((user: User | undefined) =>
+                    user && user.name.toLowerCase().includes(searchContactName.toLowerCase())
+                );
+            setusersFollowedBy(filteredUsers);
+        } else {
+            const usersArr: User[] = UserStore.user.follow
+                .map((userId: string) => UserStore.getUserInfoById(userId))
+                .filter((user: User | undefined) => !!user);
+            setusersFollowedBy(usersArr);
         }
     }, [searchContactName]);
+
+    // useEffect to apply filterChats when messageSearch changes
+    useEffect(() => {
+        filterChats();
+    }, [filterChats, messageSearch]);
+
+    // useEffect to apply filterUsersFollowedBy when searchContactName changes
+    useEffect(() => {
+        filterUsersFollowedBy();
+    }, [filterUsersFollowedBy, searchContactName]);
+
     // show new constacts
     useEffect(() => {
         let usersArr: User[] = []

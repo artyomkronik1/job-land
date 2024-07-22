@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import UserStore from '../../store/user';
 import { useTranslation } from "react-i18next";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import Login from "../login/login";
 import componentStyles from './mainLayout.module.scss'
 import styles from '../../assets/global-styles/styles.module.scss'
@@ -45,12 +45,22 @@ const MainLayout = observer(() => {
         picture: ''
     });
 
+    // Function to fetch all posts
+    const getAllPosts = useCallback(async () => {
+        try {
+            await jobsStore.getAllPosts();
+            setPosts(jobsStore.followPost);
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+            // Handle errors as needed (e.g., show error message, retry logic)
+        }
+    }, []); // Empty dependency array means this callback doesn't depend on any props or state changes
+
+    // useEffect to fetch all posts when component mounts or likeFlag changes
     useEffect(() => {
-        setPosts(jobsStore.followPost)
-    }, [likeFlag]);
-    useEffect(() => {
-        jobsStore.getAllPosts()
-    }, []);
+        getAllPosts();
+    }, [getAllPosts, likeFlag]); // useEffect depends on getAllPosts callback and likeFlag
+
 
 
     // set users and connections by search value input
@@ -125,7 +135,7 @@ const MainLayout = observer(() => {
                         </div>
                         <div style={{ display: 'flex', flexDirection: 'column', width: '80%', alignSelf: 'center', cursor: 'pointer' }}>
 
-                            {posts.length > 0 ? posts.map((post: Post, index) => (
+                            {posts && posts.length > 0 ? posts.map((post: Post, index) => (
 
                                 <PostComponen postId={post._id} gotToPostFlag={true} />)) : (
 
