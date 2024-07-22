@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import UserStore from '../../store/user';
 import { useTranslation } from "react-i18next";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import JobFilterBtn from "../../base-components/job-filter-btn/job-filter-btn";
 import globalStyles from "../../assets/global-styles/styles.module.scss";
 import { Job, JobFilters } from "../../interfaces/job";
@@ -41,25 +41,32 @@ const JobsComponent = observer(() => {
 
 
     // get jobs by name or location that changed dynamically
-    useEffect(() => {
+    // useCallback for memoized filtering function
+    const filterJobs = useCallback(() => {
         if (searchJobName.length > 0) {
             const filteredJobs = jobsStore.getfilterJobs().filter(job => {
-                const matchesName = job.title.toLowerCase().includes(searchJobName.toLowerCase()) || job.hire_name.toLowerCase().includes(searchJobName.toLowerCase()) || job.zone.toLowerCase().includes(searchJobName.toLowerCase()) || job.profession.toLowerCase().includes(searchJobName.toLowerCase());
+                const matchesName = job.title.toLowerCase().includes(searchJobName.toLowerCase()) ||
+                    job.hire_name.toLowerCase().includes(searchJobName.toLowerCase()) ||
+                    job.zone.toLowerCase().includes(searchJobName.toLowerCase()) ||
+                    job.profession.toLowerCase().includes(searchJobName.toLowerCase());
                 return matchesName;
             });
             setAllJobs(filteredJobs);
-        }
-        else if (searchJobLoc.length > 0) {
+        } else if (searchJobLoc.length > 0) {
             const filteredJobs = jobsStore.getfilterJobs().filter(job => {
-                const matchesName = job.region.toLowerCase().includes(searchJobLoc.toLowerCase());
-                return matchesName;
+                const matchesLoc = job.region.toLowerCase().includes(searchJobLoc.toLowerCase());
+                return matchesLoc;
             });
             setAllJobs(filteredJobs);
-        }
-        else if (searchJobName.length == 0 && searchJobLoc.length == 0) {
+        } else {
             setAllJobs(jobsStore.getfilterJobs());
         }
     }, [searchJobName, searchJobLoc]);
+
+    // useEffect to apply filterJobs when searchJobName or searchJobLoc change
+    useEffect(() => {
+        filterJobs();
+    }, [filterJobs]);
 
     // job full popup
     const [fullJob, setfullJob] = useState<Job>({
@@ -169,11 +176,15 @@ const JobsComponent = observer(() => {
 
                     {/* job input search */}
                     <div style={{ marginBottom: '30px', display: 'flex', justifyContent: 'start', gap: '20px', marginTop: '20px' }}>
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}>
                             <SearchInput placeHolder={t('title, skill or company')} value={searchJobName} ariaLabel={'Search..'} onChange={(vaalue) => setsearchJobName(vaalue)} />
 
                             {searchJobName.length > 0 && (
-                                <ul style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                                <ul style={{
+                                    display: 'flex', flexDirection: 'column', gap: '20px', position: 'absolute',
+                                    width: ' 247px',
+                                    top: '52px'
+                                }}>
                                     {allJobs.map((job, index) => (
                                         job.title.toLowerCase().includes(searchJobName.toLowerCase()) && (
                                             <li onClick={() => setsearchJobName(job.title)} className={componentStyles.liSearchValues} key={index}><span className={componentStyles.mainSpan}>{job.title}</span></li>
@@ -185,11 +196,15 @@ const JobsComponent = observer(() => {
                         </div>
 
                         {/* job location */}
-                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}>
                             <SearchInput icon="fa-solid fa-location-dot" placeHolder={t('location')} value={searchJobLoc} ariaLabel={'Search..'} onChange={(vaalue) => setsearchJobLoc(vaalue)} />
 
                             {searchJobLoc.length > 0 && (
-                                <ul style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                                <ul style={{
+                                    display: 'flex', flexDirection: 'column', gap: '20px', position: 'absolute',
+                                    width: ' 247px',
+                                    top: '52px'
+                                }}>
                                     {allJobs.map((job, index) => (
                                         job.region.toLowerCase().includes(searchJobLoc.toLowerCase()) && (
                                             <li onClick={() => handleLocationClick(job.region)} className={componentStyles.liSearchValues} key={index}><span className={componentStyles.mainSpan}>{job.region}</span></li>
