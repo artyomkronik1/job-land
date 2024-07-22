@@ -32,15 +32,13 @@ export interface basicComponentProps {
     children: ReactNode;
 }
 const BasicComponent = observer((props: basicComponentProps) => {
-    // new user to chat with
-    const [newUserToChat, setnewUserToChat] = useState<string>(UserStore.newUserToChat)
 
     // active chat
-    const [activeChat, setactiveChat] = useState<Chat>(UserStore.currentChat)
+    const [activeChat, setactiveChat] = useState<Chat>(UserStore.chats.find((c: Chat) => UserStore.currentChat._id == c._id) as Chat)
     const [newMessageContent, setnewMessageContent] = useState('');
 
     // users chats
-    const [chats, setChats] = useState<Chat[]>(UserStore.getChats())
+    const [chats, setChats] = useState<Chat[]>(UserStore.chats)
     const navigate = useNavigate();
     //language
     const { t } = useTranslation();
@@ -74,10 +72,7 @@ const BasicComponent = observer((props: basicComponentProps) => {
     useEffect(() => {
         setactiveChat(UserStore.currentChat)
     },);
-    // setting chats -- updating
-    useEffect(() => {
-        setChats(UserStore.getChats())
-    }, []);
+
     // message box
     const [messageBoxIsOpen, setmessageBoxIsOpen] = useState(false);
     // search
@@ -135,8 +130,9 @@ const BasicComponent = observer((props: basicComponentProps) => {
     }
     // active chat
     const activateChat = (chat: Chat) => {
-        setactiveChat(chat)
-        UserStore.setCurrentChat(chat)
+
+        const currChat = UserStore.chats.find((c: Chat) => c._id == chat._id)
+        UserStore.setCurrentChat(currChat as Chat)
     }
     const closeActiveChat = () => {
         setactiveChat({ _id: '', messages: [] })
@@ -155,13 +151,22 @@ const BasicComponent = observer((props: basicComponentProps) => {
             const newMsg: Message = { content: newMessageContent, sender: userStore.user.id, receiver: activeChat.messages[0].sender != UserStore.user.id ? activeChat.messages[0].sender : activeChat.messages[0].receiver, timestamp: currentTime }
             const result = await MessageService.sendMessageToChat(activeChat._id, newMsg)
             if (result.success) {
-                setactiveChat(result.chat)
+                const currChat: Chat = { _id: result.chat._id, messages: result.chat.messages }
+
                 setnewMessageContent('')
-                await UserStore.getChatsByUser(UserStore.user.id)
+                UserStore.setCurrentChat(currChat)
+                UserStore.getChatsByUser(UserStore.user.id)
+
+
             }
 
         }
+
     }
+    // setting chats -- updating
+    useEffect(() => {
+        setChats(UserStore.chats)
+    }, []);
     const setnewMessageContentHandler = (event: any) => {
         setnewMessageContent(event.target.value)
     }
@@ -322,7 +327,7 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                                                     <div key={index} style={{ display: 'flex', justifyContent: 'space-between', width: '100%', flexDirection: 'column', gap: '30px', marginBottom: '30px' }}>
                                                                         {msg.sender == userStore.user.id ? (
                                                                             <div style={{ display: 'flex', justifyContent: 'start', width: '100%', gap: '8px' }}>
-                                                                                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                                                                <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
 
                                                                                     <div style={{ width: '100%', display: 'flex', justifyContent: 'center', color: '#0a66c2', fontWeight: 'bold', marginBottom: '10px' }}>{getRelativeDateString(msg.timestamp)}</div>
 

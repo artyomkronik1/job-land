@@ -180,6 +180,8 @@ class UserStore {
         const res = await MessageService.getChatsByUserId(id);
         if (res.success) {
             this.setChats(res.chats)
+
+
         }
         else {
             this.setChats([])
