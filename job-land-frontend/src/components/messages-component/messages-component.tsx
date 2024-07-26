@@ -473,7 +473,7 @@ const MessagesComponent = () => {
 
                             {/*// new message*/}
                             {openChat?._id == "" && newMessage ? (
-                                <div style={{ display: 'flex', marginTop: '-20px', flexDirection: 'column', padding: '10px' }}>
+                                <div style={{ display: 'flex', marginTop: '-20px', flexDirection: 'column', padding: '10px', width: '100%' }}>
                                     <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
                                         <h2 style={{ display: 'flex', justifyContent: 'start', paddingLeft: '20px', paddingRight: '20px', color: '#0a66c2' }}>{t('New chat')}</h2>
                                         <div style={{ marginTop: '18px', borderBottom: '1px solid #cfd0d2', width: '100%', display: 'flex', justifyContent: 'start' }}></div>
