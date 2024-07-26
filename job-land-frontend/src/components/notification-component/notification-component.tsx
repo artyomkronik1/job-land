@@ -96,7 +96,7 @@ const NotificationComponent = observer(() => {
 	}
 	const clickOnNotification = (notification: UsersNotification) => {
 		// notification about users post
-		if ((notification.type && notification.link && notification.type == "like") || (notification.type && notification.link && notification.type == "comment")) {
+		if ((notification.type && notification.link && notification.type == "like") || (notification.type && notification.link && notification.type == "new_post") || (notification.type && notification.link && notification.type == "comment")) {
 			goToPost(notification.link)
 		}
 	}

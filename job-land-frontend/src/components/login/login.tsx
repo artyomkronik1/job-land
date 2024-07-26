@@ -105,7 +105,6 @@ const Login = observer(() => {
                 }
                 // make sign up with this email
                 else {
-                    console.log('a');
                     const res = await UserStore.signup(result.user.displayName, 'emailsPassword', result.user.email, '0')
                     if (res?.success) {
                         UserStore.setLoading(true);

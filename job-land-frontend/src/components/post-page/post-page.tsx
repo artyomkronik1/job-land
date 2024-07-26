@@ -31,6 +31,8 @@ const PostPage = observer(() => {
     const { i18n } = useTranslation();
     const { postId }: any = useParams();
     const [post, setPost] = useState<Post>(jobsStore.getPostInfoById(postId));
+    console.log(post);
+
     const navigate = useNavigate();
     const [editPost, setEditPost] = useState(false);
     const [editingPost, seteditingPost] = useState<Post>({

@@ -70,8 +70,6 @@ const StartPostDialog = (props: postProps) => {
 
                     await UserStore.makeNotifications(notification);
                 })
-                // Log the array of followers
-                console.log(followers);
 
                 UserStore.setLoading(true);
                 setTimeout(async () => {

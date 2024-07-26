@@ -440,7 +440,9 @@ class UserStore {
         try {
             const result = await axios.post('http://localhost:3002/posts/new', { title: title, employee_id: employee_id, description: description, writer_name: userName, postPicture: postPicture });
             if (result.data.success) {
+                await jobsStore.getAllPosts();
                 return result.data
+
             }
             else {
                 return result.data

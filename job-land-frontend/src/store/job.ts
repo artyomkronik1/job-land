@@ -57,6 +57,7 @@ class JobsStore {
         }
     }
     getPostInfoById = (id: string): any => {
+        console.log('a', this.followPost);
 
         return this.followPost.find(post => post._id == id);
     }
