@@ -130,7 +130,7 @@ const JobsComponent = observer(() => {
     ]
 
     const jobFiltersHTML = jobFilters.map((value, index) => (
-        <div key={index} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', zIndex: '10', }}>
+        <div key={index} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', zIndex: '10', height: '48px' }}>
             <JobFilterBtn text={t(value.filterName)} type={value.filterName} options={value.options} changeFilterValue={addNewFilterValue} />
         </div>
     ));
