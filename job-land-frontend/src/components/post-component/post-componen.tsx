@@ -129,7 +129,7 @@ const PostComponent = observer((props: any) => {
 
         if (!isLiked) {
             let notification = {
-                message: "liked your post",
+                message: t("liked your post"),
                 to: UserStore.getUserInfoById(post.employee_id).id,
                 time: DateService.getCurrentDatetime(),
                 link: post._id,
@@ -137,7 +137,7 @@ const PostComponent = observer((props: any) => {
                 type: 'like'
             };
             if (post.likedBy.length - 1 > 0) {
-                notification.message = "and " + (post.likedBy.length - 1) + " others liked your post"
+                notification.message = t("and ") + (post.likedBy.length - 1) + t(" others liked your post")
             }
 
             await UserStore.makeNotifications(notification);
@@ -163,7 +163,7 @@ const PostComponent = observer((props: any) => {
         setcommentsCounter(post.comments.length);
 
         let notification = {
-            message: "commented on your post",
+            message: t("commented on your post"),
 
             to: UserStore.getUserInfoById(post.employee_id).id,
             time: DateService.getCurrentDatetime(),
@@ -172,7 +172,7 @@ const PostComponent = observer((props: any) => {
             type: 'comment'
         };
         if (commentsCounter > 0) {
-            notification.message = "and " + commentsCounter + " others commented on your post"
+            notification.message = t("and ") + commentsCounter + t(" others commented on your post")
         }
         await UserStore.makeNotifications(notification);
 

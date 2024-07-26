@@ -189,7 +189,7 @@ const BasicComponent = observer((props: basicComponentProps) => {
 
         // Check if the date is today
         if (date.toDateString() === currentDate.toDateString()) {
-            return 'Today';
+            return t('Today');
         }
 
         // Calculate yesterday's date
@@ -198,16 +198,17 @@ const BasicComponent = observer((props: basicComponentProps) => {
 
         // Check if the date is yesterday
         if (date.toDateString() === yesterday.toDateString()) {
-            return 'Yesterday';
+            return t('Yesterday');
         }
 
-        // Check if the date is within the current week
-        const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        const daysOfWeek = [t('Sunday'), t('Monday'), t('Tuesday'), t('Wednesday'), t('Thursday'), t('Friday'), t('Saturday')];
         const dayOfWeek = daysOfWeek[date.getDay()];
 
         // Check if the date is within the current month
-        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
-            'August', 'September', 'October', 'November', 'December'];
+        const monthNames = [
+            t('January'), t('February'), t('March'), t('April'), t('May'), t('June'),
+            t('July'), t('August'), t('September'), t('October'), t('November'), t('December')
+        ];
         const monthName = monthNames[date.getMonth()];
         const dayOfMonth = date.getDate();
 

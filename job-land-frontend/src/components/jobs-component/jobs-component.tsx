@@ -168,7 +168,7 @@ const JobsComponent = observer(() => {
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', alignItems: 'center', width: '100%', justifyContent: 'center' }} >
                         {jobFiltersHTML}
                         <button onClick={searchJob} style={{ width: '100px', height: '48px', display: 'flex', gap: '6px', padding: '10px' }} className={globalStyles.btn}>{t('Search')}
-                            <i style={{ color: 'white', fontSize: '18px' }} className="fa fa-search" aria-hidden="true"></i>
+                            <i style={{ color: 'white', fontSize: '16px' }} className="fa fa-search" aria-hidden="true"></i>
                         </button>
                     </div>
                     {/*separate line*/}
