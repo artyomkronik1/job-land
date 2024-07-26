@@ -65,8 +65,6 @@ const MainLayout = observer(() => {
 
     // set users and connections by search value input
     useEffect(() => {
-
-
         if (UserStore.searchValue.length > 0) {
             setPosts(posts.filter((p: Post) => p.writer_name.toLowerCase().includes(UserStore.searchValue.toLowerCase())))
         }

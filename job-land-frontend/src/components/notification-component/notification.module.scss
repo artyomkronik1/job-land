@@ -1,0 +1,15 @@
+.notContainer {
+	display: flex;
+	width: 100%;
+	border: 1px solid #f1f1f1;
+	height: 30px;
+	border-radius: 25px;
+	background: white;
+	padding: 20px;
+	justify-content: space-between;
+	cursor: pointer;
+}
+
+.notContainer:hover {
+	box-shadow: 0px 5px 5px 8px #dedcdc;
+}

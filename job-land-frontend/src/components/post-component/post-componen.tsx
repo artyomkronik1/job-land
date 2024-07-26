@@ -1,7 +1,7 @@
 import { observer } from "mobx-react-lite";
 import UserStore from '../../store/user';
 import { useTranslation } from "react-i18next";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import JobFilterBtn from "../../base-components/job-filter-btn/job-filter-btn";
 import globalStyles from "../../assets/global-styles/styles.module.scss";
 import { Job, JobFilters } from "../../interfaces/job";
@@ -26,6 +26,8 @@ import { comment } from '../../interfaces/comment'
 import TextInputField from "../../base-components/text-input/text-input-field";
 import { v4 as uuidv4 } from 'uuid';
 import DropDown from "../../base-components/dropdown-component/dropdown";
+import { UsersNotification } from "../../interfaces/usersNotification";
+import DateService from "../../services/dateService";
 const PostComponent = observer((props: any) => {
     const [likeFlag, setlike] = useState(false);
     const [commentFlag, setcommentFlag] = useState(false);
@@ -117,18 +119,38 @@ const PostComponent = observer((props: any) => {
         }
         setEditPost(false)
     }
-    // likes
-    useEffect(() => {
-        setPost(jobsStore.getPostInfoById(postId))
-    }, [likeFlag]);
 
 
-
-    const setLikeOnPost = (event: any, post: Post) => {
+    const setLikeOnPost = useCallback(async (event: any, post: Post) => {
         event.stopPropagation();
-        jobsStore.setLikeOnPost(post, UserStore.user.id, post.likedBy.includes(UserStore.user.id))
-        setlike(!likeFlag)
-    }
+
+        const isLiked = post.likedBy.includes(UserStore.user.id);
+        setPost(await jobsStore.setLikeOnPost(post, UserStore.user.id, isLiked));
+
+        // Toggle like flag
+        setlike(prev => !prev);
+
+        // // Update the post only if it's liked or unliked
+        // if (post.likedBy.includes(UserStore.user.id) !== isLiked) {
+        //     const updatedPost = jobsStore.getPostInfoById(postId);
+        //     setPost(updatedPost);
+        // }
+
+        if (!isLiked) {
+            const notification = {
+                message: "liked your post",
+                to: UserStore.getUserInfoById(post.employee_id).id,
+                time: DateService.getCurrentDatetime(),
+                link: post._id,
+                from: UserStore.user.name,
+                type: 'post'
+            };
+
+            if (!UserStore.notifications.some(not => not.link === notification.link && not.to === notification.to)) {
+                await UserStore.makeNotifications(notification);
+            }
+        }
+    }, [postId]);
     // comments
     const commentOnPost = (event: any) => {
         event.stopPropagation();

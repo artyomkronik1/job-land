@@ -132,6 +132,7 @@ class JobsStore {
         })
         // updating in server
         await PostsService.setLikeOnPost(post, user, like)
+        return post;
     }
 
     getAllPosts = async () => {

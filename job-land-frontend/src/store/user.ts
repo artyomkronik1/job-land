@@ -10,7 +10,7 @@ import MessageService from "../services/messageService";
 import AuthService from "../services/authService";
 import UserService from "../services/userService";
 import CryptoJS from "crypto-js";
-import { notification } from "../interfaces/notification";
+import { UsersNotification } from "../interfaces/usersNotification";
 import NotificationService from "../services/notificationsService";
 const hydrate = create({
     jsonify: true
@@ -29,7 +29,7 @@ class UserStore {
     @persist('object') @observable newUserToChat: string = "";
     @persist('object') @observable users: User[] = [];
     @persist('object') @observable chats: Chat[] = []
-    @persist('object') @observable notifications: notification[] = []
+    @persist('object') @observable notifications: UsersNotification[] = []
 
     @persist('object') @observable posts: Post[] = []
     @persist('object') @observable currentChat: Chat = { _id: '', messages: [] };
@@ -129,7 +129,7 @@ class UserStore {
     setSessionKey(key: string) {
         this.session_key = key;
     }
-    setNotifications(notification: notification[]) {
+    setNotifications(notification: UsersNotification[]) {
         this.notifications = notification
     }
     // init - main function to set all parameters
@@ -144,10 +144,14 @@ class UserStore {
     }
 
     getUsersNotifications = async (id: string) => {
-        return await NotificationService.getNotifications(id);
+        const res = await NotificationService.getNotifications(id);
+        if (res.success) {
+            this.setNotifications(res.notifications)
+
+        }
 
     }
-    makeNotifications = async (not: notification) => {
+    makeNotifications = async (not: UsersNotification) => {
         return await NotificationService.addNotifications(not);
 
     }
