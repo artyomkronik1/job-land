@@ -19,4 +19,8 @@ export class NotificationController {
 	async addNotification(@Body() data: any) {
 		return this.notificationService.addNotification(data);
 	}
+	@Get()
+	async getAllNotifications() {
+		return this.notificationService.getAllNotifications();
+	}
 }

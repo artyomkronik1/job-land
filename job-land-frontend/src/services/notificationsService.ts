@@ -10,7 +10,15 @@ const BASE_URL: string = 'http://localhost:3002';
 const NotificationService = {
 
 
-
+	async getAllNotifications() {
+		try {
+			const response: AxiosResponse<UsersNotification[]> = await axios.get<UsersNotification[]>(`${BASE_URL}/notifications`);
+			return response.data;
+		} catch (error) {
+			console.error('Error removing notifications:', error);
+			return;
+		}
+	},
 	async removeNotifications(not: UsersNotification): Promise<any> {
 
 		try {

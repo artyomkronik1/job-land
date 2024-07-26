@@ -22,7 +22,7 @@ const NotificationComponent = observer(() => {
 	const fetchNotifications = useCallback(async () => {
 		try {
 			await UserStore.getUsersNotifications(UserStore.user.id); // Assuming getUsersNotifications is async
-			setNotifications(UserStore.notifications.reverse());
+			setNotifications([...UserStore.notifications].reverse());
 		} catch (error) {
 			console.error("Error fetching notifications:", error);
 		}

@@ -143,6 +143,12 @@ const PostComponent = observer((props: any) => {
             await UserStore.makeNotifications(notification);
 
         }
+        if (isLiked) {
+            const noti = await UserStore.getSingleNot(UserStore.user.name, UserStore.getUserInfoById(post.employee_id).id, 'like', post._id)
+            if (noti) {
+                await UserStore.removeNotification(noti as UsersNotification)
+            }
+        }
 
     }, [postId]);
     // comments

@@ -149,7 +149,18 @@ class UserStore {
             this.setNotifications(res.notifications)
 
         }
+        else {
+            this.setNotifications([])
+        }
 
+    }
+
+    getSingleNot = async (from: string, to: string, type: string, link: string) => {
+        const notifications: any = await NotificationService.getAllNotifications();
+        if (notifications.success) {
+            return notifications.notifications.find((not: UsersNotification) => not.from.toString() == from.toString() && not.link?.toString() == link.toString() && not.type?.toString() == type.toString() && not.to.toString() == to.toString())
+        }
+        else { return null }
     }
     makeNotifications = async (not: UsersNotification) => {
         return await NotificationService.addNotifications(not);

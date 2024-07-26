@@ -6,7 +6,20 @@ import { notification } from './notification.model';
 @Injectable()
 export class NotificationService {
 	constructor(@InjectModel('notification') private readonly notificationModel: Model<notification>) { }
-
+	async getAllNotifications() {
+		const notifications: notification[] = await this.notificationModel.find().exec();
+		if (notifications.length > 0) {
+			return {
+				success: true,
+				notifications: notifications,
+			}
+		} else {
+			return {
+				success: false,
+				errorCode: "fail_to_find_notifications"
+			}
+		}
+	}
 	async removeNotification(notification: any) {
 		try {
 			// Find and delete the notification by its ID
@@ -129,7 +142,8 @@ export class NotificationService {
 		} else {
 			return {
 				success: false,
-				errorCode: "fail_to_find_notifications"
+				errorCode: "fail_to_find_notifications",
+				notifications: []
 			}
 		}
 	}
