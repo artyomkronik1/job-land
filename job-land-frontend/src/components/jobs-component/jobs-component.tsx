@@ -218,7 +218,7 @@ const JobsComponent = observer(() => {
                     </div>
                     {/*job component*/}
                     <div style={{ display: "flex", justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: '20px', width: '100%' }}>
-                        {allJobs.length > 0 ? allJobs.map((job: Job, index) => (
+                        {allJobs && allJobs.length > 0 ? allJobs.map((job: Job, index) => (
                             <div style={{ width: '90%' }} className={job.applications.includes(UserStore.user.id) ? componentStyles.jobContainerApplied : componentStyles.postContainer} key={index} onClick={() => seeFullJob(job)}>
                                 {!job.applications.includes(UserStore.user.id) ? (
                                     <div className={componentStyles.postContainer__header}>

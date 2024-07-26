@@ -21,6 +21,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth'; // Import the auth module explicitly
 
 import { User } from '../../interfaces/user';
+import AuthService from '../../services/authService';
 const Login = observer(() => {
 
     //language
@@ -85,7 +86,7 @@ const Login = observer(() => {
             const result = await firebase.auth().signInWithPopup(provider);
             if (result && result.user && result.user.email && result.user.displayName) {
                 const user: User = UserStore.loginWithGoogle(result.user.email.toString(), result.user.displayName.toString())
-                console.log(user)
+                // check if user exist with this email either sign in as a new
                 if (user && user.email && user.password) {
                     const encryptedPassword = CryptoJS.AES.encrypt(user.password, secretKey).toString();
                     const res = await UserStore.login(user.email, encryptedPassword)
@@ -102,8 +103,21 @@ const Login = observer(() => {
                         toast.error(t('ERROR') + ' ' + res?.errorCode);
                     }
                 }
+                // make sign up with this email
                 else {
-                    toast.error(t('ERROR User is not exist'));
+                    console.log('a');
+                    const res = await UserStore.signup(result.user.displayName, 'emailsPassword', result.user.email, '0')
+                    if (res?.success) {
+                        UserStore.setLoading(true);
+                        toast.success(t('SUCCESS'));
+                        setTimeout(() => {
+                            UserStore.setLoading(false);
+                            UserStore.setSessionKey(res.session_key)
+                            navigate('/')
+                        }, 3000);
+                    } else {
+                        toast.error(t('ERROR!') + ' ' + res?.errorCode);
+                    }
                 }
             } else {
                 toast.error(t('ERROR User is not exist'));

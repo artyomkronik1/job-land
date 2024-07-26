@@ -12,6 +12,7 @@ import jobsStore from "../../store/job";
 import uploadImg from '../../assets/images/uploadImg.png'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/storage'
+import DateService from '../../services/dateService';
 export interface postProps {
     isOpen: boolean;
     onClose: (success: boolean) => void;
@@ -56,6 +57,21 @@ const StartPostDialog = (props: postProps) => {
         } else {
             const res = await UserStore.post(title, UserStore.user.id, description, UserStore.user.name, updatedPicture);
             if (res?.success) {
+                const followers = UserStore.users.filter(user => user.follow.includes(UserStore.user.id));
+                followers.forEach(async follower => {
+                    let notification = {
+                        message: t("just posted a new post"),
+                        to: follower.id,
+                        time: DateService.getCurrentDatetime(),
+                        link: res.post.id,
+                        from: UserStore.user.name,
+                        type: 'new_post'
+                    };
+
+                    await UserStore.makeNotifications(notification);
+                })
+                // Log the array of followers
+                console.log(followers);
 
                 UserStore.setLoading(true);
                 setTimeout(async () => {
@@ -116,8 +132,6 @@ const StartPostDialog = (props: postProps) => {
     };
     const uploadPic = async (downloadURL: string) => {
         setupdatedPicture(downloadURL)
-
-        console.log(downloadURL);
 
     };
 

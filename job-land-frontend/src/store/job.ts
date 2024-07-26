@@ -37,17 +37,22 @@ class JobsStore {
     getALlJobs = async () => {
         try {
             const result = await jobService.getAllJobs({})
+            console.log(result);
+
             if (result.data.success) {
                 this.setfilterJobs(result.data.jobs)
 
             }
-            else {
+            else if (result.data.success == false) {
+                console.log('a');
+
                 this.setfilterJobs([])
                 return result.data
 
             }
         } catch (error) {
             this.setfollowPosts([])
+            this.setfilterJobs([])
             console.error('Error get jobs:', error);
         }
     }
@@ -132,7 +137,7 @@ class JobsStore {
         })
         // updating in server
         await PostsService.setLikeOnPost(post, user, like)
-        return post;
+        return post
     }
 
     getAllPosts = async () => {
