@@ -11,6 +11,17 @@ const NotificationService = {
 
 
 
+	async removeNotifications(not: UsersNotification): Promise<any> {
+
+		try {
+			const response: AxiosResponse<UsersNotification[]> = await axios.post<UsersNotification[]>(`${BASE_URL}/notifications/remove`, { not });
+			return response.data;
+		} catch (error) {
+			console.error('Error removing notifications:', error);
+			return;
+		}
+	},
+
 	async addNotifications(not: UsersNotification): Promise<any> {
 
 		try {

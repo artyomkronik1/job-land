@@ -5,7 +5,11 @@ import { NotificationService } from "./notification.service";
 export class NotificationController {
 	constructor(private notificationService: NotificationService) { }
 
-	// get all notifications
+
+	@Post('/remove')
+	async removeNotification(@Body() data: any) {
+		return this.notificationService.removeNotification(data);
+	}
 	@Post()
 	async getAllNotificationsByUserId(@Body() data: any) {
 		return this.notificationService.getAllNotificationsByUserId(data);

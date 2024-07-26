@@ -155,6 +155,9 @@ class UserStore {
         return await NotificationService.addNotifications(not);
 
     }
+    removeNotification = async (not: UsersNotification) => {
+        return await NotificationService.removeNotifications(not)
+    }
     groupMessagesIntoChats = (messages: Message[]): any[] => {
         const chats: { [key: string]: Message[] } = {};
 

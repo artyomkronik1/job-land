@@ -21,8 +21,8 @@ const NotificationComponent = observer(() => {
 	// useCallback to memoize the fetchNotifications function
 	const fetchNotifications = useCallback(async () => {
 		try {
-			await UserStore.getUsersNotifications("me"); // Assuming getUsersNotifications is async
-			setNotifications(UserStore.notifications);
+			await UserStore.getUsersNotifications(UserStore.user.id); // Assuming getUsersNotifications is async
+			setNotifications(UserStore.notifications.reverse());
 		} catch (error) {
 			console.error("Error fetching notifications:", error);
 		}
@@ -91,7 +91,7 @@ const NotificationComponent = observer(() => {
 	}
 	const clickOnNotification = (notification: UsersNotification) => {
 		// notification about users post
-		if (notification.type && notification.link && notification.type == "post") {
+		if ((notification.type && notification.link && notification.type == "like") || (notification.type && notification.link && notification.type == "comment")) {
 			goToPost(notification.link)
 		}
 	}
@@ -113,7 +113,7 @@ const NotificationComponent = observer(() => {
 									<span className={globals.mainSpan}>	{getRelativeDateString(not.time)} </span>
 								</div>
 
-								<div className={globals.separate_line_grey}></div>
+								<div style={{ marginBottom: '20px' }} className={globals.separate_line_grey}></div>
 							</>
 						))}
 				</div>

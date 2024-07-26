@@ -29,7 +29,6 @@ import DropDown from "../../base-components/dropdown-component/dropdown";
 import { UsersNotification } from "../../interfaces/usersNotification";
 import DateService from "../../services/dateService";
 const PostComponent = observer((props: any) => {
-    const [likeFlag, setlike] = useState(false);
     const [commentFlag, setcommentFlag] = useState(false);
     const [commentAdded, setcommentAdded] = useState(false);
 
@@ -127,15 +126,6 @@ const PostComponent = observer((props: any) => {
         const isLiked = post.likedBy.includes(UserStore.user.id);
         setPost(await jobsStore.setLikeOnPost(post, UserStore.user.id, isLiked));
 
-        // Toggle like flag
-        setlike(prev => !prev);
-
-        // // Update the post only if it's liked or unliked
-        // if (post.likedBy.includes(UserStore.user.id) !== isLiked) {
-        //     const updatedPost = jobsStore.getPostInfoById(postId);
-        //     setPost(updatedPost);
-        // }
-
         if (!isLiked) {
             const notification = {
                 message: "liked your post",
@@ -143,13 +133,13 @@ const PostComponent = observer((props: any) => {
                 time: DateService.getCurrentDatetime(),
                 link: post._id,
                 from: UserStore.user.name,
-                type: 'post'
+                type: 'like'
             };
 
-            if (!UserStore.notifications.some(not => not.link === notification.link && not.to === notification.to)) {
-                await UserStore.makeNotifications(notification);
-            }
+            await UserStore.makeNotifications(notification);
+
         }
+
     }, [postId]);
     // comments
     const commentOnPost = (event: any) => {
@@ -158,14 +148,31 @@ const PostComponent = observer((props: any) => {
 
 
     }
-    const addComment = (value: string) => {
+    const addComment = async (value: string) => {
         setusersCommentOnPost(value)
+
     }
     const postComment = async () => {
         setusersCommentOnPost('')
         const c: comment = { by: UserStore.user.id.toString(), text: usersCommentOnPost, id: uuidv4() }
         setPost(await jobsStore.addCommentOnPost(post, c))
         setcommentsCounter(post.comments.length);
+
+        let notification = {
+            message: "commented on your post",
+
+            to: UserStore.getUserInfoById(post.employee_id).id,
+            time: DateService.getCurrentDatetime(),
+            link: post._id,
+            from: UserStore.user.name,
+            type: 'comment'
+        };
+        if (commentsCounter > 0) {
+            notification.message = "and " + commentsCounter + " others commented on your post"
+        }
+        await UserStore.makeNotifications(notification);
+
+
 
 
 
