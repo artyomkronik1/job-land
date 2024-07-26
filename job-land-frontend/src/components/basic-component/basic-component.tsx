@@ -139,13 +139,24 @@ const BasicComponent = observer((props: basicComponentProps) => {
         UserStore.setCurrentChat({ _id: '', messages: [] })
 
     }
+    const formatTimestampToTime = (timestamp: string) => {
+        const date = new Date(timestamp);
+        const hours = date.getHours().toString().padStart(2, '0');
+        const minutes = date.getMinutes().toString().padStart(2, '0');
+        const seconds = date.getSeconds().toString().padStart(2, '0');
+        return `${hours}:${minutes}:${seconds}`;
+    };
     const sendNewMessage = async () => {
         // getting now timestap
+        // Getting current timestamp in YYYY-MM-DDTHH:mm:ss format
         const now = new Date();
-        const hours = String(now.getHours()).padStart(2, '0'); // Get the current hour and pad with leading zero if necessary
-        const minutes = String(now.getMinutes()).padStart(2, '0'); // Get the current minute and pad with leading zero if necessary
-        const seconds = String(now.getSeconds()).padStart(2, '0'); // Get the current second and pad with leading zero if necessary
-        const currentTime = `${hours}:${minutes}:${seconds}`;
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are zero-indexed, so we add 1
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        const currentTime = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
 
         if (activeChat && activeChat._id && activeChat._id.length > 0) {
             const newMsg: Message = { content: newMessageContent, sender: userStore.user.id, receiver: activeChat.messages[0].sender != UserStore.user.id ? activeChat.messages[0].sender : activeChat.messages[0].receiver, timestamp: currentTime }
@@ -170,15 +181,7 @@ const BasicComponent = observer((props: basicComponentProps) => {
     const setnewMessageContentHandler = (event: any) => {
         setnewMessageContent(event.target.value)
     }
-    const formatTimestampToTime = (timestamp: string) => {
-        const date = new Date(timestamp);
 
-        const hours = String(date.getHours()).padStart(2, '0');
-        const minutes = String(date.getMinutes()).padStart(2, '0');
-        const seconds = String(date.getSeconds()).padStart(2, '0');
-
-        return `${hours}:${minutes}:${seconds}`;
-    };
 
     const getRelativeDateString = (timestamp: string) => {
         const date = new Date(timestamp);
