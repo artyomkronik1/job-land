@@ -125,9 +125,10 @@ const PostComponent = observer((props: any) => {
 
         const isLiked = post.likedBy.includes(UserStore.user.id);
         setPost(await jobsStore.setLikeOnPost(post, UserStore.user.id, isLiked));
+        setlikesCounter(post.likedBy.length)
 
         if (!isLiked) {
-            const notification = {
+            let notification = {
                 message: "liked your post",
                 to: UserStore.getUserInfoById(post.employee_id).id,
                 time: DateService.getCurrentDatetime(),
@@ -135,6 +136,9 @@ const PostComponent = observer((props: any) => {
                 from: UserStore.user.name,
                 type: 'like'
             };
+            if (post.likedBy.length - 1 > 0) {
+                notification.message = "and " + (post.likedBy.length - 1) + " others liked your post"
+            }
 
             await UserStore.makeNotifications(notification);
 
