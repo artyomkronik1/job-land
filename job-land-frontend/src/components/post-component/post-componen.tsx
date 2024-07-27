@@ -28,6 +28,7 @@ import { v4 as uuidv4 } from 'uuid';
 import DropDown from "../../base-components/dropdown-component/dropdown";
 import { UsersNotification } from "../../interfaces/usersNotification";
 import DateService from "../../services/dateService";
+import NotificationService from "../../services/notificationsService";
 const PostComponent = observer((props: any) => {
     const [commentFlag, setcommentFlag] = useState(false);
     const [commentAdded, setcommentAdded] = useState(false);
@@ -188,7 +189,8 @@ const PostComponent = observer((props: any) => {
         UserStore.setLoading(true);
         setTimeout(async () => {
             await jobsStore.removePost(post)
-
+            const nots: UsersNotification[] = await UserStore.getNotificationsByPostId(post._id)
+            nots.forEach(async not => await NotificationService.removeNotifications(not))
             UserStore.setLoading(false);
             navigate(`/home`);
             UserStore.setTab("Home")
@@ -241,20 +243,20 @@ const PostComponent = observer((props: any) => {
                             </div>
                             {/* post settings */}
                             {UserStore.user.id == post.employee_id && (
-                                <div style={{ position: 'relative' }}>
-                                    <div onClick={(event) => openSettings(event)} style={{ cursor: 'pointer', fontSize: '30px' }}>
+                                <div style={{ position: 'relative', marginTop: '-15px' }}>
+                                    <div onClick={(event) => openSettings(event)} style={{ cursor: 'pointer', fontSize: '35px', fontWeight: 'bolder', color: '#0a66c2' }}>
                                         ...
 
                                     </div>
 
 
                                     {postSettings && (
-                                        <div style={{ position: 'absolute' }}>
+                                        <div style={{ position: 'absolute', left: '20px' }}>
                                             <div ref={dropdownRef} style={{ display: 'flex', flexDirection: 'column' }}>
 
 
 
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'center', marginTop: '-20px' }} >
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'center', marginTop: '-30px' }} >
 
                                                     <ul className={componentStyles.dropdown}>
                                                         <div onClick={(event) => openEditingPost(event, post)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} className={componentStyles.dropdownOption}> <span>{t('edit')}</span></div>

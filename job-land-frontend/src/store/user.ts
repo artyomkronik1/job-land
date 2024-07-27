@@ -162,6 +162,19 @@ class UserStore {
         }
         else { return null }
     }
+
+
+    getNotificationsByPostId = async (link: string) => {
+        const notifications: any = await NotificationService.getAllNotifications();
+        if (notifications.success) {
+            const matchingNotifications = notifications.notifications.filter((not: UsersNotification) =>
+                not.link?.toString() === link.toString()
+            );
+            return matchingNotifications
+        }
+        else { return [] }
+    }
+
     makeNotifications = async (not: UsersNotification) => {
         return await NotificationService.addNotifications(not);
 
