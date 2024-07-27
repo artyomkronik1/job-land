@@ -386,7 +386,6 @@ class UserStore {
 
             if (this.users && this.users.length > 0) {
                 const isUserExist = this.users.filter((u: User) => u.email == email)
-                console.log(isUserExist);
                 // check if there more than one user with same email
                 if (isUserExist.length > 0) {
                     return { success: false, errorCode: "Email is already in use" }

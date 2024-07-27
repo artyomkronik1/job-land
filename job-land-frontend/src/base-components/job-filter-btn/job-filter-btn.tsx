@@ -13,6 +13,8 @@ const JobFilterBtn = (props: JobFilterBtnProps) => {
     const { t } = useTranslation();
     const { i18n } = useTranslation();
     const dropdownRef = useRef<HTMLDivElement>(null);
+    console.log(props.options);
+
     // listening when user click outside of dropdown so close it
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {

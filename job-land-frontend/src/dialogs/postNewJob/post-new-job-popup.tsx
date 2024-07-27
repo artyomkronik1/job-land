@@ -72,8 +72,13 @@ const PostNewJobPopup = (props: postNewJobPopup) => {
 
             })
             if (res?.success) {
-                toast.success(t('SUCCESS'));
+                UserStore.setLoading(true);
+                await jobsStore.getALlJobs();
+                setTimeout(async () => {
+                    UserStore.setLoading(false);
 
+                    toast.success(t('SUCCESS'));
+                }, 1000)
             } else {
                 toast.error(t('ERROR!') + ' ' + res?.errorCode);
             }
