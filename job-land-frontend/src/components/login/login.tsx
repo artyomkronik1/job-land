@@ -86,8 +86,10 @@ const Login = observer(() => {
             const result = await firebase.auth().signInWithPopup(provider);
             if (result && result.user && result.user.email && result.user.displayName) {
                 const user: User = UserStore.loginWithGoogle(result.user.email.toString(), result.user.displayName.toString())
+                console.log('u', user);
+
                 // check if user exist with this email either sign in as a new
-                if (user && user.email && user.password) {
+                if (user) {
                     const encryptedPassword = CryptoJS.AES.encrypt(user.password, secretKey).toString();
                     const res = await UserStore.login(user.email, encryptedPassword)
                     if (res?.success) {

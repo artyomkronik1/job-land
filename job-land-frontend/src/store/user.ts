@@ -385,11 +385,14 @@ class UserStore {
             await this.getUsers();
 
             if (this.users && this.users.length > 0) {
-                const isUserExist = this.users.find((u: User) => u.email == email)
-                if (isUserExist) {
+                const isUserExist = this.users.filter((u: User) => u.email == email)
+                console.log(isUserExist);
+                // check if there more than one user with same email
+                if (isUserExist.length > 0) {
                     return { success: false, errorCode: "Email is already in use" }
                 }
-                else {
+                else if (isUserExist.length == 1) {
+                    // if this only one user with this email
 
                     // email check
                     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -401,19 +404,21 @@ class UserStore {
                         return { success: false, errorCode: "Email is invalid" }
 
                     }
-                    else {
-                        const result = await AuthService.signup(name, password, email, role);
 
-                        if (result.success) {
-                            this.setUser(result.user)
-                            this.setLoggedIn(true)
-                            this.setSignedUp(true)
-                            await this.init();
-                            return result
-                        }
-                        else {
-                            return result
-                        }
+                }
+                // else 
+                else {
+                    const result = await AuthService.signup(name, password, email, role);
+
+                    if (result.success) {
+                        this.setUser(result.user)
+                        this.setLoggedIn(true)
+                        this.setSignedUp(true)
+                        await this.init();
+                        return result
+                    }
+                    else {
+                        return result
                     }
                 }
             }
@@ -467,12 +472,12 @@ class UserStore {
     }
     loginWithGoogle = (email: string, username: string) => {
         this.getUsers()
+
         let user: any = {}
-        this.users.forEach((u: User) => {
-            if (u.email.toString() == email.toString() && u.name.toString() == username.toString()) {
-                user = u
-            }
-        })
+
+        user = this.users.find((u: User) =>
+            u.email.toString() === email.toString()
+        );
         return user
 
     }

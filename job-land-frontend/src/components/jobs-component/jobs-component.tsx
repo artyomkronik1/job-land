@@ -251,8 +251,8 @@ const JobsComponent = observer(() => {
                             </div>
                         )) : (
                             <div style={{ border: '1px solid #c3c4c5', backgroundColor: 'white', borderRadius: '20px', padding: '10px', display: 'flex', flexDirection: 'column', gap: '15px', alignItems: 'center', width: '90%' }}>
-                                <span className={globalStyles.h2}>{'No suitable jobs...'}</span>
-                                <button onClick={() => resetFilters()} className={globalStyles.btn}>{'Reset all filters'}</button>
+                                <span className={globalStyles.h2}>{t('No suitable jobs...')}</span>
+                                <button onClick={() => resetFilters()} className={globalStyles.btn}>{t('Reset all filters')}</button>
                             </div>
                         )}
                     </div>

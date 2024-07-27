@@ -107,7 +107,7 @@ const NotificationComponent = observer(() => {
 			<ToastComponent />
 			<div dir={UserStore.getLanguage() === "en" ? "ltr" : "rtl"}>
 				<div style={{ marginTop: "90px", display: "flex", flexDirection: "column", alignItems: "center", width: "70%", flexWrap: "wrap" }}>
-					{notifications && notifications.length > 0 &&
+					{notifications && notifications.length > 0 ?
 						notifications.map((not: UsersNotification, index: number) => (
 							<>
 								<div key={index} className={styles.notContainer} onClick={() => clickOnNotification(not)}>
@@ -120,7 +120,13 @@ const NotificationComponent = observer(() => {
 
 								<div style={{ marginBottom: '20px' }} className={globals.separate_line_grey}></div>
 							</>
-						))}
+						)) :
+						(
+							<div>
+								<span style={{ fontSize: '25px' }} className={globals.mainSpan}>{t('There is no notifications')}</span>
+							</div>
+						)
+					}
 				</div>
 			</div>
 		</>
