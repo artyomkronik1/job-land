@@ -135,6 +135,25 @@ export class PostsService {
         }
     }
 
+    public async removePost(post: any) {
+        try {
+            // Find and delete the notification by its ID
+            const result = await this.postModel.findByIdAndDelete(post.post._id.toString());
+
+            if (!result) {
+                throw new Error('post was not found');
+            }
+
+            return {
+                success: true,
+                message: 'post removed successfully',
+            };
+        } catch (error) {
+            // Handle errors and throw a descriptive message
+            throw new Error(`Failed to remove post: ${error.message}`);
+        }
+    }
+
 
     public async editPost(post: any) {
 

@@ -44,6 +44,7 @@ const PostComponent = observer((props: any) => {
     const [commentOptionsFlag, setcommentOptionsFlag] = useState('');
     const [editCommentFlag, seteditCommentFlag] = useState('');
     const [removeCommentFlag, setremoveCommentFlag] = useState(false);
+    const [postSettings, setpostSettings] = useState(false);
 
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -51,6 +52,7 @@ const PostComponent = observer((props: any) => {
         const handleClickOutside = (event: MouseEvent) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
                 setcommentOptionsFlag('');
+                setpostSettings(false)
             }
         };
         document.addEventListener('mousedown', handleClickOutside);
@@ -181,13 +183,17 @@ const PostComponent = observer((props: any) => {
             notification.message = t("and ") + commentsCounter + t(" others commented on your post")
         }
         await UserStore.makeNotifications(notification);
-
-
-
-
-
     }
+    const removePost = async (post: Post) => {
+        UserStore.setLoading(true);
+        setTimeout(async () => {
+            await jobsStore.removePost(post)
 
+            UserStore.setLoading(false);
+            navigate(`/home`);
+            UserStore.setTab("Home")
+        }, 1000)
+    }
 
     const editComment = (comment: comment) => {
         setcommentOptionsFlag('')
@@ -209,14 +215,9 @@ const PostComponent = observer((props: any) => {
         jobsStore.updateCommentForPost(post, comment)
         seteditCommentFlag('')
     }
-    const getSettingAction = (val: string) => {
-        if (val == 'Edit') {
-
-        }
-        if (val == 'Remove') {
-
-        }
-
+    const openSettings = (event: any) => {
+        event.stopPropagation();
+        setpostSettings(true)
     }
     return (
         <>
@@ -238,9 +239,38 @@ const PostComponent = observer((props: any) => {
                                     <span style={{ color: '#717273', fontSize: '16px', fontWeight: 'normal', wordBreak: 'break-word', maxWidth: '80%', overflow: 'hidden' }} className={globalStyles.simpleP}> {UserStore.users.filter(user => user.id == post.employee_id)[0]?.about}</span>
                                 </div>
                             </div>
+                            {/* post settings */}
                             {UserStore.user.id == post.employee_id && (
-                                <div className={componentStyles.editImg} onClick={(event) => openEditingPost(event, post)} style={{ cursor: 'pointer' }}>
-                                    <img src={editImg} style={{ padding: '5px' }} />
+                                <div style={{ position: 'relative' }}>
+                                    <div onClick={(event) => openSettings(event)} style={{ cursor: 'pointer', fontSize: '30px' }}>
+                                        ...
+
+                                    </div>
+
+
+                                    {postSettings && (
+                                        <div style={{ position: 'absolute' }}>
+                                            <div ref={dropdownRef} style={{ display: 'flex', flexDirection: 'column' }}>
+
+
+
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', justifyContent: 'center', marginTop: '-20px' }} >
+
+                                                    <ul className={componentStyles.dropdown}>
+                                                        <div onClick={(event) => openEditingPost(event, post)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} className={componentStyles.dropdownOption}> <span>{t('edit')}</span></div>
+                                                        <div onClick={() => removePost(post)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} className={componentStyles.dropdownOption}> <span>{t('remove')}</span></div>
+                                                    </ul>
+
+                                                </div>
+
+
+
+
+                                            </div>
+                                        </div>
+                                    )}
+
+
                                 </div>
                             )}
                         </div>

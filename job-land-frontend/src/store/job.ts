@@ -81,6 +81,16 @@ class JobsStore {
         }
         return res;
     }
+
+
+    removePost = async (post: Post) => {
+        const res = await postService.removePost(post);
+        // if (res.success) {
+        //     await this.getAllPosts();
+        // }
+        return res;
+    }
+
     removeComment = async (post: Post, comment: comment) => {
         post.comments = post.comments.filter((c) => c.id !== comment.id);
 
