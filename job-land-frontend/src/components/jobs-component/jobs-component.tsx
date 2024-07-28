@@ -221,11 +221,17 @@ const JobsComponent = observer(() => {
                         {allJobs && allJobs.length > 0 ? allJobs.map((job: Job, index) => (
                             <div style={{ width: '90%' }} className={job.applications.includes(UserStore.user.id) ? componentStyles.jobContainerApplied : componentStyles.postContainer} key={index} onClick={() => seeFullJob(job)}>
                                 {!job.applications.includes(UserStore.user.id) ? (
-                                    <div className={componentStyles.postContainer__header}>
-                                        <ProfileImage user={UserStore.getUserInfoById(job.hire_manager_id)} />
-                                        <div className={componentStyles.postContainer__header__details}>
-                                            <span style={{ fontSize: '20px', color: '#1c1c39' }}> {job.hire_name}</span>
-                                            <span style={{ color: '#717273', fontSize: '16px', fontWeight: 'normal' }} className={globalStyles.simpleP}> {job.company_name}</span>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                                        <div className={componentStyles.postContainer__header}>
+                                            <ProfileImage user={UserStore.getUserInfoById(job.hire_manager_id)} />
+                                            <div className={componentStyles.postContainer__header__details}>
+                                                <span style={{ fontSize: '20px', color: '#1c1c39' }}> {job.hire_name}</span>
+                                                <span style={{ color: '#717273', fontSize: '16px', fontWeight: 'normal' }} className={globalStyles.simpleP}> {job.company_name}</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <span style={{ fontSize: '18px', color: '#717273', fontWeight: 'normal' }} className={globalStyles.simpleP}> {job.applications.length} {job.applications.length == 1 ? t(' person clicked apply') : t(' people clicked apply')}</span>
+
                                         </div>
                                     </div>
                                 ) :
@@ -238,8 +244,11 @@ const JobsComponent = observer(() => {
                                             </div>
                                         </div>
                                         <div>
-                                            <span style={{ color: 'black  ', fontSize: '26px', fontWeight: 'normal' }} className={globalStyles.simpleP}> {t('Already applied')}</span>
+                                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'end', gap: '5px' }}>
+                                                <span style={{ fontSize: '18px', color: '#717273', fontWeight: 'normal' }} className={globalStyles.simpleP}> {job.applications.length} {job.applications.length == 1 ? t(' person clicked apply') : t(' people clicked apply')}</span>
 
+                                                <span style={{ color: 'black  ', fontSize: '26px', fontWeight: 'normal' }} className={globalStyles.simpleP}> {t('Already applied')}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 }
