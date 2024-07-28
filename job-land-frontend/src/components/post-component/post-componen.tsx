@@ -234,9 +234,9 @@ const PostComponent = observer((props: any) => {
 
                     <div className={componentStyles.postContainer} style={{ alignSelf: 'center', width: '100%' }} onClick={() => goToPost(post)}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                            <div style={{ cursor: 'pointer' }} className={componentStyles.postContainer__header} onClick={() => goToUserProfile(post.employee_id)}>
+                            <div style={{ cursor: 'pointer', width: '100%' }} className={componentStyles.postContainer__header} onClick={() => goToUserProfile(post.employee_id)}>
                                 <ProfileImage user={UserStore.getUserInfoById(post.employee_id)} />
-                                <div className={componentStyles.postContainer__header__details}>
+                                <div className={componentStyles.postContainer__header__details} style={{ width: '100%' }}>
                                     <span style={{ fontSize: '20px', color: '#1c1c39' }}> {post.writer_name}</span>
                                     <span style={{ color: '#717273', fontSize: '16px', fontWeight: 'normal', wordBreak: 'break-word', maxWidth: '80%', overflow: 'hidden' }} className={globalStyles.simpleP}> {UserStore.users.filter(user => user.id == post.employee_id)[0]?.about}</span>
                                 </div>
