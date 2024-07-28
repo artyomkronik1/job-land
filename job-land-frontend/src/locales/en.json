@@ -1,4 +1,5 @@
-{"welcome": "Welcome",
+{
+  "welcome": "Welcome",
   "manner": "Manner",
   "zone": "Zone",
   "profession": "Profession",
@@ -12,6 +13,8 @@
   "senior": "Senior",
   "on_site": "On-site",
   "hybrid": "Hybrid",
+  "job_title": "job title",
+  "username": "applicate name",
   "remote": "Remote",
   "programming": "Programming"
 }

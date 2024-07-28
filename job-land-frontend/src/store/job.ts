@@ -37,15 +37,12 @@ class JobsStore {
     getALlJobs = async () => {
         try {
             const result = await jobService.getAllJobs({})
-            console.log(result);
 
             if (result.data.success) {
                 this.setfilterJobs(result.data.jobs)
 
             }
             else if (result.data.success == false) {
-                console.log('a');
-
                 this.setfilterJobs([])
                 return result.data
 

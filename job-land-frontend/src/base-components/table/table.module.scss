@@ -1,0 +1,54 @@
+/* Table.css */
+.tableContainer {
+
+	width: 100%;
+	background-color: white;
+	margin: 20px 0;
+	border-collapse: collapse;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.tableContainer table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.tableContainer th,
+.tableContainer td {
+	cursor: pointer;
+	padding: 12px;
+	text-align: left;
+	border-bottom: 1px solid #ddd;
+}
+
+.tableContainer th {
+	background-color: white;
+	font-weight: bold;
+}
+
+.tableContainer tr:hover {
+	background-color: #f1f1f1;
+}
+
+.tableContainer .pagination {
+	margin-top: 20px;
+	text-align: center;
+}
+
+.tableContainer .pagination button {
+	padding: 10px 20px;
+	margin: 0 5px;
+	border: 1px solid #ddd;
+	background-color: #fff;
+	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+.tableContainer .pagination button:hover {
+	background-color: #e0e0e0;
+}
+
+.tableContainer .pagination button:disabled {
+	background-color: #f9f9f9;
+	cursor: not-allowed;
+}
