@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './table.module.scss'; // Import the CSS file
+import { useTranslation } from 'react-i18next';
 
 interface TableProps<T> {
 	rows: T[];
@@ -9,6 +10,9 @@ interface TableProps<T> {
 }
 
 const Table = <T extends object>({ rows, columns, rowCount, pageSize }: TableProps<T>) => {
+	//language
+	const { t } = useTranslation();
+	const { i18n } = useTranslation();
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const totalPages = Math.ceil(rowCount / pageSize);
 	const paginatedRows = rows.slice((currentPage - 1) * pageSize, currentPage * pageSize);
@@ -25,7 +29,7 @@ const Table = <T extends object>({ rows, columns, rowCount, pageSize }: TablePro
 				<thead>
 					<tr>
 						{columns.map((col, index) => (
-							<th key={index}>{String(col)}</th>
+							<th key={index}>{t(String(col))}</th>
 						))}
 					</tr>
 				</thead>
@@ -33,7 +37,7 @@ const Table = <T extends object>({ rows, columns, rowCount, pageSize }: TablePro
 					{paginatedRows.map((row, rowIndex) => (
 						<tr key={rowIndex}>
 							{columns.map((col, colIndex) => (
-								<td key={colIndex}>{String(row[col])}</td>
+								<td key={colIndex}>{t(String(row[col]))}</td>
 							))}
 						</tr>
 					))}
