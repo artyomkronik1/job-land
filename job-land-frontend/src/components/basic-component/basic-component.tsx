@@ -1,5 +1,4 @@
 import { observer } from "mobx-react-lite";
-import UserStore from '../../store/user';
 import { useTranslation } from "react-i18next";
 import React, { ReactNode, useContext, useEffect, useState } from "react";
 import Login from "../login/login";
@@ -27,11 +26,13 @@ import TextAreaComponent from "../../base-components/textArea/text-area-componen
 import MessageService from "../../services/messageService";
 import PostNewJobPopup from "../../dialogs/postNewJob/post-new-job-popup";
 import ForgotPassComponent from "../forgotPass-component/forgotPass-component";
+import { UserContext } from "../../context/UserContext";
 
 export interface basicComponentProps {
     children: ReactNode;
 }
 const BasicComponent = observer((props: basicComponentProps) => {
+    const UserStore = useContext(UserContext);
 
     // active chat
     const [activeChat, setactiveChat] = useState<Chat>(UserStore.chats.find((c: Chat) => UserStore.currentChat._id == c._id) as Chat)
@@ -178,10 +179,11 @@ const BasicComponent = observer((props: basicComponentProps) => {
         }
 
     }
+
     // setting chats -- updating
-    useEffect(() => {
-        setChats(UserStore.chats)
-    }, []);
+    // useEffect(() => {
+    //     setChats(UserStore.chats)
+    // }, []);
     const setnewMessageContentHandler = (event: any) => {
         setnewMessageContent(event.target.value)
     }

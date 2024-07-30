@@ -12,7 +12,6 @@ import { useNavigate, useParams } from "react-router";
 import globalStyles from "../../assets/global-styles/styles.module.scss";
 import { Job } from "../../interfaces/job";
 import componentStyles from "../MainLayout/mainLayout.module.scss";
-import { DashboardContext } from "../../context/dashboardContext";
 import { User } from "../../interfaces/user";
 import jobsStore from "../../store/job";
 import ProfileImage from "../../base-components/profile-image/profile-image-component";

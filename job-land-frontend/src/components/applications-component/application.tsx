@@ -44,7 +44,7 @@ const ApplicationsComponent = observer(() => {
 
 	return (
 		<div dir={UserStore.getLanguage() === "en" ? "ltr" : "rtl"}>
-			<div style={{ marginTop: "90px", display: "flex", flexDirection: "column", alignItems: "center", width: "100%", flexWrap: "wrap" }}>
+			<div style={{ marginTop: "90px", display: "flex", flexDirection: "column", alignItems: "start", width: "100%", flexWrap: "wrap" }}>
 				<p className={globals.h2}> {t('Your jobs and candidates')} </p>
 				<Table
 					rows={rows}

@@ -8,10 +8,8 @@ import { Global } from '@emotion/react';
 import globals from './assets/global-styles/globals';
 import UserStore from './store/user'
 import { I18nextProvider } from 'react-i18next';
-import { Context } from './context'
 import firebase from 'firebase/compat/app'
 import i18n from './locales/i18n'
-import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 // firebase config and initialize 
 const firebaseConfig = {
   apiKey: "AIzaSyCdPRSZCNMWpboV-eZNzQVaLE0TeIYSd6Q",
@@ -31,9 +29,7 @@ root.render(
   <React.StrictMode>
     <I18nextProvider i18n={i18n}>
       <Global styles={globals} />
-      <Context.Provider value={UserStore}>
-        <App />
-      </Context.Provider>
+      <App />
     </I18nextProvider>
   </React.StrictMode>
 );

@@ -1,5 +1,4 @@
 import { observer } from "mobx-react-lite";
-import UserStore from '../../store/user';
 import { useTranslation } from "react-i18next";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import Login from "../login/login";
@@ -19,7 +18,10 @@ import like from '../../assets/images/like.png'
 import PostsService from "../../services/postService";
 import EditPost from "../../dialogs/edit-post/edit-post";
 import PostComponen from "../post-component/post-componen";
+import { UserContext } from '../../context/UserContext';
+
 const MainLayout = observer(() => {
+    const UserStore = useContext(UserContext);
 
     const [startIndex, setStartIndex] = useState(0);
     const navigate = useNavigate();
