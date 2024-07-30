@@ -85,9 +85,20 @@ class JobsStore {
 
     removePost = async (post: Post) => {
         const res = await postService.removePost(post);
-        // if (res.success) {
-        //     await this.getAllPosts();
-        // }
+        return res;
+    }
+
+    editjob = async (jobToEdit: Job) => {
+        const res = await jobService.editJob(jobToEdit);
+        if (res.success) {
+            await this.getALlJobs();
+        }
+        return res;
+    }
+
+
+    removejob = async (jobToEdit: Job) => {
+        const res = await jobService.removeJob(jobToEdit);
         return res;
     }
 

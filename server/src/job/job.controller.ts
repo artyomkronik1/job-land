@@ -36,6 +36,16 @@ export class JobController {
     //     apply for job
 
 
+    // edit
+    @Post('/edit')
+    async post(@Body() job: any) {
+        return this.jobService.editJob(job)
+    }
+    // remove
+    @Post('/remove')
+    async remove(@Body() job: any) {
+        return this.jobService.removeJob(job)
+    }
 
 
 }

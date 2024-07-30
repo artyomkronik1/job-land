@@ -32,6 +32,33 @@ const JobService = {
         }
     },
 
+
+    async editJob(job: Job) {
+        try {
+            const result = await axios.post('http://localhost:3002/jobs/edit', { job });
+            if (result.data.success) {
+                return result.data;
+            } else {
+                return result.data;
+            }
+        } catch (error) {
+            console.error('Error edit  job:', error);
+        }
+    },
+
+    async removeJob(job: Job) {
+        try {
+            const result = await axios.post('http://localhost:3002/jobs/remove', { job });
+            if (result.data.success) {
+                return result.data;
+            } else {
+                return result.data;
+            }
+        } catch (error) {
+            console.error('Error edit  job:', error);
+        }
+    },
+
     async getAllJobs(filters: any) {
         try {
             const result = await axios.post('http://localhost:3002/jobs', { properties: filters });

@@ -7,6 +7,43 @@ import { EmailService } from "./email.service";
 export class JobService {
     constructor(@InjectModel('Job') private readonly jobModel: Model<Job>, private readonly emailService: EmailService) { }
 
+    public async removeJob(job: any) {
+        try {
+            // Find and delete the notification by its ID
+            const result = await this.jobModel.findByIdAndDelete(job.job._id.toString());
+
+            if (!result) {
+                throw new Error('job was not found');
+            }
+
+            return {
+                success: true,
+                message: 'job removed successfully',
+            };
+        } catch (error) {
+            // Handle errors and throw a descriptive message
+            throw new Error(`Failed to remove job: ${error.message}`);
+        }
+    }
+
+
+    public async editJob(job: any) {
+
+        let p = await this.jobModel.findById(job.job._id.toString());
+        if (!p) {
+            // Handle the case where the user with the given ID is not found
+            return { success: false, errorCode: 'fail_to_find_job', };
+        } else {
+            p.title = job.job.title;
+            p.description = job.job.description;
+
+
+            await p.save()
+            return { success: true, job: p }
+        }
+    }
+
+
     async applyForJob(props: any) {
         try {
             // Find the job document by id

@@ -229,6 +229,8 @@ const JobsComponent = observer(() => {
                                                 <span style={{ color: '#717273', fontSize: '16px', fontWeight: 'normal' }} className={globalStyles.simpleP}> {job.company_name}</span>
                                             </div>
                                         </div>
+
+
                                         <div>
                                             <span style={{ fontSize: '18px', color: '#717273', fontWeight: 'normal' }} className={globalStyles.simpleP}> {job.applications.length} {job.applications.length == 1 ? t(' person clicked apply') : t(' people clicked apply')}</span>
 
