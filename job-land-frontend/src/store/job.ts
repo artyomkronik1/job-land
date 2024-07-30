@@ -54,9 +54,12 @@ class JobsStore {
         }
     }
     getPostInfoById = (id: string): any => {
-        console.log('a', this.followPost);
 
         return this.followPost.find(post => post._id == id);
+    }
+    getJobInfoByName = (name: string): any => {
+
+        return this.filterJobs.find(job => job.title == name);
     }
     addApplicate = async (job: any, id: string) => {
         if (!job.applications.includes(id)) {

@@ -1,21 +1,24 @@
 import React, { useState } from 'react';
 import styles from './table.module.scss'; // Import the CSS file
 import { useTranslation } from 'react-i18next';
+import { observer } from 'mobx-react-lite';
 
-interface TableProps<T> {
-	rows: T[];
-	columns: (keyof T)[];
+export interface TableProps {
+	onClickRow: (col: string) => void;
+	rows: any[];
+	columns: (keyof any)[];
 	rowCount: number;
 	pageSize: number;
 }
 
-const Table = <T extends object>({ rows, columns, rowCount, pageSize }: TableProps<T>) => {
+const Table = (tableProps: TableProps) => {
 	//language
+
 	const { t } = useTranslation();
 	const { i18n } = useTranslation();
 	const [currentPage, setCurrentPage] = useState<number>(1);
-	const totalPages = Math.ceil(rowCount / pageSize);
-	const paginatedRows = rows.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+	const totalPages = Math.ceil(tableProps.rowCount / tableProps.pageSize);
+	const paginatedRows = tableProps.rows.slice((currentPage - 1) * tableProps.pageSize, currentPage * tableProps.pageSize);
 
 	const handlePageChange = (page: number) => {
 		if (page >= 1 && page <= totalPages) {
@@ -28,7 +31,7 @@ const Table = <T extends object>({ rows, columns, rowCount, pageSize }: TablePro
 			<table>
 				<thead>
 					<tr>
-						{columns.map((col, index) => (
+						{tableProps.columns.map((col, index) => (
 							<th key={index}>{t(String(col))}</th>
 						))}
 					</tr>
@@ -36,8 +39,8 @@ const Table = <T extends object>({ rows, columns, rowCount, pageSize }: TablePro
 				<tbody>
 					{paginatedRows.map((row, rowIndex) => (
 						<tr key={rowIndex}>
-							{columns.map((col, colIndex) => (
-								<td key={colIndex}>{t(String(row[col]))}</td>
+							{tableProps.columns.map((col, colIndex) => (
+								<td key={colIndex} onClick={() => tableProps.onClickRow(tableProps.rows[rowIndex])}>{t(String(row[col]))}</td>
 							))}
 						</tr>
 					))}
@@ -52,7 +55,7 @@ const Table = <T extends object>({ rows, columns, rowCount, pageSize }: TablePro
 					Next
 				</button>
 			</div>
-		</div>
+		</div >
 	);
 };
 
