@@ -13,6 +13,7 @@ import { User } from "../../interfaces/user";
 import TextInputField from "../../base-components/text-input/text-input-field";
 import { Post } from "../../interfaces/post";
 import userService from "../../services/userService";
+import AutoCompleteComponent from '../../base-components/autocomplete-component/autocomplete-component';
 export interface editProfileProps {
     isOpen: boolean;
     profileForEdit: User;
@@ -27,13 +28,26 @@ const EditProfileDialog = (props: editProfileProps) => {
     const [showWarningPopup, setshowWarningPopup] = useState(false)
     const [hasChanges, setHasChanges] = useState(false);
 
+
+
+    const companiesoptions = jobsStore.companies.map(company => company.name);
+
+
     const saveSettings = async () => {
         // check if there is not empty
         if (profileInEdit.name.length == 0 || profileInEdit.about.length == 0) {
             setTimeout(() => {
                 toast.error(t('ERROR ' + 'NAME OR ABOUT IS EMPTY'));
             }, 1000)
-        } else {
+
+        }
+
+        else if (profileInEdit.name.length > 15 || profileInEdit.about.length > 15 || profileInEdit.experience.length > 15 || profileInEdit.education.length > 15) {
+            setTimeout(() => {
+                toast.error(t('ERROR ' + 'ONE OF FIELDS IS TOO LONG, NO MORE THAN 15 CHARACTERS'));
+            }, 1000)
+        }
+        else {
             // set info
             const res = await userService.setUserInfo(profileInEdit)
             if (res.data.success) {
@@ -45,6 +59,7 @@ const EditProfileDialog = (props: editProfileProps) => {
                         u.about = profileInEdit.about;
                         u.experience = profileInEdit.experience;
                         u.education = profileInEdit.education;
+                        u.companyName = profileInEdit.companyName;
 
 
                     }
@@ -98,6 +113,16 @@ const EditProfileDialog = (props: editProfileProps) => {
     };
 
 
+    const handleChangeCompany = (event: any) => {
+        console.log('event', event);
+
+        setprofileInEdit({
+            ...profileInEdit,
+            companyName: event,
+        });
+        setHasChanges(true); // Set changes flag when about changes
+    };
+
     const handleChangeEduacation = (event: any) => {
         setprofileInEdit({
             ...profileInEdit,
@@ -136,7 +161,19 @@ const EditProfileDialog = (props: editProfileProps) => {
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
                                 <TextInputField size={'small'} type={'text'} placeHolder={t('Enter About Yourself')} text={t('About')} value={profileInEdit.about} onChange={handleChangeAbout} />
                             </div>
+                            {/*company*/}
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
+                                <AutoCompleteComponent
+                                    type="text"
+                                    size={'small'}
+                                    text='Company name'
+                                    placeHolder="Search company..."
+                                    value={profileInEdit.companyName}
+                                    onChange={handleChangeCompany}
+                                    options={companiesoptions}
 
+                                />
+                            </div>
 
                             {/*exoerience*/}
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>

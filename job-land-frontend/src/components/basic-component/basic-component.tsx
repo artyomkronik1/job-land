@@ -293,7 +293,7 @@ const BasicComponent = observer((props: basicComponentProps) => {
                                                     <div style={{ cursor: 'pointer' }}>
                                                         <DropDown options={['Profile', 'Logout']} changeDropValue={getSettingAction} icons={['fa fa-user-circle', 'fa fa-sign-out']}>
 
-                                                            <ProfileImage user={UserStore.user} />
+                                                            <ProfileImage user={UserStore.user} size="small" />
 
                                                         </DropDown>
                                                     </div>

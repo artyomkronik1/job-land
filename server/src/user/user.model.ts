@@ -11,7 +11,9 @@ export const UserSchema = new mongoose.Schema({
     experience: { type: String, required: false },
     education: { type: String, required: false },
     profilePicture: { type: String, required: false },
-    backgroundPicture: { type: String, required: false }
+    backgroundPicture: { type: String, required: false },
+    companyName: { type: String, required: false }
+
 
 })
 
@@ -27,6 +29,7 @@ export interface User {
     education: string;
     profilePicture: string;
     backgroundPicture: string;
+    companyName: string;
 
 
 }

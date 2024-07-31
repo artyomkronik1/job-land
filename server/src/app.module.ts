@@ -7,6 +7,7 @@ import { MessageController } from './message/message.controller';
 import { MessageModule } from './message/message.module';
 import { ChatsModule } from "./chats/chats.module";
 import { NotificationModule } from './notification/notification.module';
+import { CompanyModule } from './company/company.module';
 @Module({
   imports: [
     UserModule,
@@ -17,6 +18,7 @@ import { NotificationModule } from './notification/notification.module';
     PostsModule,
     MessageModule,
     ChatsModule,
+    CompanyModule,
     NotificationModule
   ]
 })

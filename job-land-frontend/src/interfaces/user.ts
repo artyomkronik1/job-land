@@ -10,5 +10,6 @@ export interface User {
     education: string;
     profilePicture: string;
     backgroundPicture: string;
+    companyName: string;
 
 }

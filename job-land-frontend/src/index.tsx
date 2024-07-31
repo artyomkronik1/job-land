@@ -4,8 +4,6 @@ import './index.scss';
 import App from './App';
 import './locales/i18n'; // Initialize i18n
 import reportWebVitals from './reportWebVitals';
-import { Global } from '@emotion/react';
-import globals from './assets/global-styles/globals';
 import UserStore from './store/user'
 import { I18nextProvider } from 'react-i18next';
 import firebase from 'firebase/compat/app'
@@ -28,7 +26,6 @@ root.render(
 
   <React.StrictMode>
     <I18nextProvider i18n={i18n}>
-      <Global styles={globals} />
       <App />
     </I18nextProvider>
   </React.StrictMode>

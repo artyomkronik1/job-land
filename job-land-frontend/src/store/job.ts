@@ -9,6 +9,8 @@ import UserStore from "./user";
 import jobService from "../services/jobService";
 import postService from "../services/postService";
 import PostsService from "../services/postService";
+import { Company } from "../interfaces/company";
+import CompanyService from "../services/companyService";
 const hydrate = create({
     storage: localStorage,
     jsonify: true
@@ -16,6 +18,8 @@ const hydrate = create({
 class JobsStore {
     @persist('object') @observable filterJobs: Job[] = [];
     @persist('object') @observable followPost: Post[] = [];
+    @persist('object') @observable companies: Company[] = [];
+
     constructor() {
         makeAutoObservable(this);
     }
@@ -30,10 +34,40 @@ class JobsStore {
     getfilterJobs() {
         return this.filterJobs
     }
+    getCompanies() {
+        return this.companies
+    }
+    setCompanies(c: Company[]) {
+        this.companies = c
+    }
     setfilterJobs(jobs: Job[]) {
         this.filterJobs = jobs
     }
+    getCompanyInfoByCompanyName = (name: string) => {
+        return this.companies.find(c => c.name == name)
+    }
 
+
+    getAllComapnies = async () => {
+        try {
+            const result = await CompanyService.getAllCompanies()
+            console.log(result);
+
+            if (result.data.success) {
+                this.setCompanies(result.data.compnies)
+
+            }
+            else if (result.data.success == false) {
+                this.setCompanies([])
+                return result.data
+
+            }
+        } catch (error) {
+            this.setfollowPosts([])
+            this.setfilterJobs([])
+            console.error('Error get jobs:', error);
+        }
+    }
     getALlJobs = async () => {
         try {
             const result = await jobService.getAllJobs({})
@@ -60,6 +94,10 @@ class JobsStore {
     getJobInfoByName = (name: string): any => {
 
         return this.filterJobs.find(job => job.title == name);
+    }
+    getJobInfoById = (id: string): any => {
+
+        return this.filterJobs.find(job => job.id == id);
     }
     addApplicate = async (job: any, id: string) => {
         if (!job.applications.includes(id)) {
@@ -161,7 +199,6 @@ class JobsStore {
         await PostsService.setLikeOnPost(post, user, like)
         return post
     }
-
     getAllPosts = async () => {
         try {
             const result = await axios.get('http://localhost:3002/posts');

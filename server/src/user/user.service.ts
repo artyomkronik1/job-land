@@ -23,6 +23,7 @@ export class UserService {
       .select('id name email password role follow about experience education profilePicture backgroundPicture')
       .exec();
     if (user.length > 0) {
+      console.log(user[0]);
 
       const sessionKey = this.generateSessionKey();
       return {
@@ -38,6 +39,7 @@ export class UserService {
           experience: user[0].experience,
           education: user[0].education,
           profilePicture: user[0].profilePicture,
+          companyName: user[0].companyName,
           backgroundPicture: user[0].backgroundPicture
         },
         session_key: sessionKey,
@@ -83,7 +85,9 @@ export class UserService {
         experience: '',
         education: '',
         profilePicture: '',
-        backgroundPicture: ''
+        backgroundPicture: '',
+        companyName: ''
+
       });
       const result = await newUser.save();
       if (result) {
@@ -101,7 +105,9 @@ export class UserService {
             backgroundPicture: '',
             about: "",
             experience: '',
-            education: ''
+            education: '',
+            companyName: '',
+
           },
           session_key: sessionKey,
         };
@@ -148,8 +154,11 @@ export class UserService {
       u.education = info.user.education;
       u.experience = info.user.experience,
         u.profilePicture = info.user.profilePicture,
-        u.backgroundPicture = info.user.backgroundPicture
-      await u.save()
+        u.backgroundPicture = info.user.backgroundPicture,
+        u.companyName = info.user.companyName,
+
+
+        await u.save()
       return { success: true, user: u }
     }
   }
@@ -169,7 +178,8 @@ export class UserService {
           experience: user.experience,
           education: user.education,
           profilePicture: user.profilePicture,
-          backgroundPicture: user.backgroundPicture
+          backgroundPicture: user.backgroundPicture,
+          companyName: user.companyName
         },
       };
     } else {
@@ -196,7 +206,9 @@ export class UserService {
           experience: user.experience,
           education: user.education,
           profilePicture: user.profilePicture,
-          backgroundPicture: user.backgroundPicture
+          backgroundPicture: user.backgroundPicture,
+          companyName: user.companyName
+
         })),
       };
     } else {

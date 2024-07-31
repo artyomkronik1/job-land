@@ -29,7 +29,7 @@ export class JobService {
 
     public async editJob(job: any) {
 
-        let p = await this.jobModel.findById(job.job._id.toString());
+        let p = await this.jobModel.findById(job.job.id.toString());
         if (!p) {
             // Handle the case where the user with the given ID is not found
             return { success: false, errorCode: 'fail_to_find_job', };

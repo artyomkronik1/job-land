@@ -33,7 +33,7 @@ class UserStore {
 
     @persist('object') @observable posts: Post[] = []
     @persist('object') @observable currentChat: Chat = { _id: '', messages: [] };
-    @persist('object') @observable user: User = { profilePicture: "", backgroundPicture: "", id: "", password: "", role: "", email: "", about: "", name: "", follow: [], experience: "", education: "" };
+    @persist('object') @observable user: User = { profilePicture: "", backgroundPicture: "", id: "", password: "", role: "", email: "", about: "", name: "", follow: [], experience: "", education: "", companyName: "" };
     @persist session_key = localStorage.getItem('session_key')
     constructor() {
         makeAutoObservable(this);
@@ -138,7 +138,7 @@ class UserStore {
         await this.getChatsByUser(this.user.id)
         await jobsStore.getAllPosts()
         await jobsStore.getALlJobs()
-
+        await jobsStore.getAllComapnies();
         await this.getUsersNotifications(this.user.id);
         //await this.getUserMessages();
     }
@@ -254,6 +254,7 @@ class UserStore {
     getUserByName = (name: string): User => {
         let userr: User = {
             id: "",
+            companyName: "",
             name: "",
             password: "",
             email: "",

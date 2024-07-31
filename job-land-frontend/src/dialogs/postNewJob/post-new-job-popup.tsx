@@ -12,6 +12,7 @@ import jobsStore from "../../store/job";
 import TextInputField from "../../base-components/text-input/text-input-field";
 import logo from "../../assets/images/icon.jpg";
 import jobService from "../../services/jobService";
+import AutoCompleteComponent from '../../base-components/autocomplete-component/autocomplete-component';
 export interface postNewJobPopup {
     isOpen: boolean;
     onClose: (success: boolean) => void;
@@ -51,6 +52,10 @@ const PostNewJobPopup = (props: postNewJobPopup) => {
         if (description.length == 0 || title.length == 0) {
             toast.error(t('ERROR! Title or Description is empty'));
             //  closeFinalyDialog(false)
+        }
+        else if (!jobsStore.companies.find(c => c.name == companyName)) {
+            toast.error(t('ERROR! Company is not exist'));
+
         }
         else {
             const res = await jobService.postNewJob({
@@ -133,6 +138,7 @@ const PostNewJobPopup = (props: postNewJobPopup) => {
     const handleScopeChange = (value: string) => {
         setScope(value);
     };
+    const companiesoptions = jobsStore.companies.map(company => company.name);
 
 
     return (
@@ -161,7 +167,16 @@ const PostNewJobPopup = (props: postNewJobPopup) => {
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '35%' }}>
                             <TextInputField type={'text'} size={'small'} placeHolder={'job description'} text={t('Job Description')} value={description} onChange={handleChangeDescription} />
                             <TextInputField type={'text'} size={'small'} placeHolder={'job proffesion'} text={t('Job Proffesion')} value={proffesion} onChange={handleChangeProffesion} />
-                            <TextInputField type={'text'} size={'small'} placeHolder={'job company'} text={t('Job Company')} value={companyName} onChange={handleChangeCompany} />
+                            <AutoCompleteComponent
+                                type="text"
+                                size={'small'}
+                                text='Company name'
+                                placeHolder="Search company..."
+                                value={companyName}
+                                onChange={handleChangeCompany}
+                                options={companiesoptions}
+
+                            />
                             <img src={newJob} style={{ display: 'flex', width: '120px', justifyContent: 'center' }} />
 
                         </div>

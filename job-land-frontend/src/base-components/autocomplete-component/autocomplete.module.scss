@@ -1,0 +1,42 @@
+.autocompleteWrapper {
+	position: relative;
+	display: inline-block;
+}
+
+.input {
+	width: 100%;
+	padding: 8px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+.input_small {
+	width: 100%;
+	padding: 4px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+}
+
+.dropdown {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	background-color: white;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	max-height: 200px;
+	overflow-y: auto;
+	z-index: 1000;
+}
+
+.dropdownItem {
+	padding: 8px;
+	cursor: pointer;
+
+	&:hover {
+		background-color: #f0f0f0;
+	}
+}

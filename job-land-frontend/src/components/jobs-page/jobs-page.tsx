@@ -15,14 +15,20 @@ import { User } from "../../interfaces/user";
 import JobPopup from "../../dialogs/job-popup/job-popup";
 import jobService from "../../services/jobService";
 import SearchInput from "../../base-components/search-input/search-input";
-const JobsComponent = observer(() => {
-    //language
+import { Company } from "../../interfaces/company";
+import CompanyService from "../../services/companyService";
+import JobComponent from "../job-component/job-component";
+import { JobContext } from "../../context/JobContext";
+const JobsPage = observer(() => {
+    const JobStore = useContext(JobContext);
+
+    //language  
     const { t } = useTranslation();
     const { i18n } = useTranslation();
     const [searchJobName, setsearchJobName] = useState('');
     const [searchJobLoc, setsearchJobLoc] = useState('');
-
-    const [allJobs, setAllJobs] = useState<Job[]>(jobsStore.getfilterJobs());
+    const [allCompanies, setAllCompanies] = useState<Company[]>(JobStore.companies)
+    const [allJobs, setAllJobs] = useState<Job[]>(JobStore.filterJobs);
     // job filters array
     const [filterValues, setfilterValues] = useState<JobFilters>({
         zone: null,
@@ -37,6 +43,21 @@ const JobsComponent = observer(() => {
         searchJob(); // Call the function when filters change
     }, [filterValues]);
 
+
+
+    // useEffect(() => {
+    //     const c: Company = {
+    //         name: "c1",
+    //         location: "israel",
+    //         about: "",
+    //         jobs: [allJobs[0]],
+    //         workers: [UserStore.users[0]],
+    //         profilePicture: "",
+    //         backgroundPicture: ""
+    //     }
+    //     CompanyService.addNewCompany(c);
+    //     jobsStore.getAllComapnies();
+    // }, []);
 
 
 
@@ -152,6 +173,7 @@ const JobsComponent = observer(() => {
     const handleLocationClick = (region: string) => {
         setsearchJobLoc(region); // Set the selected region to the input field
     };
+
     return (
         <>
 
@@ -175,15 +197,15 @@ const JobsComponent = observer(() => {
                     <div style={{ width: '80%' }} className={globalStyles.separate_line_grey}> </div>
 
                     {/* job input search */}
-                    <div style={{ marginBottom: '30px', display: 'flex', justifyContent: 'start', gap: '20px', marginTop: '20px' }}>
-                        <div style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}>
+                    <div style={{ marginBottom: '30px', display: 'flex', justifyContent: 'start', gap: '20px', marginTop: '20px', }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', position: 'relative', }}>
                             <SearchInput placeHolder={t('title, skill or company')} value={searchJobName} ariaLabel={'Search..'} onChange={(vaalue) => setsearchJobName(vaalue)} />
 
                             {searchJobName.length > 0 && (
                                 <ul style={{
                                     display: 'flex', flexDirection: 'column', gap: '20px', position: 'absolute',
-                                    width: ' 247px',
-                                    top: '52px'
+                                    width: '85%',
+                                    top: '50px'
                                 }}>
                                     {allJobs.map((job, index) => (
                                         job.title.toLowerCase().includes(searchJobName.toLowerCase()) && (
@@ -202,8 +224,8 @@ const JobsComponent = observer(() => {
                             {searchJobLoc.length > 0 && (
                                 <ul style={{
                                     display: 'flex', flexDirection: 'column', gap: '20px', position: 'absolute',
-                                    width: ' 247px',
-                                    top: '52px'
+                                    width: '85%',
+                                    top: '50px'
                                 }}>
                                     {allJobs.map((job, index) => (
                                         job.region.toLowerCase().includes(searchJobLoc.toLowerCase()) && (
@@ -217,49 +239,52 @@ const JobsComponent = observer(() => {
 
                     </div>
                     {/*job component*/}
-                    <div style={{ display: "flex", justifyContent: 'center', alignItems: 'center', flexDirection: 'column', gap: '20px', width: '100%' }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', width: '80%', alignSelf: 'center', cursor: 'pointer', gap: '20px' }}>
+
+
                         {allJobs && allJobs.length > 0 ? allJobs.map((job: Job, index) => (
-                            <div style={{ width: '90%' }} className={job.applications.includes(UserStore.user.id) ? componentStyles.jobContainerApplied : componentStyles.postContainer} key={index} onClick={() => seeFullJob(job)}>
-                                {!job.applications.includes(UserStore.user.id) ? (
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                                        <div className={componentStyles.postContainer__header}>
-                                            <ProfileImage user={UserStore.getUserInfoById(job.hire_manager_id)} />
-                                            <div className={componentStyles.postContainer__header__details}>
-                                                <span style={{ fontSize: '20px', color: '#1c1c39' }}> {job.hire_name}</span>
-                                                <span style={{ color: '#717273', fontSize: '16px', fontWeight: 'normal' }} className={globalStyles.simpleP}> {job.company_name}</span>
-                                            </div>
-                                        </div>
+                            <JobComponent job={job} />
+                            // <div style={{ width: '90%' }} className={job.applications.includes(UserStore.user.id) ? componentStyles.jobContainerApplied : componentStyles.postContainer} key={index} onClick={() => seeFullJob(job)}>
+                            //     {!job.applications.includes(UserStore.user.id) ? (
+                            //         <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                            //             <div className={componentStyles.postContainer__header}>
+                            //                 <ProfileImage user={jobsStore.getCompanyInfoByCompanyName(job.company_name)} />
+                            //                 <div className={componentStyles.postContainer__header__details}>
+                            //                     <span style={{ fontSize: '20px', color: '#1c1c39' }}> {job.hire_name}</span>
+                            //                     <span style={{ color: '#717273', fontSize: '16px', fontWeight: 'normal' }} className={globalStyles.simpleP}> {job.company_name}</span>
+                            //                 </div>
+                            //             </div>
 
 
-                                        <div>
-                                            <span style={{ fontSize: '18px', color: '#717273', fontWeight: 'normal' }} className={globalStyles.simpleP}> {job.applications.length} {job.applications.length == 1 ? t(' person clicked apply') : t(' people clicked apply')}</span>
+                            //             <div>
+                            //                 <span style={{ fontSize: '18px', color: '#717273', fontWeight: 'normal' }} className={globalStyles.simpleP}> {job.applications.length} {job.applications.length == 1 ? t(' person clicked apply') : t(' people clicked apply')}</span>
 
-                                        </div>
-                                    </div>
-                                ) :
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                                        <div className={componentStyles.postContainer__header}>
-                                            <ProfileImage user={UserStore.getUserInfoById(job.hire_manager_id)} />
-                                            <div className={componentStyles.postContainer__header__details}>
-                                                <span style={{ fontSize: '20px', color: '#1c1c39' }}> {job.hire_name}</span>
-                                                <span style={{ color: '#717273', fontSize: '16px', fontWeight: 'normal' }} className={globalStyles.simpleP}> {job.company_name}</span>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'end', gap: '5px' }}>
-                                                <span style={{ fontSize: '18px', color: '#717273', fontWeight: 'normal' }} className={globalStyles.simpleP}> {job.applications.length} {job.applications.length == 1 ? t(' person clicked apply') : t(' people clicked apply')}</span>
+                            //             </div>
+                            //         </div>
+                            //     ) :
+                            //         <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                            //             <div className={componentStyles.postContainer__header}>
+                            //                 <ProfileImage user={UserStore.getUserInfoById(job.hire_manager_id)} />
+                            //                 <div className={componentStyles.postContainer__header__details}>
+                            //                     <span style={{ fontSize: '20px', color: '#1c1c39' }}> {job.hire_name}</span>
+                            //                     <span style={{ color: '#717273', fontSize: '16px', fontWeight: 'normal' }} className={globalStyles.simpleP}> {job.company_name}</span>
+                            //                 </div>
+                            //             </div>
+                            //             <div>
+                            //                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'end', gap: '5px' }}>
+                            //                     <span style={{ fontSize: '18px', color: '#717273', fontWeight: 'normal' }} className={globalStyles.simpleP}> {job.applications.length} {job.applications.length == 1 ? t(' person clicked apply') : t(' people clicked apply')}</span>
 
-                                                <span style={{ color: 'black  ', fontSize: '26px', fontWeight: 'normal' }} className={globalStyles.simpleP}> {t('Already applied')}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
+                            //                     <span style={{ color: 'black  ', fontSize: '26px', fontWeight: 'normal' }} className={globalStyles.simpleP}> {t('Already applied')}</span>
+                            //                 </div>
+                            //             </div>
+                            //         </div>
+                            //     }
 
-                                <div className={job.applications.includes(UserStore.user.id) ? componentStyles.jobContainerApplied__main : componentStyles.postContainer__main}>
-                                    <span style={{ fontSize: '19px', display: 'flex', color: '#555555', wordBreak: 'break-all', width: '100%', maxWidth: '100%', maxHeight: '100%', overflow: 'hidden' }}> {job.title}</span>
-                                    <span style={{ display: 'flex', color: '#717273', fontSize: '16px', fontWeight: 'normal', wordBreak: 'break-all', width: '100%', maxWidth: '100%', maxHeight: '100%', overflow: 'hidden' }}> {job.description}</span>
-                                </div>
-                            </div>
+                            //     <div className={job.applications.includes(UserStore.user.id) ? componentStyles.jobContainerApplied__main : componentStyles.postContainer__main}>
+                            //         <span style={{ fontSize: '19px', display: 'flex', color: '#555555', wordBreak: 'break-all', width: '100%', maxWidth: '100%', maxHeight: '100%', overflow: 'hidden' }}> {job.title}</span>
+                            //         <span style={{ display: 'flex', color: '#717273', fontSize: '16px', fontWeight: 'normal', wordBreak: 'break-all', width: '100%', maxWidth: '100%', maxHeight: '100%', overflow: 'hidden' }}> {job.description}</span>
+                            //     </div>
+                            // </div>
                         )) : (
                             <div style={{ border: '1px solid #c3c4c5', backgroundColor: 'white', borderRadius: '20px', padding: '10px', display: 'flex', flexDirection: 'column', gap: '15px', alignItems: 'center', width: '90%' }}>
                                 <span className={globalStyles.h2}>{t('No suitable jobs...')}</span>
@@ -276,4 +301,4 @@ const JobsComponent = observer(() => {
 
     );
 })
-export default JobsComponent
+export default JobsPage
