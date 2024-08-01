@@ -99,7 +99,9 @@ const BasicComponent = observer((props: basicComponentProps) => {
         { type: 'fa fa-briefcase', name: 'Jobs' },
         { type: 'fa fa-users', name: 'Network' },
         { type: 'fa fa-plus-circle', name: 'New Post' },
-        { type: 'fa fa-bell', name: 'Notifications' }]
+        { type: 'fa fa-bell', name: 'Notifications' },
+    ]
+
     // add to hr
     if (UserStore.user.role == "0") {
         userMainOptions.push({ type: 'fa fa-plus-circle', name: 'New Job' })
@@ -108,6 +110,8 @@ const BasicComponent = observer((props: basicComponentProps) => {
     if (UserStore.user.role == "0") {
         userMainOptions.push({ type: 'fa fa-file', name: 'Applications' })
     }
+    userMainOptions.push({ type: 'fa fa-building', name: 'Companies' }
+    )
 
     const sideBarMainOptionsHtml = userMainOptions.map((value, index) => (
         <div key={index} style={{ display: 'flex', justifyContent: 'start', flexDirection: 'column', gap: '5px', marginInlineStart: '22px' }}>

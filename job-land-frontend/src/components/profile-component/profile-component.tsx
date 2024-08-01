@@ -160,7 +160,7 @@ const ProfileComponent = observer(() => {
                                     <span className={styles.mainSpan} style={{ color: 'rgb(113, 114, 115)', maxHeight: '30px', overflow: 'hidden', wordBreak: 'break-word', fontSize: '18px' }}>{user.about}</span>
                                     {user.companyName && user.companyName.length > 0 && (
                                         <div style={{ display: 'flex', gap: '5px', alignItems: 'center', justifyContent: 'center' }}>
-                                            <span className={styles.mainSpan} style={{ color: 'rgb(113, 114, 115)', fontSize: '18px' }}>{t('Works at ') + user.companyName}</span>
+                                            <span className={styles.mainSpan} style={{ color: 'rgb(113, 114, 115)', fontSize: '18px' }}>{t('Works at ') + '@' + user.companyName}</span>
                                             <ProfileImage size="icon" user={jobsStore.getCompanyInfoByCompanyName(user.companyName)} />
                                         </div>
                                     )}
