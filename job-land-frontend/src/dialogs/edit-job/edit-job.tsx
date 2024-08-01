@@ -238,7 +238,7 @@ const EditJob = (props: postNewJobPopup) => {
 					</div>
 
 					<div style={{ marginTop: '20px', display: 'flex', justifyContent: 'end', flex: '1 1 auto' }}>
-						<button style={{ width: '80px' }} onClick={post} className={globalStyles.btn}>{t('Post')}</button>
+						<button style={{ width: '80px' }} onClick={post} className={globalStyles.btn}>{t('Save')}</button>
 					</div>
 				</div>
 			</Popup>

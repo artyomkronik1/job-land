@@ -23,7 +23,6 @@ export class UserService {
       .select('id name email password role follow about experience education profilePicture backgroundPicture')
       .exec();
     if (user.length > 0) {
-      console.log(user[0]);
 
       const sessionKey = this.generateSessionKey();
       return {

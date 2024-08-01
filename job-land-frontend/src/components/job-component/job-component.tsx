@@ -200,9 +200,20 @@ const JobComponent = observer((props: any) => {
 							<span style={{ color: 'rgb(113, 114, 115)', fontSize: '14px' }}>{job.scope}</span>
 
 						</div>
-						<div style={{ display: 'flex', justifyContent: 'start', width: '100%', marginTop: '20px', marginBottom: '20px', marginInlineStart: '20px' }}>
-							<button onClick={() => openApplyDialog(job)} style={{ width: '100px' }} className={globalStyles.btn}>{t('Apply')}</button>
-						</div>
+						{!job.applications.includes(UserStore.user.id) ? (
+							<div style={{ display: 'flex', justifyContent: 'start', width: '100%', marginTop: '20px', marginBottom: '20px', marginInlineStart: '20px' }}>
+								<button onClick={() => openApplyDialog(job)} style={{ width: '100px' }} className={globalStyles.btn}>{t('Apply')}</button>
+							</div>
+						)
+							:
+							<div style={{ alignItems: 'center', gap: '5px', color: 'green', display: 'flex', justifyContent: 'start', marginInlineStart: '20px', marginTop: '20px', marginBottom: '20px' }}>
+								<i className="fa fa-check-circle" aria-hidden="true"></i>
+
+								<span>
+									{t('Already applied')}
+								</span>
+							</div>
+						}
 						<div style={{ margin: '10px', padding: '10px', borderRadius: '25px', border: '1px solid rgb(113, 114, 115)', display: 'flex', marginTop: '20px', gap: '10px', flexDirection: 'column' }}>
 							<span style={{ fontSize: '18px', color: 'rgb(24, 24, 24)', justifyContent: 'start', display: 'flex' }}>{t('Meet the hiring team')}</span>
 							<div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>

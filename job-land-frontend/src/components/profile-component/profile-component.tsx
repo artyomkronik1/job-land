@@ -158,10 +158,12 @@ const ProfileComponent = observer(() => {
                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '5px' }}>
                                     <span className={styles.mainSpan} style={{ wordBreak: 'break-word', fontSize: '25px' }}>{user.name}</span>
                                     <span className={styles.mainSpan} style={{ color: 'rgb(113, 114, 115)', maxHeight: '30px', overflow: 'hidden', wordBreak: 'break-word', fontSize: '18px' }}>{user.about}</span>
-                                    <div style={{ display: 'flex', gap: '5px', alignItems: 'center', justifyContent: 'center' }}>
-                                        <span className={styles.mainSpan} style={{ color: 'rgb(113, 114, 115)', fontSize: '18px' }}>{t('Works at ') + user.companyName}</span>
-                                        <ProfileImage size="icon" user={jobsStore.getCompanyInfoByCompanyName(user.companyName)} />
-                                    </div>
+                                    {user.companyName && user.companyName.length > 0 && (
+                                        <div style={{ display: 'flex', gap: '5px', alignItems: 'center', justifyContent: 'center' }}>
+                                            <span className={styles.mainSpan} style={{ color: 'rgb(113, 114, 115)', fontSize: '18px' }}>{t('Works at ') + user.companyName}</span>
+                                            <ProfileImage size="icon" user={jobsStore.getCompanyInfoByCompanyName(user.companyName)} />
+                                        </div>
+                                    )}
                                 </div>
 
 
