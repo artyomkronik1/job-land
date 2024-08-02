@@ -36,18 +36,7 @@ const ProfileComponent = observer(() => {
 
     const navigate = useNavigate();
     const [openPopup, setopenPopup] = useState(false);
-    const [editPostPopup, seteditPostPopup] = useState(false);
-    const [editPost, seteditPost] = useState<Post>({
-        likedBy: [],
-        _id: "",
-        title: "",
-        description: "",
-        employee_id: "",
-        writer_name: "",
-        comments: [],
-        picture: '',
 
-    });
     //language
     const { t } = useTranslation();
     const { i18n } = useTranslation();
@@ -82,12 +71,6 @@ const ProfileComponent = observer(() => {
 
         }
     }
-    const closeEditPostPopup = async (hasUpdatedPosts: boolean) => {
-        if (hasUpdatedPosts) {
-            await getPostByUserId();
-        }
-        seteditPostPopup(false)
-    }
     const getPostByUserId = async () => {
         try {
             //sent
@@ -118,9 +101,7 @@ const ProfileComponent = observer(() => {
             )}
 
 
-            {editPostPopup && (
-                <EditPost isOpen={editPostPopup} onClose={closeEditPostPopup} postForEdit={editPost} />
-            )}
+
 
 
             {showPicturePopup && (

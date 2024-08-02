@@ -112,7 +112,12 @@ const NotificationComponent = observer(() => {
 							<>
 								<div key={index} className={styles.notContainer} onClick={() => clickOnNotification(not)}>
 									<div style={{ display: 'flex', gap: '5px' }}>
-										<span className={globals.mainSpan}>{t(not.from)} </span>
+										{not.from == UserStore.user.name ? (
+											<span className={globals.mainSpan}>{t('You')} </span>
+
+										) :
+											<span className={globals.mainSpan}>{t(not.from)} </span>
+										}
 										<span style={{ fontWeight: 'normal' }} className={globals.mainSpan}>{t(not.message)} </span>
 									</div>
 									<span className={globals.mainSpan}>	{getRelativeDateString(not.time)} </span>

@@ -132,7 +132,7 @@ const PostComponent = observer((props: any) => {
 
         if (!isLiked) {
             let notification = {
-                message: t("liked your post"),
+                message: "liked your post",
                 to: UserStore.getUserInfoById(post.employee_id).id,
                 time: DateService.getCurrentDatetime(),
                 link: post._id,
@@ -140,7 +140,7 @@ const PostComponent = observer((props: any) => {
                 type: 'like'
             };
             if (post.likedBy.length - 1 > 0) {
-                notification.message = t("and ") + (post.likedBy.length - 1) + t(" others liked your post")
+                notification.message = "and " + (post.likedBy.length - 1) + " others liked your post"
             }
 
             await UserStore.makeNotifications(notification);
@@ -172,7 +172,7 @@ const PostComponent = observer((props: any) => {
         setcommentsCounter(post.comments.length);
 
         let notification = {
-            message: t("commented on your post"),
+            message: "commented on your post",
 
             to: UserStore.getUserInfoById(post.employee_id).id,
             time: DateService.getCurrentDatetime(),
@@ -181,7 +181,7 @@ const PostComponent = observer((props: any) => {
             type: 'comment'
         };
         if (commentsCounter > 0) {
-            notification.message = t("and ") + commentsCounter + t(" others commented on your post")
+            notification.message = "and " + commentsCounter + " others commented on your post"
         }
         await UserStore.makeNotifications(notification);
     }
@@ -291,8 +291,8 @@ const PostComponent = observer((props: any) => {
 
                         <div onClick={(event) => event.stopPropagation()} style={{ padding: '15px', marginTop: '20px', marginBottom: '-20px', width: '97%', display: 'flex', justifyContent: 'space-between' }}>
                             {/*<span  style={{  fontSize:'19px',display:'flex', color:'#555555',  wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.title}</span>*/}
-                            <span style={{ display: 'flex', color: '#717273', fontSize: '16px', fontWeight: 'normal', }}> {likesCounter + t(' liked this post')}</span>
-                            <span onClick={() => setcommentFlag(true)} style={{ cursor: 'pointer', display: 'flex', color: '#717273', fontSize: '16px', fontWeight: 'normal' }}> {commentsCounter + t(' comments')}</span>
+                            <span style={{ display: 'flex', color: '#0a66c2', fontSize: '16px', fontWeight: 'normal', }}> {likesCounter + t(' liked this post')}</span>
+                            <span onClick={() => setcommentFlag(true)} style={{ cursor: 'pointer', display: 'flex', color: '#0a66c2', fontSize: '16px', fontWeight: 'normal' }}> {commentsCounter + t(' comments')}</span>
 
                         </div>
 
@@ -301,17 +301,18 @@ const PostComponent = observer((props: any) => {
                             {/*    like*/}
                             {!post.likedBy?.includes(UserStore.user.id) && (
                                 <div className={componentStyles.editImg} onClick={(event) => setLikeOnPost(event, post)}>
-                                    <img src={like} style={{ cursor: 'pointer', width: '30px' }} />
+                                    <i style={{ cursor: 'pointer', color: '#0a66c2', fontSize: '30px' }} className="fa-regular fa-thumbs-up"></i>
                                 </div>
                             )}
                             {post.likedBy?.includes(UserStore.user.id) && (
                                 <div className={componentStyles.editImg} onClick={(event) => setLikeOnPost(event, post)} >
-
-                                    <img src={liked} style={{ cursor: 'pointer', width: '30px' }} />
+                                    <i style={{ cursor: 'pointer', color: '#0a66c2', fontSize: '30px' }} className="fa fa-light fa-thumbs-up"></i>
+                                    {/* <img src={liked} style={{ cursor: 'pointer', width: '30px' }} /> */}
                                 </div>
                             )}
                             <div className={componentStyles.editImg} onClick={(event) => commentOnPost(event)}>
-                                <img src={commentimg} style={{ cursor: 'pointer', width: '30px' }} />
+
+                                <i style={{ cursor: 'pointer', color: '#0a66c2', fontSize: '30px' }} className="fa-regular fa-comment-dots"></i>
                             </div>
                         </div>
                         {/*comment div*/}
