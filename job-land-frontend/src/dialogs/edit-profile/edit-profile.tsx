@@ -1,6 +1,8 @@
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import UserStore from "../../store/user";
 import styles from './edit-profile.module.scss'
+import styless from '../postNewJob/post-new-job.module.scss';
+
 import globalStyles from '../../assets/global-styles/styles.module.scss'
 import ProfileImage from "../../base-components/profile-image/profile-image-component";
 import { useTranslation } from "react-i18next";
@@ -131,6 +133,14 @@ const EditProfileDialog = (props: editProfileProps) => {
         setHasChanges(true); // Set changes flag when about changes
     };
 
+    const handleTypeUserChange = (event: any) => {
+        setprofileInEdit({
+            ...profileInEdit,
+            role: event,
+        });
+        setHasChanges(true); // Set changes flag when about changes
+    };
+
 
     // listening when user click outside of popup so close it
     useEffect(() => {
@@ -166,7 +176,7 @@ const EditProfileDialog = (props: editProfileProps) => {
                                 <AutoCompleteComponent
                                     type="text"
                                     size={'small'}
-                                    text='Company name'
+                                    text={t('Company name')}
                                     placeHolder="Search company..."
                                     value={profileInEdit.companyName}
                                     onChange={handleChangeCompany}
@@ -187,6 +197,20 @@ const EditProfileDialog = (props: editProfileProps) => {
                                 <TextInputField size={'small'} type={'text'} placeHolder={t('Enter About Your Education')} text={t('Education')} value={profileInEdit.education} onChange={handleChangeEduacation} />
                             </div>
 
+                            {/*role*/}
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start', gap: '5px' }}>
+                                <span style={{
+                                    color: '#0a66c2',
+                                    fontSize: '18px', fontWeight: 'bold'
+                                }} >
+                                    {t('Role')}
+                                </span>
+                                <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'start', gap: '10px' }}>
+                                    <div onClick={() => handleTypeUserChange('1')} className={profileInEdit.role == "1" ? styless.btnOption_checked : styless.btnOption}>{t('Search for a job')} </div>
+                                    <div onClick={() => handleTypeUserChange('0')} className={profileInEdit.role == '0' ? styless.btnOption_checked : styless.btnOption}>{t('Hiring for a job')}</div>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>

@@ -4,6 +4,8 @@ export interface User {
     password: string;
     email: string;
     role: string;
+    // 0 - hr
+    // 1 - search
     follow: string[];
     about: string;
     experience: string;

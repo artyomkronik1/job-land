@@ -170,7 +170,7 @@ const PostNewJobPopup = (props: postNewJobPopup) => {
                             <AutoCompleteComponent
                                 type="text"
                                 size={'small'}
-                                text='Company name'
+                                text={t('Company name')}
                                 placeHolder="Search company..."
                                 value={companyName}
                                 onChange={handleChangeCompany}

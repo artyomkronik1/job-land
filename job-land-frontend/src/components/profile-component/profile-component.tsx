@@ -23,9 +23,6 @@ import EditProfileDialog from "../../dialogs/edit-profile/edit-profile";
 import EditPost from "../../dialogs/edit-post/edit-post";
 import success = toast.success;
 import postService from "../../services/postService";
-import like from "../../assets/images/like.png";
-import liked from "../../assets/images/liked.png";
-import comment from "../../assets/images/comment.png";
 import PostComponent from "../post-component/post-componen";
 import PicturePopup from "../../dialogs/picturePopup/picture-popup";
 const ProfileComponent = observer(() => {
@@ -160,14 +157,17 @@ const ProfileComponent = observer(() => {
                     {/*separate line*/}
                     <div style={{ width: '100%' }} className={globalStyles.separate_line_grey}> </div>
                     {/*  users posts*/}
-                    <div style={{ display: 'flex', flexDirection: 'column', width: '99%' }}>
+                    {usersPosts.length > 0 ? (
+                        <div style={{ display: 'flex', flexDirection: 'column', width: '99%' }}>
 
-                        {usersPosts.map((post: Post, index) => (
+                            {usersPosts.map((post: Post, index) => (
 
-                            <PostComponent postId={post._id} />
+                                <PostComponent postId={post._id} />
 
-                        ))}
-                    </div>
+                            ))}
+                        </div>) :
+                        <span style={{ marginTop: '20px', fontSize: '26px' }} className={globalStyles.mainSpan}>{t('There is no posts')}</span>
+                    }
 
                 </div>
 

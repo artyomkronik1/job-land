@@ -291,8 +291,8 @@ const PostComponent = observer((props: any) => {
 
                         <div onClick={(event) => event.stopPropagation()} style={{ padding: '15px', marginTop: '20px', marginBottom: '-20px', width: '97%', display: 'flex', justifyContent: 'space-between' }}>
                             {/*<span  style={{  fontSize:'19px',display:'flex', color:'#555555',  wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.title}</span>*/}
-                            <span style={{ display: 'flex', color: '#0a66c2', fontSize: '16px', fontWeight: 'normal', }}> {likesCounter + t(' liked this post')}</span>
-                            <span onClick={() => setcommentFlag(true)} style={{ cursor: 'pointer', display: 'flex', color: '#0a66c2', fontSize: '16px', fontWeight: 'normal' }}> {commentsCounter + t(' comments')}</span>
+                            <span style={{ display: 'flex', color: 'rgb(113, 114, 115)', fontSize: '16px', fontWeight: 'normal', }}> {likesCounter + t(' liked this post')}</span>
+                            <span onClick={() => setcommentFlag(true)} style={{ cursor: 'pointer', display: 'flex', color: 'rgb(113, 114, 115)', fontSize: '16px', fontWeight: 'normal' }}> {commentsCounter + t(' comments')}</span>
 
                         </div>
 
@@ -301,7 +301,7 @@ const PostComponent = observer((props: any) => {
                             {/*    like*/}
                             {!post.likedBy?.includes(UserStore.user.id) && (
                                 <div className={componentStyles.editImg} onClick={(event) => setLikeOnPost(event, post)}>
-                                    <i style={{ cursor: 'pointer', color: '#0a66c2', fontSize: '30px' }} className="fa-regular fa-thumbs-up"></i>
+                                    <i style={{ cursor: 'pointer', color: 'rgb(113, 114, 115)', fontSize: '30px' }} className="fa-regular fa-thumbs-up"></i>
                                 </div>
                             )}
                             {post.likedBy?.includes(UserStore.user.id) && (
@@ -312,7 +312,7 @@ const PostComponent = observer((props: any) => {
                             )}
                             <div className={componentStyles.editImg} onClick={(event) => commentOnPost(event)}>
 
-                                <i style={{ cursor: 'pointer', color: '#0a66c2', fontSize: '30px' }} className="fa-regular fa-comment-dots"></i>
+                                <i style={{ cursor: 'pointer', color: 'rgb(113, 114, 115)', fontSize: '30px' }} className="fa-regular fa-comment-dots"></i>
                             </div>
                         </div>
                         {/*comment div*/}

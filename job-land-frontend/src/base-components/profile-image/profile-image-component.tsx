@@ -9,6 +9,7 @@ export interface profileProps {
 }
 const ProfileImage = (props: profileProps) => {
 
+    //console.log(props.user.name);
 
     const getColorByLetter = (letter: string) => {
         const colorOptions = [
@@ -55,8 +56,6 @@ const ProfileImage = (props: profileProps) => {
 
 
     }
-    console.log('props.user', props.user);
-
     return (
         <>
 
