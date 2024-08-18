@@ -29,6 +29,7 @@ import DropDown from "../../base-components/dropdown-component/dropdown";
 import { UsersNotification } from "../../interfaces/usersNotification";
 import DateService from "../../services/dateService";
 import NotificationService from "../../services/notificationsService";
+import LikesOnPostPopup from "../../dialogs/likes-on-post-popup/likes-on-post";
 const PostComponent = observer((props: any) => {
     const [commentFlag, setcommentFlag] = useState(false);
     const [commentAdded, setcommentAdded] = useState(false);
@@ -64,6 +65,8 @@ const PostComponent = observer((props: any) => {
 
 
     const navigate = useNavigate();
+    const [openLikesPopup, setopenLikesPopup] = useState(false);
+
     const [editPost, setEditPost] = useState(false);
     const [editingPost, seteditingPost] = useState<Post>({
         _id: "",
@@ -119,6 +122,7 @@ const PostComponent = observer((props: any) => {
                 toast.success(t('SUCCESS'));
             }, 1000)
         }
+        setopenLikesPopup(false)
         setEditPost(false)
     }
 
@@ -221,12 +225,21 @@ const PostComponent = observer((props: any) => {
         event.stopPropagation();
         setpostSettings(true)
     }
+    const openLikesOnPostPopup = (event: any) => {
+        event.stopPropagation();
+        setopenLikesPopup(true)
+
+    }
     return (
         <>
 
 
             {editPost && (
                 <EditPost postForEdit={editingPost} isOpen={editPost} onClose={closePopup} />
+            )}
+
+            {openLikesPopup && post.likedBy.length > 0 && (
+                <LikesOnPostPopup post={post} isOpen={openLikesPopup} onClose={() => setopenLikesPopup(false)} />
             )}
 
             <div dir={UserStore.getLanguage() == 'en' ? 'ltr' : 'rtl'}>
@@ -291,7 +304,7 @@ const PostComponent = observer((props: any) => {
 
                         <div onClick={(event) => event.stopPropagation()} style={{ padding: '15px', marginTop: '20px', marginBottom: '-20px', width: '97%', display: 'flex', justifyContent: 'space-between' }}>
                             {/*<span  style={{  fontSize:'19px',display:'flex', color:'#555555',  wordBreak: 'break-all', width:'100%', maxWidth:'100%', maxHeight:'100%',overflow:'hidden'}}> {post.title}</span>*/}
-                            <span style={{ display: 'flex', color: 'rgb(113, 114, 115)', fontSize: '16px', fontWeight: 'normal', }}> {likesCounter + t(' liked this post')}</span>
+                            <span style={{ cursor: 'pointer', display: 'flex', color: 'rgb(113, 114, 115)', fontSize: '16px', fontWeight: 'normal', }} onClick={(event) => openLikesOnPostPopup(event)} > {likesCounter + t(' liked this post')}</span>
                             <span onClick={() => setcommentFlag(true)} style={{ cursor: 'pointer', display: 'flex', color: 'rgb(113, 114, 115)', fontSize: '16px', fontWeight: 'normal' }}> {commentsCounter + t(' comments')}</span>
 
                         </div>
