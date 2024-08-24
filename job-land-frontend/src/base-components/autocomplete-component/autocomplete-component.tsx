@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styles from '../text-input/text-input-field.module.scss';
 import globalStyles from '../../assets/global-styles/styles.module.scss'
+import userStore from '../../store/user';
+import jobsStore from '../../store/job';
 export interface AutoCompleteProps {
 	options: string[];
 	type: string;
@@ -30,13 +32,19 @@ const AutoCompleteComponent: React.FC<AutoCompleteProps> = ({
 
 	// Filter options based on the current input value
 	useEffect(() => {
-		if (localVal) {
+		console.log(localVal.length);
+
+		if (localVal.length > 0) {
 			setFilteredOptions(options.filter(option => option.toLowerCase().includes(localVal.toLowerCase())));
+
 			setIsDropdownOpen(true);
-		} else {
-			setFilteredOptions([]);
-			setIsDropdownOpen(false);
 		}
+		else if (localVal.length == 0) {
+			setFilteredOptions(jobsStore.companies.map(company => company.name));
+			//setIsDropdownOpen(true);
+
+		}
+
 	}, [localVal, options]);
 
 	// Close the dropdown if clicked outside
@@ -68,6 +76,7 @@ const AutoCompleteComponent: React.FC<AutoCompleteProps> = ({
 				{text}
 			</label>
 			<input
+				onClick={() => setIsDropdownOpen(true)}
 				ref={inputRef}
 				style={{ width: '100%', borderRadius: '25px' }}
 				type={type}
@@ -79,18 +88,32 @@ const AutoCompleteComponent: React.FC<AutoCompleteProps> = ({
 
 
 
-			{isDropdownOpen && localVal && filteredOptions.length > 0 && (
+			{isDropdownOpen && (
 				<div ref={dropdownRef} style={{ width: '100%', display: 'flex', position: 'relative', justifyContent: 'center', flexDirection: 'column', gap: '10px' }}
 				>
-					<ul style={{
-						display: 'flex', flexDirection: 'column', gap: '20px', position: 'absolute', width: '100%', top: '0px'
-					}}>
-						{filteredOptions.map((option, index) => (
-							<li onClick={() => handleOptionClick(option)} className={globalStyles.liSearchValues} key={index}><span className={globalStyles.mainSpan}>{option}</span></li>
 
-						)
-						)}
-					</ul>
+					{localVal.length > 0 ? (
+						<ul style={{
+							display: 'flex', flexDirection: 'column', gap: '20px', position: 'absolute', width: '100%', top: '0px'
+						}}>
+							{filteredOptions.map((option, index) => (
+								<li onClick={() => handleOptionClick(option)} className={globalStyles.liSearchValues} key={index}><span className={globalStyles.mainSpan}>{option}</span></li>
+
+							)
+							)}
+						</ul>
+					) :
+						<ul style={{
+							display: 'flex', flexDirection: 'column', gap: '20px', position: 'absolute', width: '100%', top: '0px'
+						}}>
+							{filteredOptions.map((option, index) => (
+								<li onClick={() => handleOptionClick(option)} className={globalStyles.liSearchValues} key={index}><span className={globalStyles.mainSpan}>{option}</span></li>
+
+							)
+							)}
+						</ul>
+					}
+
 				</div>
 			)}
 

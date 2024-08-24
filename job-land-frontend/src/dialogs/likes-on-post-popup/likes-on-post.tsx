@@ -73,7 +73,7 @@ const LikesOnPostPopup = (props: LikesOnPostPopupProps) => {
 
 	return (
 		<>
-			<Popup popupTitle="Likes" width="50vh">
+			<Popup popupTitle="Likes" width="50vh" onClose={() => props.onClose(true)}>
 				<ToastComponent />
 				<div ref={dialogRef} className={styles.main} style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
 					{users.length > 0 ? (

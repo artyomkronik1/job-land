@@ -5,6 +5,6 @@ export interface PopupProps {
     size?: string;
     popupTitle: string;
     width: string;
-    onClose?: () => void;
+    onClose: () => void;
     children?: ReactNode;
 }

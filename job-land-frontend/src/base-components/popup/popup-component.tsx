@@ -15,7 +15,7 @@ const Popup = (props: PopupProps) => {
                 <div style={{ marginTop: '-15px', paddingTop: '10px', paddingBottom: '10px', display: 'flex', width: props.width, justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row', background: 'white', borderBottom: '1px solid #f1f1f1', flex: '1 1 auto', position: 'absolute' }} >
                     <span className={globals.mainSpan} style={{ fontSize: '25px', marginInlineStart: '20px', display: 'flex' }}>{t(props.popupTitle)}</span>
 
-                    < div className={styles.closeIcon}> <i style={{ cursor: 'pointer' }} className={`fa-solid fa-x `}></i></div>
+                    <  div className={styles.closeIcon} onClick={() => props.onClose()} > <i style={{ cursor: 'pointer' }} className={`fa-solid fa-x `}></i></div>
 
                 </div>
 

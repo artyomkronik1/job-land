@@ -157,7 +157,7 @@ const EditProfileDialog = (props: editProfileProps) => {
     return (
         <>
 
-            <Popup popupTitle='Profile details' width='100vh'>
+            <Popup popupTitle='Profile details' width='100vh' onClose={() => props.onClose(true)}>
                 <ToastComponent />
                 <div ref={dialogRef} className={styles.main}>
                     <div className={styles.main__header}>
@@ -223,7 +223,7 @@ const EditProfileDialog = (props: editProfileProps) => {
             </Popup>
             <WarningPopup
                 isOpen={showWarningPopup}
-                onClose={() => props.onClose(false)}
+                onClose={() => props.onClose(true)}
                 onConfirm={saveSettings}
                 onCancel={() => props.onClose(false)}
                 warningText={t('Do you wanna save changes?')}

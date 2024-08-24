@@ -85,7 +85,7 @@ const JobPopup = (props: jobPopupProps) => {
 
     return (
         <>
-            <Popup popupTitle='Job details' width='100vh'>
+            <Popup popupTitle='Job details' width='100vh' onClose={() => props.onClose(true)}>
                 <ToastComponent />
                 <div ref={dialogRef} className={styles.main}>
                     <div className={styles.main__header}>

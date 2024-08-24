@@ -162,7 +162,7 @@ const PicturePopup = (props: PicturePopupProps) => {
 	return (
 		<div style={{ overflow: 'hidden' }}>
 			{props.isProfile ? (
-				<Popup popupTitle='' width='50vh'>
+				<Popup popupTitle='' width='50vh' onClose={() => props.onClose(true)}>
 					<ToastComponent />
 					<div ref={dialogRef} className={styles.main} style={{ marginTop: '50px', overflow: 'none', justifyContent: 'center', height: '100%', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 						{updatedPicture && updatedPicture.length > 0 ? (
@@ -236,7 +236,7 @@ const PicturePopup = (props: PicturePopupProps) => {
 				</Popup>
 			) :
 
-				<Popup popupTitle='' width='90%'>
+				<Popup popupTitle='' width='90%' onClose={() => props.onClose(true)}>
 					<ToastComponent />
 					<div ref={dialogRef} className={styles.main} style={{ marginTop: '50px', overflow: 'none', justifyContent: 'center', height: '100%', width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 						{updatedPicture && updatedPicture.length > 0 ? (

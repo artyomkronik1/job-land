@@ -119,7 +119,7 @@ const EditPost = (props: editPostProps) => {
 
     return (
         <>
-            <Popup popupTitle='Post details' width='100vh'>
+            <Popup popupTitle='Post details' width='100vh' onClose={() => props.onClose(true)}>
                 <ToastComponent />
                 <div ref={dialogRef} className={styles.main}>
                     <div className={styles.main__header} style={{ marginBottom: '30px' }}>
@@ -195,7 +195,7 @@ const EditPost = (props: editPostProps) => {
             </Popup>
             <WarningPopup
                 isOpen={showWarningPopup}
-                onClose={() => props.onClose(false)}
+                onClose={() => props.onClose(true)}
                 onConfirm={post}
                 onCancel={() => props.onClose(false)}
                 warningText={t('Do you wanna save changes?')}

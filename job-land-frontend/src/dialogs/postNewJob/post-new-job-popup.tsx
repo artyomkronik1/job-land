@@ -237,7 +237,7 @@ const PostNewJobPopup = (props: postNewJobPopup) => {
                     </div>
                 </div>
             </Popup>
-            <WarningPopup isOpen={showWarningPopup} onClose={() => closeFinalyDialog} onConfirm={() => props.onClose(true)} onCancel={() => setshowWarningPopup(false)} warningText={t('Are you sure?')} />
+            <WarningPopup isOpen={showWarningPopup} onClose={() => setshowWarningPopup(false)} onConfirm={() => props.onClose(true)} onCancel={() => setshowWarningPopup(false)} warningText={t('Are you sure?')} />
         </>
     );
 };

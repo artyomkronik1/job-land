@@ -135,7 +135,7 @@ const StartPostDialog = (props: postProps) => {
 
     return (
         <>
-            <Popup popupTitle='New post' width='90vh'>
+            <Popup popupTitle='New post' width='90vh' onClose={() => props.onClose(true)}>
                 <ToastComponent />
                 <div ref={dialogRef} className={styles.main}>
                     <div className={styles.main__header} style={{ marginBottom: '30px' }}>
@@ -182,7 +182,7 @@ const StartPostDialog = (props: postProps) => {
                 </div>
                 <ToastComponent />
             </Popup>
-            <WarningPopup isOpen={showWarningPopup && description.length > 0} onClose={() => closeFinalyDialog} onConfirm={() => props.onClose(false)} onCancel={() => setshowWarningPopup(false)} warningText={t('Are you sure?')} />
+            <WarningPopup isOpen={showWarningPopup && description.length > 0} onClose={() => setshowWarningPopup(false)} onConfirm={() => props.onClose(false)} onCancel={() => setshowWarningPopup(false)} warningText={t('Are you sure?')} />
 
         </>
     );
