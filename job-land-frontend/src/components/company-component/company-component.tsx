@@ -57,12 +57,12 @@ const CompanyComponent = observer(() => {
 	// 		console.error('Error getting users messages', error);
 	// 	}
 	// }
-	// const editPicture = (pic: string, isProfile: boolean) => {
-	// 	setshowPicturePopup(true)
-	// 	setpictureToEdit(pic)
-	// 	setuserToEdit(user)
-	// 	setisProfilePic(isProfile)
-	// }
+	const editPicture = (pic: string, isProfile: boolean) => {
+		setshowPicturePopup(true)
+		setpictureToEdit(pic)
+
+		setisProfilePic(isProfile)
+	}
 	const closeeditPicture = () => {
 		setshowPicturePopup(false)
 		setpictureToEdit('')
@@ -90,7 +90,7 @@ const CompanyComponent = observer(() => {
 						<div style={{ position: 'relative', background: 'white', display: 'flex', flexWrap: 'wrap', gap: '10px', alignItems: 'center', width: '100%', justifyContent: 'center' }} >
 
 
-							<img style={{ display: 'flex', width: '100%', height: '250px', cursor: 'pointer' }}
+							<img style={{ display: 'flex', width: '100%', height: '250px', cursor: 'pointer' }} onClick={() => editPicture(jobsStore.getCompanyInfoByCompanyId(companyId).backgroundPicture, false)}
 								src={jobsStore.getCompanyInfoByCompanyId(companyId).backgroundPicture.length > 0 ? jobsStore.getCompanyInfoByCompanyId(companyId).backgroundPicture : ''} />
 							<div style={{ cursor: 'pointer', position: 'absolute', left: '65px', marginTop: '0px' }}></div>
 							<div style={{
@@ -106,7 +106,7 @@ const CompanyComponent = observer(() => {
 
 								<div style={{ justifyContent: 'space-between', marginTop: '-30px', display: 'flex', flexDirection: 'row', width: '100%', alignItems: 'flex-start' }}>
 									<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '20px' }}>
-										<ProfileImage user={jobsStore.getCompanyInfoByCompanyId(companyId)} />
+										<div style={{ cursor: 'pointer' }} onClick={() => editPicture(jobsStore.getCompanyInfoByCompanyId(companyId).profilePicture, true)}> <ProfileImage user={jobsStore.getCompanyInfoByCompanyId(companyId)} /></div>
 
 										<span className={styles.mainSpan} style={{ wordBreak: 'break-word', fontSize: '25px' }}>{jobsStore.getCompanyInfoByCompanyId(companyId).name}</span>
 										<span className={styles.mainSpan} style={{ color: 'rgb(113, 114, 115)' }}>{jobsStore.getCompanyInfoByCompanyId(companyId).about}</span>
