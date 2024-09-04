@@ -55,17 +55,6 @@ const EditProfileDialog = (props: editProfileProps) => {
             if (res.data.success) {
                 // set current user
                 UserStore.setUser(profileInEdit)
-                UserStore.users.forEach((u) => {
-                    if (u.id == profileInEdit.id) {
-                        u.name = profileInEdit.name;
-                        u.about = profileInEdit.about;
-                        u.experience = profileInEdit.experience;
-                        u.education = profileInEdit.education;
-                        u.companyName = profileInEdit.companyName;
-
-
-                    }
-                })
                 toast.success(t('SUCCESS'));
                 setTimeout(() => {
                     closeFinalDialog()
@@ -134,6 +123,7 @@ const EditProfileDialog = (props: editProfileProps) => {
     };
 
     const handleTypeUserChange = (event: any) => {
+
         setprofileInEdit({
             ...profileInEdit,
             role: event,

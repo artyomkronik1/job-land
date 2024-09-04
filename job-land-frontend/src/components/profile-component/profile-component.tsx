@@ -29,7 +29,7 @@ const ProfileComponent = observer(() => {
     // params
     const { userid } = useParams();
 
-    const [user, setuser] = useState<User>(userid ? UserStore.getUserInfoById(userid) : UserStore.getUserInfoById(UserStore.user.id));
+    const [user, setuser] = useState<User>(userid ? UserStore.getUserInfoById(userid) : UserStore.user);
 
     const navigate = useNavigate();
     const [openPopup, setopenPopup] = useState(false);

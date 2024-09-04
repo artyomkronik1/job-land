@@ -236,7 +236,7 @@ const BasicComponent = observer((props: basicComponentProps) => {
     };
     const moveOnSidebar = (str: string, index: number) => {
         if (str == 'top') {
-            if (index == 6) {
+            if (index == 6 && UserStore.user.role == "0") {
                 setpostNewJob(true)
             }
             else if (index == 4) {
