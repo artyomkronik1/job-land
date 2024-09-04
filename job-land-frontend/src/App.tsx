@@ -19,6 +19,7 @@ import ForgotPassComponent from "./components/forgotPass-component/forgotPass-co
 import NotificationComponent from './components/notification-component/notification-component';
 import ApplicationsComponent from './components/applications-component/application';
 import CompaniesPage from './components/companies-page/companies-page';
+import CompanyComponent from './components/company-component/company-component';
 function App() {
     const { i18n } = useTranslation();
     useEffect(() => {
@@ -44,6 +45,7 @@ function App() {
                         <Route path="/notifications" element={<NotificationComponent />} />
                         <Route path="/applications" element={<ApplicationsComponent />} />
                         <Route path="/companies" element={<CompaniesPage />} />
+                        <Route path="/company/:companyId" element={<CompanyComponent />} />
 
 
 

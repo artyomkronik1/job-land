@@ -46,12 +46,15 @@ class JobsStore {
     getCompanyInfoByCompanyName = (name: string) => {
         return this.companies.find(c => c.name == name)
     }
+    getCompanyInfoByCompanyId = (id: string): any => {
+        return this.companies.find(c => c._id == id)
+    }
 
 
     getAllComapnies = async () => {
         try {
             const result = await CompanyService.getAllCompanies()
-            console.log(result);
+
 
             if (result.data.success) {
                 this.setCompanies(result.data.compnies)
