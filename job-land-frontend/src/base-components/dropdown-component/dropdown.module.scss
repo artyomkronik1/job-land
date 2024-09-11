@@ -1,0 +1,51 @@
+@import "../../assets/global-styles/styles.module";
+
+
+.dropdown {
+  cursor: pointer;
+  list-style-type: none;
+  padding: 0;
+  position: absolute;
+  color: $mainColor;
+  background-color: white;
+  border: 1px solid $mainColor;
+  margin-top: 160px;
+  //width: 120px;
+  max-width: 250px;
+  max-height: 200px;
+
+  width: 165px;
+  height: 94px;
+  border-radius: 10px;
+  overflow-y: auto;
+  //margin-inline-start: -20px;
+}
+
+.dropdownOption {
+  padding: 8px 16px;
+  cursor: pointer;
+  display: flex;
+  gap: 7px;
+  font-size: 20px;
+}
+
+.dropdownOption:hover {
+  background-color: rgba(112, 181, 249, 0.2);
+}
+
+.arrow-icon {
+  padding: 8px 16px;
+
+  cursor: pointer;
+  font-size: 20px;
+  /* Adjust the font size as needed */
+  transition: transform 0.3s;
+  /* Add a transition for the transform property */
+}
+
+.arrow-icon_up {
+  padding: 8px 16px;
+  cursor: pointer;
+  transform: rotate(180deg);
+  /* Rotate the up arrow by 180 degrees */
+}

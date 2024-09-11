@@ -1,0 +1,144 @@
+@import "../../assets/global-styles/styles.module";
+
+.postContainer:hover {
+  box-shadow: 0px 5px 5px 8px #dedcdc;
+}
+
+.commentOptionText {
+  width: 80%;
+  cursor: pointer;
+  display: flex;
+  padding: 10px;
+  justify-content: center;
+}
+
+.commentOptionText:hover {
+  background: rgb(238, 238, 238);
+
+}
+
+.dropdown {
+  cursor: pointer;
+  list-style-type: none;
+  padding: 0;
+  position: absolute;
+  color: $mainColor;
+  background-color: white;
+  border: 1px solid $mainColor;
+  margin-top: 160px;
+  min-width: 100px;
+  max-width: 250px;
+  max-height: 200px;
+  border-radius: 10px;
+  overflow-y: auto;
+  margin-inline-start: -20px;
+}
+
+.dropdownOption {
+  padding: 8px 16px;
+  cursor: pointer;
+  display: flex;
+  gap: 7px;
+  font-size: 20px;
+}
+
+.dropdownOption:hover {
+  background-color: rgba(112, 181, 249, 0.2);
+}
+
+.postContainer {
+  border: 1px solid #e2e2e3;
+  padding: 10px;
+  background-color: white;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    display: flex;
+    justify-content: start;
+    gap: 8px;
+
+    &__details {
+      display: flex;
+      align-items: start;
+      flex-direction: column;
+    }
+  }
+
+  &__main {
+    display: flex;
+
+    font-weight: bold;
+    color: rgb(0 0 0/.6);
+    justify-content: center;
+    align-items: start;
+    background-color: white;
+    padding: 15px;
+    gap: 20px;
+    flex-direction: column;
+  }
+}
+
+
+
+.jobContainerApplied {
+  // 71db1b
+  border: 1px solid #71db1b;
+  padding: 10px;
+  background-color: #dbf7d0;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    display: flex;
+    justify-content: start;
+    gap: 8px;
+
+    &__details {
+      display: flex;
+      align-items: start;
+      flex-direction: column;
+    }
+  }
+
+  &__main {
+    display: flex;
+    font-weight: bold;
+    color: rgb(0 0 0/.6);
+    justify-content: center;
+    align-items: center;
+    background-color: #dbf7d0;
+    padding: 15px;
+    gap: 5px;
+    flex-direction: column;
+  }
+}
+
+
+.settings {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 25px;
+  padding: 10px;
+}
+
+.settings:hover {
+  background: rgb(238, 235, 235);
+}
+
+.editImg {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  padding: 10px;
+  border-radius: 50%;
+  //border: 1px solid black;
+}
+
+.editImg:hover {
+  background: rgb(238, 235, 235);
+}

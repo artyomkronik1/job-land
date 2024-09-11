@@ -1,0 +1,12 @@
+.settings {
+	display: flex;
+	gap: 5px;
+	align-items: center;
+	cursor: pointer;
+	border-radius: 25px;
+	padding: 10px;
+}
+
+.settings:hover {
+	background: rgb(238, 235, 235);
+}

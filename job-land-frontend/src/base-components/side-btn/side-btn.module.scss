@@ -1,0 +1,30 @@
+.form {
+  width: max-content;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: transform 0.5s;
+  flex-direction: row;
+  cursor: pointer;
+}
+
+.form:hover {
+  transform: scale(1.1);
+  /* Increase the size of the image on hover */
+}
+
+.btn {
+  color: #0a66c2;
+  font-size: 20px
+}
+
+.form:hover .btn {
+  color: #0a66c2;
+}
+
+//active
+.form_active {}
+
+.btn_active {
+  color: #0a66c2;
+}

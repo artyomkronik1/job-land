@@ -1,0 +1,20 @@
+{
+  "welcome": "Welcome",
+  "manner": "Manner",
+  "zone": "Zone",
+  "profession": "Profession",
+  "scope": "Scope",
+  "region": "Region",
+  "experienced_level": "Experienced level",
+  "full_time": "Full time",
+  "part_time": "Part time",
+  "junior": "Junior",
+  "mid_level": "Mid-level",
+  "senior": "Senior",
+  "on_site": "On-site",
+  "hybrid": "Hybrid",
+  "job_title": "job title",
+  "username": "applicate name",
+  "remote": "Remote",
+  "programming": "Programming"
+}

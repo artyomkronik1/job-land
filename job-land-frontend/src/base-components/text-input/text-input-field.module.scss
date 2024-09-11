@@ -1,0 +1,80 @@
+@import "../../assets/global-styles/styles.module";
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: 5px;
+    width: 100%;
+    align-self: flex-start;
+    //margin-bottom: 35px;
+}
+
+.title {
+    color: $mainColor;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.small_title {
+    color: $mainColor;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.input {
+    outline: none;
+    font-size: 16px;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 40px;
+    color: $secondColor;
+    width: 100%;
+    border: 2px solid $mainColor;
+    border-radius: 30px;
+}
+
+.input_small {
+    outline: none;
+    font-size: 16px;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 40px;
+    color: $secondColor;
+    width: 100%;
+    border: 2px solid $mainColor;
+    border-radius: 30px;
+}
+
+
+
+.input:focus,
+.input_small:focus {
+    border: 2px solid $secondColor;
+    font-size: 16px;
+    padding-left: 20px;
+    color: $secondColor
+}
+
+
+.input_generic {
+
+    outline: none;
+    font-size: 16px;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 40px;
+    width: 400px;
+    border-radius: 30px;
+}
+
+.input_small_generic {
+    outline: none;
+    font-size: 16px;
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 40px;
+    width: 200px;
+    border-radius: 30px;
+}

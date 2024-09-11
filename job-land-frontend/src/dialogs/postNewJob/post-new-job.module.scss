@@ -1,0 +1,30 @@
+.btnOption{
+  cursor: pointer;
+  justify-content: space-between;
+  gap: 5px;
+  border-radius: 1.59rem;
+  border: 1px solid #0a66c2;
+  padding: 10px;
+  width: max-content;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  color: #0a66c2;
+}
+.btnOption:hover{
+  background-color: rgba(112, 181, 249, 0.2);
+
+}
+.btnOption_checked{
+  cursor: pointer;
+  justify-content: space-between;
+  gap: 5px;
+  border-radius: 1.59rem;
+  border: 1px solid #0a66c2;
+  padding: 10px;
+  width: max-content;
+  background-color: #0a66c2;
+  display: flex;
+  align-items: center;
+  color: white;
+}

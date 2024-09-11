@@ -1,0 +1,96 @@
+@import "../../assets/global-styles/styles.module";
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    ;
+    align-items: center;
+    margin-bottom: 80px;
+}
+
+.formHeader {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 60px;
+}
+
+.formHeaderDiv {
+    display: flex;
+    gap: 150px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logoDiv {
+    display: flex;
+    justify-content: start;
+    margin: 10px;
+}
+
+.title {
+    display: flex;
+    color: $mainColor;
+    //font-size: 47px;
+    justify-content: center;
+}
+
+.languageDiv {
+    position: relative;
+    top: 20px;
+}
+
+
+.enlanguagePic {
+    max-width: 50%;
+    transition: transform 0.5s;
+}
+
+.enlanguagePic:hover {
+    transform: scale(1.2);
+    /* Increase the size of the image on hover */
+}
+
+.heLanguagePic {
+    max-width: 40%;
+    transition: transform 0.5s;
+}
+
+.heLanguagePic:hover {
+    transform: scale(1.2);
+    /* Increase the size of the image on hover */
+}
+
+//body
+.body {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.textForm {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.logoPicture {
+    background-image: url('../../assets/images/login.png');
+    background-size: cover;
+    width: 860px;
+    height: 780px;
+}
+
+.socialMedia {
+    cursor: pointer;
+    max-width: 10%;
+    transition: transform 0.3s;
+}
+
+.socialMedia:hover {
+    transform: scale(1.2);
+    /* Increase the size of the image on hover */
+
+}

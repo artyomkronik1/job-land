@@ -1,0 +1,21 @@
+@font-face {
+  font-family: Mulish;
+  font-style: normal;
+  src:url("../src/assets/fonts/Mulish-Regular.ttf");
+}
+body {
+  margin: 0;
+  font-family: "Heebo",sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+textarea{
+  font-family: "Heebo",sans-serif !important;
+
+}
