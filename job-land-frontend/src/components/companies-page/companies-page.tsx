@@ -54,10 +54,10 @@ const CompaniesPage = observer(() => {
 								<div className={styles.jobContainer__body}>
 									<span style={{ fontSize: '22px', color: '#1c1c39' }}> {company.name}</span>
 									<span style={{ color: '#717273', fontSize: '19px', fontWeight: 'normal', wordBreak: 'break-word', overflow: 'hidden', maxHeight: '30px', maxWidth: '200px' }} className={globalStyles.simpleP}> {company.about ? company.about : 'No about'}</span>
-									<button style={{ width: '15vh', display: 'flex', gap: '8px', height: '35px', alignItems: 'center', fontSize: '18px' }} className={globalStyles.btn_border}>
+									{/* <button style={{ width: '15vh', display: 'flex', gap: '8px', height: '35px', alignItems: 'center', fontSize: '18px' }} className={globalStyles.btn_border}>
 										<i style={{ fontSize: '17px' }} className="fa fa-plus" aria-hidden="true"></i>
 										<span style={{ fontSize: '17px' }}> {t('Follow')}</span>
-									</button>
+									</button> */}
 								</div>
 							</div>))}
 					</div>
