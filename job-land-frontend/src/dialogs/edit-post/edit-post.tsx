@@ -11,10 +11,10 @@ import ToastComponent from '../../base-components/toaster/ToastComponent';
 import jobsStore from '../../store/job';
 import TextInputField from '../../base-components/text-input/text-input-field';
 import { Post } from '../../interfaces/post';
-
 import uploadImg from '../../assets/images/uploadImg.png'
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/storage'
+import * as usageFunctions from "../../usage-functions/usage-functions";
 export interface editPostProps {
     postForEdit: Post;
     isOpen: boolean;
@@ -41,16 +41,12 @@ const EditPost = (props: editPostProps) => {
         setHasChanges(true); // Set changes flag when description changes
     };
     // listening when user click outside of popup so close it
+    // listening when user click outside of popup so close it
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
-            if (dialogRef.current && !dialogRef.current.contains(event.target as Node)) {
-                closeDialog();
-            }
+            usageFunctions.handleClickOutside(dialogRef, event, closeDialog);
         };
         document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
     }, [hasChanges]);
 
     const post = async () => {
@@ -97,11 +93,8 @@ const EditPost = (props: editPostProps) => {
                         //setImgUrl
                     })
             })
-
-
         }
     };
-
     const triggerFileInput = () => {
         const fileInput = document.getElementById("picInput");
         if (fileInput) {
