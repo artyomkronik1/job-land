@@ -403,13 +403,10 @@ const MessagesComponent = () => {
 
                                             <div key={index} style={{ display: 'flex', justifyContent: 'space-between', width: '100%', flexDirection: 'column', gap: '30px', marginBottom: '40px' }}>
                                                 {msg.sender == userStore.user.id ? (
-
-
                                                     <div style={{ justifyContent: 'start', width: '100%', gap: '8px' }}>
                                                         <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                                            {checkDate(openChat, msg) === true && (
+                                                            {checkDate(openChat, msg) && (
                                                                 <div style={{ width: '100%', display: 'flex', justifyContent: 'center', color: '#0a66c2', fontWeight: 'bold', marginBottom: '10px' }}>{getRelativeDateString(msg.timestamp)}</div>
-
                                                             )}
                                                             <div style={{ display: 'flex', width: '100%' }}>
                                                                 <div onClick={() => goToUserProfile(UserStore.user.id)}>    <ProfileImage user={UserStore.user} /></div>

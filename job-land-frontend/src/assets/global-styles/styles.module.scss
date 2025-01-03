@@ -368,15 +368,15 @@ $blackColor: rgb(0 0 0/.9);
 
 //messages
 .allMessagesContainer {
-  //max-height: 60vh;
+  max-height: 60vh;
   overflow: scroll;
   position: fixed;
   background-color: white;
   width: 40vh;
   display: flex;
-  height: fit-content;
   flex-direction: column;
-  //padding: 50px;
+  margin-bottom: 70px;
+  bottom: 20px;
 }
 
 .fade_in {
