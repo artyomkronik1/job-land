@@ -397,7 +397,7 @@ const MessagesComponent = () => {
 
                                     {/*messages*/}
 
-                                    <div style={{ display: 'flex', flexDirection: 'column', width: '100%', maxHeight: '50vh', overflowY: 'scroll' }}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', width: '100%', maxHeight: '40vh', overflowY: 'scroll' }}>
 
                                         {openChat && !newMessage ? openChat?.messages.map((msg: Message, index) =>
 
