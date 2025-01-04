@@ -16,6 +16,7 @@ import TextInputField from "../../base-components/text-input/text-input-field";
 import { Post } from "../../interfaces/post";
 import userService from "../../services/userService";
 import AutoCompleteComponent from '../../base-components/autocomplete-component/autocomplete-component';
+import DropDown from "../../base-components/dropdown-component/dropdown";
 export interface editProfileProps {
     isOpen: boolean;
     profileForEdit: User;
@@ -29,11 +30,132 @@ const EditProfileDialog = (props: editProfileProps) => {
     const [profileInEdit, setprofileInEdit] = useState<User>(props.profileForEdit);
     const [showWarningPopup, setshowWarningPopup] = useState(false)
     const [hasChanges, setHasChanges] = useState(false);
-
-
-
     const companiesoptions = jobsStore.companies.map(company => company.name);
-
+    const experienceOptions :string[]= [
+        "Software Engineer",
+        "Frontend Developer",
+        "Backend Developer",
+        "Full-Stack Developer",
+        "Mobile App Developer",
+        "Game Developer",
+        "Cloud Engineer",
+        "Data Scientist",
+        "Data Analyst",
+        "Data Engineer",
+        "Machine Learning Engineer",
+        "AI Research Scientist",
+        "AI Ethics Specialist",
+        "Natural Language Processing Engineer",
+        "Robotics Engineer",
+        "Computer Vision Engineer",
+        "Deep Learning Engineer",
+        "Cybersecurity Analyst",
+        "Penetration Tester",
+        "Cybersecurity Engineer",
+        "Security Architect",
+        "Cryptographer",
+        "Chief Information Security Officer (CISO)",
+        "Blockchain Developer",
+        "Blockchain Architect",
+        "Blockchain Consultant",
+        "Smart Contract Developer",
+        "Blockchain Security Specialist",
+        "Quantum Computing Researcher",
+        "Quantum Software Engineer",
+        "3D Printing Engineer",
+        "IoT (Internet of Things) Engineer",
+        "Embedded Systems Engineer",
+        "Hardware Engineer",
+        "Electrical Engineer",
+        "FPGA Developer",
+        "Robotics Hardware Engineer",
+        "UI/UX Designer",
+        "Product Designer",
+        "Interaction Designer",
+        "UX Researcher",
+        "Visual Designer",
+        "Motion Graphics Designer",
+        "Cloud Solutions Architect",
+        "Cloud Administrator",
+        "Cloud Operations Engineer",
+        "Site Reliability Engineer (SRE)",
+        "AI/ML Product Manager",
+        "Technical Product Manager",
+        "Project Manager (Tech)",
+        "Agile Coach",
+        "Scrum Master",
+        "IT Support Engineer",
+        "Network Engineer",
+        "Network Architect",
+        "Systems Administrator",
+        "Database Administrator (DBA)",
+        "IT Operations Manager",
+        "Sales Engineer (Tech)",
+        "Solutions Architect",
+        "Pre-Sales Engineer",
+        "Cloud Consultant",
+        "DevOps Engineer",
+        "Site Reliability Engineer (SRE)",
+        "Business Intelligence Analyst",
+        "Product Owner",
+        "Cloud Security Architect",
+        "Big Data Engineer",
+        "AI Product Manager",
+        "AI/ML Solutions Engineer",
+        "Telecommunications Engineer",
+        "5G Engineer",
+        "Wireless Communications Engineer",
+        "Digital Transformation Specialist",
+        "AI Operations Manager",
+        "Virtual Reality Developer",
+        "Augmented Reality (AR) Developer",
+        "XR (Extended Reality) Engineer",
+        "Chatbot Developer",
+        "Voice Interface Developer",
+        "Autonomous Vehicle Engineer",
+        "Space Technology Engineer",
+        "Biotechnology Engineer",
+        "Ethical Hacker",
+        "Tech Support Specialist",
+        "Digital Marketing Specialist (Tech)",
+        "Marketing Automation Specialist",
+        "Growth Hacker (Tech)",
+        "Content Strategist (Tech)",
+        "Data Privacy Officer",
+        "Technology Policy Analyst",
+        "AI Policy Expert",
+        "Mobile Security Engineer",
+        "DevSecOps Engineer",
+        "Penetration Tester (Ethical Hacker)",
+        "AI Test Engineer",
+        "Cloud Security Engineer",
+        "Cloud Data Engineer",
+        "Performance Engineer",
+        "Test Automation Engineer",
+        "System Integration Engineer",
+        "Product Analyst",
+        "Test Engineer",
+        "Agile Product Owner",
+        "Cloud Infrastructure Engineer",
+        "API Developer",
+        "Voice Assistant Engineer",
+        "AI Software Engineer",
+        "Big Data Architect",
+        "IoT Solutions Architect",
+        "E-commerce Developer",
+        "Business Systems Analyst",
+        "Data Privacy Engineer",
+        "Chief Technology Officer (CTO)",
+        "Chief Data Officer (CDO)",
+        "Technology Evangelist",
+        "AI Software Developer",
+        "AI Hardware Engineer",
+        "Data Warehouse Engineer",
+        "Mobile UX Designer",
+        "Product Manager for AI",
+        "Full Stack AI Developer",
+        "Cloud Infrastructure Architect"
+    ];
 
     const saveSettings = async () => {
         // check if there is not empty
@@ -44,7 +166,7 @@ const EditProfileDialog = (props: editProfileProps) => {
 
         }
 
-        else if (profileInEdit.name.length > 15 || profileInEdit.about.length > 15 || profileInEdit.experience.length > 15 || profileInEdit.education.length > 15) {
+        else if (profileInEdit.name.length > 15 || profileInEdit.about.length > 15  || profileInEdit.education.length > 15) {
             setTimeout(() => {
                 toast.error(t('ERROR ' + 'ONE OF FIELDS IS TOO LONG, NO MORE THAN 15 CHARACTERS'));
             }, 1000)
@@ -169,15 +291,23 @@ const EditProfileDialog = (props: editProfileProps) => {
                             </div>
 
                             {/*exoerience*/}
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
-                                <TextInputField size={'small'} type={'text'} placeHolder={t('Enter About Your Experience')} text={t('Experience')} value={profileInEdit.experience} onChange={handleChangeExperience} />
+                            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'start'}}>
+                                <AutoCompleteComponent
+                                    type="text"
+                                    size={'small'}
+                                    text={t('Experience')}
+                                    placeHolder="Choose role..."
+                                    value={profileInEdit.experience}
+                                    onChange={handleChangeExperience}
+                                    options={experienceOptions}
+
+                                />
                             </div>
 
 
-
                             {/*education*/}
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'start' }}>
-                                <TextInputField size={'small'} type={'text'} placeHolder={t('Enter About Your Education')} text={t('Education')} value={profileInEdit.education} onChange={handleChangeEduacation} />
+                            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'start'}}>
+                            <TextInputField size={'small'} type={'text'} placeHolder={t('Enter About Your Education')} text={t('Education')} value={profileInEdit.education} onChange={handleChangeEduacation} />
                             </div>
 
                             {/*role*/}
