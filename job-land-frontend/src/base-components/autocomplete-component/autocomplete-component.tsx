@@ -94,7 +94,8 @@ const AutoCompleteComponent: React.FC<AutoCompleteProps> = ({
 					gap: '10px',
 					overflowX:'clip',
 					overflowY:'scroll',
-					height: '200px',  // Adjust max height based on your design
+					minHeight:'100px',
+					maxHeight: '200px',  // Adjust max height based on your design
 				}}>
 					{filteredOptions.length > 0 && (
 						<ul style={{ display: 'flex', flexDirection: 'column', gap: '10px', position: 'absolute', width: '100%', top: '0px' }}>
