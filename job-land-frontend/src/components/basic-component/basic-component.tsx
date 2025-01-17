@@ -228,10 +228,13 @@ const BasicComponent = observer((props: basicComponentProps) => {
         // Check if the date is more than a year ago
         const currentYear = currentDate.getFullYear();
 
-        if (year === currentYear) {
-            return dayOfWeek;
-        } else {
+        if (year === currentYear && currentDate.getMonth() + 1 > date.getMonth() + 1) {
             return `${monthName} ${dayOfMonth}`;
+        } else if (year === currentYear && currentDate.getMonth() + 1 == date.getMonth() + 1 && currentDate.getDate() - date.getDate() < 7) {
+            return `${monthName} ${dayOfMonth}`;
+        }
+        else {
+            return dayOfWeek
         }
     };
     const moveOnSidebar = (str: string, index: number) => {

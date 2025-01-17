@@ -172,10 +172,13 @@ const MessagesComponent = () => {
         // Check if the date is more than a year ago
         const currentYear = currentDate.getFullYear();
 
-        if (year === currentYear) {
-            return dayOfWeek;
-        } else {
+        if (year === currentYear && currentDate.getMonth() + 1 > date.getMonth() + 1) {
             return `${monthName} ${dayOfMonth}`;
+        } else if (year === currentYear && currentDate.getMonth() + 1 == date.getMonth() + 1 && currentDate.getDate() - date.getDate() < 7) {
+            return `${monthName} ${dayOfMonth}`;
+        }
+        else {
+            return dayOfWeek
         }
     };
     const sendNewMessageToNewChat = async () => {
@@ -394,19 +397,16 @@ const MessagesComponent = () => {
 
                                     {/*messages*/}
 
-                                    <div style={{ display: 'flex', flexDirection: 'column', width: '100%', maxHeight: '50vh', overflowY: 'scroll' }}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', width: '100%', maxHeight: '40vh', overflowY: 'scroll' }}>
 
                                         {openChat && !newMessage ? openChat?.messages.map((msg: Message, index) =>
 
                                             <div key={index} style={{ display: 'flex', justifyContent: 'space-between', width: '100%', flexDirection: 'column', gap: '30px', marginBottom: '40px' }}>
                                                 {msg.sender == userStore.user.id ? (
-
-
                                                     <div style={{ justifyContent: 'start', width: '100%', gap: '8px' }}>
                                                         <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                                            {checkDate(openChat, msg) === true && (
+                                                            {checkDate(openChat, msg) && (
                                                                 <div style={{ width: '100%', display: 'flex', justifyContent: 'center', color: '#0a66c2', fontWeight: 'bold', marginBottom: '10px' }}>{getRelativeDateString(msg.timestamp)}</div>
-
                                                             )}
                                                             <div style={{ display: 'flex', width: '100%' }}>
                                                                 <div onClick={() => goToUserProfile(UserStore.user.id)}>    <ProfileImage user={UserStore.user} /></div>

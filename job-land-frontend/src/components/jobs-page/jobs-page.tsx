@@ -44,23 +44,6 @@ const JobsPage = observer(() => {
     }, [filterValues]);
 
 
-
-    // useEffect(() => {
-    //     const c: Company = {
-    //         name: "c1",
-    //         location: "israel",
-    //         about: "",
-    //         jobs: [allJobs[0]],
-    //         workers: [UserStore.users[0]],
-    //         profilePicture: "",
-    //         backgroundPicture: ""
-    //     }
-    //     CompanyService.addNewCompany(c);
-    //     jobsStore.getAllComapnies();
-    // }, []);
-
-
-
     // get jobs by name or location that changed dynamically
     // useCallback for memoized filtering function
     const filterJobs = useCallback(() => {
@@ -109,10 +92,7 @@ const JobsPage = observer(() => {
 
 
     const [openJob, setopenJob] = useState(false);
-    const seeFullJob = (job: Job) => {
-        setopenJob(!openJob);
-        setfullJob(job)
-    }
+
     const closePopup = (success: boolean) => {
         setopenJob(false)
     }
